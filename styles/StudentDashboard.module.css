@@ -1,0 +1,199 @@
+.main {
+  min-height: calc(100vh - 12.5rem);
+  padding: 2rem 0;
+  background: linear-gradient(
+    135deg,
+    var(--separator-bg) 0%,
+    var(--base-bg) 100%
+  );
+}
+
+.main::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23013137' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.dashboardContainer {
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.pageHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem 0;
+}
+
+.pageTitle {
+  text-align: center;
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.pageTitle::after {
+  content: "";
+  position: absolute;
+  bottom: -1rem;
+  right: 50%;
+  transform: translateX(50%);
+  width: 5rem;
+  height: 0.25rem;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  border-radius: 2px;
+}
+
+.pageSubtitle {
+  color: var(--text-light);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.studentHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--base-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.studentHeader:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.studentAvatar {
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 50%;
+  border: 3px solid var(--secondary-color);
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.studentInfoContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.studentInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.studentName {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.tabContent {
+  margin-top: 2rem;
+  background: var(--base-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  min-height: 25rem;
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main {
+    padding: 1.5rem 0;
+  }
+
+  .dashboardContainer {
+    padding: 0 0.5rem;
+  }
+
+  .pageHeader {
+    margin-bottom: 1.5rem;
+    padding: 1rem 0;
+  }
+
+  .pageTitle {
+    font-size: 2rem;
+  }
+
+  .pageSubtitle {
+    font-size: 1rem;
+  }
+
+  .studentHeader {
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    gap: 0.75rem;
+  }
+
+  .studentAvatar {
+    width: 3.125rem;
+    height: 3.125rem;
+    border-width: 2px;
+  }
+
+  .studentName {
+    font-size: 1.3rem;
+  }
+
+  .tabContent {
+    margin-top: 1.5rem;
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageTitle {
+    font-size: 1.75rem;
+  }
+
+  .pageSubtitle {
+    font-size: 0.95rem;
+  }
+
+  .studentHeader {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    gap: 0.5rem;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .studentInfo {
+    align-items: center;
+    text-align: center;
+  }
+
+  .studentAvatar {
+    width: 2.8125rem;
+    height: 2.8125rem;
+  }
+
+  .studentName {
+    font-size: 1.2rem;
+  }
+}
