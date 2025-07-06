@@ -1,0 +1,439 @@
+.scheduleContainer {
+  padding: 1.5rem;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.title {
+  color: var(--primary-color);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--text-light);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  position: relative;
+  max-width: 100%;
+  scroll-behavior: smooth;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--base-bg);
+  /* Transform to flip the scrollbar to top */
+  transform: rotateX(180deg);
+  /* Webkit scrollbar styling for better UX */
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary-color) var(--separator-bg);
+}
+
+/* Flip the table back to normal orientation */
+.tableWrapper .scheduleTable {
+  transform: rotateX(180deg);
+}
+
+.tableWrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+  background: var(--separator-bg);
+  border-radius: 4px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
+.scheduleTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  table-layout: fixed;
+}
+
+.scheduleTable th {
+  background: var(--separator-bg);
+  color: var(--text-dark);
+  font-weight: 600;
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 2px solid var(--border-color);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.scheduleTable th,
+.scheduleTable td {
+  position: relative;
+}
+.tableRow {
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.3s ease;
+}
+
+.tableRow:hover {
+  background: rgba(99, 184, 177, 0.05);
+}
+
+.pastSession {
+  opacity: 0.7;
+  background: rgba(128, 128, 128, 0.05);
+}
+
+.pastSession td {
+  color: var(--text-light);
+}
+
+.upcomingSession {
+  background: rgba(99, 184, 177, 0.02);
+}
+
+.scheduleTable td {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dateCell {
+  min-width: 12.5rem;
+}
+.pastSession .dateCell {
+  text-decoration: line-through;
+}
+
+.dateContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.dateText {
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+/* ==== LINK CELL STYLES ==== */
+.linkCell {
+  min-width: 10rem;
+  text-align: center;
+}
+
+.linkContainer {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  z-index: 5;
+}
+
+.linkButton {
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  color: var(--text-color);
+}
+
+.openLinkBtn {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.openLinkBtn:hover {
+  background: var(--secondary-color);
+  border-color: var(--secondary-color);
+  transform: translateY(-1px);
+}
+
+.copyLinkBtn {
+  background: var(--separator-bg);
+  color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  padding: 0.375rem;
+  min-width: 2rem;
+  justify-content: center;
+}
+
+.copyLinkBtn:hover {
+  background: var(--secondary-color);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.noLinkText {
+  color: var(--muted-color);
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.timeCell {
+  min-width: 6.25rem;
+}
+
+.timeText {
+  font-weight: 600;
+  color: var(--primary-color);
+  background: rgba(30, 61, 50, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  text-wrap: nowrap !important;
+}
+
+.courseName {
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.statusCell {
+  min-width: 7.5rem;
+}
+
+.statusCell > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bigCell {
+  min-width: 12.5rem;
+}
+
+.customUl {
+  list-style: none;
+}
+
+.customUl li {
+  margin-bottom: 0.3125rem;
+}
+
+.statusIcon {
+  font-size: 1.2rem;
+  margin-left: 0.5rem;
+}
+
+.statusText {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Mobile Cards - Hidden by default */
+.mobileCardsContainer {
+  display: none;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.sessionCard {
+  background: var(--base-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.pastSessionCard {
+  opacity: 0.7;
+  background: rgba(128, 128, 128, 0.05);
+}
+
+.upcomingSessionCard {
+  background: rgba(99, 184, 177, 0.02);
+  border-color: var(--secondary-color);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cardCourseName {
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.cardTime {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.cardDate {
+  color: var(--text-dark);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.cardStatus {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.statusItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 7.5rem;
+}
+
+.statusItem span:first-child {
+  color: var(--text-light);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.statusValue {
+  color: var(--text-dark);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.whatDone {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0.625rem 0 0.3125rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.625rem;
+  text-align: end;
+}
+
+/* Scroll hint indicator */
+.tableWrapper::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 100%;
+  background: linear-gradient(to left, rgba(99, 184, 177, 0.1), transparent);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  transform: rotateX(180deg);
+}
+
+.tableWrapper:hover::after {
+  opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .scheduleContainer {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+  }
+
+  /* Hide table and show cards on mobile */
+  .tableWrapper {
+    display: none;
+  }
+
+  .mobileCardsContainer {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .scheduleContainer {
+    padding: 0.75rem;
+  }
+
+  .header {
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .cardTime {
+    align-self: center;
+  }
+
+  .cardStatus {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .statusItem {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-width: auto;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 0 0.3125rem 0;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  /* Tablet view - ensure horizontal scroll works properly */
+  .tableWrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    /* Maintain the flip for top scrollbar */
+    transform: rotateX(180deg);
+    /* Enhanced scroll indicator */
+    border-right: 1px solid rgba(99, 184, 177, 0.1);
+  }
+
+  .tableWrapper .scheduleTable {
+    /* Flip back to normal orientation */
+    transform: rotateX(180deg);
+    min-width: 1100px; /* Adjusted for tablet screens */
+  }
+}
