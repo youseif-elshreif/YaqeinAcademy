@@ -109,4 +109,4 @@ function StudentDashboard() {
   );
 }
 
-export default withStudentProtection(StudentDashboard);
+export default StudentDashboard;
