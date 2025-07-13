@@ -200,6 +200,7 @@ button {
   background-color: rgba(var(--third-color), 0.5);
   z-index: 0;
 }
+
 /* RTL specific adjustments */
 
 .text-left {

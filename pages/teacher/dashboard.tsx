@@ -8,6 +8,7 @@ import ProfileSettings from "@/components/StudentDashboard/ProfileSettings";
 import { ModalProvider } from "@/contexts/ModalContext";
 import ModalContainer from "@/components/ModalContainer";
 import { ClassData } from "@/components/TeacherDashboard/MonthlyClassTable/types";
+import { useAuth } from "@/contexts/AuthContext";
 import { withTeacherProtection } from "@/components/auth/withRoleProtection";
 
 // /**
@@ -184,6 +185,7 @@ const generateMonthlyClasses = (
 };
 
 const TeacherDashboard = () => {
+  const { user } = useAuth();
   const [classes, setClasses] = useState<ClassData[]>([]);
   const [activeTab, setActiveTab] = useState("monthly-classes");
 
@@ -248,22 +250,30 @@ const TeacherDashboard = () => {
   }, []);
 
   // Mock data for teacher dashboard
-  const teacherData = {
-    id: "T2024001",
-    name: "الأستاذ محمد أحمد",
-    avatar: "/avatar.png",
-    email: "ahmed.mohamed@example.com",
-    phone: "+966 50 123 4567",
-    enrollmentDate: "2024-09-01",
-    age: 35,
-    studentId: "T2024001",
-    totalClasses: 28,
-    completedClasses: 22,
-    pendingClasses: 4,
-    cancelledClasses: 2,
-    classPrice: 50,
-    totalEarnings: 1100,
-  };
+  const [treacherData, setTeacherData] = useState({
+    id: user?.id || "",
+    name: user?.name || "",
+    avatar: user?.avatar || "/avatar.png",
+    email: user?.email || "",
+    phone: user?.phone || "",
+  });
+
+  // const teacherData = {
+  //   id: "T2024001",
+  //   name: "الأستاذ محمد أحمد",
+  //   avatar: "/avatar.png",
+  //   email: "ahmed.mohamed@example.com",
+  //   phone: "+966 50 123 4567",
+  //   enrollmentDate: "2024-09-01",
+  //   age: 35,
+  //   studentId: "T2024001",
+  //   totalClasses: 28,
+  //   completedClasses: 22,
+  //   pendingClasses: 4,
+  //   cancelledClasses: 2,
+  //   classPrice: 50,
+  //   totalEarnings: 1100,
+  // };
 
   // Group schedules - each group can have multiple days and times
   const groupSchedules = [
@@ -431,7 +441,7 @@ const TeacherDashboard = () => {
       case "monthly-classes":
         return <MonthlyClassTable initialClasses={classes} />;
       case "edit-profile":
-        return <ProfileSettings studentData={teacherData} />;
+        return <ProfileSettings studentData={treacherData} />;
       default:
         return <MonthlyClassTable initialClasses={classes} />;
     }
@@ -458,12 +468,12 @@ const TeacherDashboard = () => {
           <div className={styles.header}>
             <h1 className={styles.pageTitle}>لوحة تحكم المعلم</h1>
             <p className={styles.welcomeText}>
-              أهلاً وسهلاً {teacherData.name}
+              أهلاً وسهلاً {treacherData.name}
             </p>
           </div>
 
           {/* Summary Cards */}
-          <TeacherSummaryCards teacherData={teacherData} classes={classes} />
+          <TeacherSummaryCards classes={classes} />
 
           <DashboardTabs
             tabs={tabs}

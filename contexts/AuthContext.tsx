@@ -17,9 +17,11 @@ interface AuthContextType {
   error: string | null;
   getUserData: (shouldRedirect?: boolean) => Promise<void>;
   register: (regData: RegisterData) => Promise<void>;
+  verifyEmail: (token: string) => Promise<void>;
   login: (credentials: LoginCredentials) => Promise<void>;
   logout: () => void;
   clearError: () => void;
+  updateUserData: (userData: Partial<User>) => Promise<void>;
   isAuthenticated: boolean;
 }
 
@@ -59,7 +61,10 @@ type AuthAction =
   | { type: "LOGIN_FAILURE"; payload: string }
   | { type: "LOGOUT" }
   | { type: "CLEAR_ERROR" }
-  | { type: "SET_LOADING"; payload: boolean };
+  | { type: "SET_LOADING"; payload: boolean }
+  | { type: "UPDATE_USER_START" }
+  | { type: "UPDATE_USER_SUCCESS"; payload: User }
+  | { type: "UPDATE_USER_FAILURE"; payload: string };
 
 interface AuthState {
   user: User | null;
@@ -246,7 +251,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         if (typeof window !== "undefined") {
           localStorage.setItem("accessToken", data.accessToken);
         }
-        await getUserData(true); // Redirect after successful login
+        await getUserData(true);
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.message ||
@@ -277,11 +282,41 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         if (typeof window !== "undefined") {
           localStorage.setItem("accessToken", data.accessToken);
         }
-        await getUserData(true); // Redirect after successful registration
+        router.push("/email-confirmation");
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.message ||
           "حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.";
+
+        dispatch({
+          type: "LOGIN_FAILURE",
+          payload: errorMessage,
+        });
+        throw error;
+      }
+    },
+    [getUserData]
+  );
+
+  // verify-email
+
+  const verifyEmail = useCallback(
+    async (token: string) => {
+      try {
+        const response = await api.post(
+          `${API_BASE_URL}/api/auth/verify-email`,
+          { token }
+        );
+        const data = response.data;
+
+        if (typeof window !== "undefined") {
+          localStorage.setItem("accessToken", data.accessToken);
+        }
+        await getUserData(true);
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.message ||
+          "حدث خطأ أثناء التحقق من البريد الإلكتروني. يرجى المحاولة مرة أخرى.";
 
         dispatch({
           type: "LOGIN_FAILURE",
@@ -317,6 +352,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     dispatch({ type: "CLEAR_ERROR" });
   }, []);
 
+  // update user data function
+  const updateUserData = useCallback(
+    async (userData: Partial<User>) => {
+      dispatch({ type: "UPDATE_USER_START" });
+
+      try {
+        const response = await api.put(
+          `${API_BASE_URL}/api/user/profile`,
+          userData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
+        );
+        const data = response.data;
+
+        if (typeof window !== "undefined") {
+          localStorage.setItem("accessToken", data.accessToken);
+        }
+        await getUserData(true); // Refresh user data after update
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.message ||
+          "حدث خطأ أثناء تحديث البيانات. يرجى المحاولة مرة أخرى.";
+
+        dispatch({
+          type: "UPDATE_USER_FAILURE",
+          payload: errorMessage,
+        });
+        throw error;
+      }
+    },
+    [getUserData]
+  );
+
   // Memoize context value to prevent unnecessary re-renders
   const contextValue = useMemo(
     () => ({
@@ -324,8 +395,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       getUserData,
       login,
       register,
+      verifyEmail,
       logout,
       clearError,
+      updateUserData,
       isAuthenticated: isUserAuthenticated,
     }),
     [
@@ -333,9 +406,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       getUserData,
       login,
       register,
+      verifyEmail,
       logout,
       clearError,
-      isUserAuthenticated,
+      updateUserData,
+      isAuthenticated,
     ]
   );
 

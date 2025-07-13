@@ -3,12 +3,13 @@
   min-height: calc(100vh - 12.5rem);
   padding: 2rem 0;
   background: linear-gradient(
-    135deg,
+    90deg,
     var(--separator-bg) 0%,
     var(--base-bg) 100%
   );
   position: relative;
-  flex-grow: 30;
+  max-width: calc(100% - 225px);
+  min-width: calc(100% - 225px);
 }
 
 .main::before {
@@ -35,12 +36,37 @@
   padding: 24px 0;
   box-shadow: var(--shadow);
   position: relative;
-  width: 225px;
+  min-width: 225px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary-color) var(--separator-bg);
+}
+
+.sidebar .scheduleTable {
+  transform: rotateX(180deg);
+}
+
+.sidebar::-webkit-scrollbar {
+  height: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: var(--separator-bg);
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
 }
 
 .inSidebar {
   position: sticky;
-  top: 0;
+  top: 99px;
   left: 0;
   background: var(--primary-color);
   transition: transform 0.3s ease;
@@ -154,53 +180,51 @@
   margin-bottom: 40px;
   margin-top: 20px;
 }
-
-.statCard {
+.summaryCard {
   background: var(--base-bg);
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: var(--shadow);
   border: 1px solid var(--border-color);
-  transition: all 0.3s ease;
-}
-
-.statCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-}
-
-.statHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.statIcon {
-  width: 48px;
-  height: 48px;
   border-radius: 12px;
+  padding: 1.5rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  color: white;
+  gap: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.statIcon.teachers {
-  background: var(--primary-color);
+.summaryCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
-.statIcon.students {
-  background: var(--secondary-color);
+.cardIcon {
+  font-size: 2.5rem;
 }
 
-.statIcon.lessons {
-  background: var(--info-color);
+.cardIcon.or {
+  color: var(--primary-color);
 }
 
-.statIcon.income {
-  background: var(--success-color);
+.cardIcon.sec {
+  color: var(--secondary-color);
+}
+
+.cardContent {
+  flex: 1;
+}
+
+.cardValue {
+  color: var(--text-dark);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+}
+
+.cardTitle {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  margin: 0;
+  font-weight: 500;
 }
 
 .statValue {
@@ -880,6 +904,11 @@
 }
 
 @media (max-width: 768px) {
+  .main {
+    max-width: 100%;
+    min-width: 100%;
+  }
+
   .openBtn {
     display: flex;
     position: fixed;
@@ -916,6 +945,10 @@
     -o-transform: translate(-100%);
   }
 
+  .inSidebar {
+    top: 0;
+  }
+
   .closeBtn {
     position: absolute;
     display: block;
@@ -934,8 +967,8 @@
   .sidebar {
     position: fixed;
     width: 100%;
-    top: 80px;
-    height: calc(100vh - 80px);
+    top: 69px;
+    height: calc(100vh - 69px);
     overflow: scroll;
     transform: translateX(-100%);
     transition: transform 0.3s ease;

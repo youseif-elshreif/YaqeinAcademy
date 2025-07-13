@@ -32,9 +32,7 @@ function AppContent({ Component, pageProps }: AppProps) {
 
   // Show global loader during initial auth check
   if (showLoader) {
-    return (
-      <LoadingSpinner message="مرحباً بك في أكاديمية يقين" variant="auth" />
-    );
+    return <LoadingSpinner />;
   }
 
   return (
