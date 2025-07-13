@@ -56,28 +56,6 @@ const LessonManagement: React.FC = () => {
     },
   ]);
 
-  const [statusFilter, setStatusFilter] = useState<
-    "all" | "scheduled" | "completed" | "cancelled"
-  >("all");
-
-  const filteredLessons =
-    statusFilter === "all"
-      ? lessons
-      : lessons.filter((lesson) => lesson.status === statusFilter);
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case "scheduled":
-        return "مجدول";
-      case "completed":
-        return "مكتمل";
-      case "cancelled":
-        return "ملغي";
-      default:
-        return status;
-    }
-  };
-
   const getStats = () => {
     const total = lessons.length;
     const completed = lessons.filter((l) => l.status === "completed").length;
@@ -106,14 +84,14 @@ const LessonManagement: React.FC = () => {
         className={styles.statsGrid}
         style={{ gridTemplateColumns: "repeat(3, 1fr)" }}
       >
-        <div className={styles.statCard}>
-          <div className={styles.statHeader}>
-            <div className={`${styles.statIcon} ${styles.lessons}`}>
-              <FiCalendar />
-            </div>
+        <div className={styles.summaryCard}>
+          <div className={`${styles.cardIcon} ${styles.sec}`}>
+            <FiCalendar />
           </div>
-          <h3 className={styles.statValue}>{stats.total}</h3>
-          <p className={styles.statLabel}>إجمالي الدروس</p>
+          <div className={styles.cardContent}>
+            <h3 className={styles.cardValue}>{stats.total.toLocaleString()}</h3>
+            <p className={styles.statLabel}>عدد الدورات</p>
+          </div>
         </div>
       </div>
       {coursesData.length > 0 ? (
@@ -121,7 +99,7 @@ const LessonManagement: React.FC = () => {
       ) : (
         <div>
           <h3 style={{ textAlign: "center", color: "var(--text-light)" }}>
-            لا توجد دورات متاحة
+            لا توجد دورات
           </h3>
         </div>
       )}

@@ -24,54 +24,53 @@ interface ClassData {
 }
 
 interface TeacherSummaryCardsProps {
-  teacherData: TeacherData;
   classes: ClassData[];
 }
 
-const TeacherSummaryCards = ({
-  teacherData,
-  classes,
-}: TeacherSummaryCardsProps) => {
+const TeacherSummaryCards = ({ classes }: TeacherSummaryCardsProps) => {
   const summaryCards = [
     {
       id: 1,
       title: "إجمالي الحصص",
-      value: teacherData.totalClasses,
+      value: classes.length,
       icon: <FaBook />,
       color: "primary",
     },
     {
       id: 2,
       title: "الحصص المكتملة",
-      value: teacherData.completedClasses,
+      value: classes.filter((cls) => cls.status === "completed").length,
       icon: <FaCheck />,
       color: "success",
     },
     {
       id: 3,
       title: "الحصص المعلقة",
-      value: teacherData.pendingClasses,
+      value: classes.filter((cls) => cls.status === "pending").length,
       icon: <FaHourglassHalf />,
       color: "warning",
     },
     {
       id: 4,
       title: "سعر الحصة",
-      value: `${teacherData.classPrice} ريال`,
+      value: `500 جنية`,
       icon: <FaCoins />,
       color: "info",
     },
     {
       id: 5,
       title: "الحصص الملغية",
-      value: teacherData.cancelledClasses,
+      value: classes.filter((cls) => cls.status === "cancelled").length,
       icon: <FaTimes />,
       color: "danger",
     },
     {
       id: 6,
       title: "إجمالي الأرباح",
-      value: `${teacherData.totalEarnings} ريال`,
+      value: `${classes.reduce(
+        (total, cls) => total + (cls.status === "completed" ? 500 : 0),
+        0
+      )} جنية`,
       icon: <FaMoneyBillWave />,
       color: "secondary",
     },

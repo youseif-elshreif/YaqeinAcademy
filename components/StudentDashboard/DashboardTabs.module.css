@@ -8,13 +8,12 @@
 
 .tabsList {
   display: flex;
-  flex-wrap: wrap;
   border-bottom: 1px solid var(--border-color);
 }
 
 .tab {
   flex: 1;
-  min-width: 12.5rem;
+  min-width: 10rem;
   padding: 1rem 1.5rem;
   background: transparent;
   border: none;

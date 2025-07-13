@@ -13,25 +13,24 @@ interface Course {
 interface CoursesGridProps {
   courses: Course[];
   showBtn?: boolean;
+  isContainer?: boolean;
 }
 
-const CoursesGrid = ({ courses , showBtn }: CoursesGridProps) => {
+const CoursesGrid = ({ courses, showBtn, isContainer }: CoursesGridProps) => {
   return (
     <section className={styles.coursesSection}>
-      <div className="container">
-        <div className={styles.grid}>
-          {courses.map((course) => (
-            <CourseCard
-              key={course.id}
-              title={course.title}
-              teacherName={course.teacherName}
-              startDate={course.startDate}
-              duration={course.duration}
-              shortDescription={course.shortDescription}
-              showBtn = {showBtn}
-            />
-          ))}
-        </div>
+      <div className={`${isContainer && "container"} ${styles.grid}`}>
+        {courses.map((course) => (
+          <CourseCard
+            key={course.id}
+            title={course.title}
+            teacherName={course.teacherName}
+            startDate={course.startDate}
+            duration={course.duration}
+            shortDescription={course.shortDescription}
+            showBtn={showBtn}
+          />
+        ))}
       </div>
     </section>
   );

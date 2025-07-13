@@ -1,18 +1,11 @@
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import styles from "./ProfileSettings.module.css";
 
 interface User {
-  id: string;
   email: string;
   name: string;
-  phone?: string;
-  role?: string;
-  age?: number;
-  quranMemorized?: string;
-  numOfPartsofQuran?: number;
-  isVerified?: boolean;
-  createdAt?: string;
-  avatar?: string;
+  phone: string;
 }
 
 interface StudentDataProps {
@@ -20,10 +13,15 @@ interface StudentDataProps {
 }
 
 const ProfileSettings = ({ studentData }: StudentDataProps) => {
+  const { updateUserData } = useAuth();
   const [editState, setEditState] = useState<boolean>(false);
-  const [student, setStudent] = useState<User>(studentData);
+  const [student, setStudent] = useState<User>({
+    name: studentData.name,
+    email: studentData.email,
+    phone: studentData.phone,
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  // const [error, setError] = useState<string | null>(null);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -32,30 +30,11 @@ const ProfileSettings = ({ studentData }: StudentDataProps) => {
     setIsSubmitting(true);
 
     try {
-      // TODO: Replace with actual API call when backend is ready
-      console.log("=== UPDATE PROFILE API CALL ===");
-      console.log("API Endpoint: PUT /api/users/profile");
-      console.log("Request Body:", {
-        userId: student.id,
-        name: student.name.trim(),
-        email: student.email.trim(),
-        phone: student.phone?.trim() ?? "",
-        age: student.age,
-        updatedAt: new Date().toISOString(),
-      });
-
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      console.log("✅ Profile updated successfully");
-      console.log(
-        "Response: { success: true, message: 'تم تحديث الملف الشخصي بنجاح' }"
-      );
-
+      console.log("📤 Submitting profile data:", student);
+      updateUserData(student);
       setEditState(false);
     } catch (error) {
       console.error("❌ Profile update error:", error);
-      // TODO: Show error message to user
     } finally {
       setIsSubmitting(false);
     }
@@ -72,8 +51,8 @@ const ProfileSettings = ({ studentData }: StudentDataProps) => {
     e: React.ChangeEvent<HTMLInputElement>,
     field: keyof User
   ) {
-    const value = field === "age" ? Number(e.target.value) : e.target.value;
-    setStudent({ ...student, [field]: value });
+    // const value = field === "age" ? Number(e.target.value) : e.target.value;
+    setStudent({ ...student, [field]: e.target.value });
   }
 
   function handleEditBtn() {
@@ -124,7 +103,6 @@ const ProfileSettings = ({ studentData }: StudentDataProps) => {
                 required
               />
             </div>
-
             <div className={styles.formGroup}>
               <label className={styles.formLabel}>البريد الإلكتروني</label>
               <input
@@ -153,7 +131,7 @@ const ProfileSettings = ({ studentData }: StudentDataProps) => {
               />
             </div>
 
-            <div className={styles.formGroup}>
+            {/* <div className={styles.formGroup}>
               <label className={styles.formLabel}>السن</label>
               <input
                 type="number"
@@ -167,9 +145,9 @@ const ProfileSettings = ({ studentData }: StudentDataProps) => {
                 max="100"
                 required
               />
-            </div>
+            </div> */}
 
-            <div className={styles.formGroup}>
+            {/* <div className={styles.formGroup}>
               <label className={styles.formLabel}>رقم الطالب</label>
               <input
                 type="text"
@@ -179,7 +157,7 @@ const ProfileSettings = ({ studentData }: StudentDataProps) => {
                 onChange={(e) => handleInputChange(e, "id")}
                 readOnly
               />
-            </div>
+            </div> */}
 
             {editState && (
               <button

@@ -1,10 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
-  FiDollarSign,
-  FiTrendingUp,
-  FiCalendar,
-  FiFilter,
-} from "react-icons/fi";
+import React, { useState } from "react";
+import { FiDollarSign, FiTrendingUp } from "react-icons/fi";
 import {
   LineChart,
   Line,
@@ -19,7 +14,7 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import api from "@/utils/api";
+// import api from "@/utils/api";
 import styles from "@/styles/AdminDashboard.module.css";
 
 interface TeacherPayment {
@@ -57,171 +52,180 @@ interface MonthlyIncome {
   netProfit: number;
 }
 
+interface DashboardStats {
+  totalTeachers: number;
+  totalStudents: number;
+  totalLessonsThisMonth: number;
+  totalIncomeThisMonth: number;
+  teacherGrowth: number;
+  studentGrowth: number;
+  lessonGrowth: number;
+  incomeGrowth: number;
+}
+
+interface ChartData {
+  incomeData: Array<{ month: string; income: number }>;
+  userGrowthData: Array<{ month: string; students: number; teachers: number }>;
+  paymentStatusData: Array<{ name: string; value: number; color: string }>;
+}
+
 const FinancialOverview: React.FC = () => {
-  const [teacherPayments, setTeacherPayments] = useState<TeacherPayment[]>([]);
-  const [studentPayments, setStudentPayments] = useState<StudentPayment[]>([]);
-  const [financialSummary, setFinancialSummary] = useState<FinancialSummary>({
-    totalIncomeThisMonth: 0,
-    totalTeacherPayments: 0,
-    netProfitThisMonth: 0,
-    growthPercentage: 0,
+  const [teacherPayments] = useState<TeacherPayment[]>([
+    {
+      teacherId: "1",
+      teacherName: "فاطمة حسن",
+      totalPaid: 5000,
+      monthlyPayments: [
+        { month: "يناير", amount: 4500 },
+        { month: "فبراير", amount: 4800 },
+        { month: "مارس", amount: 4200 },
+        { month: "أبريل", amount: 5200 },
+        { month: "مايو", amount: 5500 },
+        { month: "يونيو", amount: 5000 },
+      ],
+      lastPaymentDate: "2024-07-01T10:00:00Z",
+    },
+    {
+      teacherId: "2",
+      teacherName: "محمد أحمد",
+      totalPaid: 4500,
+      monthlyPayments: [
+        { month: "يناير", amount: 4000 },
+        { month: "فبراير", amount: 4200 },
+        { month: "مارس", amount: 3800 },
+        { month: "أبريل", amount: 4600 },
+        { month: "مايو", amount: 4800 },
+        { month: "يونيو", amount: 4500 },
+      ],
+      lastPaymentDate: "2024-07-01T10:00:00Z",
+    },
+    {
+      teacherId: "3",
+      teacherName: "عائشة علي",
+      totalPaid: 3500,
+      monthlyPayments: [
+        { month: "يناير", amount: 3000 },
+        { month: "فبراير", amount: 3200 },
+        { month: "مارس", amount: 2800 },
+        { month: "أبريل", amount: 3400 },
+        { month: "مايو", amount: 3600 },
+        { month: "يونيو", amount: 3500 },
+      ],
+      lastPaymentDate: "2024-06-28T14:00:00Z",
+    },
+  ]);
+
+  const [studentPayments] = useState<StudentPayment[]>([
+    {
+      studentId: "1",
+      studentName: "أحمد محمد علي",
+      totalPaid: 1500,
+      lastPaymentDate: "2024-07-01T10:00:00Z",
+      status: "paid",
+    },
+    {
+      studentId: "2",
+      studentName: "سارة أحمد",
+      totalPaid: 750,
+      lastPaymentDate: "2024-06-28T14:30:00Z",
+      status: "partial",
+    },
+    {
+      studentId: "3",
+      studentName: "محمد عبدالله",
+      totalPaid: 0,
+      lastPaymentDate: "",
+      status: "unpaid",
+    },
+  ]);
+
+  const [financialSummary] = useState<FinancialSummary>({
+    totalIncomeThisMonth: 45000,
+    totalTeacherPayments: 15000,
+    netProfitThisMonth: 30000,
+    growthPercentage: 18.4,
   });
-  const [monthlyIncome, setMonthlyIncome] = useState<MonthlyIncome[]>([]);
-  const [loading, setLoading] = useState(true);
+
+  const [stats] = useState<DashboardStats>({
+    totalTeachers: 15,
+    totalStudents: 234,
+    totalLessonsThisMonth: 89,
+    totalIncomeThisMonth: 15000,
+    teacherGrowth: 8.2,
+    studentGrowth: 12.5,
+    lessonGrowth: 5.3,
+    incomeGrowth: 15.7,
+  });
+
+  const [chartData] = useState<ChartData>({
+    incomeData: [
+      { month: "يناير", income: 12000 },
+      { month: "فبراير", income: 13500 },
+      { month: "مارس", income: 11800 },
+      { month: "أبريل", income: 14200 },
+      { month: "مايو", income: 16500 },
+      { month: "يونيو", income: 15000 },
+    ],
+    userGrowthData: [
+      { month: "يناير", students: 180, teachers: 12 },
+      { month: "فبراير", students: 195, teachers: 13 },
+      { month: "مارس", students: 210, teachers: 14 },
+      { month: "أبريل", students: 225, teachers: 14 },
+      { month: "مايو", students: 240, teachers: 15 },
+      { month: "يونيو", students: 234, teachers: 15 },
+    ],
+    paymentStatusData: [
+      { name: "مدفوع", value: 180, color: "#38a169" },
+      { name: "غير مدفوع", value: 54, color: "#e53e3e" },
+    ],
+  });
+
+  const [error] = useState<string | null>(null);
+
+  const [monthlyIncome] = useState<MonthlyIncome[]>([
+    {
+      month: "يناير",
+      studentPayments: 35000,
+      teacherPayments: 11500,
+      netProfit: 23500,
+    },
+    {
+      month: "فبراير",
+      studentPayments: 38000,
+      teacherPayments: 12200,
+      netProfit: 25800,
+    },
+    {
+      month: "مارس",
+      studentPayments: 32000,
+      teacherPayments: 10800,
+      netProfit: 21200,
+    },
+    {
+      month: "أبريل",
+      studentPayments: 42000,
+      teacherPayments: 13200,
+      netProfit: 28800,
+    },
+    {
+      month: "مايو",
+      studentPayments: 46000,
+      teacherPayments: 13900,
+      netProfit: 32100,
+    },
+    {
+      month: "يونيو",
+      studentPayments: 45000,
+      teacherPayments: 15000,
+      netProfit: 30000,
+    },
+  ]);
+
+  const [loading] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().toISOString().slice(0, 7)
   );
   const [teacherFilter, setTeacherFilter] = useState<"all" | string>("all");
-
-  useEffect(() => {
-    fetchFinancialData();
-  }, [selectedMonth]);
-
-  const fetchFinancialData = async () => {
-    try {
-      setLoading(true);
-      const [
-        summaryResponse,
-        teacherResponse,
-        studentResponse,
-        incomeResponse,
-      ] = await Promise.all([
-        api.get(`/admin/financial/summary?month=${selectedMonth}`),
-        api.get(`/admin/financial/teachers?month=${selectedMonth}`),
-        api.get(`/admin/financial/students?month=${selectedMonth}`),
-        api.get("/admin/financial/monthly-income"),
-      ]);
-
-      setFinancialSummary(summaryResponse.data);
-      setTeacherPayments(teacherResponse.data);
-      setStudentPayments(studentResponse.data);
-      setMonthlyIncome(incomeResponse.data);
-    } catch (error) {
-      console.error("Error fetching financial data:", error);
-      // Mock data for development
-      const mockFinancialSummary: FinancialSummary = {
-        totalIncomeThisMonth: 45000,
-        totalTeacherPayments: 15000,
-        netProfitThisMonth: 30000,
-        growthPercentage: 18.4,
-      };
-
-      const mockTeacherPayments: TeacherPayment[] = [
-        {
-          teacherId: "1",
-          teacherName: "فاطمة حسن",
-          totalPaid: 5000,
-          monthlyPayments: [
-            { month: "يناير", amount: 4500 },
-            { month: "فبراير", amount: 4800 },
-            { month: "مارس", amount: 4200 },
-            { month: "أبريل", amount: 5200 },
-            { month: "مايو", amount: 5500 },
-            { month: "يونيو", amount: 5000 },
-          ],
-          lastPaymentDate: "2024-07-01T10:00:00Z",
-        },
-        {
-          teacherId: "2",
-          teacherName: "محمد أحمد",
-          totalPaid: 4500,
-          monthlyPayments: [
-            { month: "يناير", amount: 4000 },
-            { month: "فبراير", amount: 4200 },
-            { month: "مارس", amount: 3800 },
-            { month: "أبريل", amount: 4600 },
-            { month: "مايو", amount: 4800 },
-            { month: "يونيو", amount: 4500 },
-          ],
-          lastPaymentDate: "2024-07-01T10:00:00Z",
-        },
-        {
-          teacherId: "3",
-          teacherName: "عائشة علي",
-          totalPaid: 3500,
-          monthlyPayments: [
-            { month: "يناير", amount: 3000 },
-            { month: "فبراير", amount: 3200 },
-            { month: "مارس", amount: 2800 },
-            { month: "أبريل", amount: 3400 },
-            { month: "مايو", amount: 3600 },
-            { month: "يونيو", amount: 3500 },
-          ],
-          lastPaymentDate: "2024-06-28T14:00:00Z",
-        },
-      ];
-
-      const mockStudentPayments: StudentPayment[] = [
-        {
-          studentId: "1",
-          studentName: "أحمد محمد علي",
-          totalPaid: 1500,
-          lastPaymentDate: "2024-07-01T10:00:00Z",
-          status: "paid",
-        },
-        {
-          studentId: "2",
-          studentName: "سارة أحمد",
-          totalPaid: 750,
-          lastPaymentDate: "2024-06-28T14:30:00Z",
-          status: "partial",
-        },
-        {
-          studentId: "3",
-          studentName: "محمد عبدالله",
-          totalPaid: 0,
-          lastPaymentDate: "",
-          status: "unpaid",
-        },
-      ];
-
-      const mockMonthlyIncome: MonthlyIncome[] = [
-        {
-          month: "يناير",
-          studentPayments: 35000,
-          teacherPayments: 11500,
-          netProfit: 23500,
-        },
-        {
-          month: "فبراير",
-          studentPayments: 38000,
-          teacherPayments: 12200,
-          netProfit: 25800,
-        },
-        {
-          month: "مارس",
-          studentPayments: 32000,
-          teacherPayments: 10800,
-          netProfit: 21200,
-        },
-        {
-          month: "أبريل",
-          studentPayments: 42000,
-          teacherPayments: 13200,
-          netProfit: 28800,
-        },
-        {
-          month: "مايو",
-          studentPayments: 46000,
-          teacherPayments: 13900,
-          netProfit: 32100,
-        },
-        {
-          month: "يونيو",
-          studentPayments: 45000,
-          teacherPayments: 15000,
-          netProfit: 30000,
-        },
-      ];
-
-      setFinancialSummary(mockFinancialSummary);
-      setTeacherPayments(mockTeacherPayments);
-      setStudentPayments(mockStudentPayments);
-      setMonthlyIncome(mockMonthlyIncome);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const getFilteredTeacherPayments = () => {
     if (teacherFilter === "all") {
@@ -262,44 +266,40 @@ const FinancialOverview: React.FC = () => {
 
       {/* Financial Summary Cards */}
       <div className={styles.statsGrid}>
-        <div className={styles.statCard}>
-          <div className={styles.statHeader}>
-            <div className={`${styles.statIcon} ${styles.income}`}>
-              <FiDollarSign />
-            </div>
-            <div className={`${styles.statChange} ${styles.positive}`}>
-              <FiTrendingUp />
-              {financialSummary.growthPercentage}%
-            </div>
+        <div className={styles.summaryCard}>
+          <div className={`${styles.cardIcon} text-success`}>
+            <FiDollarSign />
           </div>
-          <h3 className={styles.statValue}>
-            {financialSummary.totalIncomeThisMonth.toLocaleString()} ريال
-          </h3>
-          <p className={styles.statLabel}>إيرادات هذا الشهر</p>
+          <div className={styles.cardContent}>
+            <h3 className={styles.cardValue}>
+              {financialSummary.totalIncomeThisMonth.toLocaleString()}
+            </h3>
+            <p className={styles.statLabel}>إيرادات هذا الشهر</p>
+          </div>
         </div>
 
-        <div className={styles.statCard}>
-          <div className={styles.statHeader}>
-            <div className={`${styles.statIcon} ${styles.teachers}`}>
-              <FiDollarSign />
-            </div>
+        <div className={styles.summaryCard}>
+          <div className={`${styles.cardIcon} text-danger`}>
+            <FiDollarSign />
           </div>
-          <h3 className={styles.statValue}>
-            {financialSummary.totalTeacherPayments.toLocaleString()} ريال
-          </h3>
-          <p className={styles.statLabel}>مدفوعات المدرسين</p>
+          <div className={styles.cardContent}>
+            <h3 className={styles.cardValue}>
+              {financialSummary.totalTeacherPayments.toLocaleString()}
+            </h3>
+            <p className={styles.statLabel}> مدفوعات المدرسين </p>
+          </div>
         </div>
 
-        <div className={styles.statCard}>
-          <div className={styles.statHeader}>
-            <div className={`${styles.statIcon} ${styles.students}`}>
-              <FiTrendingUp />
-            </div>
+        <div className={styles.summaryCard}>
+          <div className={`${styles.cardIcon} text-success`}>
+            <FiTrendingUp />
           </div>
-          <h3 className={styles.statValue}>
-            {financialSummary.netProfitThisMonth.toLocaleString()} ريال
-          </h3>
-          <p className={styles.statLabel}>صافي الربح</p>
+          <div className={styles.cardContent}>
+            <h3 className={styles.cardValue}>
+              {financialSummary.netProfitThisMonth.toLocaleString()}
+            </h3>
+            <p className={styles.statLabel}> صافي الربح </p>
+          </div>
         </div>
       </div>
 
@@ -378,7 +378,7 @@ const FinancialOverview: React.FC = () => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
               <YAxis />
-              <Tooltip formatter={(value) => [`${value} ريال`, ""]} />
+              <Tooltip formatter={(value) => [`${value} جنية`, ""]} />
               <Line
                 type="monotone"
                 dataKey="studentPayments"
@@ -399,6 +399,24 @@ const FinancialOverview: React.FC = () => {
                 stroke="#38a169"
                 strokeWidth={3}
                 name="صافي الربح"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className={styles.chartCard}>
+          <h2 className={styles.chartTitle}>الإيرادات الشهرية</h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={chartData.incomeData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip formatter={(value) => [`${value} جنية`, "الإيرادات"]} />
+              <Line
+                type="monotone"
+                dataKey="income"
+                stroke="#667eea"
+                strokeWidth={3}
               />
             </LineChart>
           </ResponsiveContainer>
@@ -463,7 +481,7 @@ const FinancialOverview: React.FC = () => {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="teacherName" />
             <YAxis />
-            <Tooltip formatter={(value) => [`${value} ريال`, "المدفوع"]} />
+            <Tooltip formatter={(value) => [`${value} جنية`, "المدفوع"]} />
             <Bar dataKey="totalPaid" fill="#667eea" />
           </BarChart>
         </ResponsiveContainer>
@@ -552,7 +570,7 @@ const FinancialOverview: React.FC = () => {
                   {teacher.teacherName}
                 </td>
                 <td style={{ padding: "16px", color: "#4a5568" }}>
-                  {teacher.totalPaid.toLocaleString()} ريال
+                  {teacher.totalPaid.toLocaleString()} جنية
                 </td>
                 <td
                   style={{
@@ -611,7 +629,7 @@ const FinancialOverview: React.FC = () => {
           ملخص مدفوعات الطلاب
         </h2>
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead style={{ backgroundColor: "#f7fafc" }}>
+          <thead className={styles.tableHeader}>
             <tr>
               <th
                 style={{
@@ -700,7 +718,7 @@ const FinancialOverview: React.FC = () => {
                     {student.studentName}
                   </td>
                   <td style={{ padding: "16px", color: "#4a5568" }}>
-                    {student.totalPaid.toLocaleString()} ريال
+                    {student.totalPaid.toLocaleString()} جنية
                   </td>
                   <td
                     style={{

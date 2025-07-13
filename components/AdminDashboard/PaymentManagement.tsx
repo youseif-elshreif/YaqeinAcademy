@@ -107,7 +107,7 @@ const PaymentManagement: React.FC = () => {
           paymentDate: "2024-06-28T14:30:00Z",
           dueDate: "2024-07-28T23:59:59Z",
           paymentMethod: "cash",
-          notes: "دفعة جزئية 250 ريال",
+          notes: "دفعة جزئية 250 جنية",
         },
       ];
       setPayments(mockPayments);
@@ -277,19 +277,19 @@ const PaymentManagement: React.FC = () => {
 
       {/* Stats Cards */}
       <div className={styles.statsGrid}>
-        <div className={styles.statCard}>
+        <div className={styles.summaryCardardardard}>
           <div className={styles.statHeader}>
             <div className={`${styles.statIcon} ${styles.income}`}>
               <FiDollarSign />
             </div>
           </div>
           <h3 className={styles.statValue}>
-            {stats.totalAmount.toLocaleString()} ريال
+            {stats.totalAmount.toLocaleString()} جنية
           </h3>
           <p className={styles.statLabel}>إجمالي المدفوعات</p>
         </div>
 
-        <div className={styles.statCard}>
+        <div className={styles.summaryCardard}>
           <div className={styles.statHeader}>
             <div className={`${styles.statIcon} ${styles.students}`}>
               <FiCheck />
@@ -299,7 +299,7 @@ const PaymentManagement: React.FC = () => {
           <p className={styles.statLabel}>طلاب دفعوا</p>
         </div>
 
-        <div className={styles.statCard}>
+        <div className={styles.summaryCard}>
           <div className={styles.statHeader}>
             <div className={`${styles.statIcon} ${styles.lessons}`}>
               <FiX />
@@ -309,7 +309,7 @@ const PaymentManagement: React.FC = () => {
           <p className={styles.statLabel}>طلاب لم يدفعوا</p>
         </div>
 
-        <div className={styles.statCard}>
+        <div className={styles.summaryCard}>
           <div className={styles.statHeader}>
             <div className={`${styles.statIcon} ${styles.teachers}`}>
               <FiCalendar />
@@ -355,7 +355,7 @@ const PaymentManagement: React.FC = () => {
             {filteredPayments.map((payment) => (
               <tr key={payment.id}>
                 <td className={styles.cellName}>{payment.studentName}</td>
-                <td>{payment.amount} ريال</td>
+                <td>{payment.amount} جنية</td>
                 <td>
                   <span
                     className={`${styles.statusBadge} ${
@@ -439,7 +439,7 @@ const PaymentManagement: React.FC = () => {
             <div className={styles.modalBody}>
               <form onSubmit={handleSavePayment}>
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>المبلغ (ريال)</label>
+                  <label className={styles.formLabel}>المبلغ (جنية)</label>
                   <input
                     type="number"
                     value={paymentForm.amount}
@@ -548,7 +548,7 @@ const PaymentManagement: React.FC = () => {
                   <tbody>
                     {selectedStudentHistory.map((payment) => (
                       <tr key={payment.id}>
-                        <td>{payment.amount} ريال</td>
+                        <td>{payment.amount} جنية</td>
                         <td className={styles.cellDate}>
                           {new Date(payment.date).toLocaleDateString("ar-SA")}
                         </td>

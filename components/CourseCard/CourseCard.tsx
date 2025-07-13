@@ -1,4 +1,6 @@
 import styles from "./CourseCard.module.css";
+import { FaTag } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
 
 interface CourseCardProps {
   title: string;
@@ -20,16 +22,6 @@ const CourseCard = ({
   return (
     <div className={`${styles.card}`}>
       {/* edite and delete btns */}
-      {!showBtn && (
-        <div className={styles.cardActions}>
-          <button className={`btn-secondary ${styles.editButton}`}>
-            تعديل
-          </button>
-          <button className={`btn-secondary ${styles.deleteButton}`}>
-            حذف
-          </button>
-        </div>
-      )}
       <div className={styles.cardHeader}>
         <h3 className={styles.title}>{title}</h3>
         <p className={styles.teacher}>الأستاذ: {teacherName}</p>
@@ -54,6 +46,18 @@ const CourseCard = ({
         <div className={styles.cardFooter}>
           <button className={`btn-primary ${styles.bookButton}`}>
             احجز الآن
+          </button>
+        </div>
+      )}
+      {!showBtn && (
+        <div className={styles.cardActions}>
+          <button className={`${styles.linkButton} ${styles.openLinkBtn}`}>
+            <FaTag />
+            <span className={styles.iconButtonText}>تعديل</span>
+          </button>
+          <button className={styles.closeBtn}>
+            <MdDeleteOutline />
+            <span className={styles.iconButtonText}>حدف</span>
           </button>
         </div>
       )}

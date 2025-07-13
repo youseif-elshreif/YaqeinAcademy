@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  FiUsers,
-  FiDollarSign,
-  FiCalendar,
-  FiBarChart,
-  FiHome,
-  FiUserCheck,
-} from "react-icons/fi";
+import { FiUsers, FiCalendar, FiBarChart, FiHome } from "react-icons/fi";
 import { HiOutlineViewList } from "react-icons/hi";
 import { FaTimes } from "react-icons/fa";
 import styles from "@/styles/AdminDashboard.module.css";
@@ -25,23 +18,18 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
   const navigationItems = [
     { id: "overview", label: "نظرة عامة", icon: FiHome },
     { id: "users", label: "إدارة المستخدمين", icon: FiUsers },
-    { id: "payments", label: "المدفوعات والوصول", icon: FiDollarSign },
-    { id: "groups", label: "إدارة المجموعات", icon: FiUserCheck },
     { id: "courses", label: "إدارة الدورات", icon: FiCalendar },
     { id: "financial", label: "النظرة المالية", icon: FiBarChart },
   ];
 
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
   return (
     <>
       <button
         className={`${styles.openBtn} ${sidebarOpen ? styles.open : ""}`}
         type="button"
-        onClick={toggleSidebar}
+        onClick={() => setSidebarOpen(true)}
       >
         <HiOutlineViewList className={styles.list} />
       </button>
@@ -54,7 +42,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
               <button
                 className={styles.closeBtn}
                 type="button"
-                onClick={toggleSidebar}
+                onClick={() => setSidebarOpen(false)}
               >
                 <FaTimes />
               </button>
@@ -70,7 +58,10 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
                         className={`${styles.navButton} ${
                           activeTab === item.id ? styles.active : ""
                         }`}
-                        onClick={() => setActiveTab(item.id)}
+                        onClick={() => {
+                          setActiveTab(item.id);
+                          setSidebarOpen(false);
+                        }}
                       >
                         <span>{item.label}</span>
                         <IconComponent className={styles.navIcon} />
