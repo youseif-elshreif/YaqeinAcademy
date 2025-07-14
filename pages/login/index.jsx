@@ -12,7 +12,7 @@ import styles from "./login.module.css";
 import { useAuth } from "@/contexts/AuthContext";
 
 const LoginPage = () => {
-  const { error, login } = useAuth();
+  const { login } = useAuth();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -50,6 +50,8 @@ const LoginPage = () => {
       newErrors.email = "البريد الإلكتروني غير صحيح";
     }
 
+    
+
     if (!formData.password) {
       newErrors.password = "كلمة المرور مطلوبة";
     } else if (formData.password.length < 6) {
@@ -62,7 +64,6 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validateForm()) {
       return;
     }
@@ -77,7 +78,7 @@ const LoginPage = () => {
     } catch (e) {
       setErrors((prev) => ({
         ...prev,
-        general: error,
+        general: "ادخل البريد الالكتروني وكلمة المرور بشكل صحيح",
       }));
     } finally {
       setIsSubmitting(false);

@@ -10,6 +10,8 @@ import {
 } from "@/components/auth";
 import styles from "./register.module.css";
 import { useAuth } from "@/contexts/AuthContext";
+import CountrySelect from "@/components/auth/CountrySelect";
+import { isValidPhoneNumber } from "libphonenumber-js"; // ✅ تعديل: استيراد المكتبة
 
 const RegisterPage = () => {
   const { register } = useAuth();
@@ -22,12 +24,15 @@ const RegisterPage = () => {
     age: null,
     hasQuranMemorization: "",
     numOfPartsofQuran: 0,
+    country: "",
+    quranLevel: "",
   });
 
+  const [countryCode, setCountryCode] = useState(""); // ✅ تعديل: تخزين كود الدولة المختارة
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // ✅ أضفت show password
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // ✅ أضفت show confirm password
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -37,7 +42,6 @@ const RegisterPage = () => {
       [name]: type === "checkbox" ? checked : value,
     }));
 
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
@@ -45,7 +49,6 @@ const RegisterPage = () => {
       }));
     }
 
-    // Clear Quran level when checkbox is unchecked
     if (name === "hasQuranMemorization" && !checked) {
       setFormData((prev) => ({
         ...prev,
@@ -63,8 +66,10 @@ const RegisterPage = () => {
 
     if (!formData.phoneNumber.trim()) {
       newErrors.phoneNumber = "رقم الهاتف مطلوب";
-    } else if (!/^[0-9+\-\s()]+$/.test(formData.phoneNumber)) {
-      newErrors.phoneNumber = "رقم الهاتف غير صحيح";
+    } else if (
+      !isValidPhoneNumber(formData.phoneNumber, countryCode.toUpperCase()) // ✅ تعديل: التحقق حسب الدولة
+    ) {
+      newErrors.phoneNumber = "رقم الهاتف غير صحيح بالنسبة للدولة المختارة";
     }
 
     if (!formData.email.trim()) {
@@ -73,14 +78,12 @@ const RegisterPage = () => {
       newErrors.email = "البريد الإلكتروني غير صحيح";
     }
 
-    // ✅ تحقق من كلمة المرور
     if (!formData.password) {
       newErrors.password = "كلمة المرور مطلوبة";
     } else if (formData.password.length < 6) {
       newErrors.password = "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
     }
 
-    // ✅ تحقق من تأكيد كلمة المرور
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = "تأكيد كلمة المرور مطلوب";
     } else if (formData.password !== formData.confirmPassword) {
@@ -97,6 +100,10 @@ const RegisterPage = () => {
       newErrors.quranLevel = "يرجى تحديد مستوى الحفظ";
     }
 
+    if (!formData.country) {
+      newErrors.country = "الدولة مطلوبة";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -104,9 +111,7 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     setIsSubmitting(true);
 
@@ -118,6 +123,7 @@ const RegisterPage = () => {
         password: formData.password,
         quranMemorized: formData.hasQuranMemorization,
         numOfPartsofQuran: 0,
+        country: formData.country, // ✅ تعديل: إرسال الدولة للسيرفر
       });
     } catch (error) {
       setErrors((prev) => ({
@@ -169,6 +175,15 @@ const RegisterPage = () => {
           error={errors.phoneNumber}
           disabled={isSubmitting}
         />
+
+        <CountrySelect
+          value={formData.country}
+          onChange={(country, code) => {
+            setFormData((prev) => ({ ...prev, country })); // ✅ تعديل: حفظ اسم الدولة
+            setCountryCode(code); // ✅ تعديل: حفظ كود الدولة
+          }}
+        />
+        {errors.country && <p className={styles.errorText}>{errors.country}</p>}
 
         <InputField
           id="email"

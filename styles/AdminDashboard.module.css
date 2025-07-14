@@ -2,11 +2,7 @@
 .main {
   min-height: calc(100vh - 12.5rem);
   padding: 2rem 0;
-  background: linear-gradient(
-    90deg,
-    var(--separator-bg) 0%,
-    var(--base-bg) 100%
-  );
+  background: var(--main-bg);
   position: relative;
   max-width: calc(100% - 225px);
   min-width: calc(100% - 225px);

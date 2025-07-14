@@ -21,14 +21,14 @@ const EmailConfirmationPage: React.FC = () => {
           </p>
         </div>
         <div className={styles.buttonGroup}>
-          <a
+          {/* <a
             href="https://mail.google.com"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.primaryButton}
           >
-            فتح الجيميل
-          </a>
+            فتح البريد الإلكتروني
+          </a> */}
           <Link href="/" legacyBehavior>
             <a className={styles.secondaryButton}>العودة للرئيسية</a>
           </Link>

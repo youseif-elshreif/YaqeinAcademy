@@ -3,6 +3,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap");
 
 :root {
+  --main-bg: var(--main-bg);
   --primary-color: rgb(30, 61, 50);
   --secondary-color: rgb(99, 184, 177);
   --third-color: 245, 245, 220; /* RGB values for rgba */

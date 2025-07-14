@@ -132,7 +132,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
     token: null,
-    isLoading: true, // Start with loading true for session check
+    isLoading: true,
     error: null,
   });
 
@@ -185,7 +185,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         });
 
         const userData = response.data.data;
-        console.log("User data fetched successfully:", userData.role);
+        console.log("User data fetched successfully:", userData);
 
         const user: User = {
           id: userData._id || userData.id,
@@ -247,21 +247,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           credentials
         );
         const data = response.data;
-
-        if (typeof window !== "undefined") {
+        if (data.accessToken) {
           localStorage.setItem("accessToken", data.accessToken);
+          await getUserData(true);
         }
-        await getUserData(true);
       } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.message ||
-          "ادخل البريد الالكتروني وكلمة المرور بشكل صحيح";
+        const errorMessage = "ادخل البريد الالكتروني وكلمة المرور بشكل صحيح";
 
         dispatch({
           type: "LOGIN_FAILURE",
           payload: errorMessage,
         });
-        throw error;
+        throw errorMessage;
       }
     },
     [getUserData]
@@ -273,15 +270,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       dispatch({ type: "LOGIN_START" });
 
       try {
-        const response = await api.post(
-          `${API_BASE_URL}/api/auth/register`,
-          regData
-        );
-        const data = response.data;
+        await api.post(`${API_BASE_URL}/api/auth/register`, regData);
 
-        if (typeof window !== "undefined") {
-          localStorage.setItem("accessToken", data.accessToken);
-        }
         router.push("/email-confirmation");
       } catch (error: any) {
         const errorMessage =
