@@ -3,12 +3,7 @@
   min-height: calc(100vh - 200px);
   padding: 2rem 0;
   position: relative;
-  background: linear-gradient(
-    135deg,
-    rgba(30, 61, 50, 0.02) 0%,
-    rgba(99, 184, 177, 0.05) 50%,
-    rgba(245, 245, 220, 0.08) 100%
-  );
+  background: var(--main-bg);
 }
 
 .main::before {

@@ -15,7 +15,6 @@ const InputField = ({
   autoComplete,
   min,
   max,
-  rows,
   helpText,
   showPasswordToggle = false,
   showPassword = false,
@@ -49,17 +48,7 @@ const InputField = ({
       )}
 
       <div className={showPasswordToggle ? styles.passwordWrapper : undefined}>
-        {isTextarea ? (
-          <textarea
-            {...inputProps}
-            rows={rows}
-            className={`${styles.textarea} ${
-              error ? styles.inputError : ""
-            } ${className}`}
-          />
-        ) : (
-          <input {...inputProps} />
-        )}
+        <input {...inputProps} />
 
         {showPasswordToggle && (
           <button
