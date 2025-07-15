@@ -1,0 +1,127 @@
+.summaryContainer {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15.625rem, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summaryCard {
+  background: var(--base-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.summaryCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.cardIcon {
+  font-size: 2.5rem;
+  padding: 1rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.75rem;
+  height: 3.75rem;
+}
+
+.cardContent {
+  flex: 1;
+}
+
+.cardValue {
+  color: var(--text-dark);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+}
+
+.cardTitle {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Card Color Variants */
+.primary .cardIcon {
+  color: var(--primary-color);
+}
+
+.success .cardIcon {
+  color: var(--success-color);
+}
+
+.warning .cardIcon {
+  color: var(--warning-color);
+}
+
+.secondary .cardIcon {
+  color: var(--secondary-color);
+}
+
+.info .cardIcon {
+  color: #17a2b8;
+}
+
+.danger .cardIcon {
+  color: #dc3545;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cardsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+    gap: 1rem;
+  }
+
+  .summaryCard {
+    padding: 1rem;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .cardIcon {
+    font-size: 2rem;
+    min-width: 3.125rem;
+    height: 3.125rem;
+  }
+
+  .cardValue {
+    font-size: 1.5rem;
+  }
+
+  .cardTitle {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionTitle {
+    font-size: 1.25rem;
+  }
+}
