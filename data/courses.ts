@@ -1,0 +1,69 @@
+export interface Course {
+  id: number;
+  title: string;
+  teacherName: string;
+  startDate: string;
+  duration: string;
+  shortDescription: string;
+
+  type: string;
+  createdAt: string;
+}
+
+export const coursesData: Course[] = [
+  {
+    id: 1,
+    title: "تفسير سورة البقرة",
+    teacherName: "د. أحمد محمد",
+    startDate: "2024-07-15",
+    duration: "3 أشهر",
+    shortDescription:
+      "دراسة شاملة لسورة البقرة مع التفسير والتدبر، تشمل أسباب النزول والأحكام الفقهية المستنبطة من الآيات الكريمة.",
+    type: "تفسير",
+    createdAt: "2024-06-01",
+  },
+  {
+    id: 2,
+    title: "علوم الحديث النبوي",
+    teacherName: "د. فاطمة علي",
+    startDate: "2024-07-20",
+    duration: "شهرين",
+    shortDescription:
+      "دورة متخصصة في علوم الحديث تشمل قواعد الجرح والتعديل، وطرق التحقق من صحة الأحاديث النبوية الشريفة.",
+    type: "حديث",
+    createdAt: "2024-06-15",
+  },
+  {
+    id: 3,
+    title: "فقه العبادات",
+    teacherName: "الشيخ محمد حسن",
+    startDate: "2024-08-01",
+    duration: "6 أشهر",
+    shortDescription:
+      "دراسة شاملة لأحكام العبادات في الإسلام من الطهارة والصلاة والزكاة والصوم والحج مع الأدلة الشرعية.",
+    type: "فقه",
+    createdAt: "2024-05-20",
+  },
+  {
+    id: 4,
+    title: "العقيدة الإسلامية",
+    teacherName: "د. عائشة أحمد",
+    startDate: "2024-07-25",
+    duration: "شهر واحد",
+    shortDescription:
+      "أساسيات العقيدة الإسلامية الصحيحة، التوحيد بأنواعه، الإيمان بالله وملائكته وكتبه ورسله واليوم الآخر.",
+    type: "عقيدة",
+    createdAt: "2024-06-10",
+  },
+  {
+    id: 5,
+    title: "السيرة النبوية الشريفة",
+    teacherName: "د. أحمد محمد",
+    startDate: "2024-08-10",
+    duration: "3 أشهر",
+    shortDescription:
+      "دراسة مفصلة لحياة النبي محمد صلى الله عليه وسلم، من الولادة إلى الوفاة، مع استخلاص الدروس والعبر.",
+    type: "سيرة",
+    createdAt: "2024-05-15",
+  },
+];
