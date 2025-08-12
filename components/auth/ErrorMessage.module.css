@@ -1,0 +1,71 @@
+.errorMessage {
+  padding: 0.875rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid;
+}
+
+.icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.text {
+  flex: 1;
+  line-height: 1.4;
+}
+
+/* Error Type */
+.error {
+  background-color: var(--danger-light);
+  color: var(--danger-color);
+  border-color: var(--danger-color);
+}
+
+/* Success Type */
+.success {
+  background: var(--success-light);
+  color: var(--success-color);
+  border-color: var(--success-color);
+}
+
+/* Info Type */
+.info {
+  background: var(--warning-light);
+  color: var(--warning-dark);
+  border-color: var(--warning-color);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .error {
+    background-color: var(--danger-light);
+    color: var(--danger-color);
+    border-color: var(--danger-dark);
+  }
+
+  .success {
+    background: var(--success-light);
+    color: var(--success-color);
+    border-color: var(--success-dark);
+  }
+
+  .info {
+    background: var(--warning-light);
+    color: var(--warning-color);
+    border-color: var(--warning-dark);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .errorMessage {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.85rem;
+  }
+}

@@ -1,0 +1,122 @@
+.pagination {
+  padding: 2rem 0;
+  border-top: 1px solid var(--border-color);
+  background: var(--base-bg);
+}
+
+.paginationContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.pageNumbers {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.pageButton {
+  min-width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--border-color);
+  background: var(--base-bg);
+  color: var(--text-dark);
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pageButton:hover:not(.disabled) {
+  background: var(--secondary-color);
+  color: white;
+  border-color: var(--secondary-color);
+}
+
+.pageButton.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.navButton {
+  padding: 0 1rem;
+  min-width: auto;
+  font-weight: 600;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--separator-bg);
+}
+
+.disabled:hover {
+  background: var(--separator-bg);
+  color: var(--text-dark);
+  border-color: var(--border-color);
+}
+
+.ellipsis {
+  color: var(--text-light);
+  font-weight: bold;
+  padding: 0 0.5rem;
+  user-select: none;
+}
+
+.pageInfo {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .pagination {
+    padding: 1.5rem 0;
+  }
+
+  .paginationContent {
+    gap: 0.25rem;
+  }
+
+  .pageButton {
+    min-width: 2.1875rem;
+    height: 2.1875rem;
+    font-size: 0.9rem;
+  }
+
+  .navButton {
+    padding: 0 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .pageInfo {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageButton {
+    min-width: 2rem;
+    height: 2rem;
+    font-size: 0.85rem;
+  }
+
+  .navButton {
+    padding: 0 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .ellipsis {
+    padding: 0 0.25rem;
+  }
+}

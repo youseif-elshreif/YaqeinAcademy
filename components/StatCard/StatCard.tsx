@@ -1,0 +1,39 @@
+import React from "react";
+import { IconType } from "react-icons";
+import styles from "./StatCard.module.css";
+
+interface StatCardProps {
+  icon: IconType;
+  value: string | number;
+  label: string;
+  className?: string;
+}
+
+const StatCard: React.FC<StatCardProps> = ({
+  icon: Icon,
+  value,
+  label,
+  className = "",
+}) => {
+  // Format numbers with Arabic locale
+  const formatValue = (val: string | number): string => {
+    if (typeof val === "number") {
+      return val.toLocaleString("ar-SA");
+    }
+    return val;
+  };
+
+  return (
+    <div className={`${styles.statCard} ${className}`}>
+      <div className={styles.statIcon}>
+        <Icon />
+      </div>
+      <div className={styles.statContent}>
+        <div className={styles.statValue}>{formatValue(value)}</div>
+        <div className={styles.statLabel}>{label}</div>
+      </div>
+    </div>
+  );
+};
+
+export default StatCard;
