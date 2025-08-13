@@ -32,6 +32,15 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   const [confirmDeleteGroupModalOpen, setConfirmDeleteGroupModalOpen] =
     useState(false);
   const [removeMemberModalOpen, setRemoveMemberModalOpen] = useState(false);
+  const [lessonsModalOpen, setLessonsModalOpen] = useState(false);
+  const [addLessonModalOpen, setAddLessonModalOpen] = useState(false);
+  const [editLessonModalOpen, setEditLessonModalOpen] = useState(false);
+  const [deleteLessonModalOpen, setDeleteLessonModalOpen] = useState(false);
+
+  // User actions modals
+  const [userActionsModalOpen, setUserActionsModalOpen] = useState(false);
+  const [editUserModalOpen, setEditUserModalOpen] = useState(false);
+  const [deleteUserModalOpen, setDeleteUserModalOpen] = useState(false);
 
   // Selected data states
   const [selectedUserType, setSelectedUserType] = useState<UserType | null>(
@@ -64,6 +73,26 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     id: string;
     name: string;
   } | null>(null);
+
+  const [selectedGroupForLessons, setSelectedGroupForLessons] = useState<{
+    groupId: string;
+    groupName: string;
+  } | null>(null);
+
+  const [selectedLessonData, setSelectedLessonData] = useState<{
+    id: string;
+    day: string;
+    time: string;
+    date: string;
+  } | null>(null);
+
+  const [selectedUserForActions, setSelectedUserForActions] = useState<{
+    id: string;
+    name: string;
+    userType: "student" | "teacher";
+  } | null>(null);
+
+  const [selectedUserData, setSelectedUserData] = useState<any>(null);
 
   // Open modal actions
   const openAddUserModal = () => {
@@ -168,6 +197,98 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   const closeRemoveMemberModal = () => {
     setRemoveMemberModalOpen(false);
     setSelectedGroupForMemberRemoval(null);
+  };
+
+  // Lessons Modal handlers
+  const openLessonsModal = (groupData: {
+    groupId: string;
+    groupName: string;
+  }) => {
+    setSelectedGroupForLessons(groupData);
+    setLessonsModalOpen(true);
+  };
+
+  const closeLessonsModal = () => {
+    setLessonsModalOpen(false);
+    setSelectedGroupForLessons(null);
+  };
+
+  const openAddLessonModal = () => {
+    setAddLessonModalOpen(true);
+  };
+
+  const closeAddLessonModal = () => {
+    setAddLessonModalOpen(false);
+  };
+
+  const openEditLessonModal = (lessonData: {
+    id: string;
+    day: string;
+    time: string;
+    date: string;
+  }) => {
+    setSelectedLessonData(lessonData);
+    setEditLessonModalOpen(true);
+  };
+
+  const closeEditLessonModal = () => {
+    setEditLessonModalOpen(false);
+    setSelectedLessonData(null);
+  };
+
+  const openDeleteLessonModal = (lessonData: {
+    id: string;
+    day: string;
+    time: string;
+    date: string;
+  }) => {
+    setSelectedLessonData(lessonData);
+    setDeleteLessonModalOpen(true);
+  };
+
+  const closeDeleteLessonModal = () => {
+    setDeleteLessonModalOpen(false);
+    setSelectedLessonData(null);
+  };
+
+  // User Actions Modal handlers
+  const openUserActionsModal = (userData: {
+    id: string;
+    name: string;
+    userType: "student" | "teacher";
+    fullData?: any;
+  }) => {
+    setSelectedUserForActions(userData);
+    setUserActionsModalOpen(true);
+  };
+
+  const closeUserActionsModal = () => {
+    setUserActionsModalOpen(false);
+    setSelectedUserForActions(null);
+  };
+
+  const openEditUserModal = (userData: any) => {
+    setSelectedUserData(userData);
+    setEditUserModalOpen(true);
+  };
+
+  const closeEditUserModal = () => {
+    setEditUserModalOpen(false);
+    setSelectedUserData(null);
+  };
+
+  const openDeleteUserModal = (userData: {
+    id: string;
+    name: string;
+    userType: "student" | "teacher";
+  }) => {
+    setSelectedUserForActions(userData);
+    setDeleteUserModalOpen(true);
+  };
+
+  const closeDeleteUserModal = () => {
+    setDeleteUserModalOpen(false);
+    setSelectedUserForActions(null);
   };
 
   // User type selection
@@ -293,6 +414,13 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     groupActionsModalOpen,
     confirmDeleteGroupModalOpen,
     removeMemberModalOpen,
+    lessonsModalOpen,
+    addLessonModalOpen,
+    editLessonModalOpen,
+    deleteLessonModalOpen,
+    userActionsModalOpen,
+    editUserModalOpen,
+    deleteUserModalOpen,
 
     // Selected data
     selectedUserType,
@@ -302,6 +430,10 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     selectedGroupForDeletion,
     selectedGroupForMemberRemoval,
     selectedGroupForEdit,
+    selectedGroupForLessons,
+    selectedLessonData,
+    selectedUserForActions,
+    selectedUserData,
 
     // Modal actions
     openAddUserModal,
@@ -314,6 +446,13 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     openGroupActionsModal,
     openConfirmDeleteGroupModal,
     openRemoveMemberModal,
+    openLessonsModal,
+    openAddLessonModal,
+    openEditLessonModal,
+    openDeleteLessonModal,
+    openUserActionsModal,
+    openEditUserModal,
+    openDeleteUserModal,
 
     // Close actions
     closeAddUserModal,
@@ -326,6 +465,13 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     closeGroupActionsModal,
     closeConfirmDeleteGroupModal,
     closeRemoveMemberModal,
+    closeLessonsModal,
+    closeAddLessonModal,
+    closeEditLessonModal,
+    closeDeleteLessonModal,
+    closeUserActionsModal,
+    closeEditUserModal,
+    closeDeleteUserModal,
 
     // User type selection
     setUserType,

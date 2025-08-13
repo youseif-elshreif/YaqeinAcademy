@@ -669,6 +669,13 @@ export interface AdminModalContextType {
   groupActionsModalOpen: boolean;
   confirmDeleteGroupModalOpen: boolean;
   removeMemberModalOpen: boolean;
+  lessonsModalOpen: boolean;
+  addLessonModalOpen: boolean;
+  editLessonModalOpen: boolean;
+  deleteLessonModalOpen: boolean;
+  userActionsModalOpen: boolean;
+  editUserModalOpen: boolean;
+  deleteUserModalOpen: boolean;
 
   // Selected data
   selectedUserType: UserType | null;
@@ -694,6 +701,23 @@ export interface AdminModalContextType {
     id: string;
     name: string;
   } | null;
+  selectedGroupForLessons: {
+    groupId: string;
+    groupName: string;
+  } | null;
+  selectedLessonData: {
+    id: string;
+    day: string;
+    time: string;
+    date: string;
+  } | null;
+  selectedUserForActions: {
+    id: string;
+    name: string;
+    userType: "student" | "teacher";
+    fullData?: any; // البيانات الكاملة للمستخدم
+  } | null;
+  selectedUserData: any;
 
   // Modal actions
   openAddUserModal: () => void;
@@ -713,6 +737,34 @@ export interface AdminModalContextType {
     name: string;
   }) => void;
   openRemoveMemberModal: (groupData: { id: string; name: string }) => void;
+  openLessonsModal: (groupData: { groupId: string; groupName: string }) => void;
+  openAddLessonModal: () => void;
+  openEditLessonModal: (lessonData: {
+    id: string;
+    day: string;
+    time: string;
+    date: string;
+  }) => void;
+  openDeleteLessonModal: (lessonData: {
+    id: string;
+    day: string;
+    time: string;
+    date: string;
+  }) => void;
+
+  // User actions
+  openUserActionsModal: (userData: {
+    id: string;
+    name: string;
+    userType: "student" | "teacher";
+    fullData?: any;
+  }) => void;
+  openEditUserModal: (userData: any) => void;
+  openDeleteUserModal: (userData: {
+    id: string;
+    name: string;
+    userType: "student" | "teacher";
+  }) => void;
 
   // Close actions
   closeAddUserModal: () => void;
@@ -725,6 +777,13 @@ export interface AdminModalContextType {
   closeGroupActionsModal: () => void;
   closeConfirmDeleteGroupModal: () => void;
   closeRemoveMemberModal: () => void;
+  closeLessonsModal: () => void;
+  closeAddLessonModal: () => void;
+  closeEditLessonModal: () => void;
+  closeDeleteLessonModal: () => void;
+  closeUserActionsModal: () => void;
+  closeEditUserModal: () => void;
+  closeDeleteUserModal: () => void;
 
   // User type selection
   setUserType: (type: UserType | null) => void;

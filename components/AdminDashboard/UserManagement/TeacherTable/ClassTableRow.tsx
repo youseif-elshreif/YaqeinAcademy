@@ -1,9 +1,11 @@
-import { FaTag, FaExternalLinkAlt, FaEdit, FaCopy } from "react-icons/fa";
-import { MdDeleteOutline } from "react-icons/md";
+import { FaExternalLinkAlt, FaCopy, FaCog, FaEdit } from "react-icons/fa";
 import styles from "../../styles.module.css";
 import { TeacherItemProps } from "../../../../utils/types";
+import { useAdminModal } from "@/contexts/AdminModalContext";
 
 const ClassTableRow = ({ teacher }: TeacherItemProps) => {
+  const { openUserActionsModal } = useAdminModal();
+
   // Function to copy class link to clipboard
   const handleCopyLink = async (link: string) => {
     try {
@@ -18,6 +20,15 @@ const ClassTableRow = ({ teacher }: TeacherItemProps) => {
   // Function to open link in new tab
   const handleOpenLink = (link: string) => {
     window.open(link, "_blank", "noopener,noreferrer");
+  };
+
+  const handleActionsClick = () => {
+    openUserActionsModal({
+      id: teacher.id,
+      name: teacher.name,
+      userType: "teacher",
+      fullData: teacher, // تمرير البيانات الكاملة
+    });
   };
 
   return (
@@ -81,13 +92,12 @@ const ClassTableRow = ({ teacher }: TeacherItemProps) => {
         </span>
       </td>
       <td className={styles.linkContainer}>
-        <button className={`${styles.linkButton} ${styles.openLinkBtn}`}>
-          <FaTag />
-          <span className={styles.iconButtonText}>تعديل</span>
-        </button>
-        <button className={styles.closeBtn}>
-          <MdDeleteOutline />
-          <span className={styles.iconButtonText}>حدف</span>
+        <button
+          onClick={handleActionsClick}
+          className={`${styles.linkButton} ${styles.openLinkBtn}`}
+        >
+          <FaCog />
+          <span className={styles.iconButtonText}>الإجراءات</span>
         </button>
       </td>
       <td className={styles.linkCell}>

@@ -1,5 +1,5 @@
 "use client";
-import GroupManagement from "@/components/AdminDashboard/GroupManagement/GroupManagement";
+import GroupManagement from "@/components/dashboard/admin/sections/GroupManagement/GroupManagement";
 import styles from "@/styles/AdminDashboard.module.css";
 
 export default function GroupManagementPage() {

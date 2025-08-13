@@ -1,7 +1,7 @@
-import AdminSidebar from "@/components/AdminDashboard/AdminSidebar";
+import AdminSidebar from "@/components/dashboard/admin/components/AdminSidebar";
 import { AdminDashboardProvider } from "@/contexts/AdminDashboardContext";
 import { AdminModalProvider } from "@/contexts/AdminModalContext";
-import AdminModalsContainer from "@/components/AdminDashboard/modals/AdminModalsContainer";
+import AdminModalsContainer from "@/components/dashboard/admin/modals/AdminModalsContainer";
 import styles from "@/styles/AdminDashboard.module.css";
 
 export default function DashboardLayout({

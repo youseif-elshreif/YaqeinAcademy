@@ -1,7 +1,7 @@
 "use client";
 
-import Navbar from "@/components/Navbar/Navbar";
-import Footer from "@/components/Footer/Footer";
+import Navbar from "@/components/common/Layout/Navbar/Navbar";
+import Footer from "@/components/common/Layout/Footer/Footer";
 
 export default function AppContent({
   children,

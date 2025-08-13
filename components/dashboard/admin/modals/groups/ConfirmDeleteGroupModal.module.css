@@ -1,0 +1,119 @@
+/* Confirm Delete Group Modal Styles */
+
+/* Override styles for delete modal */
+.modalHeader {
+  background: var(--danger-color);
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.warningIcon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.1);
+  border: 2px solid rgba(239, 68, 68, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--danger-color);
+  margin: 0 auto;
+}
+
+.confirmationText {
+  text-align: center;
+}
+
+.confirmationText h4 {
+  color: var(--text-dark);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+}
+
+.groupName {
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.warningText {
+  color: var(--text-light);
+  line-height: 1.5;
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Form Actions */
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  background: var(--separator-bg);
+}
+
+.cancelButton,
+.deleteButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px;
+  font-family: inherit;
+}
+
+.cancelButton {
+  background: var(--text-light);
+  color: white;
+}
+
+.cancelButton:hover:not(:disabled) {
+  background: var(--text-dark);
+  transform: translateY(-1px);
+}
+
+.deleteButton {
+  background: var(--danger-color);
+  color: white;
+}
+
+.deleteButton:hover:not(:disabled) {
+  background: var(--danger-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.deleteButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .formActions {
+    flex-direction: column-reverse;
+  }
+
+  .cancelButton,
+  .deleteButton {
+    width: 100%;
+    justify-content: center;
+  }
+}

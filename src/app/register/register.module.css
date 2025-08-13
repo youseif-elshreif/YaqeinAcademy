@@ -21,13 +21,6 @@
   }
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .form {
-    gap: 1.25rem;
-  }
-}
-
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .fadeIn {

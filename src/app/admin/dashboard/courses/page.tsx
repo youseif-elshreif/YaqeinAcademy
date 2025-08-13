@@ -1,5 +1,5 @@
 "use client";
-import LessonManagement from "@/components/AdminDashboard/LessonManagement";
+import LessonManagement from "@/components/dashboard/admin/sections/LessonManagement";
 import styles from "@/styles/AdminDashboard.module.css";
 
 export default function CoursesPage() {

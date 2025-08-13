@@ -3,9 +3,12 @@
 :root {
   --main-bg: rgb(249, 254, 255);
   --primary-color: rgb(30, 61, 50);
+  --primary-light: rgba(30, 61, 50, 0.1);
+  --primary-dark: rgb(25, 50, 40);
   --secondary-color: rgb(99, 184, 177);
   --third-color: 245, 245, 220; /* RGB values for rgba */
   --separator-bg: rgb(245, 245, 220);
+  --bg-light: #f8f9fa;
   --base-bg: white;
   --text-dark: #333;
   --text-light: #666;

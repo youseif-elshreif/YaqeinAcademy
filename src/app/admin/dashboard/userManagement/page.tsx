@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import UserManagement from "@/components/AdminDashboard/UserManagement/UserManagement";
+import UserManagement from "@/components/dashboard/admin/sections/UserManagement/UserManagement";
 import styles from "@/styles/AdminDashboard.module.css";
 import { Student } from "@/utils/types";
 

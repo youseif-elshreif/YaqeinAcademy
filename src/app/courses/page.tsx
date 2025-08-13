@@ -1,6 +1,6 @@
 import Head from "next/head";
-import HeroSection from "@/components/HeroSection/HeroSection";
-import CoursesGrid from "@/components/CoursesGrid/CoursesGrid";
+import HeroSection from "@/components/common/HeroSection/HeroSection";
+import CoursesGrid from "@/components/common/UI/CoursesGrid/CoursesGrid";
 import { coursesData } from "@/data/courses";
 
 const CoursesPage = () => {

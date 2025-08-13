@@ -1,0 +1,38 @@
+/* Add Course Modal Styles */
+
+/* Course modal specific styles inherit all base styles */
+
+.modalBody {
+  max-height: calc(90vh - 120px);
+  overflow-y: auto;
+}
+
+/* Form specific styles */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.icon {
+  font-size: 1.1rem;
+  color: var(--primary-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+}

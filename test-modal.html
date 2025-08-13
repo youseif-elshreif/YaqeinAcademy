@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modal Test</title>
+    <style>
+      :root {
+        --primary-color: #457b9d;
+        --primary-dark: #1d3557;
+        --text-dark: #333;
+        --border-color: #e0e0e0;
+        --base-bg: white;
+        --separator-bg: #f9fafb;
+      }
+
+      body {
+        font-family: "Cairo", sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+
+      /* Modal Overlay */
+      .modalOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100000;
+        padding: 1rem;
+      }
+
+      /* Modal Container */
+      .modal {
+        background: var(--base-bg);
+        border-radius: 12px;
+        width: 100%;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow: hidden;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Modal Body */
+      .modalBody {
+        padding: 1.5rem;
+        overflow-y: auto;
+        flex: 1;
+      }
+
+      /* Form Input Styles */
+      .inputGroup {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+
+      .label {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-dark, #374151);
+        text-align: right;
+        margin-bottom: 6px;
+        display: block;
+      }
+
+      .textInput,
+      .textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1.5px solid var(--border-color, #d1d5db);
+        border-radius: 8px;
+        font-size: 14px;
+        color: var(--text-dark, #374151);
+        background-color: var(--base-bg, #ffffff);
+        transition: all 0.2s ease;
+        text-align: right;
+        direction: rtl;
+        box-sizing: border-box;
+        font-family: "Cairo", sans-serif;
+      }
+
+      .textInput:focus,
+      .textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      }
+
+      .textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="modalOverlay">
+      <div class="modal">
+        <div class="modalBody">
+          <div class="inputGroup">
+            <label class="label">الاسم الكامل</label>
+            <input
+              type="text"
+              class="textInput"
+              placeholder="أدخل الاسم الكامل"
+              value="محمد أحمد"
+            />
+          </div>
+
+          <div class="inputGroup">
+            <label class="label">البريد الإلكتروني</label>
+            <input
+              type="email"
+              class="textInput"
+              placeholder="أدخل البريد الإلكتروني"
+              value="test@example.com"
+            />
+          </div>
+
+          <div class="inputGroup">
+            <label class="label">وصف</label>
+            <textarea class="textarea" placeholder="أدخل الوصف هنا...">
+هذا نص تجريبي للاختبار</textarea
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

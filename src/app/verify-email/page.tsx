@@ -5,8 +5,7 @@ import { BsCheckCircle, BsXCircle, BsClockHistory } from "react-icons/bs";
 import { useAuth } from "@/contexts/AuthContext";
 import styles from "@/styles/VerifyEmailPage.module.css";
 
-const VerifyEmailPage: React.FC = (props: any) => {
-  console.log("VerifyEmailPage props:", props);
+const VerifyEmailPage: React.FC = () => {
   const { verifyEmail } = useAuth();
   const router = useRouter();
   const [status, setStatus] = useState<"loading" | "success" | "error">(

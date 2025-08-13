@@ -3,12 +3,12 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import styles from "@/styles/TeacherDashboard.module.css";
-import TeacherSummaryCards from "@/components/TeacherDashboard/TeacherSummaryCards";
-import MonthlyClassTable from "@/components/TeacherDashboard/MonthlyClassTable";
-import DashboardTabs from "@/components/StudentDashboard/DashboardTabs";
-import ProfileSettings from "@/components/StudentDashboard/ProfileSettings";
+import TeacherSummaryCards from "@/components/dashboard/teacher/TeacherSummaryCards";
+import MonthlyClassTable from "@/components/dashboard/teacher/MonthlyClassTable";
+import DashboardTabs from "@/components/dashboard/student/DashboardTabs";
+import ProfileSettings from "@/components/dashboard/student/ProfileSettings";
 import { ModalProvider } from "@/contexts/ModalContext";
-import ModalContainer from "@/components/ModalContainer";
+import ModalContainer from "@/components/common/Layout/ModalContainer";
 import { ClassData } from "@/utils/types";
 import { useAuth } from "@/contexts/AuthContext";
 import { withTeacherProtection } from "@/components/auth/withRoleProtection";

@@ -1,0 +1,175 @@
+/* Add Lesson Modal Styles */
+
+/* Lesson modal specific styles */
+.modalBody {
+  max-height: calc(90vh - 120px);
+  overflow-y: auto;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--main-bg);
+}
+
+.sectionTitle {
+  color: var(--text-dark);
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.timeInputGroup {
+  display: flex;
+  gap: 0.5rem;
+  align-items: end;
+}
+
+.timeInput {
+  flex: 1;
+}
+
+.timeSeparator {
+  color: var(--text-light);
+  font-weight: 600;
+  margin: 0 0.25rem;
+  line-height: 1.8;
+}
+
+.groupSelector {
+  background: var(--main-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.groupOption {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 0.5rem;
+}
+
+.groupOption:last-child {
+  margin-bottom: 0;
+}
+
+.groupOption:hover {
+  border-color: var(--primary-color);
+  background: var(--primary-light);
+}
+
+.groupOption.selected {
+  border-color: var(--primary-color);
+  background: var(--primary-color);
+  color: white;
+}
+
+.groupRadio {
+  margin-left: 0;
+}
+
+.groupInfo {
+  flex: 1;
+}
+
+.groupName {
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+}
+
+.groupDetails {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.recurringSection {
+  border: 1px solid var(--warning-color);
+  background: rgba(245, 158, 11, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.recurringTitle {
+  color: var(--warning-color);
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.recurringOptions {
+  display: flex;
+  gap: 1rem;
+}
+
+.recurringOption {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--base-bg);
+}
+
+.recurringOption:hover {
+  border-color: var(--warning-color);
+}
+
+.recurringOption.selected {
+  border-color: var(--warning-color);
+  background: var(--warning-color);
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+
+  .timeInputGroup {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .timeSeparator {
+    display: none;
+  }
+
+  .recurringOptions {
+    flex-direction: column;
+  }
+
+  .groupOption {
+    padding: 1rem;
+  }
+}

@@ -207,7 +207,6 @@
   gap: 0.25rem;
 }
 
-
 .summaryCard {
   background: var(--base-bg);
   border: 1px solid var(--border-color);
@@ -409,7 +408,6 @@
 }
 
 .modalBody {
-  padding: 1.5rem;
   overflow-y: auto;
   flex: 1;
 }

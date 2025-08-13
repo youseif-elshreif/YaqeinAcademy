@@ -1,26 +1,18 @@
-import { FaTag } from "react-icons/fa";
-import { MdDeleteOutline } from "react-icons/md";
+import { FaCog } from "react-icons/fa";
 import styles from "../../styles.module.css";
-import {
-  StudentItemProps as ClassTableRowProps,
-  Student as Students,
-} from "../../../../utils/types";
+import { StudentItemProps as ClassTableRowProps } from "../../../../utils/types";
+import { useAdminModal } from "@/contexts/AdminModalContext";
 
 const ClassTableRow = ({ studentitem }: ClassTableRowProps) => {
-  // Function to copy class link to clipboard
-  const handleCopyLink = async (link: string) => {
-    try {
-      await navigator.clipboard.writeText(link);
-      // You can add a toast notification here
-      console.log("تم نسخ الرابط بنجاح");
-    } catch (err) {
-      console.error("فشل في نسخ الرابط:", err);
-    }
-  };
+  const { openUserActionsModal } = useAdminModal();
 
-  // Function to open link in new tab
-  const handleOpenLink = (link: string) => {
-    window.open(link, "_blank", "noopener,noreferrer");
+  const handleActionsClick = () => {
+    openUserActionsModal({
+      id: studentitem.id,
+      name: studentitem.name,
+      userType: "student",
+      fullData: studentitem, // تمرير البيانات الكاملة
+    });
   };
 
   return (
@@ -83,13 +75,12 @@ const ClassTableRow = ({ studentitem }: ClassTableRowProps) => {
         </span>
       </td>
       <td className={styles.linkContainer}>
-        <button className={`${styles.linkButton} ${styles.openLinkBtn}`}>
-          <FaTag />
-          <span className={styles.iconButtonText}>تعديل</span>
-        </button>
-        <button className={styles.closeBtn}>
-          <MdDeleteOutline />
-          <span className={styles.iconButtonText}>حدف</span>
+        <button
+          onClick={handleActionsClick}
+          className={`${styles.linkButton} ${styles.openLinkBtn}`}
+        >
+          <FaCog />
+          <span className={styles.iconButtonText}>الإجراءات</span>
         </button>
       </td>
       <td className={styles.groupCell}>
