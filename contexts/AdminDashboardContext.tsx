@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import api, { API_BASE_URL } from "@/utils/api";
-import { AdminDashboardContextType } from "@/utils/types";
+import { AdminDashboardContextType, TeachersResponse } from "@/utils/types";
 import { createLessonSchedule } from "@/utils/date";
 
 const AdminDashboardContext = createContext<
@@ -20,6 +20,10 @@ export const AdminDashboardProvider: React.FC<{
 }> = ({ children }) => {
   // Groups state
   const [groups, setGroups] = useState<any[]>([]);
+  // Teachers state
+  const [teachers, setTeachers] = useState<TeachersResponse | null>(null);
+  // Students state
+  const [students, setStudents] = useState<any[]>([]);
 
   // create teatcher
   const createTeacher = useCallback(async (token: string, teacherData: any) => {
@@ -58,12 +62,164 @@ export const AdminDashboardProvider: React.FC<{
         },
       });
       console.log("Fetched teachers:", response.data);
+      setTeachers(response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching teachers:", error);
       throw error;
     }
   }, []);
+
+  // update member (replaces updateTeacher)
+  const updateMember = useCallback(
+    async (token: string, memberId: string, memberData: any) => {
+      try {
+        if (typeof window === "undefined") {
+          throw new Error("Not running in browser environment");
+        }
+
+        const response = await api.put(
+          `${API_BASE_URL}/api/admin/members/${memberId}`,
+          memberData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Updated member:", response.data);
+
+        // Refresh data after update
+        await getTeachers(token);
+
+        return response.data;
+      } catch (error) {
+        console.error("Error updating member:", error);
+        throw error;
+      }
+    },
+    [getTeachers]
+  );
+
+  // get students (for admin dashboard)
+  const getStudents = useCallback(async (token: string) => {
+    try {
+      if (typeof window === "undefined") {
+        throw new Error("Not running in browser environment");
+      }
+
+      const response = await api.get(`${API_BASE_URL}/api/user/all`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Filter only students from the response
+      const allUsers = response.data.data.users;
+      const studentsOnly = allUsers.filter(
+        (user: any) => user.role === "student"
+      );
+
+      console.log("Fetched students:", studentsOnly);
+      setStudents(studentsOnly);
+      return studentsOnly;
+    } catch (error) {
+      console.error("Error fetching students:", error);
+      throw error;
+    }
+  }, []);
+
+  // update teacher - specific API for teachers
+  const updateTeacher = useCallback(
+    async (token: string, teacherId: string, teacherData: any) => {
+      try {
+        if (typeof window === "undefined") {
+          throw new Error("Not running in browser environment");
+        }
+
+        const response = await api.put(
+          `${API_BASE_URL}/api/teacher/${teacherId}`,
+          teacherData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Updated teacher:", response.data);
+
+        // Refresh teachers data after update
+        await getTeachers(token);
+
+        return response.data;
+      } catch (error) {
+        console.error("Error updating teacher:", error);
+        throw error;
+      }
+    },
+    [getTeachers]
+  );
+
+  // update student - using existing member API
+  const updateStudent = useCallback(
+    async (token: string, studentId: string, studentData: any) => {
+      try {
+        if (typeof window === "undefined") {
+          throw new Error("Not running in browser environment");
+        }
+
+        const response = await api.put(
+          `${API_BASE_URL}/api/admin/members/${studentId}`,
+          studentData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Updated student:", response.data);
+
+        // Refresh students data after update
+        await getStudents(token);
+
+        return response.data;
+      } catch (error) {
+        console.error("Error updating student:", error);
+        throw error;
+      }
+    },
+    [getStudents]
+  );
+
+  // delete teacher
+  const deleteTeacher = useCallback(
+    async (token: string, teacherId: string) => {
+      try {
+        if (typeof window === "undefined") {
+          throw new Error("Not running in browser environment");
+        }
+
+        const response = await api.delete(
+          `${API_BASE_URL}/api/teacher/${teacherId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Deleted teacher:", response.data);
+
+        // Refresh teachers data after deletion
+        await getTeachers(token);
+
+        return response.data;
+      } catch (error) {
+        console.error("Error deleting teacher:", error);
+        throw error;
+      }
+    },
+    [getTeachers]
+  );
 
   //create students
   const createStudent = useCallback(async (studentData: any) => {
@@ -203,26 +359,6 @@ export const AdminDashboardProvider: React.FC<{
     },
     []
   );
-
-  // get students (for member selection)
-  const getStudents = useCallback(async (token: string) => {
-    try {
-      if (typeof window === "undefined") {
-        throw new Error("Not running in browser environment");
-      }
-
-      const response = await api.get(`${API_BASE_URL}/api/student`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log("Fetched students:", response.data);
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching students:", error);
-      throw error;
-    }
-  }, []);
 
   // get groups
   const getGroups = useCallback(async (token: string) => {
@@ -395,8 +531,14 @@ export const AdminDashboardProvider: React.FC<{
   const contextValue = useMemo(
     () => ({
       groups, // ✅ البيانات متاحة للجميع
+      teachers, // ✅ بيانات المعلمين
+      students, // ✅ بيانات الطلاب
       getTeachers,
       createTeacher,
+      updateMember,
+      updateTeacher,
+      updateStudent,
+      deleteTeacher,
       createStudent,
       createAdmin,
       createGroup,
@@ -409,8 +551,14 @@ export const AdminDashboardProvider: React.FC<{
     }),
     [
       groups, // ✅ التحديث عند تغيير البيانات
+      teachers, // ✅ التحديث عند تغيير بيانات المعلمين
+      students, // ✅ التحديث عند تغيير بيانات الطلاب
       getTeachers,
       createTeacher,
+      updateMember,
+      updateTeacher,
+      updateStudent,
+      deleteTeacher,
       createStudent,
       createAdmin,
       createGroup,

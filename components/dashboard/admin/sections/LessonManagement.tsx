@@ -4,17 +4,14 @@ import StatCard from "@/components/common/UI/StatCard";
 import styles from "@/styles/AdminDashboard.module.css";
 import { coursesData } from "@/data/courses";
 import CoursesGrid from "@/components/common/UI/CoursesGrid/CoursesGrid";
-import { useAdminModal } from "@/contexts/AdminModalContext";
-import { Lesson } from "@/utils/types";
+import { LessonManagementItem } from "@/utils/types";
 
 const LessonManagement: React.FC = () => {
-  const { openAddCourseModal } = useAdminModal();
-
-  const [lessons] = useState<Lesson[]>([
+  const [lessons] = useState<LessonManagementItem[]>([
     {
       id: "1",
       title: "درس التجويد - أحكام النون الساكنة",
-      groupName: "مجموعة حفظ القرآن المتقدمة",
+      groupName: "حلقة حفظ القرآن المتقدمة",
       teacherName: "فاطمة حسن",
       date: "2024-07-08",
       startTime: "20:00",
@@ -26,7 +23,7 @@ const LessonManagement: React.FC = () => {
     {
       id: "2",
       title: "حفظ سورة البقرة - الآيات 1-20",
-      groupName: "مجموعة التجويد للمبتدئين",
+      groupName: "حلقة التجويد للمبتدئين",
       teacherName: "محمد أحمد",
       date: "2024-07-09",
       startTime: "19:00",
@@ -38,7 +35,7 @@ const LessonManagement: React.FC = () => {
     {
       id: "3",
       title: "مراجعة الحفظ السابق",
-      groupName: "مجموعة حفظ القرآن المتقدمة",
+      groupName: "حلقة حفظ القرآن المتقدمة",
       teacherName: "فاطمة حسن",
       date: "2024-07-10",
       startTime: "20:00",
@@ -65,7 +62,7 @@ const LessonManagement: React.FC = () => {
       <div className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>إدارة الدورات</h1>
         <button
-          onClick={() => openAddCourseModal()}
+          onClick={() => console.log("إنشاء دورة جديدة")}
           className={`${styles.btn} ${styles.btnPrimary} ${styles.btnWithIcon}`}
         >
           <FiPlus />

@@ -1,22 +1,30 @@
 import { FaCog } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
-import { StudentItemProps as ClassTableRowProps } from "@/utils/types";
 import { useAdminModal } from "@/contexts/AdminModalContext";
+
+interface ClassTableRowProps {
+  studentitem: any; // Student from API
+}
 
 const ClassTableRow = ({ studentitem }: ClassTableRowProps) => {
   const { openUserActionsModal } = useAdminModal();
 
   const handleActionsClick = () => {
     openUserActionsModal({
-      id: studentitem.id,
+      id: studentitem._id,
       name: studentitem.name,
       userType: "student",
       fullData: studentitem, // تمرير البيانات الكاملة
     });
   };
 
+  const formatDate = (dateString: string) => {
+    if (!dateString) return "-";
+    return new Date(dateString).toLocaleDateString("ar-EG");
+  };
+
   return (
-    <tr key={studentitem.id} className={styles.tableRow}>
+    <tr key={studentitem._id} className={styles.tableRow}>
       <td className={`${styles.studentCell} ${styles.firstCell}`}>
         <span
           className={`${styles.studentName} ${styles.clickableTextWithChildren} ${styles.darkColor}`}
@@ -26,52 +34,51 @@ const ClassTableRow = ({ studentitem }: ClassTableRowProps) => {
       </td>
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem.payedClasses}
+          {studentitem.email}
         </span>
       </td>
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem.phoneNumber}
+          {studentitem.phone}
         </span>
       </td>
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem.id}
+          {studentitem._id.slice(-6)}
         </span>
       </td>
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem.nextPaymentDate}
+          {studentitem.age || "-"}
         </span>
       </td>
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem.amountPaid} ج.م
+          {studentitem.country || "-"}
         </span>
       </td>
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem.remainingClasses}
+          {studentitem.quranMemorized || "-"}
         </span>
       </td>
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem.postponedClasses}
+          {studentitem.numOfPartsofQuran || 0}
         </span>
       </td>
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem.canceledClasses}
+          {formatDate(studentitem.createdAt)}
         </span>
       </td>
       <td className={styles.groupCell}>
-        <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem.absentClasses}
-        </span>
-      </td>
-      <td className={styles.groupCell}>
-        <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem.attendedClasses}
+        <span
+          className={`${styles.studentName} ${
+            studentitem.isVerified ? styles.successColor : styles.warningColor
+          }`}
+        >
+          {studentitem.isVerified ? "مفعل" : "غير مفعل"}
         </span>
       </td>
       <td className={styles.linkContainer}>
@@ -82,22 +89,6 @@ const ClassTableRow = ({ studentitem }: ClassTableRowProps) => {
           <FaCog />
           <span className={styles.iconButtonText}>الإجراءات</span>
         </button>
-      </td>
-      <td className={styles.groupCell}>
-        {studentitem.rate ? (
-          <span className={`${styles.rate} ${styles.primaryColor}`}>
-            ⭐ {studentitem.rate}/10
-          </span>
-        ) : (
-          <span className={`${styles.lightColor}`}>-</span>
-        )}
-      </td>
-      <td className={styles.groupCell}>عرض تفاصيل الحصص</td>
-
-      <td className={styles.groupCell}>
-        <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem.groupName}
-        </span>
       </td>
     </tr>
   );

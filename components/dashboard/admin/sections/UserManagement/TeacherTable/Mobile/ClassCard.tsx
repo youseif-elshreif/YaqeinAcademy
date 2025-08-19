@@ -46,7 +46,7 @@ const ClassCard = ({ teacher }: TeacherItemProps) => {
 
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>رقم الهاتف:</span>
-            <span className={styles.infoValue}>{teacher.phoneNumber}</span>
+            <span className={styles.infoValue}>{teacher.phone}</span>
           </div>
 
           <div className={styles.infoItem}>
@@ -128,20 +128,12 @@ const ClassCard = ({ teacher }: TeacherItemProps) => {
                 >
                   <FaCopy />
                 </button>
-                <button
-                  className={`${styles.linkButton} ${styles.addLinkBtn} ${styles.cardLinkBtn}`}
-                  // onClick={() => handleEditLink(teacher)}
-                  title="تعديل رابط الحصة"
-                >
-                  <FaEdit />
-                  <span>تعديل</span>
-                </button>
               </div>
             </div>
           </div>
 
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>المجموعات:</span>
+            <span className={styles.infoLabel}>الحلقات:</span>
             <span className={styles.infoValue}>
               {teacher.assignedGroups.join(", ")}
             </span>

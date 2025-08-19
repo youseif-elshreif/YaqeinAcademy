@@ -34,7 +34,7 @@ const DashboardOverview: React.FC = () => {
     totalCourses: 4,
   });
 
-  // جلب بيانات المجموعات الحقيقية
+  // جلب بيانات الحلقات الحقيقية
   useEffect(() => {
     const fetchGroupsData = async () => {
       try {
@@ -49,7 +49,7 @@ const DashboardOverview: React.FC = () => {
           }));
         }
       } catch (error) {
-        console.error("خطأ في جلب بيانات المجموعات:", error);
+        console.error("خطأ في جلب بيانات الحلقات:", error);
       }
     };
 
@@ -77,7 +77,7 @@ const DashboardOverview: React.FC = () => {
         <StatCard
           icon={FaBook}
           value={stats.totalGroups}
-          label="إجمالي المجموعات"
+          label="إجمالي الحلقات"
         />
 
         <StatCard

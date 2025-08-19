@@ -113,7 +113,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
     }
 
     if (groupType === "private" && filledInputs.length > 1) {
-      setErrorMessage("المجموعات الخاصة تسمح بعضو واحد فقط");
+      setErrorMessage("الحلقات الخاصة تسمح بعضو واحد فقط");
       return false;
     }
 
@@ -191,7 +191,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
         <div className={baseStyles.modalHeader}>
           <h2 className={baseStyles.modalTitle}>
             <FaUserPlus className={baseStyles.titleIcon} />
-            إضافة أعضاء للمجموعة
+            إضافة أعضاء للحلقة
           </h2>
           <button
             onClick={handleClose}
@@ -206,7 +206,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
           <div className={styles.groupInfo}>
             <h3 className={styles.groupName}>{groupName}</h3>
             <span className={styles.groupType}>
-              {groupType === "private" ? "مجموعة خاصة" : "مجموعة عامة"}
+              {groupType === "private" ? "حلقة خاصة" : "حلقة عامة"}
             </span>
           </div>
 
@@ -222,8 +222,8 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
               <div className={styles.instructionsBox}>
                 <p className={styles.instructions}>
                   {groupType === "private"
-                    ? "يمكنك إضافة عضو واحد فقط للمجموعة الخاصة"
-                    : "يمكنك إضافة عدة أعضاء للمجموعة العامة"}
+                    ? "يمكنك إضافة عضو واحد فقط للحلقة الخاصة"
+                    : "يمكنك إضافة عدة أعضاء للحلقة العامة"}
                 </p>
               </div>
 

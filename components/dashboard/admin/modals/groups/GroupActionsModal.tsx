@@ -43,7 +43,7 @@ const GroupActionsModal: React.FC<GroupActionsModalProps> = ({
   };
 
   const handleAddMember = () => {
-    // سنحتاج إلى الحصول على نوع المجموعة، لكن للآن سنستخدم "private" كافتراضي
+    // سنحتاج إلى الحصول على نوع الحلقة، لكن للآن سنستخدم "private" كافتراضي
     onAddMember(groupId, groupName, "private");
     onClose();
   };
@@ -57,7 +57,7 @@ const GroupActionsModal: React.FC<GroupActionsModalProps> = ({
     <div className={baseStyles.modalOverlay} onClick={onClose}>
       <div className={baseStyles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={baseStyles.modalHeader}>
-          <h3 className={baseStyles.modalTitle}>إجراءات المجموعة</h3>
+          <h3 className={baseStyles.modalTitle}>إجراءات الحلقة</h3>
           <button className={baseStyles.closeButton} onClick={onClose}>
             <FaTimes />
           </button>
@@ -65,13 +65,13 @@ const GroupActionsModal: React.FC<GroupActionsModalProps> = ({
 
         <div className={styles.modalBody}>
           <div className={baseStyles.groupInfo}>
-            المجموعة: <span>{groupName}</span>
+            الحلقة: <span>{groupName}</span>
           </div>
 
           <div className={baseStyles.actionsContainer}>
             <button className={baseStyles.actionBtn} onClick={handleEdit}>
               <FaEdit className={baseStyles.btnIcon} />
-              <span className={baseStyles.btnTitle}>تعديل المجموعة</span>
+              <span className={baseStyles.btnTitle}>تعديل الحلقة</span>
             </button>
 
             <button className={baseStyles.actionBtn} onClick={handleAddMember}>
@@ -92,7 +92,7 @@ const GroupActionsModal: React.FC<GroupActionsModalProps> = ({
               onClick={handleDelete}
             >
               <FaTrash className={baseStyles.btnIcon} />
-              <span className={baseStyles.btnTitle}>حذف المجموعة</span>
+              <span className={baseStyles.btnTitle}>حذف الحلقة</span>
             </button>
           </div>
         </div>

@@ -1,5 +1,5 @@
 // tokenRefresh.ts - Token refresh utility
-import api, { API_BASE_URL } from "./api"; // Import your existing API instance
+import { API_BASE_URL } from "./api"; // Import your existing API instance
 import axios from "axios";
 import {
   getAccessToken,

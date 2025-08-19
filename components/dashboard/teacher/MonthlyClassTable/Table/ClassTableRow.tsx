@@ -54,7 +54,7 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
               <div className={styles.groupContainer}>
                 <div className={styles.groupBadge}>
                   <FaUsers />
-                  <span>مجموعة</span>
+                  <span>حلقة</span>
                 </div>
                 <div className={styles.groupNameContainer}>
                   <span
@@ -98,7 +98,7 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
                     currentGroupName: classItem.groupName,
                   })
                 }
-                title="تعديل اسم المجموعة"
+                title="تعديل اسم الحلقة"
               >
                 <FaTag />
               </button>
@@ -179,14 +179,6 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
             title="نسخ رابط الحصة"
           >
             <FaCopy />
-          </button>
-          <button
-            className={`${styles.linkButton} ${styles.addLinkBtn}`}
-            onClick={() => handleEditLink(classItem)}
-            title="تعديل رابط الحصة"
-          >
-            <FaEdit />
-            <span>تعديل</span>
           </button>
         </div>
       </td>

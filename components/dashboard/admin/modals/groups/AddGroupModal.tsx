@@ -147,11 +147,11 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
           timeSlots: timeSlots,
         });
       } else {
-        setErrorMessage("لم يتم العثور على المجموعة");
+        setErrorMessage("لم يتم العثور على الحلقة");
       }
     } catch (error: any) {
       console.error("Error fetching group data:", error);
-      setErrorMessage("حدث خطأ أثناء جلب بيانات المجموعة");
+      setErrorMessage("حدث خطأ أثناء جلب بيانات الحلقة");
     } finally {
       setIsLoading(false);
     }
@@ -246,11 +246,11 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
   const validateForm = (): boolean => {
     const newErrors: GroupFormErrors = {};
 
-    // اسم المجموعة
+    // اسم الحلقة
     if (!formData.name.trim()) {
-      newErrors.name = "اسم المجموعة مطلوب";
+      newErrors.name = "اسم الحلقة مطلوب";
     } else if (formData.name.trim().length < 3) {
-      newErrors.name = "اسم المجموعة يجب أن يكون 3 أحرف على الأقل";
+      newErrors.name = "اسم الحلقة يجب أن يكون 3 أحرف على الأقل";
     }
 
     // معرف المدرس
@@ -381,7 +381,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
         setErrorMessage(
           `حدث خطأ أثناء ${
             isEditMode ? "تحديث" : "إنشاء"
-          } المجموعة. يرجى المحاولة مرة أخرى`
+          } الحلقة. يرجى المحاولة مرة أخرى`
         );
       }
     } finally {
@@ -413,7 +413,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       >
         <div className={baseStyles.modalHeader}>
           <h2 className={baseStyles.modalTitle}>
-            {isEditMode ? "تعديل المجموعة" : "إضافة مجموعة جديدة"}
+            {isEditMode ? "تعديل الحلقة" : "إضافة حلقة جديدة"}
           </h2>
           <button
             onClick={handleClose}
@@ -428,18 +428,18 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
           {isLoading ? (
             <div className={styles.loadingContainer}>
               <div className={styles.loadingSpinner}></div>
-              <p>جاري تحميل بيانات المجموعة...</p>
+              <p>جاري تحميل بيانات الحلقة...</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className={styles.form}>
               <ErrorMessage message={errorMessage} type="error" />
 
               <div className={baseStyles.formGrid}>
-                {/* اسم المجموعة */}
+                {/* اسم الحلقة */}
                 <div className={baseStyles.inputGroup}>
                   <label className={baseStyles.label}>
                     <FaUsers className={styles.labelIcon} />
-                    اسم المجموعة
+                    اسم الحلقة
                   </label>
                   <input
                     type="text"
@@ -449,7 +449,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                     className={`${baseStyles.textInput} ${
                       fieldErrors.name ? styles.inputError : ""
                     }`}
-                    placeholder="مثال: مجموعة التأسيس"
+                    placeholder="مثال: حلقة التأسيس"
                     disabled={isSubmitting}
                   />
                   {fieldErrors.name && (
@@ -459,9 +459,9 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                   )}
                 </div>
 
-                {/* نوع المجموعة */}
+                {/* نوع الحلقة */}
                 <div className={baseStyles.inputGroup}>
-                  <label className={baseStyles.label}>نوع المجموعة</label>
+                  <label className={baseStyles.label}>نوع الحلقة</label>
                   <select
                     name="type"
                     value={formData.type}
@@ -529,7 +529,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                     className={`${baseStyles.textarea} ${
                       fieldErrors.description ? styles.inputError : ""
                     }`}
-                    placeholder="وصف مختصر للمجموعة"
+                    placeholder="وصف مختصر للحلقة"
                     rows={3}
                     disabled={isSubmitting}
                   />
@@ -626,7 +626,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                   ) : (
                     <>
                       <FaSave />
-                      {isEditMode ? "حفظ التعديلات" : "حفظ المجموعة"}
+                      {isEditMode ? "حفظ التعديلات" : "حفظ الحلقة"}
                     </>
                   )}
                 </button>

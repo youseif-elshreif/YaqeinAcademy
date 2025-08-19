@@ -1,23 +1,67 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import styles from "@/components/dashboard/admin/styles.module.css";
-// import ClassTable from "@/components/TeacherDashboard/MonthlyClassTable/Table/ClassTable";
 import ClassTableRow from "./ClassTableRow";
 import MobileClassCards from "./Mobile/MobileClassCards";
-import {
-  StudentListProps as MonthlyClassTableProps,
-  Student as Students,
-} from "@/utils/types";
 import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
-const MonthlyClassTable = ({ Students }: MonthlyClassTableProps) => {
-  const [students, setstudents] = useState<Students[]>(Students);
-  const { getTeachers } = useAdminDashboardContext();
-  // Sync with external changes to initialClasses
-  useEffect(() => {
-    setstudents(students);
-    getTeachers(localStorage.getItem("accessToken") || "");
-  }, [students]); // eslint-disable-line react-hooks/exhaustive-deps
 
+const StudentTable = () => {
+  const { token } = useAuth();
+  const { students, getStudents } = useAdminDashboardContext();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      if (!token) return;
+
+      try {
+        setLoading(true);
+        setError(null);
+        await getStudents(token);
+      } catch (err) {
+        console.error("Error fetching students:", err);
+        setError("فشل في جلب بيانات الطلاب");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStudents();
+  }, [token, getStudents]);
+
+  if (loading) {
+    return (
+      <div className={styles.tableContainer}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>الطلاب</h2>
+        </div>
+        <div style={{ textAlign: "center", padding: "2rem" }}>
+          <p>جاري تحميل بيانات الطلاب...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.tableContainer}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>الطلاب</h2>
+        </div>
+        <div style={{ textAlign: "center", padding: "2rem", color: "red" }}>
+          <p>{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{ marginTop: "1rem", padding: "0.5rem 1rem" }}
+          >
+            إعادة المحاولة
+          </button>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className={styles.tableContainer}>
       <div className={styles.header}>
@@ -29,34 +73,30 @@ const MonthlyClassTable = ({ Students }: MonthlyClassTableProps) => {
           <thead>
             <tr>
               <th className={styles.firstCell}>الاسم</th>
+              <th>البريد الإلكتروني</th>
               <th>رقم الهاتف</th>
               <th>الرقم التعريفي</th>
-              <th>عدد الحصص المدفوعة</th>
-              <th>ميعاد الدفع</th>
-              <th>المدفوع</th>
-              <th>عدد الحصص المتبقية</th>
-              <th>عدد الحصص المؤجلة</th>
-              <th>عدد الحصص الملغاة</th>
-              <th>عدد الحصص التي لم تحضر</th>
-              <th>عدد الحصص التي حضرت</th>
+              <th>العمر</th>
+              <th>الدولة</th>
+              <th>حفظ القرآن</th>
+              <th>عدد الأجزاء</th>
+              <th>تاريخ التسجيل</th>
+              <th>حالة التحقق</th>
               <th>الإجراءات</th>
-              <th>التقييم</th>
-              <th>الحصص</th>
-              <th>المجموعة</th>
             </tr>
           </thead>
           <tbody>
-            {Students.map((s) => (
-              <ClassTableRow key={s.id} studentitem={s} />
+            {students.map((student: any) => (
+              <ClassTableRow key={student._id} studentitem={student} />
             ))}
           </tbody>
         </table>
       </div>
 
       {/* Mobile Cards View */}
-      <MobileClassCards Students={Students} />
+      <MobileClassCards Students={students} />
     </div>
   );
 };
 
-export default MonthlyClassTable;
+export default StudentTable;

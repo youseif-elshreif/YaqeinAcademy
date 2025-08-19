@@ -8,7 +8,7 @@ import { useAdminModal } from "@/contexts/AdminModalContext";
 import StudentTable from "./StudentTable/StudentTable";
 import TeacherTable from "./TeacherTable/TeacherTable";
 import DashboardTabs from "@/components/dashboard/student/DashboardTabs";
-import { DashboardStats, ChartData, UserManagementProps } from "@/utils/types";
+import { DashboardStats, ChartData } from "@/utils/types";
 import { FaBook } from "react-icons/fa";
 import { FiUsers, FiUserCheck } from "react-icons/fi";
 import {
@@ -22,10 +22,7 @@ import {
 } from "recharts";
 // Types are now imported from the centralized types.ts file
 
-const UserManagement: React.FC<UserManagementProps> = ({
-  studentData,
-  teacherData,
-}: UserManagementProps) => {
+const UserManagement: React.FC = () => {
   const { openAddUserModal } = useAdminModal();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("students");
@@ -63,18 +60,6 @@ const UserManagement: React.FC<UserManagementProps> = ({
     ],
   });
 
-  const filteredStudentData = studentData.filter(
-    (student) =>
-      student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.phoneNumber.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const filteredTeacherData = teacherData.filter(
-    (teacher) =>
-      teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      teacher.phoneNumber.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   // Export users functionality removed (API logic cleared)
   const handleExportUsers = () => {
     alert("تصدير البيانات غير متاح في هذا الوضع التجريبي.");
@@ -87,11 +72,11 @@ const UserManagement: React.FC<UserManagementProps> = ({
   const getTabContent = () => {
     switch (activeTab) {
       case "students":
-        return <StudentTable Students={filteredStudentData} />;
+        return <StudentTable />;
       case "teachers":
-        return <TeacherTable Teachers={filteredTeacherData} />;
+        return <TeacherTable />;
       default:
-        return <StudentTable Students={filteredStudentData} />;
+        return <StudentTable />;
     }
   };
 
@@ -134,7 +119,7 @@ const UserManagement: React.FC<UserManagementProps> = ({
           label="إجمالي الطلاب"
         />
 
-        <StatCard icon={FaBook} value={20} label="إجمالي المجموعات" />
+        <StatCard icon={FaBook} value={20} label="إجمالي الحلقات" />
       </div>
 
       <div className={styles.chartsSection}>

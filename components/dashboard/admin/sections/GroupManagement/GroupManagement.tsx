@@ -21,7 +21,7 @@ const GroupManagement: React.FC = () => {
   };
 
   const handleExportData = () => {
-    console.log("تصدير بيانات المجموعات");
+    console.log("تصدير بيانات الحلقات");
   };
 
   const handleTabChange = (tabId: string) => {
@@ -40,14 +40,14 @@ const GroupManagement: React.FC = () => {
   const tabs = [
     {
       id: "groups",
-      label: "المجموعات",
+      label: "الحلقات",
     },
   ];
 
   return (
     <div className={styles.overviewContainer}>
       <div className={userStyles.headerRow}>
-        <h1 className={styles.pageTitle}>إدارة المجموعات</h1>
+        <h1 className={styles.pageTitle}>إدارة الحلقات</h1>
         <div className={userStyles.headerActions}>
           <button onClick={handleExportData} className={styles.btnSuccess}>
             <FiDownload className={userStyles.iconMargin} />
@@ -55,18 +55,14 @@ const GroupManagement: React.FC = () => {
           </button>
           <button onClick={handleAddGroup} className={styles.btnPrimary}>
             <FiPlus className={userStyles.iconMargin} />
-            إضافة مجموعة جديدة
+            إضافة حلقة جديدة
           </button>
         </div>
       </div>
 
       {/* Statistics Cards */}
       <div className={styles.statsGrid}>
-        <StatCard
-          icon={FiUsers}
-          value={groups.length}
-          label="إجمالي المجموعات"
-        />
+        <StatCard icon={FiUsers} value={groups.length} label="إجمالي الحلقات" />
       </div>
 
       {/* Chart removed as requested */}
@@ -77,7 +73,7 @@ const GroupManagement: React.FC = () => {
             <FiSearch className={userStyles.filterIcon} />
             <input
               type="text"
-              placeholder="البحث في المجموعات..."
+              placeholder="البحث في الحلقات..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className={userStyles.formInput}

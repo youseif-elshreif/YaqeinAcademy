@@ -14,25 +14,33 @@ import Head from "next/head";
 import { useAuth } from "@/contexts/AuthContext";
 import { useStudentDashboard } from "@/contexts/StudentDashboardContext";
 import { FaCopy, FaExternalLinkAlt } from "react-icons/fa";
+import { Lessons } from "./Lessons";
 
 function StudentDashboard() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("next-session");
-  const { getStudentGroup, studentGroupData } = useStudentDashboard();
+  const { getUserStats, userStats } = useStudentDashboard();
 
-  // Fetch student lessons when the component mounts
+  // Fetch student stats when the component mounts
   useEffect(() => {
-    const fetchGroup = async () => {
+    const fetchStats = async () => {
       try {
-        getStudentGroup();
+        await getUserStats();
       } catch (error) {
-        console.error("Failed to fetch student group:", error);
+        console.error("Failed to fetch user stats:", error);
       }
     };
-    fetchGroup();
-  }, [getStudentGroup]);
+    fetchStats();
+  }, [getUserStats]);
 
-  // Prepare student data from auth context
+  // Debug logging
+  useEffect(() => {
+    if (userStats) {
+      console.log("Current userStats:", userStats);
+    }
+  }, [userStats]);
+
+  // Prepare student data from auth context and user stats
   const studentData = {
     id: user?.id || "",
     name: user?.name || "الطالب",
@@ -49,28 +57,41 @@ function StudentDashboard() {
     enrollmentDate: user?.createdAt
       ? new Date(user.createdAt).toLocaleDateString("ar-EG")
       : "غير محدد",
-    enrolledCourses: 0,
-    completedSessions: 0,
-    remainingSessions: 0,
-    attendanceRate: 0,
+    completedSessions: userStats?.completedLessons || 0,
+    remainingSessions: userStats?.missedLessons || 0,
+    attendedLessons: userStats?.attendedLessons || 0,
+    PrivitelessonCredits: userStats?.PrivitelessonCredits || 0,
   };
+  console.log("fd" + userStats?.GroupUsualDate?.firstDay);
+  // Extract group information from userStats safely
+  const groupUsualDate = userStats?.GroupUsualDate;
+  const groupMeetingLink = userStats?.GroupMeetingLink
+    ? String(userStats.GroupMeetingLink)
+    : "";
+  const groupName = userStats?.GroupName ? String(userStats.GroupName) : "";
 
-  const days = [
-    studentGroupData?.usualDate.firstDay,
-    studentGroupData?.usualDate.secondDay,
-    studentGroupData?.usualDate.thirdDay,
-  ].filter(Boolean);
+  // Extract days and times from usualDate object
+  const days = groupUsualDate
+    ? [
+        groupUsualDate.firstDay,
+        groupUsualDate.secondDay,
+        groupUsualDate.thirdDay,
+      ].filter(Boolean)
+    : [];
 
-  const times = [
-    studentGroupData?.usualDate.firstDayTime,
-    studentGroupData?.usualDate.secondDayTime,
-    studentGroupData?.usualDate.thirdDayTime,
-  ].filter(Boolean);
+  const times = groupUsualDate
+    ? [
+        groupUsualDate.firstDayTime,
+        groupUsualDate.secondDayTime,
+        groupUsualDate.thirdDayTime,
+      ].filter(Boolean)
+    : [];
 
   // Tabs configuration
   const tabs = [
     // { id: "schedule", label: "الجدول الأسبوعي" },
     { id: "next-session", label: "متطلب الحصة القادمة" },
+    { id: "lessons", label: "الحصص" },
     { id: "profile", label: "الملف الشخصي" },
   ];
 
@@ -91,15 +112,14 @@ function StudentDashboard() {
   // Render content based on active tab
   const renderTabContent = () => {
     switch (activeTab) {
-      // case "schedule":
-      //   return <ScheduleTable />;
       case "next-session":
         return <NextSessionTasks />;
+      case "lessons":
+        return <Lessons />;
       case "profile":
         return <ProfileSettings studentData={studentData} />;
       default:
         return <NextSessionTasks />;
-      // return <ScheduleTable />;
     }
   };
 
@@ -144,7 +164,7 @@ function StudentDashboard() {
             </div>
           </div>
           <div className={styles.studentHeader}>
-            {studentGroupData ? (
+            {userStats && groupMeetingLink ? (
               <div className={styles.dateContent}>
                 <div className={styles.groupTimes}>
                   {days.map((day, index) => (
@@ -157,6 +177,14 @@ function StudentDashboard() {
                       </span>
                     </div>
                   ))}
+                  {days.length === 0 && (
+                    <div className={styles.dateContent}>
+                      <span className={styles.dateText}>
+                        {groupName || "حلقة غير محددة"}
+                      </span>
+                      <span className={styles.timeText}>الوقت غير متاح</span>
+                    </div>
+                  )}
                 </div>
                 <div className={styles.whatDone}>
                   <span className={styles.linkText}>رابط الحصة</span>
@@ -164,9 +192,7 @@ function StudentDashboard() {
                     {" "}
                     <button
                       className={`${styles.linkButton} ${styles.openLinkBtn}`}
-                      onClick={() =>
-                        handleOpenLink(studentGroupData?.meetingLink || "")
-                      }
+                      onClick={() => handleOpenLink(groupMeetingLink || "")}
                       title="فتح رابط الحصة"
                     >
                       <FaExternalLinkAlt />
@@ -174,9 +200,7 @@ function StudentDashboard() {
                     </button>
                     <button
                       className={`${styles.linkButton} ${styles.copyLinkBtn}`}
-                      onClick={() =>
-                        handleCopyLink(studentGroupData?.meetingLink || "")
-                      }
+                      onClick={() => handleCopyLink(groupMeetingLink || "")}
                       title="نسخ رابط الحصة"
                     >
                       <FaCopy />
@@ -187,7 +211,7 @@ function StudentDashboard() {
             ) : (
               <div className={styles.dateContent}>
                 <p className={styles.studentName}>
-                  لا توجد مجموعة حتى الأن برجاء التواصل مع الإدارة
+                  لا توجد حلقة حتى الأن برجاء التواصل مع الإدارة
                 </p>
               </div>
             )}

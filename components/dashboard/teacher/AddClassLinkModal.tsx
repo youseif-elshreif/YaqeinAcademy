@@ -109,7 +109,7 @@ const EditClassLinkModal = ({
               </div>
               <div className={styles.classDetail}>
                 <span className={styles.label}>
-                  {classInfo.groupName ? "المجموعة:" : "الطالب:"}
+                  {classInfo.groupName ? "الحلقة:" : "الطالب:"}
                 </span>
                 <span className={styles.value}>
                   {classInfo.groupName || classInfo.studentName}

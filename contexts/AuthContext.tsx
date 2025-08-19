@@ -215,7 +215,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const register = useCallback(
     async (regData: RegisterData) => {
       dispatch({ type: "LOGIN_START" });
-
+      console.log(regData);
       try {
         await api.post(`${API_BASE_URL}/api/auth/register`, regData);
 

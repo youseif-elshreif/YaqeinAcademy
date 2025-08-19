@@ -25,7 +25,7 @@ const AdminSidebar: React.FC = () => {
     },
     {
       id: "groups",
-      label: "إدارة المجموعات",
+      label: "إدارة الحلقات",
       icon: FaUserFriends,
       path: "/admin/dashboard/groupManagement",
     },

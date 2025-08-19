@@ -3,7 +3,6 @@
 import styles from "./CourseCard.module.css";
 import { FaTag } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
-import { useAdminModal } from "@/contexts/AdminModalContext";
 
 interface CourseCardProps {
   id?: number;
@@ -24,21 +23,19 @@ const CourseCard = ({
   duration,
   shortDescription,
   showBtn,
-  isAdminView = true,
+  isAdminView = false,
 }: CourseCardProps) => {
-  const { openEditCourseModal, openDeleteCourseModal } = useAdminModal();
-
   const handleEdit = () => {
     if (isAdminView && id) {
       console.log("تعديل الكورس:", id);
-      openEditCourseModal(id);
+      // Admin modal functionality would be handled by parent component
     }
   };
 
   const handleDelete = () => {
     if (isAdminView && id) {
       console.log("حذف الكورس:", id);
-      openDeleteCourseModal(id);
+      // Admin modal functionality would be handled by parent component
     }
   };
 

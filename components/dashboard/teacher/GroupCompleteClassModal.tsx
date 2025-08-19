@@ -154,7 +154,7 @@ const GroupCompleteClassModal = ({
           onClick={(e) => e.stopPropagation()}
         >
           <div className={styles.modalHeader}>
-            <h2 className={styles.modalTitle}>إكمال حصة المجموعة</h2>
+            <h2 className={styles.modalTitle}>إكمال حصة الحلقة</h2>
             <button onClick={handleClose} className={styles.closeBtn}>
               <FaTimes />
             </button>

@@ -72,7 +72,7 @@ const EditGroupNameModal: React.FC<EditGroupNameModalProps> = ({
     >
       <div className={`${styles.modal} ${isClosing ? styles.closing : ""}`}>
         <div className={styles.modalHeader}>
-          <h3 className={styles.modalTitle}>تعديل اسم المجموعة</h3>
+          <h3 className={styles.modalTitle}>تعديل اسم الحلقة</h3>
           <button
             className={styles.closeButton}
             onClick={handleClose}
@@ -85,7 +85,7 @@ const EditGroupNameModal: React.FC<EditGroupNameModalProps> = ({
         <form onSubmit={handleSubmit} className={styles.modalBody}>
           <div className={styles.inputGroup}>
             <label htmlFor="groupName" className={styles.label}>
-              اسم المجموعة:
+              اسم الحلقة:
             </label>
             <input
               type="text"
@@ -93,7 +93,7 @@ const EditGroupNameModal: React.FC<EditGroupNameModalProps> = ({
               value={groupName}
               onChange={(e) => setGroupName(e.target.value)}
               className={styles.input}
-              placeholder="أدخل اسم المجموعة الجديد"
+              placeholder="أدخل اسم الحلقة الجديد"
               autoFocus
               required
               disabled={isSubmitting}

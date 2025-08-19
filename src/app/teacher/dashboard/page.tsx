@@ -262,7 +262,7 @@ const TeacherDashboard = () => {
 
   const groupSchedules = [
     {
-      groupName: "مجموعة الفجر",
+      groupName: "حلقة الفجر",
       schedule: [
         { dayName: "الاثنين", time: "06:00 ص" }, // Monday
         { dayName: "الأربعاء", time: "06:00 ص" }, // Wednesday
@@ -289,7 +289,7 @@ const TeacherDashboard = () => {
       ],
     },
     {
-      groupName: "مجموعة الضحى",
+      groupName: "حلقة الضحى",
       schedule: [
         { dayName: "الاثنين", time: "10:00 ص" }, // Monday
         { dayName: "الخميس", time: "10:30 ص" }, // Thursday - different time
@@ -325,7 +325,7 @@ const TeacherDashboard = () => {
       ],
     },
     {
-      groupName: "مجموعة الأسبوع",
+      groupName: "حلقة الأسبوع",
       schedule: [
         { dayName: "الأحد", time: "03:00 م" }, // Sunday
         { dayName: "الثلاثاء", time: "03:30 م" }, // Tuesday
@@ -353,7 +353,7 @@ const TeacherDashboard = () => {
       ],
     },
     {
-      groupName: "مجموعة نهاية الأسبوع",
+      groupName: "حلقة نهاية الأسبوع",
       schedule: [
         { dayName: "الجمعة", time: "07:00 م" }, // Friday
         { dayName: "السبت", time: "09:00 ص" }, // Saturday - different time
@@ -389,7 +389,7 @@ const TeacherDashboard = () => {
       ],
     },
     {
-      groupName: "مجموعة يوم واحد",
+      groupName: "حلقة يوم واحد",
       schedule: [
         { dayName: "السبت", time: "11:00 ص" }, // Saturday only
       ],

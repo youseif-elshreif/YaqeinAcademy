@@ -15,7 +15,7 @@ const MonthlyClassTable = ({ groups = [] }: GroupListProps) => {
   return (
     <div className={styles.tableContainer}>
       <div className={styles.header}>
-        <h2 className={styles.title}>المجموعات</h2>
+        <h2 className={styles.title}>الحلقات</h2>
       </div>
       {/* Desktop Table View */}
       <div className={styles.tableWrapper}>

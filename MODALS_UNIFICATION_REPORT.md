@@ -25,16 +25,16 @@
 
 #### مودالز التحذير (لون أصفر):
 
-- ✅ `RemoveMemberModal` - إزالة عضو من مجموعة مع input التأكيد
+- ✅ `RemoveMemberModal` - إزالة عضو من حلقة مع input التأكيد
 
 #### المودالز العادية (لون أزرق):
 
 - ✅ `AddCourseModal` - إضافة الكورسات
 - ✅ `AddUserModal` - إضافة المستخدمين
 - ✅ `EditUserModal` - تعديل المستخدمين (أعرض للنماذج المعقدة)
-- ✅ `AddGroupModal` - إضافة المجموعات
-- ✅ `AddMembersModal` - إضافة أعضاء للمجموعة (أعرض للقوائم)
-- ✅ `GroupActionsModal` - أعمال المجموعة
+- ✅ `AddGroupModal` - إضافة الحلقات
+- ✅ `AddMembersModal` - إضافة أعضاء للحلقة (أعرض للقوائم)
+- ✅ `GroupActionsModal` - أعمال الحلقة
 - ✅ `AddLessonModal` - إضافة الحصص
 - ✅ `EditLessonModal` - تعديل الحصص
 

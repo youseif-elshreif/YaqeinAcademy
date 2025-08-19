@@ -102,14 +102,6 @@ const ClassCard = ({ groupItem }: ClassCardProps) => {
                 >
                   <FaCopy />
                 </button>
-                <button
-                  className={`${styles.linkButton} ${styles.addLinkBtn} ${styles.cardLinkBtn}`}
-                  // onClick={() => handleEditLink(teacherItem)}
-                  title="تعديل رابط الحصة"
-                >
-                  <FaEdit />
-                  <span>تعديل</span>
-                </button>
               </div>
             </div>
           </div>

@@ -20,8 +20,8 @@ const RegisterPage = () => {
   const { register } = useAuth();
 
   const [formData, setFormData] = useState<RegisterFormData>({
-    fullName: "",
-    phoneNumber: "",
+    name: "",
+    phone: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -30,10 +30,10 @@ const RegisterPage = () => {
     numOfPartsofQuran: 0,
     country: "",
     quranLevel: "",
-  }); // تممممم كدة ✅
+  });
 
-  const [countryCode, setCountryCode] = useState<CountryCode | "">(""); // تممممم كدة ✅
-  const [errors, setErrors] = useState<RegisterFormErrors>({}); // تممممم كدة ✅
+  const [countryCode, setCountryCode] = useState<CountryCode | "">("");
+  const [errors, setErrors] = useState<RegisterFormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -69,19 +69,19 @@ const RegisterPage = () => {
   };
 
   const validateForm = () => {
-    const newErrors: RegisterFormErrors = {}; // تممممم كدة ✅
+    const newErrors: RegisterFormErrors = {};
 
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = "الاسم الكامل مطلوب";
+    if (!formData.name.trim()) {
+      newErrors.name = "الاسم الكامل مطلوب";
     }
 
-    if (!formData.phoneNumber.trim()) {
-      newErrors.phoneNumber = "رقم الهاتف مطلوب";
+    if (!formData.phone.trim()) {
+      newErrors.phone = "رقم الهاتف مطلوب";
     } else if (
       !countryCode ||
-      !isValidPhoneNumber(formData.phoneNumber, countryCode)
+      !isValidPhoneNumber(formData.phone, countryCode)
     ) {
-      newErrors.phoneNumber = "رقم الهاتف غير صحيح بالنسبة للدولة المختارة";
+      newErrors.phone = "رقم الهاتف غير صحيح بالنسبة للدولة المختارة";
     }
 
     if (!formData.email.trim()) {
@@ -129,13 +129,15 @@ const RegisterPage = () => {
 
     try {
       await register({
-        name: formData.fullName,
-        phone: formData.phoneNumber,
+        name: formData.name,
+        phone: formData.phone,
         email: formData.email,
         password: formData.password,
-        quranMemorized: formData.hasQuranMemorization ? "نعم" : "لا",
+        age: formData.age,
+        quranMemorized: formData.hasQuranMemorization ? "true" : "false",
         numOfPartsofQuran: formData.numOfPartsofQuran,
-        age: formData.age || 0,
+        country: formData.country,
+        quranLevel: formData.quranLevel,
       });
     } catch {
       setErrors((prev) => ({
@@ -161,35 +163,35 @@ const RegisterPage = () => {
         <ErrorMessage message={errors.general} type="error" />
 
         <InputField
-          id="fullName"
-          name="fullName"
+          id="name"
+          name="name"
           type="text"
-          value={formData.fullName}
+          value={formData.name}
           onChange={handleInputChange}
           placeholder="أدخل اسمك الكامل"
           label="الاسم الكامل"
           required
-          error={errors.fullName}
+          error={errors.name}
           disabled={isSubmitting}
         />
 
         <InputField
-          id="phoneNumber"
-          name="phoneNumber"
+          id="phone"
+          name="phone"
           type="tel"
-          value={formData.phoneNumber}
+          value={formData.phone}
           onChange={handleInputChange}
           placeholder="مثال: 01234567890"
           label="رقم الهاتف"
           required
-          error={errors.phoneNumber}
+          error={errors.phone}
           disabled={isSubmitting}
         />
 
         <CountrySelect
           onChange={(country, code) => {
             setFormData((prev) => ({ ...prev, country }));
-            setCountryCode(code as CountryCode); // تممممم كدة ✅
+            setCountryCode(code as CountryCode);
           }}
         />
         {errors.country && <p className={styles.errorText}>{errors.country}</p>}

@@ -31,7 +31,7 @@ const ClassTableRow = ({ studentitem }: ClassTableRowProps) => {
       </td>
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem.phoneNumber}
+          {studentitem.phone}
         </span>
       </td>
       <td className={styles.groupCell}>

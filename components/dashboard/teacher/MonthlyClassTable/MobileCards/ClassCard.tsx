@@ -68,7 +68,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
                     currentGroupName: classItem.groupName,
                   })
                 }
-                title="تعديل اسم المجموعة"
+                title="تعديل اسم الحلقة"
               >
                 <FaTag />
               </button>
@@ -159,14 +159,6 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
                 >
                   <FaCopy />
                 </button>
-                <button
-                  className={`${styles.linkButton} ${styles.addLinkBtn} ${styles.cardLinkBtn}`}
-                  onClick={() => handleEditLink(classItem)}
-                  title="تعديل رابط الحصة"
-                >
-                  <FaEdit />
-                  <span>تعديل</span>
-                </button>
               </div>
             </div>
           </div>
@@ -175,7 +167,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
         {/* Group members list for group classes */}
         {isGroupClass && (
           <div className={styles.groupMembers}>
-            <span className={styles.membersLabel}>أعضاء المجموعة:</span>
+            <span className={styles.membersLabel}>أعضاء الحلقة:</span>
             <div className={styles.membersList}>
               {classItem.students.map((student, index) => (
                 <span

@@ -69,7 +69,7 @@ const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
         <div className={`${baseStyles.modalHeader} ${baseStyles.delete}`}>
           <h2 className={baseStyles.modalTitle}>
             <FaTrash className={baseStyles.titleIcon} />
-            تأكيد حذف المجموعة
+            تأكيد حذف الحلقة
           </h2>
           <button
             className={baseStyles.closeButton}
@@ -85,7 +85,7 @@ const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
             <FaExclamationTriangle className={baseStyles.warningIcon} />
             <div className={baseStyles.warningContent}>
               <h3 className={baseStyles.warningTitle}>
-                هل أنت متأكد من حذف هذه المجموعة؟
+                هل أنت متأكد من حذف هذه الحلقة؟
               </h3>
               <p className={baseStyles.warningText}>
                 لا يمكن التراجع عن هذا الإجراء
@@ -97,7 +97,7 @@ const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
             <h4 className={baseStyles.groupName}>&ldquo;{groupName}&rdquo;</h4>
             <p className={baseStyles.groupId}>المعرف: {groupId}</p>
             <p className={baseStyles.warningText}>
-              سيتم حذف جميع البيانات والأعضاء المرتبطة بهذه المجموعة
+              سيتم حذف جميع البيانات والأعضاء المرتبطة بهذه الحلقة
             </p>
           </div>
 
@@ -132,7 +132,7 @@ const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
               disabled={!isDeleteEnabled}
             >
               <FaTrash className={baseStyles.buttonIcon} />
-              {isLoading ? "جاري الحذف..." : "حذف المجموعة"}
+              {isLoading ? "جاري الحذف..." : "حذف الحلقة"}
             </button>
           </div>
         </div>

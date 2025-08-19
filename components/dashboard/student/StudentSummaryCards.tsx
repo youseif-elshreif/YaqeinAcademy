@@ -4,7 +4,6 @@ import {
   FaCalendarCheck,
   FaHourglassHalf,
   FaBook,
-  FaPercent,
 } from "react-icons/fa";
 
 interface User {
@@ -19,10 +18,10 @@ interface User {
   isVerified?: boolean;
   createdAt?: string;
   avatar?: string;
-  enrolledCourses?: number;
   completedSessions?: number;
   remainingSessions?: number;
-  attendanceRate?: number;
+  attendedLessons?: number;
+  PrivitelessonCredits?: number;
 }
 
 interface StudentSummaryCardsProps {
@@ -33,31 +32,31 @@ const StudentSummaryCards = ({ studentData }: StudentSummaryCardsProps) => {
   const summaryCards = [
     {
       id: 1,
-      title: "الدورات المسجلة",
-      value: studentData.enrolledCourses,
+      title: "عدد الحصص المستحقة",
+      value: studentData.PrivitelessonCredits || 0,
       icon: FaBook,
       color: "primary",
     },
     {
       id: 2,
+      title: "عدد الحصص التي حضرها",
+      value: studentData.attendedLessons || 0,
+      icon: FaBook,
+      color: "primary",
+    },
+    {
+      id: 3,
       title: "الحلقات المكتملة",
-      value: studentData.completedSessions,
+      value: studentData.completedSessions || 0,
       icon: FaCalendarCheck,
       color: "success",
     },
     {
-      id: 3,
+      id: 4,
       title: "الحلقات المتبقية",
-      value: studentData.remainingSessions,
+      value: studentData.remainingSessions || 0,
       icon: FaHourglassHalf,
       color: "warning",
-    },
-    {
-      id: 4,
-      title: "معدل الحضور",
-      value: `${studentData.attendanceRate}%`,
-      icon: FaPercent,
-      color: "info",
     },
   ];
 

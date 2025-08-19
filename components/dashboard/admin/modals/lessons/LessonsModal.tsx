@@ -90,7 +90,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
         <div className={styles.modalHeader}>
           <div className={styles.modalTitle}>
             <FaCalendarCheck className={styles.titleIcon} />
-            حصص مجموعة: {groupName}
+            حصص حلقة: {groupName}
           </div>
           <button onClick={handleClose} className={styles.closeBtn}>
             <FaTimes />
@@ -113,7 +113,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
               <div className={styles.emptyState}>
                 <FaCalendarDay className={styles.emptyIcon} />
                 <h3>لا توجد حصص</h3>
-                <p>لم يتم جدولة أي حصص لهذه المجموعة بعد</p>
+                <p>لم يتم جدولة أي حصص لهذه الحلقة بعد</p>
               </div>
             ) : (
               <div className={styles.lessonsGrid}>

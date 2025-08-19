@@ -201,7 +201,6 @@
 /* ==== TABLE CONTAINER STYLES ==== */
 .tableContainer {
   background: var(--base-bg);
-  border-radius: 0.75rem;
   border: 1px solid var(--border-color);
   margin-bottom: 2rem;
 }
@@ -210,13 +209,11 @@
   padding: 1.5rem;
   border-bottom: 1px solid var(--border-color);
   text-align: center;
-  margin-bottom: 1.5rem;
 }
 
 .title {
   font-size: 1.75rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
   color: var(--primary-color);
 }
 
@@ -234,7 +231,6 @@
   position: relative;
   max-width: 100%;
   scroll-behavior: smooth;
-  border-radius: 8px;
   border: 1px solid var(--border-color);
   background: var(--base-bg);
   transform: rotateX(180deg);
@@ -267,6 +263,10 @@
 
 .tableWrapper:hover::after {
   opacity: 1;
+}
+
+.classTable {
+  min-width: 100%;
 }
 
 .classTable,
@@ -498,6 +498,14 @@
   flex-direction: column;
 }
 
+.mobileCard {
+  background: var(--base-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
 .classCard {
   background: var(--base-bg);
   border: 1px solid var(--border-color);
@@ -513,6 +521,118 @@
   margin-bottom: 1rem;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--border-color);
+}
+
+.cardContent {
+  margin-bottom: 1rem;
+}
+
+.cardRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.cardRow .label {
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 100px;
+}
+
+.cardActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.linkActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.copyBtn,
+.openBtn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary-color);
+  background: transparent;
+  color: var(--primary-color);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.copyBtn:hover,
+.openBtn:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.verificationBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.verified {
+  background: #e8f5e8;
+  color: #2d5a27;
+  border: 1px solid #a8d5a8;
+}
+
+.unverified {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editBtn,
+.deleteBtn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.editBtn {
+  background: var(--secondary-color);
+  color: white;
+}
+
+.editBtn:hover {
+  background: #2980b9;
+}
+
+.deleteBtn {
+  background: #e74c3c;
+  color: white;
+}
+
+.deleteBtn:hover {
+  background: #c0392b;
+}
+
+.teacherInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.teacherName {
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .cardStudentName {
@@ -801,6 +921,29 @@
 
   .mobileCardsContainer {
     display: flex;
+  }
+
+  .cardActions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .linkActions {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .actionButtons {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .copyBtn,
+  .openBtn,
+  .editBtn,
+  .deleteBtn {
+    width: 100%;
+    text-align: center;
   }
 
   .header {

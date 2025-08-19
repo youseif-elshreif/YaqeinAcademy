@@ -90,7 +90,7 @@ const GroupsTable: React.FC = () => {
   const handleEditLink = (groupId: string, currentLink: string) => {
     const newLink = prompt("تعديل رابط الحصة:", currentLink);
     if (newLink && newLink !== currentLink) {
-      console.log("تحديث رابط المجموعة:", groupId, "إلى:", newLink);
+      console.log("تحديث رابط الحلقة:", groupId, "إلى:", newLink);
       // سيتم إضافة منطق التحديث لاحقاً
     }
   };
@@ -158,14 +158,14 @@ const GroupsTable: React.FC = () => {
   return (
     <div className={styles.tableContainer}>
       <div className={styles.header}>
-        <h2 className={styles.title}>المجموعات</h2>
+        <h2 className={styles.title}>الحلقات</h2>
       </div>
       {/* Desktop Table View */}
       <div className={styles.tableWrapper}>
         <table className={styles.classTable}>
           <thead>
             <tr>
-              <th className={styles.firstCell}>اسم المجموعة</th>
+              <th className={styles.firstCell}>اسم الحلقة</th>
               <th>الرقم التعريفي</th>
               <th>الوصف</th>
               <th>المعلم</th>
@@ -297,16 +297,6 @@ const GroupsTable: React.FC = () => {
                       >
                         <FaCopy />
                       </button>
-                      <button
-                        className={`${styles.linkButton} ${styles.addLinkBtn}`}
-                        onClick={() =>
-                          handleEditLink(group._id, group.meetingLink)
-                        }
-                        title="تعديل رابط الحصة"
-                      >
-                        <FaEditIcon />
-                        <span>تعديل</span>
-                      </button>
                     </div>
                   </td>
                   <td>
@@ -342,8 +332,8 @@ const GroupsTable: React.FC = () => {
           }}
         >
           <FiUsers size={48} style={{ marginBottom: "1rem", opacity: 0.5 }} />
-          <h3>لا توجد مجموعات</h3>
-          <p>لم يتم العثور على أي مجموعات مطابقة للبحث</p>
+          <h3>لا توجد حلقات</h3>
+          <p>لم يتم العثور على أي حلقات مطابقة للبحث</p>
         </div>
       )}
     </div>

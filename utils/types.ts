@@ -1,3 +1,69 @@
+export interface Lesson {
+  _id: string;
+  groupId: string;
+  reportId: string[];
+  subject: string;
+  scheduledAt: string;
+  meetingLink: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface LessonManagementItem {
+  id: string;
+  title: string;
+  groupName: string;
+  teacherName: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  status: string;
+  attendanceCount: number;
+  totalStudents: number;
+}
+
+export interface Teacher {
+  numberOflessonsCridets: number;
+  _id: string;
+  userId: string;
+  specialization: string[];
+  meetingLink: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface UserTeacher {
+  country: string;
+  city: string;
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  quranMemorized: string;
+  numOfPartsofQuran: number;
+  isVerified: boolean;
+  freeLessonUsed: boolean;
+  PrivitelessonCredits: number;
+  PubliclessonCredits: number;
+  isEmailVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface TeachersResponse {
+  teachers: Teacher[];
+  userTeahcer: UserTeacher[];
+}
+
+export interface CombinedTeacherData {
+  teacherInfo: Teacher;
+  userInfo: UserTeacher;
+}
 // ==================================================
 // User & Authentication Types
 // ==================================================
@@ -19,16 +85,18 @@ export interface User {
 export interface RegisterData {
   name: string;
   email: string;
-  password: string;
   phone: string;
+  password: string;
   quranMemorized: string;
   numOfPartsofQuran: number;
   age: number;
+  country: string;
+  quranLevel: string;
 }
 
 export interface RegisterFormData {
-  fullName: string;
-  phoneNumber: string;
+  name: string;
+  phone: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -84,7 +152,7 @@ export interface Student {
   absentClasses: number;
   attendedClasses: number;
   rate: number;
-  phoneNumber: string;
+  phone: string;
   groupName: string;
 }
 
@@ -165,7 +233,7 @@ export interface StudentPayment {
 export interface Teacher {
   id: string;
   name: string;
-  phoneNumber: string;
+  phone: string;
   pricePerClass: number;
   totalDueThisMonth: number;
   totalClassesThisMonth: number;
@@ -252,7 +320,7 @@ export interface Lesson {
   date: string;
   startTime: string;
   endTime: string;
-  status: "scheduled" | "completed" | "cancelled";
+  status: string;
   attendanceCount: number;
   totalStudents: number;
 }
@@ -404,7 +472,6 @@ export interface GroupListProps {
 
 export interface UserManagementProps {
   studentData: Student[];
-  teacherData: Teacher[];
 }
 
 export interface StudentAllDataComponentProps {
@@ -563,8 +630,26 @@ export interface AuthContextType {
 
 export interface AdminDashboardContextType {
   groups: any[]; // ✅ إضافة البيانات
+  teachers: TeachersResponse | null;
+  students: any[]; // ✅ بيانات الطلاب
   getTeachers: (token: string) => Promise<any>;
   createTeacher: (token: string, teacherData: any) => Promise<any>;
+  updateMember: (
+    token: string,
+    memberId: string,
+    memberData: any
+  ) => Promise<any>;
+  updateTeacher: (
+    token: string,
+    teacherId: string,
+    teacherData: any
+  ) => Promise<any>;
+  updateStudent: (
+    token: string,
+    studentId: string,
+    studentData: any
+  ) => Promise<any>;
+  deleteTeacher: (token: string, teacherId: string) => Promise<any>;
   createStudent: (studentData: any) => Promise<any>;
   createAdmin: (adminData: any) => Promise<any>;
   createGroup: (token: string, groupData: any) => Promise<any>;
@@ -584,9 +669,32 @@ export interface AdminDashboardContextType {
   getGroups: (token: string) => Promise<any>;
 }
 
+export interface UsualDate {
+  firstDay: string;
+  firstDayTime?: string;
+  secondDay?: string;
+  secondDayTime?: string;
+  thirdDay?: string;
+  thirdDayTime?: string;
+}
+
+export interface UserStats {
+  completedLessons: number;
+  attendedLessons: number;
+  missedLessons: number;
+  GroupName: string;
+  GroupMeetingLink: string;
+  GroupUsualDate: UsualDate;
+  typeOfGroup: string;
+  lessonCredits: number;
+  PrivitelessonCredits: number;
+}
+
 export interface StudentDashboardContextType {
-  getStudentGroup: () => void;
-  studentGroupData: StudentGroupData | null;
+  getUserStats: () => Promise<UserStats>;
+  userStats: UserStats | null;
+  getUserLessons: () => Promise<Lesson[]>;
+  userLessons: Lesson[];
 }
 
 export interface ModalContextType {

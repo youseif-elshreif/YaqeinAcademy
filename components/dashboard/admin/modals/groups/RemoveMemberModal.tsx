@@ -53,11 +53,11 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
       if (targetGroup) {
         setMembers(targetGroup.members);
       } else {
-        setError("لم يتم العثور على المجموعة");
+        setError("لم يتم العثور على الحلقة");
       }
     } catch (error: any) {
       console.error("Error fetching group members:", error);
-      setError("حدث خطأ أثناء جلب أعضاء المجموعة");
+      setError("حدث خطأ أثناء جلب أعضاء الحلقة");
     } finally {
       setLoading(false);
     }
@@ -142,7 +142,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
         <div className={`${baseStyles.modalHeader} ${baseStyles.delete}`}>
           <h2 className={baseStyles.modalTitle}>
             <FaUserMinus className={baseStyles.titleIcon} />
-            حذف عضو من المجموعة
+            حذف عضو من الحلقة
           </h2>
           <button className={baseStyles.closeButton} onClick={onClose}>
             <FaTimes />
@@ -151,7 +151,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
 
         <div className={baseStyles.modalBody}>
           <div className={baseStyles.groupInfo}>
-            <h4 className={baseStyles.groupName}>المجموعة: {groupName}</h4>
+            <h4 className={baseStyles.groupName}>الحلقة: {groupName}</h4>
             <p className={baseStyles.groupId}>المعرف: {groupId}</p>
           </div>
 
@@ -174,7 +174,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
             <div className={baseStyles.emptyContainer}>
               <FaUser className={baseStyles.emptyIcon} />
               <p className={baseStyles.emptyText}>
-                لا يوجد أعضاء في هذه المجموعة
+                لا يوجد أعضاء في هذه الحلقة
               </p>
             </div>
           ) : (
@@ -195,7 +195,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
               </div>
 
               <p className={baseStyles.instructionText}>
-                اختر الأعضاء الذين تريد حذفهم من المجموعة:
+                اختر الأعضاء الذين تريد حذفهم من الحلقة:
               </p>
 
               <div className={baseStyles.membersList}>

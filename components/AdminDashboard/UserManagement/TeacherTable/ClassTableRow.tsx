@@ -48,7 +48,7 @@ const ClassTableRow = ({ teacher }: TeacherItemProps) => {
       </td>
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {teacher.phoneNumber}
+          {teacher.phone}
         </span>
       </td>
       <td className={styles.groupCell}>
@@ -114,13 +114,6 @@ const ClassTableRow = ({ teacher }: TeacherItemProps) => {
             title="نسخ رابط الحصة"
           >
             <FaCopy />
-          </button>
-          <button
-            className={`${styles.linkButton} ${styles.addLinkBtn}`}
-            title="تعديل رابط الحصة"
-          >
-            <FaEdit />
-            <span>تعديل</span>
           </button>
         </div>
       </td>

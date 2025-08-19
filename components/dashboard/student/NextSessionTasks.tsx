@@ -8,11 +8,49 @@ import {
   FaExternalLinkAlt,
   FaCopy,
 } from "react-icons/fa";
-import { getNextSessionDate } from "@/utils/date";
 import { useStudentDashboard } from "@/contexts/StudentDashboardContext";
+import { useEffect } from "react";
 
 const NextSessionTasks = () => {
-  const { studentGroupData } = useStudentDashboard();
+  const { userStats, userLessons, getUserLessons } = useStudentDashboard();
+
+  useEffect(() => {
+    getUserLessons();
+    // eslint-disable-next-line
+  }, []);
+
+  // Function to get next lesson date from userLessons
+  const getNextLesson = () => {
+    if (!userLessons || userLessons.length === 0) return null;
+
+    const now = new Date();
+    const futureLessons = userLessons
+      .filter((lesson) => new Date(lesson.scheduledAt) > now)
+      .sort(
+        (a, b) =>
+          new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime()
+      );
+
+    if (futureLessons.length === 0) return null;
+
+    const nextLesson = futureLessons[0];
+    const lessonDate = new Date(nextLesson.scheduledAt);
+
+    return {
+      date: lessonDate.toLocaleDateString("ar-EG", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      time: lessonDate.toLocaleTimeString("ar-EG", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      dayName: lessonDate.toLocaleDateString("ar-EG", {
+        weekday: "long",
+      }),
+    };
+  };
 
   // Function to copy class link to clipboard
   const handleCopyLink = async (link: string) => {
@@ -62,18 +100,7 @@ const NextSessionTasks = () => {
     ],
   };
 
-  const nextDate = getNextSessionDate(
-    [
-      studentGroupData?.usualDate.firstDay,
-      studentGroupData?.usualDate.secondDay,
-      studentGroupData?.usualDate.thirdDay,
-    ],
-    [
-      studentGroupData?.usualDate.firstDayTime,
-      studentGroupData?.usualDate.secondDayTime,
-      studentGroupData?.usualDate.thirdDayTime,
-    ]
-  );
+  const nextDate = getNextLesson();
   return (
     <div className={styles.tasksContainer}>
       <div className={styles.header}>
@@ -81,19 +108,22 @@ const NextSessionTasks = () => {
         <div className={styles.sessionInfo}>
           <div className={styles.sessionDateTime}>
             <span className={styles.sessionDate}>
-              <FaCalendarAlt /> {nextDate?.date}
+              <FaCalendarAlt />{" "}
+              {nextDate?.dayName
+                ? `${nextDate.dayName} - ${nextDate.date}`
+                : "لا توجد حصص قادمة"}
             </span>
             <span className={styles.sessionTime}>
-              <FaClock /> {nextDate?.time}
+              <FaClock /> {nextDate?.time || "--:--"}
             </span>
           </div>
-          {nextSessionData.classLink && (
+          {userStats?.GroupMeetingLink && (
             <div className={styles.sessionLinkSection}>
               <div className={styles.sessionLinkButtons}>
                 <button
                   className={`${styles.linkButton} ${styles.openLinkBtn}`}
                   onClick={() =>
-                    handleOpenLink(studentGroupData?.meetingLink || "")
+                    handleOpenLink(userStats?.GroupMeetingLink || "")
                   }
                   title="فتح رابط الحصة"
                 >
@@ -103,7 +133,7 @@ const NextSessionTasks = () => {
                 <button
                   className={`${styles.linkButton} ${styles.copyLinkBtn}`}
                   onClick={() =>
-                    handleCopyLink(studentGroupData?.meetingLink || "")
+                    handleCopyLink(userStats?.GroupMeetingLink || "")
                   }
                   title="نسخ رابط الحصة"
                 >

@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { StudentDashboardContextType, StudentGroupData } from "@/utils/types";
+import { StudentDashboardContextType, UserStats, Lesson } from "@/utils/types";
 
 const StudentDashboardContext = createContext<
   StudentDashboardContextType | undefined
@@ -16,10 +16,10 @@ const StudentDashboardContext = createContext<
 export const StudentDashboardProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const [studentGroupData, setStudentGroupData] =
-    useState<StudentGroupData | null>(null);
+  const [userStats, setUserStats] = useState<UserStats | null>(null);
+  const [userLessons, setUserLessons] = useState<Lesson[]>([]);
 
-  const getStudentGroup = useCallback(async () => {
+  const getUserLessons = useCallback(async () => {
     try {
       if (typeof window === "undefined") {
         throw new Error("Not running in browser environment");
@@ -29,30 +29,52 @@ export const StudentDashboardProvider: React.FC<{
         throw new Error("No access token found");
       }
 
-      const response = await api.get(`${API_BASE_URL}/api/user/my-group`, {
+      const response = await api.get(`${API_BASE_URL}/api/user/my-lessons`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("Fetched student group:", response.data.data.usualDate);
-      console.log("Fetched student group:", response.data.data.meetingLink);
-      setStudentGroupData({
-        usualDate: response.data.data.usualDate,
-        meetingLink: response.data.data.meetingLink,
-      });
-      return response.data;
+      setUserLessons(response.data.data);
+      return response.data.data;
     } catch (error) {
-      console.error("Error fetching student group:", error);
+      console.error("Error fetching user lessons:", error);
+      throw error;
+    }
+  }, []);
+
+  const getUserStats = useCallback(async () => {
+    try {
+      if (typeof window === "undefined") {
+        throw new Error("Not running in browser environment");
+      }
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        throw new Error("No access token found");
+      }
+
+      const response = await api.get(`${API_BASE_URL}/api/user/user-stats`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log("Fetched user stats:", response.data.data);
+      setUserStats(response.data.data);
+      return response.data.data;
+    } catch (error) {
+      console.error("Error fetching user stats:", error);
       throw error;
     }
   }, []);
 
   const contextValue = useMemo(
     () => ({
-      getStudentGroup,
-      studentGroupData,
+      getUserStats,
+      userStats,
+      getUserLessons,
+      userLessons,
     }),
-    [getStudentGroup, studentGroupData]
+    [getUserStats, userStats, getUserLessons, userLessons]
   );
 
   return (

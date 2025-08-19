@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
+import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useAuth } from "@/contexts/AuthContext";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import { FaTimes, FaTrash, FaExclamationTriangle } from "react-icons/fa";
 
 const DeleteUserModal: React.FC = () => {
   const { deleteUserModalOpen, closeDeleteUserModal, selectedUserForActions } =
     useAdminModal();
+  const { deleteTeacher } = useAdminDashboardContext();
+  const { token } = useAuth();
 
   const [confirmText, setConfirmText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -30,31 +34,35 @@ const DeleteUserModal: React.FC = () => {
     setIsDeleting(true);
 
     try {
-      const token = localStorage.getItem("accessToken");
       if (!token) {
         console.error("No access token found");
+        alert("لم يتم العثور على رمز المصادقة");
         return;
       }
-
-      // Determine API endpoint based on user type
-      const endpoint =
-        selectedUserForActions.userType === "student"
-          ? `/api/user/profile/${selectedUserForActions.id}`
-          : `/api/teacher/${selectedUserForActions.id}`;
 
       console.log(
         `🗑️ Deleting ${selectedUserForActions.userType}:`,
         selectedUserForActions
       );
-      console.log("API Endpoint:", endpoint);
 
-      // Simulate API call - replace with actual API
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      if (selectedUserForActions.userType === "teacher") {
+        // Use deleteTeacher function for teachers
+        const teacherId =
+          selectedUserForActions.fullData?.teacherInfo?._id ||
+          selectedUserForActions.id;
+        await deleteTeacher(token, teacherId);
+        console.log("✅ Teacher deleted successfully");
+      } else {
+        // For students, you might need to implement deleteStudent function
+        console.log("Student deletion not implemented yet");
+        alert("حذف الطلاب غير متاح حالياً");
+        return;
+      }
 
-      console.log("✅ User deleted successfully");
       handleClose();
     } catch (error: any) {
       console.error("❌ Error deleting user:", error);
+      alert("حدث خطأ أثناء الحذف");
     } finally {
       setIsDeleting(false);
     }
