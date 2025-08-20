@@ -97,13 +97,13 @@ const StudentAllDataComponent: React.FC<StudentAllDataComponentProps> = ({
         <div className={styles.content}>
           <div className={styles.statsSection}>
             <div className={styles.stat}>
-              <span className={styles.statLabel}>إجمالي الحصص</span>
+              <span className={styles.statLabel}>إجمالي الحلقات</span>
               <span className={styles.statValue}>
                 {studentData.classes.length}
               </span>
             </div>
             <div className={styles.stat}>
-              <span className={styles.statLabel}>الحصص المكتملة</span>
+              <span className={styles.statLabel}>الحلقات المكتملة</span>
               <span className={styles.statValue}>
                 {completedClasses.length}
               </span>
@@ -115,7 +115,7 @@ const StudentAllDataComponent: React.FC<StudentAllDataComponentProps> = ({
           </div>
 
           <div className={styles.classesSection}>
-            <h3 className={styles.sectionTitle}>تاريخ الحصص</h3>
+            <h3 className={styles.sectionTitle}>تاريخ الحلقات</h3>
             {studentData.classes.length === 0 ? (
               <div className={styles.emptyState}>
                 <p>لا توجد حصص مسجلة لهذا الطالب</p>

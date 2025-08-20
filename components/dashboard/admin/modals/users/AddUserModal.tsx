@@ -290,7 +290,7 @@ const AddUserModal = () => {
               <form onSubmit={handleSubmit} className={baseStyles.form}>
                 {/* Server Error Display */}
                 {serverError && (
-                  <div className={baseStyles.serverError}>
+                  <div className={baseStyles.serverError} style={{ padding: "0 16px" }}>
                     <ErrorMessage message={serverError} />
                   </div>
                 )}

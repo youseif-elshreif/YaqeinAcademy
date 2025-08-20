@@ -327,6 +327,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
             password: userData.password,
             phone: userData.phone,
             meetingLink: userData.meetingLink,
+            availability: "",
           };
           result = await createTeacher(token, teacherData);
           break;

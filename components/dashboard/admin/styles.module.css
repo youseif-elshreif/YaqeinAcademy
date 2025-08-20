@@ -1268,6 +1268,25 @@
   -o-transform: translate(-50%, -60%);
 }
 
+/* ==== RESPONSIVE VIEW CONTROLS ==== */
+.desktopView {
+  display: block;
+}
+
+.mobileView {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktopView {
+    display: none;
+  }
+
+  .mobileView {
+    display: block;
+  }
+}
+
 .tooltipContainer:hover .groupMembersTooltip {
   opacity: 1;
   visibility: visible;

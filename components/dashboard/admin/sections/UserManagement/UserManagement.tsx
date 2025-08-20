@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiPlus, FiDownload, FiSearch } from "react-icons/fi";
 import StatCard from "@/components/common/UI/StatCard";
 // import api from "@/utils/api";
 import styles from "@/styles/AdminDashboard.module.css";
 import userStyles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
+import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useAuth } from "@/contexts/AuthContext";
 import StudentTable from "./StudentTable/StudentTable";
 import TeacherTable from "./TeacherTable/TeacherTable";
 import DashboardTabs from "@/components/dashboard/student/DashboardTabs";
-import { DashboardStats, ChartData } from "@/utils/types";
-import { FaBook } from "react-icons/fa";
+import { ChartData } from "@/utils/types";
 import { FiUsers, FiUserCheck } from "react-icons/fi";
 import {
   XAxis,
@@ -24,18 +25,9 @@ import {
 
 const UserManagement: React.FC = () => {
   const { openAddUserModal } = useAdminModal();
+  const { stats } = useAdminDashboardContext();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("students");
-  const [stats] = useState<DashboardStats>({
-    totalTeachers: 15,
-    totalStudents: 234,
-    totalLessonsThisMonth: 89,
-    totalIncomeThisMonth: 15000,
-    teacherGrowth: 8.2,
-    studentGrowth: 12.5,
-    lessonGrowth: 5.3,
-    incomeGrowth: 15.7,
-  });
 
   const [chartData] = useState<ChartData>({
     incomeData: [
@@ -118,8 +110,6 @@ const UserManagement: React.FC = () => {
           value={stats.totalStudents}
           label="إجمالي الطلاب"
         />
-
-        <StatCard icon={FaBook} value={20} label="إجمالي الحلقات" />
       </div>
 
       <div className={styles.chartsSection}>

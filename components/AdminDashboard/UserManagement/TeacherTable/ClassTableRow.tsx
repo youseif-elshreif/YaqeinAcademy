@@ -104,14 +104,14 @@ const ClassTableRow = ({ teacher }: TeacherItemProps) => {
         <div className={styles.linkContainer}>
           <button
             className={`${styles.linkButton} ${styles.openLinkBtn}`}
-            title="فتح رابط الحصة"
+            title="فتح رابط الحلقة"
           >
             <FaExternalLinkAlt />
-            <span>دخول الحصة</span>
+            <span>دخول الحلقة</span>
           </button>
           <button
             className={`${styles.linkButton} ${styles.copyLinkBtn}`}
-            title="نسخ رابط الحصة"
+            title="نسخ رابط الحلقة"
           >
             <FaCopy />
           </button>

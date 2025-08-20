@@ -136,7 +136,7 @@ const PostponeClassModal = ({
         onSubmit={handleSubmit}
       >
         <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>تأجيل أو إلغاء الحصة</h2>
+          <h2 className={styles.modalTitle}>تأجيل أو إلغاء الحلقة</h2>
           <button onClick={handleClose} className={styles.closeBtn}>
             <FaTimes />
           </button>
@@ -169,7 +169,7 @@ const PostponeClassModal = ({
                   }
                   className={styles.radioInput}
                 />
-                <span className={styles.radioText}>⏰ تأجيل الحصة</span>
+                <span className={styles.radioText}>⏰ تأجيل الحلقة</span>
               </label>
               <label className={styles.radioLabel}>
                 <input
@@ -183,7 +183,7 @@ const PostponeClassModal = ({
                   className={styles.radioInput}
                 />
                 <span className={styles.radioText}>
-                  <FaBan /> إلغاء الحصة
+                  <FaBan /> إلغاء الحلقة
                 </span>
               </label>
             </div>
@@ -202,7 +202,7 @@ const PostponeClassModal = ({
               className={styles.textarea}
               placeholder={`أدخل سبب ${
                 action === "postponed" ? "تأجيل" : "إلغاء"
-              } الحصة...`}
+              } الحلقة...`}
               rows={4}
               required
             />
@@ -265,11 +265,11 @@ const PostponeClassModal = ({
               </>
             ) : action === "postponed" ? (
               <>
-                <FaClock /> تأجيل الحصة
+                <FaClock /> تأجيل الحلقة
               </>
             ) : (
               <>
-                <FaBan /> إلغاء الحصة
+                <FaBan /> إلغاء الحلقة
               </>
             )}
           </button>

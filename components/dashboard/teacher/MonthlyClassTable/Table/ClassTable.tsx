@@ -15,7 +15,7 @@ const ClassTable = ({ classes }: ClassTableProps) => {
             <th>الطالب / الحلقة</th>
             <th>التاريخ والوقت</th>
             <th>الحالة</th>
-            <th>رابط الحصة</th>
+            <th>رابط الحلقة</th>
             <th>التقييم</th>
             <th>الإجراءات</th>
           </tr>

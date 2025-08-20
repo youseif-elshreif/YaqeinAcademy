@@ -38,7 +38,7 @@ const EditClassLinkModal = ({
     e.preventDefault();
 
     if (!link.trim()) {
-      alert("يرجى إدخال رابط الحصة");
+      alert("يرجى إدخال رابط الحلقة");
       return;
     }
 
@@ -84,7 +84,7 @@ const EditClassLinkModal = ({
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>
             <FaExternalLinkAlt />
-            تعديل رابط الحصة
+            تعديل رابط الحلقة
           </h2>
           <button
             className={styles.closeButton}
@@ -97,7 +97,7 @@ const EditClassLinkModal = ({
 
         <div className={styles.modalBody}>
           <div className={styles.classInfo}>
-            <h3 className={styles.classInfoTitle}>معلومات الحصة:</h3>
+            <h3 className={styles.classInfoTitle}>معلومات الحلقة:</h3>
             <div className={styles.classDetails}>
               <div className={styles.classDetail}>
                 <span className={styles.label}>التاريخ:</span>
@@ -121,7 +121,7 @@ const EditClassLinkModal = ({
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.formGroup}>
               <label htmlFor="classLink" className={styles.label}>
-                رابط الحصة:
+                رابط الحلقة:
               </label>
               <input
                 id="classLink"

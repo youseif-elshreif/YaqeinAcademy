@@ -144,7 +144,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
                             })
                           }
                           className={`${styles.actionBtn} ${styles.editBtn}`}
-                          title="تعديل الحصة"
+                          title="تعديل الحلقة"
                         >
                           <FaEdit />
                         </button>
@@ -158,7 +158,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
                             })
                           }
                           className={`${styles.actionBtn} ${styles.deleteBtn}`}
-                          title="حذف الحصة"
+                          title="حذف الحلقة"
                         >
                           <FaTrash />
                         </button>

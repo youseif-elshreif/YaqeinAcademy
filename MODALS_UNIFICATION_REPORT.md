@@ -35,8 +35,8 @@
 - ✅ `AddGroupModal` - إضافة الحلقات
 - ✅ `AddMembersModal` - إضافة أعضاء للحلقة (أعرض للقوائم)
 - ✅ `GroupActionsModal` - أعمال الحلقة
-- ✅ `AddLessonModal` - إضافة الحصص
-- ✅ `EditLessonModal` - تعديل الحصص
+- ✅ `AddLessonModal` - إضافة الحلقات
+- ✅ `EditLessonModal` - تعديل الحلقات
 
 ### 3. الميزات الموحدة المحدثة:
 

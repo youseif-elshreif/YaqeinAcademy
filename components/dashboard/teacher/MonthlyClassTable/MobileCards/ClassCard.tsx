@@ -141,21 +141,21 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
             </span>
           </div>
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>رابط الحصة:</span>
+            <span className={styles.infoLabel}>رابط الحلقة:</span>
             <div className={styles.infoValue}>
               <div className={styles.cardLinkContainer}>
                 <button
                   className={`${styles.linkButton} ${styles.openLinkBtn} ${styles.cardLinkBtn}`}
                   onClick={() => handleOpenLink(classItem.classLink!)}
-                  title="فتح رابط الحصة"
+                  title="فتح رابط الحلقة"
                 >
                   <FaExternalLinkAlt />
-                  <span>دخول الحصة</span>
+                  <span>دخول الحلقة</span>
                 </button>
                 <button
                   className={`${styles.linkButton} ${styles.copyLinkBtn} ${styles.cardCopyBtn}`}
                   onClick={() => handleCopyLink(classItem.classLink!)}
-                  title="نسخ رابط الحصة"
+                  title="نسخ رابط الحلقة"
                 >
                   <FaCopy />
                 </button>
@@ -196,7 +196,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
                 className={`${styles.baseButton} ${styles.actionBtn} ${styles.completeBtn}`}
                 onClick={() => openCompleteModal(classItem)}
               >
-                إكمال الحصة
+                إكمال الحلقة
               </button>
               <button
                 className={`${styles.baseButton} ${styles.actionBtn} ${styles.postponeBtn}`}

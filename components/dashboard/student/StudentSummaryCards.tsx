@@ -1,10 +1,6 @@
 import StatCard from "@/components/common/UI/StatCard";
 import styles from "./StudentSummaryCards.module.css";
-import {
-  FaCalendarCheck,
-  FaHourglassHalf,
-  FaBook,
-} from "react-icons/fa";
+import { FaCalendarCheck, FaHourglassHalf, FaBook } from "react-icons/fa";
 
 interface User {
   id: string;
@@ -32,14 +28,14 @@ const StudentSummaryCards = ({ studentData }: StudentSummaryCardsProps) => {
   const summaryCards = [
     {
       id: 1,
-      title: "عدد الحصص المستحقة",
+      title: "عدد الحلقات المستحقة",
       value: studentData.PrivitelessonCredits || 0,
       icon: FaBook,
       color: "primary",
     },
     {
       id: 2,
-      title: "عدد الحصص التي حضرها",
+      title: "عدد الحلقات التي حضرها",
       value: studentData.attendedLessons || 0,
       icon: FaBook,
       color: "primary",

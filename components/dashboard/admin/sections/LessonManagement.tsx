@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { FiCalendar, FiPlus, FiUsers, FiCheckCircle } from "react-icons/fi";
+import { useAdminModal } from "@/contexts/AdminModalContext";
 import StatCard from "@/components/common/UI/StatCard";
 import styles from "@/styles/AdminDashboard.module.css";
-import { coursesData } from "@/data/courses";
+import { getLegacyCourses } from "@/data/mockCourses";
 import CoursesGrid from "@/components/common/UI/CoursesGrid/CoursesGrid";
 import { LessonManagementItem } from "@/utils/types";
 
 const LessonManagement: React.FC = () => {
+  const { openAddCourseModal } = useAdminModal();
+  const coursesData = getLegacyCourses(); // Get mock courses data
   const [lessons] = useState<LessonManagementItem[]>([
     {
       id: "1",
@@ -62,7 +65,7 @@ const LessonManagement: React.FC = () => {
       <div className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>إدارة الدورات</h1>
         <button
-          onClick={() => console.log("إنشاء دورة جديدة")}
+          onClick={openAddCourseModal}
           className={`${styles.btn} ${styles.btnPrimary} ${styles.btnWithIcon}`}
         >
           <FiPlus />

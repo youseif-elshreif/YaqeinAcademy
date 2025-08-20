@@ -24,6 +24,14 @@ export const AdminDashboardProvider: React.FC<{
   const [teachers, setTeachers] = useState<TeachersResponse | null>(null);
   // Students state
   const [students, setStudents] = useState<any[]>([]);
+  // Courses state
+  const [courses, setCourses] = useState<any[]>([]);
+  // Stats state
+  const [stats, setStats] = useState({
+    totalTeachers: 0,
+    totalStudents: 0,
+    totalUsers: 0,
+  });
 
   // create teatcher
   const createTeacher = useCallback(async (token: string, teacherData: any) => {
@@ -114,14 +122,38 @@ export const AdminDashboardProvider: React.FC<{
         },
       });
 
-      // Filter only students from the response
+      // Get all users from the response
       const allUsers = response.data.data.users;
+
+      // Filter students
       const studentsOnly = allUsers.filter(
         (user: any) => user.role === "student"
       );
 
-      console.log("Fetched students:", studentsOnly);
+      // Calculate stats
+      const totalTeachers = allUsers.filter(
+        (user: any) => user.role === "teacher"
+      ).length;
+      const totalStudents = studentsOnly.length;
+      const totalUsers = allUsers.length;
+
+      // Set students data
       setStudents(studentsOnly);
+
+      // Set stats data
+      setStats({
+        totalTeachers,
+        totalStudents,
+        totalUsers,
+      });
+
+      console.log("Fetched students:", studentsOnly);
+      console.log("Dashboard stats:", {
+        totalTeachers,
+        totalStudents,
+        totalUsers,
+      });
+
       return studentsOnly;
     } catch (error) {
       console.error("Error fetching students:", error);
@@ -527,12 +559,163 @@ export const AdminDashboardProvider: React.FC<{
     []
   );
 
+  // Course Functions
+  // Get all courses
+  const getCourses = useCallback(async (token: string) => {
+    try {
+      if (typeof window === "undefined") {
+        throw new Error("Not running in browser environment");
+      }
+
+      const response = await api.get(`${API_BASE_URL}/api/course`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("Fetched courses:", response.data);
+
+      // Save data in state to update UI automatically
+      setCourses(response.data);
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching courses:", error);
+      throw error;
+    }
+  }, []);
+
+  // Get course by ID
+  const getCourseByIdAPI = useCallback(
+    async (token: string, courseId: string) => {
+      try {
+        if (typeof window === "undefined") {
+          throw new Error("Not running in browser environment");
+        }
+
+        const response = await api.get(
+          `${API_BASE_URL}/api/course/${courseId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Fetched course:", response.data);
+
+        return response.data;
+      } catch (error) {
+        console.error("Error fetching course:", error);
+        throw error;
+      }
+    },
+    []
+  );
+
+  // Create course
+  const createCourse = useCallback(
+    async (token: string, courseData: any) => {
+      try {
+        if (typeof window === "undefined") {
+          throw new Error("Not running in browser environment");
+        }
+
+        const response = await api.post(
+          `${API_BASE_URL}/api/course`,
+          courseData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("Created course:", response.data);
+
+        // Update courses list
+        const updatedCourses = await getCourses(token);
+        setCourses(updatedCourses);
+
+        return response.data;
+      } catch (error) {
+        console.error("Error creating course:", error);
+        throw error;
+      }
+    },
+    [getCourses]
+  );
+
+  // Update course
+  const updateCourse = useCallback(
+    async (token: string, courseId: string, courseData: any) => {
+      try {
+        if (typeof window === "undefined") {
+          throw new Error("Not running in browser environment");
+        }
+
+        const response = await api.put(
+          `${API_BASE_URL}/api/course/${courseId}`,
+          courseData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("Updated course:", response.data);
+
+        // Update courses list
+        const updatedCourses = await getCourses(token);
+        setCourses(updatedCourses);
+
+        return response.data;
+      } catch (error) {
+        console.error("Error updating course:", error);
+        throw error;
+      }
+    },
+    [getCourses]
+  );
+
+  // Delete course
+  const deleteCourse = useCallback(
+    async (token: string, courseId: string) => {
+      try {
+        if (typeof window === "undefined") {
+          throw new Error("Not running in browser environment");
+        }
+
+        const response = await api.delete(
+          `${API_BASE_URL}/api/course/${courseId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Deleted course:", response.data);
+
+        // Update courses list
+        const updatedCourses = await getCourses(token);
+        setCourses(updatedCourses);
+
+        return response.data;
+      } catch (error) {
+        console.error("Error deleting course:", error);
+        throw error;
+      }
+    },
+    [getCourses]
+  );
+
   // Memoize context value to prevent unnecessary re-renders
   const contextValue = useMemo(
     () => ({
       groups, // ✅ البيانات متاحة للجميع
       teachers, // ✅ بيانات المعلمين
       students, // ✅ بيانات الطلاب
+      courses, // ✅ بيانات الكورسات
+      stats, // ✅ الإحصائيات
       getTeachers,
       createTeacher,
       updateMember,
@@ -548,11 +731,19 @@ export const AdminDashboardProvider: React.FC<{
       removeGroupMember,
       getStudents,
       getGroups,
+      // Course functions
+      getCourses,
+      getCourseByIdAPI,
+      createCourse,
+      updateCourse,
+      deleteCourse,
     }),
     [
       groups, // ✅ التحديث عند تغيير البيانات
       teachers, // ✅ التحديث عند تغيير بيانات المعلمين
       students, // ✅ التحديث عند تغيير بيانات الطلاب
+      courses, // ✅ التحديث عند تغيير بيانات الكورسات
+      stats, // ✅ التحديث عند تغيير الإحصائيات
       getTeachers,
       createTeacher,
       updateMember,
@@ -568,6 +759,12 @@ export const AdminDashboardProvider: React.FC<{
       removeGroupMember,
       getStudents,
       getGroups,
+      // Course functions
+      getCourses,
+      getCourseByIdAPI,
+      createCourse,
+      updateCourse,
+      deleteCourse,
     ]
   );
 

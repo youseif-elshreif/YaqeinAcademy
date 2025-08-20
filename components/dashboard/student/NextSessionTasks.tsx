@@ -125,17 +125,17 @@ const NextSessionTasks = () => {
                   onClick={() =>
                     handleOpenLink(userStats?.GroupMeetingLink || "")
                   }
-                  title="فتح رابط الحصة"
+                  title="فتح رابط الحلقة"
                 >
                   <FaExternalLinkAlt />
-                  <span>دخول الحصة</span>
+                  <span>دخول الحلقة</span>
                 </button>
                 <button
                   className={`${styles.linkButton} ${styles.copyLinkBtn}`}
                   onClick={() =>
                     handleCopyLink(userStats?.GroupMeetingLink || "")
                   }
-                  title="نسخ رابط الحصة"
+                  title="نسخ رابط الحلقة"
                 >
                   <FaCopy />
                 </button>

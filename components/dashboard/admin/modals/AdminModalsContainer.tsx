@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import AddUserModal from "./users/AddUserModal";
 import AddCourseModal from "./courses/AddCourseModal";
-import EditCourseModal from "./courses/EditCourseModal";
 import DeleteCourseModal from "./courses/DeleteCourseModal";
 import AddGroupModal from "./groups/AddGroupModal";
 import AddMembersModal from "./groups/AddMembersModal";
@@ -123,19 +122,13 @@ const AdminModalsContainer: React.FC = () => {
       {addUserModalOpen && <AddUserModal />}
 
       {/* Add Course Modal */}
-      {addCourseModalOpen && (
-        <AddCourseModal
-          isOpen={addCourseModalOpen}
-          onClose={closeAddCourseModal}
-        />
-      )}
+      {addCourseModalOpen && <AddCourseModal />}
 
       {/* Edit Course Modal */}
       {editCourseModalOpen && (
-        <EditCourseModal
-          isOpen={editCourseModalOpen}
-          onClose={closeEditCourseModal}
-          courseId={selectedCourseId}
+        <AddCourseModal
+          isEditMode={true}
+          editCourseId={selectedCourseId?.toString()}
         />
       )}
 

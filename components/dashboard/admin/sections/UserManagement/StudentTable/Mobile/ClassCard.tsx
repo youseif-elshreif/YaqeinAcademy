@@ -1,4 +1,4 @@
-import { FaTag } from "react-icons/fa";
+import { FaCog } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 
@@ -31,13 +31,6 @@ const ClassCard = ({ studentItem }: ClassCardProps) => {
             {studentItem.name}
           </h3>
         </div>
-        <span
-          className={`${styles.statusBadge} ${
-            studentItem.isVerified ? styles.successBadge : styles.warningBadge
-          }`}
-        >
-          {studentItem.isVerified ? "مفعل" : "غير مفعل"}
-        </span>
       </div>
 
       <div className={styles.cardBody}>
@@ -56,6 +49,13 @@ const ClassCard = ({ studentItem }: ClassCardProps) => {
             <span className={styles.infoLabel}>الرقم التعريفي:</span>
             <span className={styles.infoValue}>
               {studentItem._id.slice(-6)}
+            </span>
+          </div>
+
+          <div className={styles.infoItem}>
+            <span className={styles.infoLabel}>عدد الحلقات المستحقة:</span>
+            <span className={styles.infoValue}>
+              {studentItem.PrivitelessonCredits || 0}
             </span>
           </div>
 
@@ -99,7 +99,7 @@ const ClassCard = ({ studentItem }: ClassCardProps) => {
                 onClick={handleActionsClick}
                 className={`${styles.linkButton} ${styles.openLinkBtn}`}
               >
-                <FaTag />
+                <FaCog />
                 <span className={styles.iconButtonText}>الإجراءات</span>
               </button>
             </span>

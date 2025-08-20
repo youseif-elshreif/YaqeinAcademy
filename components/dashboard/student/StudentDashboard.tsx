@@ -90,8 +90,8 @@ function StudentDashboard() {
   // Tabs configuration
   const tabs = [
     // { id: "schedule", label: "الجدول الأسبوعي" },
-    { id: "next-session", label: "متطلب الحصة القادمة" },
-    { id: "lessons", label: "الحصص" },
+    { id: "next-session", label: "متطلب الحلقة القادمة" },
+    { id: "lessons", label: "الحلقات" },
     { id: "profile", label: "الملف الشخصي" },
   ];
 
@@ -187,21 +187,21 @@ function StudentDashboard() {
                   )}
                 </div>
                 <div className={styles.whatDone}>
-                  <span className={styles.linkText}>رابط الحصة</span>
+                  <span className={styles.linkText}>رابط الحلقة</span>
                   <div className={styles.linkContainer}>
                     {" "}
                     <button
                       className={`${styles.linkButton} ${styles.openLinkBtn}`}
                       onClick={() => handleOpenLink(groupMeetingLink || "")}
-                      title="فتح رابط الحصة"
+                      title="فتح رابط الحلقة"
                     >
                       <FaExternalLinkAlt />
-                      <span>دخول الحصة</span>
+                      <span>دخول الحلقة</span>
                     </button>
                     <button
                       className={`${styles.linkButton} ${styles.copyLinkBtn}`}
                       onClick={() => handleCopyLink(groupMeetingLink || "")}
-                      title="نسخ رابط الحصة"
+                      title="نسخ رابط الحلقة"
                     >
                       <FaCopy />
                     </button>

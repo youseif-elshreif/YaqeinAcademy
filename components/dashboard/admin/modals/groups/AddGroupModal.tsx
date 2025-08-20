@@ -69,7 +69,8 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
 }) => {
   const { closeAddGroupModal, closeEditGroupModal, openAddMembersModal } =
     useAdminModal();
-  const { createGroup, updateGroup, getGroups } = useAdminDashboardContext();
+  const { createGroup, updateGroup, getGroups, getTeachers } =
+    useAdminDashboardContext();
 
   const [formData, setFormData] = useState<GroupFormData>({
     name: "",
@@ -85,6 +86,39 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [fieldErrors, setFieldErrors] = useState<GroupFormErrors>({});
+  const [teachers, setTeachers] = useState<any[]>([]);
+  const [loadingTeachers, setLoadingTeachers] = useState(false);
+
+  // Load teachers data when component mounts
+  const fetchTeachers = useCallback(async () => {
+    try {
+      setLoadingTeachers(true);
+      const token = localStorage.getItem("accessToken");
+      if (!token) return;
+
+      const teachersData = await getTeachers(token);
+
+      // Create teachers list with combined data
+      const combinedTeachers = teachersData.teachers
+        .filter(
+          (teacher: any) => teacher.userId && typeof teacher.userId === "object"
+        )
+        .map((teacher: any) => ({
+          id: teacher._id,
+          name: teacher.userId.name,
+        }));
+
+      setTeachers(combinedTeachers);
+    } catch (error) {
+      console.error("Error fetching teachers:", error);
+    } finally {
+      setLoadingTeachers(false);
+    }
+  }, [getTeachers]);
+
+  useEffect(() => {
+    fetchTeachers();
+  }, [fetchTeachers]);
 
   // Load group data when in edit mode
   const fetchGroupData = useCallback(async () => {
@@ -253,9 +287,9 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       newErrors.name = "اسم الحلقة يجب أن يكون 3 أحرف على الأقل";
     }
 
-    // معرف المدرس
+    // المدرس
     if (!formData.teacherId.trim()) {
-      newErrors.teacherId = "معرف المدرس مطلوب";
+      newErrors.teacherId = "يجب اختيار المدرس";
     }
 
     // الوصف (اختياري، لكن لو موجود يبقى أقل من 500 حرف)
@@ -432,7 +466,9 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
             </div>
           ) : (
             <form onSubmit={handleSubmit} className={styles.form}>
-              <ErrorMessage message={errorMessage} type="error" />
+              <div style={{ padding: "0 16px" }}>
+                <ErrorMessage message={errorMessage} type="error" />
+              </div>
 
               <div className={baseStyles.formGrid}>
                 {/* اسم الحلقة */}
@@ -474,20 +510,29 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                   </select>
                 </div>
 
-                {/* معرف المدرس */}
+                {/* المدرس */}
                 <div className={baseStyles.inputGroup}>
-                  <label className={baseStyles.label}>معرف المدرس</label>
-                  <input
-                    type="text"
+                  <label className={baseStyles.label}>اختيار المدرس</label>
+                  <select
                     name="teacherId"
                     value={formData.teacherId}
                     onChange={handleInputChange}
-                    className={`${baseStyles.textInput} ${
+                    className={`${baseStyles.select} ${
                       fieldErrors.teacherId ? styles.inputError : ""
                     }`}
-                    placeholder="أدخل معرف المدرس"
-                    disabled={isSubmitting}
-                  />
+                    disabled={isSubmitting || loadingTeachers}
+                  >
+                    <option value="">
+                      {loadingTeachers
+                        ? "جاري تحميل المدرسين..."
+                        : "اختر المدرس"}
+                    </option>
+                    {teachers.map((teacher) => (
+                      <option key={teacher.id} value={teacher.id}>
+                        {teacher.name}
+                      </option>
+                    ))}
+                  </select>
                   {fieldErrors.teacherId && (
                     <span className={styles.fieldError}>
                       {fieldErrors.teacherId}

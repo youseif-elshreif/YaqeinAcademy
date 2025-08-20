@@ -8,10 +8,9 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: var(--primary-light);
+  background: var(--separator-bg);
   color: var(--primary-color);
   padding: 1rem;
-  border-radius: 8px;
   margin-bottom: 1.5rem;
   font-weight: 600;
 }

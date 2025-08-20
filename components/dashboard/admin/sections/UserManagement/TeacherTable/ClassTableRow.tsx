@@ -1,16 +1,19 @@
 import { FaExternalLinkAlt, FaCopy, FaCog, FaEdit } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
-import { TeacherItemProps } from "@/utils/types";
+import { CombinedTeacherData } from "@/utils/types";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 
-const ClassTableRow = ({ teacher }: TeacherItemProps) => {
+interface ClassTableRowProps {
+  teacher: any;
+}
+
+const ClassTableRow = ({ teacher }: ClassTableRowProps) => {
   const { openUserActionsModal } = useAdminModal();
 
   // Function to copy class link to clipboard
   const handleCopyLink = async (link: string) => {
     try {
       await navigator.clipboard.writeText(link);
-      // You can add a toast notification here
       console.log("تم نسخ الرابط بنجاح");
     } catch (err) {
       console.error("فشل في نسخ الرابط:", err);
@@ -24,104 +27,54 @@ const ClassTableRow = ({ teacher }: TeacherItemProps) => {
 
   const handleActionsClick = () => {
     openUserActionsModal({
-      id: teacher.id,
-      name: teacher.name,
+      id: teacher._id,
+      name: teacher.userId.name,
       userType: "teacher",
-      fullData: teacher, // تمرير البيانات الكاملة
+      fullData: teacher,
     });
   };
 
   return (
-    <tr key={teacher.id} className={styles.tableRow}>
+    <tr key={teacher._id} className={styles.tableRow}>
       <td className={`${styles.studentCell} ${styles.firstCell}`}>
-        <span
-          className={`${styles.studentName} ${styles.clickableTextWithChildren} ${styles.darkColor}`}
-        >
-          {teacher.name}
-        </span>
+        <div className={styles.teacherInfo}>
+          <span className={styles.teacherName}>{teacher.userId.name}</span>
+        </div>
       </td>
-
-      <td className={styles.groupCell}>
-        <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {teacher.id}
-        </span>
-      </td>
-      <td className={styles.groupCell}>
-        <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {teacher.phone}
-        </span>
-      </td>
-      <td className={styles.groupCell}>
-        <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {teacher.pricePerClass} ج.م
-        </span>
-      </td>
-      <td className={styles.groupCell}>
-        <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {teacher.totalDueThisMonth} ج.م
-        </span>
-      </td>
-      <td className={styles.groupCell}>
-        <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {teacher.totalClassesThisMonth}
-        </span>
-      </td>
-      <td className={styles.groupCell}>
-        <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {teacher.completedClasses}
-        </span>
-      </td>
-      <td className={styles.groupCell}>
-        <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {teacher.remainingClasses}
-        </span>
-      </td>
-      <td className={styles.groupCell}>
-        <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {teacher.postponedClasses}
-        </span>
-      </td>
-      <td className={styles.groupCell}>
-        <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {teacher.canceledClasses}
-        </span>
-      </td>
-      <td className={styles.groupCell}>
-        <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {teacher.absentClasses}
-        </span>
-      </td>
-      <td className={styles.linkContainer}>
-        <button
-          onClick={handleActionsClick}
-          className={`${styles.linkButton} ${styles.openLinkBtn}`}
-        >
-          <FaCog />
-          <span className={styles.iconButtonText}>الإجراءات</span>
-        </button>
-      </td>
+      <td>{teacher.userId.email}</td>
+      <td>{teacher.userId.phone}</td>
       <td className={styles.linkCell}>
         <div className={styles.linkContainer}>
           <button
             className={`${styles.linkButton} ${styles.openLinkBtn}`}
-            title="فتح رابط الحصة"
+            onClick={() => handleOpenLink(teacher.teacherInfo.meetingLink)}
+            title="فتح رابط الحلقة"
           >
             <FaExternalLinkAlt />
-            <span>دخول الحصة</span>
+            <span>دخول الحلقة</span>
           </button>
           <button
             className={`${styles.linkButton} ${styles.copyLinkBtn}`}
-            title="نسخ رابط الحصة"
+            onClick={() => handleCopyLink(teacher.teacherInfo.meetingLink)}
+            title="نسخ رابط الحلقة"
           >
             <FaCopy />
           </button>
         </div>
       </td>
-
-      <td className={styles.groupCell}>
-        <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {teacher.assignedGroups.join(",")}
-        </span>
+      <td>{teacher.numberOflessonsCridets}</td>
+      <td>
+        {new Date(teacher.createdAt).toLocaleDateString("ar-EG")}
+      </td>
+      <td>
+        <button
+          onClick={handleActionsClick}
+          className={`${styles.linkButton} ${styles.openLinkBtn}`}
+          title="إجراءات المعلم"
+        >
+          <FaCog />
+          <span className={styles.iconButtonText}>الإجراءات</span>
+        </button>
       </td>
     </tr>
   );

@@ -168,15 +168,15 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
           <button
             className={`${styles.linkButton} ${styles.openLinkBtn}`}
             onClick={() => handleOpenLink(classItem.classLink!)}
-            title="فتح رابط الحصة"
+            title="فتح رابط الحلقة"
           >
             <FaExternalLinkAlt />
-            <span>دخول الحصة</span>
+            <span>دخول الحلقة</span>
           </button>
           <button
             className={`${styles.linkButton} ${styles.copyLinkBtn}`}
             onClick={() => handleCopyLink(classItem.classLink!)}
-            title="نسخ رابط الحصة"
+            title="نسخ رابط الحلقة"
           >
             <FaCopy />
           </button>
@@ -206,7 +206,7 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
                 className={`${styles.baseButton} ${styles.actionBtn} ${styles.completeBtn}`}
                 onClick={() => openCompleteModal(classItem)}
               >
-                إكمال الحصة
+                إكمال الحلقة
               </button>
               <button
                 className={`${styles.baseButton} ${styles.actionBtn} ${styles.postponeBtn}`}

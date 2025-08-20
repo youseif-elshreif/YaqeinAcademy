@@ -34,7 +34,7 @@ export const Lessons = () => {
       <div className={styles.taskSection}>
         <div className={styles.sectionHeader}>
           <h3 className={styles.sectionTitle}>
-            <FaCalendarAlt /> جدول الحصص
+            <FaCalendarAlt /> جدول الحلقات
           </h3>
           <span className={styles.taskCount}>{userLessons.length} حصة</span>
         </div>

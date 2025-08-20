@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
@@ -35,7 +35,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
   onSuccess,
 }) => {
   const { closeAddMembersModal } = useAdminModal();
-  const { addGroupMember, getGroups } = useAdminDashboardContext();
+  const { addGroupMember, getGroups, getStudents } = useAdminDashboardContext();
 
   const [memberInputs, setMemberInputs] = useState<MemberInput[]>([
     { id: "1", memberId: "" },
@@ -44,6 +44,10 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
   const [isClosing, setIsClosing] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [fieldErrors, setFieldErrors] = useState<MemberFormErrors>({});
+  const [students, setStudents] = useState<Array<{ id: string; name: string }>>(
+    []
+  );
+  const [loadingStudents, setLoadingStudents] = useState(false);
 
   const handleClose = () => {
     setIsClosing(true);
@@ -52,6 +56,36 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
       setIsClosing(false);
     }, 300);
   };
+
+  // Load students data when component mounts
+  const fetchStudents = useCallback(async () => {
+    try {
+      setLoadingStudents(true);
+      const token = localStorage.getItem("accessToken");
+      if (!token) return;
+
+      const studentsData = await getStudents(token);
+      console.log("Raw students data:", studentsData);
+
+      // studentsData is already an array of users with role: "student"
+      // No need to filter or access .students property
+      const combinedStudents = studentsData.map((student: any) => ({
+        id: student._id,
+        name: student.name,
+      }));
+
+      console.log("Combined students:", combinedStudents);
+      setStudents(combinedStudents);
+    } catch (error) {
+      console.error("Error fetching students:", error);
+    } finally {
+      setLoadingStudents(false);
+    }
+  }, [getStudents]);
+
+  useEffect(() => {
+    fetchStudents();
+  }, [fetchStudents]);
 
   const handleInputChange = (id: string, value: string) => {
     setMemberInputs((prev) =>
@@ -91,14 +125,11 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
       if (input.memberId.trim() === "") {
         // For empty fields, only show error if it's the only input
         if (memberInputs.length === 1) {
-          newErrors[input.id] = "معرف العضو مطلوب";
+          newErrors[input.id] = "يجب اختيار طالب";
         }
       } else {
         hasValidInput = true;
-        // Validate member ID format if needed
-        if (input.memberId.trim().length < 3) {
-          newErrors[input.id] = "معرف العضو يجب أن يكون 3 أحرف على الأقل";
-        }
+        // No need for length validation since we're using select dropdown
       }
     });
 
@@ -107,7 +138,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
     );
 
     if (!hasValidInput) {
-      setErrorMessage("يرجى إدخال معرف عضو واحد على الأقل");
+      setErrorMessage("يرجى اختيار طالب واحد على الأقل");
       setFieldErrors(newErrors);
       return false;
     }
@@ -222,8 +253,8 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
               <div className={styles.instructionsBox}>
                 <p className={styles.instructions}>
                   {groupType === "private"
-                    ? "يمكنك إضافة عضو واحد فقط للحلقة الخاصة"
-                    : "يمكنك إضافة عدة أعضاء للحلقة العامة"}
+                    ? "يمكنك إضافة طالب واحد فقط للحلقة الخاصة"
+                    : "يمكنك إضافة عدة طلاب للحلقة العامة"}
                 </p>
               </div>
 
@@ -232,20 +263,29 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
                   <div key={input.id} className={baseStyles.inputGroup}>
                     <div className={styles.inputWrapper}>
                       <label className={baseStyles.label}>
-                        معرف العضو {index + 1}:
+                        اختيار الطالب {index + 1}:
                       </label>
-                      <input
-                        type="text"
+                      <select
                         value={input.memberId}
                         onChange={(e) =>
                           handleInputChange(input.id, e.target.value)
                         }
-                        className={`${baseStyles.textInput} ${
+                        className={`${baseStyles.select} ${
                           fieldErrors[input.id] ? baseStyles.inputError : ""
                         }`}
-                        placeholder="أدخل معرف العضو"
-                        disabled={isSubmitting}
-                      />
+                        disabled={isSubmitting || loadingStudents}
+                      >
+                        <option value="">
+                          {loadingStudents
+                            ? "جاري تحميل الطلاب..."
+                            : "اختر الطالب"}
+                        </option>
+                        {students.map((student) => (
+                          <option key={student.id} value={student.id}>
+                            {student.name}
+                          </option>
+                        ))}
+                      </select>
                       {fieldErrors[input.id] && (
                         <span className={baseStyles.errorText}>
                           {fieldErrors[input.id]}
@@ -276,7 +316,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
                 disabled={isSubmitting}
               >
                 <FaPlus />
-                إضافة عضو آخر
+                إضافة طالب آخر
               </button>
             )}
 

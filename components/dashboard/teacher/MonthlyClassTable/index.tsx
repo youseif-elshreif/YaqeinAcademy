@@ -20,7 +20,7 @@ const MonthlyClassTable = ({ initialClasses }: MonthlyClassTableProps) => {
     <div className={styles.tableContainer}>
       <div className={styles.header}>
         <h2 className={styles.title}>حصص الشهر الحالي</h2>
-        <p className={styles.subtitle}>إدارة الحصص والمتابعة مع الطلاب</p>
+        <p className={styles.subtitle}>إدارة الحلقات والمتابعة مع الطلاب</p>
       </div>
 
       {/* Desktop Table View */}

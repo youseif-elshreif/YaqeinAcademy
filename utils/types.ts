@@ -27,9 +27,10 @@ export interface LessonManagementItem {
 export interface Teacher {
   numberOflessonsCridets: number;
   _id: string;
-  userId: string;
+  userId: string | null | UserTeacher;
   specialization: string[];
   meetingLink: string;
+  availability?: string;
   createdAt: string;
   updatedAt: string;
   __v: number;
@@ -628,10 +629,18 @@ export interface AuthContextType {
   isAuthenticated: boolean;
 }
 
+export interface AdminDashboardStats {
+  totalTeachers: number;
+  totalStudents: number;
+  totalUsers: number;
+}
+
 export interface AdminDashboardContextType {
   groups: any[]; // ✅ إضافة البيانات
   teachers: TeachersResponse | null;
   students: any[]; // ✅ بيانات الطلاب
+  courses: any[]; // ✅ بيانات الكورسات
+  stats: AdminDashboardStats;
   getTeachers: (token: string) => Promise<any>;
   createTeacher: (token: string, teacherData: any) => Promise<any>;
   updateMember: (
@@ -667,6 +676,16 @@ export interface AdminDashboardContextType {
   ) => Promise<any>;
   getStudents: (token: string) => Promise<any>;
   getGroups: (token: string) => Promise<any>;
+  // Course functions
+  getCourses: (token: string) => Promise<any>;
+  getCourseByIdAPI: (token: string, courseId: string) => Promise<any>;
+  createCourse: (token: string, courseData: any) => Promise<any>;
+  updateCourse: (
+    token: string,
+    courseId: string,
+    courseData: any
+  ) => Promise<any>;
+  deleteCourse: (token: string, courseId: string) => Promise<any>;
 }
 
 export interface UsualDate {

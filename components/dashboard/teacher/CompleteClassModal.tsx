@@ -345,7 +345,7 @@ const CompleteClassModal = ({
       >
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>
-            {step === 1 ? "إكمال الحصة" : "تحديد المطلوب للحصة القادمة"}
+            {step === 1 ? "إكمال الحلقة" : "تحديد المطلوب للحصة القادمة"}
           </h2>
           <button onClick={handleClose} className={styles.closeBtn}>
             <FaTimes />
@@ -450,12 +450,12 @@ const CompleteClassModal = ({
                 {isSubmitting ? (
                   <>
                     <span className={styles.spinner}></span>
-                    {isGroup ? "جاري الحفظ..." : "جاري إكمال الحصة..."}
+                    {isGroup ? "جاري الحفظ..." : "جاري إكمال الحلقة..."}
                   </>
                 ) : isGroup ? (
                   "حفظ البيانات"
                 ) : (
-                  "حفظ وإكمال الحصة"
+                  "حفظ وإكمال الحلقة"
                 )}
               </button>
               <button

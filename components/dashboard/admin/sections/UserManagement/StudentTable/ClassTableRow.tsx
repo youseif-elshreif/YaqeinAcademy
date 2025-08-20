@@ -44,7 +44,7 @@ const ClassTableRow = ({ studentitem }: ClassTableRowProps) => {
       </td>
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem._id.slice(-6)}
+          {studentitem.PrivitelessonCredits}
         </span>
       </td>
       <td className={styles.groupCell}>
@@ -70,15 +70,6 @@ const ClassTableRow = ({ studentitem }: ClassTableRowProps) => {
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
           {formatDate(studentitem.createdAt)}
-        </span>
-      </td>
-      <td className={styles.groupCell}>
-        <span
-          className={`${styles.studentName} ${
-            studentitem.isVerified ? styles.successColor : styles.warningColor
-          }`}
-        >
-          {studentitem.isVerified ? "مفعل" : "غير مفعل"}
         </span>
       </td>
       <td className={styles.linkContainer}>

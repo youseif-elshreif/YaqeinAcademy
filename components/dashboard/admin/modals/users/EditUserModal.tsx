@@ -62,7 +62,7 @@ const EditUserModal: React.FC = () => {
     if (!selectedUserData) return null;
 
     // Check if it's from teacher table (has teacherInfo and userInfo)
-    if (selectedUserData.teacherInfo && selectedUserData.userInfo) {
+    if (selectedUserData.meetingLink) {
       return "teacher";
     }
 
@@ -87,11 +87,13 @@ const EditUserModal: React.FC = () => {
       // Handle different data structures
       let userData;
 
-      if (selectedUserData.teacherInfo && selectedUserData.userInfo) {
+      if (selectedUserData.meetingLink) {
         // Teacher data from combined structure
         userData = {
-          ...selectedUserData.userInfo,
-          meetingLink: selectedUserData.teacherInfo.meetingLink,
+          name: selectedUserData.userId.name,
+          email: selectedUserData.userId.email,
+          phone: selectedUserData.userId.phone,
+          meetingLink: selectedUserData.meetingLink,
         };
       } else if (selectedUserData.fullData) {
         // Data from fullData property
@@ -268,8 +270,8 @@ const EditUserModal: React.FC = () => {
 
       // Get user ID
       let userId;
-      if (selectedUserData.teacherInfo && selectedUserData.userInfo) {
-        userId = selectedUserData.userInfo._id;
+      if (selectedUserData.meetingLink) {
+        userId = selectedUserData._id;
       } else if (selectedUserData.fullData) {
         userId = selectedUserData.fullData._id || selectedUserData.fullData.id;
       } else {
@@ -378,7 +380,10 @@ const EditUserModal: React.FC = () => {
             <form onSubmit={handleSubmit} className={baseStyles.form}>
               {/* Server Error Display */}
               {serverError && (
-                <div className={baseStyles.serverError}>
+                <div
+                  className={baseStyles.serverError}
+                  style={{ padding: "0 16px" }}
+                >
                   <ErrorMessage message={serverError} />
                 </div>
               )}

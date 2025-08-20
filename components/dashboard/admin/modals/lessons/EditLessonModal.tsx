@@ -48,7 +48,7 @@ const EditLessonModal: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // TODO: إضافة منطق تحديث الحصة
+      // TODO: إضافة منطق تحديث الحلقة
       console.log("Updating lesson:", selectedLessonData?.id, formData);
 
       // محاكاة API call
@@ -89,7 +89,7 @@ const EditLessonModal: React.FC = () => {
         <div className={baseStyles.modalHeader}>
           <div className={baseStyles.modalTitle}>
             <FaEdit className={baseStyles.titleIcon} />
-            تعديل الحصة
+            تعديل الحلقة
           </div>
           <button
             onClick={handleClose}

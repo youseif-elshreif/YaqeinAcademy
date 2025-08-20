@@ -438,7 +438,7 @@ const TeacherDashboard = () => {
         <title>لوحة تحكم المعلم</title>
         <meta
           name="description"
-          content="لوحة تحكم المعلم لإدارة الحصص والطلاب"
+          content="لوحة تحكم المعلم لإدارة الحلقات والطلاب"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta

@@ -1,10 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
+import { FiUsers } from "react-icons/fi";
 import { useAuth } from "@/contexts/AuthContext";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import ClassTableRow from "./ClassTableRow";
 import MobileClassCards from "./Mobile/MobileClassCards";
 import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import SkeletonTable from "@/components/dashboard/admin/components/SkeletonTable";
+import SkeletonCards from "@/components/dashboard/admin/components/SkeletonCards";
 
 const StudentTable = () => {
   const { token } = useAuth();
@@ -33,14 +36,22 @@ const StudentTable = () => {
 
   if (loading) {
     return (
-      <div className={styles.tableContainer}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>الطلاب</h2>
+      <>
+        {/* Desktop Skeleton */}
+        <div className={styles.desktopView}>
+          <SkeletonTable rows={5} columns={10} title="الطلاب" />
         </div>
-        <div style={{ textAlign: "center", padding: "2rem" }}>
-          <p>جاري تحميل بيانات الطلاب...</p>
+
+        {/* Mobile Skeleton */}
+        <div className={styles.mobileView}>
+          <div className={styles.tableContainer}>
+            <div className={styles.header}>
+              <h2 className={styles.title}>الطلاب</h2>
+            </div>
+            <SkeletonCards cards={3} type="student" />
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -67,34 +78,50 @@ const StudentTable = () => {
       <div className={styles.header}>
         <h2 className={styles.title}>الطلاب</h2>
       </div>
-      {/* Desktop Table View */}
-      <div className={styles.tableWrapper}>
-        <table className={styles.classTable}>
-          <thead>
-            <tr>
-              <th className={styles.firstCell}>الاسم</th>
-              <th>البريد الإلكتروني</th>
-              <th>رقم الهاتف</th>
-              <th>الرقم التعريفي</th>
-              <th>العمر</th>
-              <th>الدولة</th>
-              <th>حفظ القرآن</th>
-              <th>عدد الأجزاء</th>
-              <th>تاريخ التسجيل</th>
-              <th>حالة التحقق</th>
-              <th>الإجراءات</th>
-            </tr>
-          </thead>
-          <tbody>
-            {students.map((student: any) => (
-              <ClassTableRow key={student._id} studentitem={student} />
-            ))}
-          </tbody>
-        </table>
-      </div>
 
-      {/* Mobile Cards View */}
-      <MobileClassCards Students={students} />
+      {students.length === 0 ? (
+        <div
+          style={{
+            textAlign: "center",
+            padding: "2rem",
+            color: "var(--text-light)",
+          }}
+        >
+          <FiUsers size={48} style={{ marginBottom: "1rem", opacity: 0.5 }} />
+          <h3>لا يوجد طلاب</h3>
+          <p>لم يتم العثور على أي طلاب مسجلين حاليًا</p>
+        </div>
+      ) : (
+        <>
+          {/* Desktop Table View */}
+          <div className={styles.tableWrapper}>
+            <table className={styles.classTable}>
+              <thead>
+                <tr>
+                  <th className={styles.firstCell}>الاسم</th>
+                  <th>البريد الإلكتروني</th>
+                  <th>رقم الهاتف</th>
+                  <th>عدد الحلقات المستحقة</th>
+                  <th>العمر</th>
+                  <th>الدولة</th>
+                  <th>حفظ القرآن</th>
+                  <th>عدد الأجزاء</th>
+                  <th>تاريخ التسجيل</th>
+                  <th>الإجراءات</th>
+                </tr>
+              </thead>
+              <tbody>
+                {students.map((student: any) => (
+                  <ClassTableRow key={student._id} studentitem={student} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile Cards View */}
+          <MobileClassCards Students={students} />
+        </>
+      )}
     </div>
   );
 };

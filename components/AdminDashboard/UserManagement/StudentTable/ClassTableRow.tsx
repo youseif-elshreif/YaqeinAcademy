@@ -92,7 +92,7 @@ const ClassTableRow = ({ studentitem }: ClassTableRowProps) => {
           <span className={`${styles.lightColor}`}>-</span>
         )}
       </td>
-      <td className={styles.groupCell}>عرض تفاصيل الحصص</td>
+      <td className={styles.groupCell}>عرض تفاصيل الحلقات</td>
 
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>

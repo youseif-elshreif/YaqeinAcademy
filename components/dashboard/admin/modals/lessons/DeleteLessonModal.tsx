@@ -28,7 +28,7 @@ const DeleteLessonModal: React.FC = () => {
     setIsDeleting(true);
 
     try {
-      // TODO: إضافة منطق حذف الحصة
+      // TODO: إضافة منطق حذف الحلقة
       console.log("Deleting lesson:", selectedLessonData?.id);
 
       // محاكاة API call
@@ -70,7 +70,7 @@ const DeleteLessonModal: React.FC = () => {
         <div className={`${baseStyles.modalHeader} ${baseStyles.delete}`}>
           <div className={baseStyles.modalTitle}>
             <FaTrash className={baseStyles.titleIcon} />
-            حذف الحصة
+            حذف الحلقة
           </div>
           <button
             onClick={handleClose}
@@ -86,7 +86,7 @@ const DeleteLessonModal: React.FC = () => {
             <FaExclamationTriangle className={baseStyles.warningIcon} />
             <div className={baseStyles.warningContent}>
               <h3 className={baseStyles.warningTitle}>
-                هل أنت متأكد من حذف هذه الحصة؟
+                هل أنت متأكد من حذف هذه الحلقة؟
               </h3>
               <p className={baseStyles.warningText}>
                 لا يمكن التراجع عن هذا الإجراء
@@ -95,7 +95,7 @@ const DeleteLessonModal: React.FC = () => {
           </div>
 
           <div className={styles.lessonDetails}>
-            <h4 className={styles.detailsTitle}>تفاصيل الحصة:</h4>
+            <h4 className={styles.detailsTitle}>تفاصيل الحلقة:</h4>
             <div className={styles.detailsGrid}>
               <div className={styles.detailItem}>
                 <span className={styles.detailLabel}>اليوم:</span>
@@ -155,7 +155,7 @@ const DeleteLessonModal: React.FC = () => {
               ) : (
                 <>
                   <FaTrash />
-                  حذف الحصة
+                  حذف الحلقة
                 </>
               )}
             </button>

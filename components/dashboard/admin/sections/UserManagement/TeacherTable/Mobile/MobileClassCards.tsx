@@ -1,12 +1,16 @@
 import ClassCard from "./ClassCard";
 import styles from "@/components/dashboard/admin/styles.module.css";
-import { TeacherListProps, Teacher } from "@/utils/types";
+import { CombinedTeacherData } from "@/utils/types";
 
-const MobileClassCards = ({ Teachers }: TeacherListProps) => {
+interface MobileTeacherCardsProps {
+  teachers: any[];
+}
+
+const MobileClassCards = ({ teachers }: MobileTeacherCardsProps) => {
   return (
     <div className={styles.mobileCardsContainer}>
-      {Teachers.map((teacher: Teacher) => (
-        <ClassCard key={teacher.id} teacher={teacher} />
+      {teachers.map((teacher: any) => (
+        <ClassCard key={teacher._id} teacher={teacher} />
       ))}
     </div>
   );

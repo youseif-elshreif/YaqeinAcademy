@@ -38,7 +38,7 @@ const AddLessonModal: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // TODO: إضافة منطق حفظ الحصة
+      // TODO: إضافة منطق حفظ الحلقة
       console.log("Adding lesson:", formData);
 
       // محاكاة API call
@@ -159,7 +159,7 @@ const AddLessonModal: React.FC = () => {
                 ) : (
                   <>
                     <FaSave />
-                    إضافة الحصة
+                    إضافة الحلقة
                   </>
                 )}
               </button>
