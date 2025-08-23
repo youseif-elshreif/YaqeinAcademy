@@ -670,7 +670,7 @@ export interface AdminDashboardContextType {
     studentData: any
   ) => Promise<any>;
   deleteTeacher: (token: string, teacherId: string) => Promise<any>;
-  createStudent: (studentData: any) => Promise<any>;
+  createStudent: (token: string, studentData: any) => Promise<any>;
   createAdmin: (adminData: any) => Promise<any>;
   addCreditsToStudent: (
     token: string,

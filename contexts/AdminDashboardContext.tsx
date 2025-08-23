@@ -265,21 +265,29 @@ export const AdminDashboardProvider: React.FC<{
     [getTeachers]
   );
 
-  //create students
-  const createStudent = useCallback(async (studentData: any) => {
+  // create student (as admin)
+  const createStudent = useCallback(async (token: string, studentData: any) => {
     try {
       if (typeof window === "undefined") {
         throw new Error("Not running in browser environment");
       }
 
+      // Ensure role is student by default
+      const payload = { role: "student", ...studentData };
+
       const response = await api.post(
-        `${API_BASE_URL}/api/auth/register`,
-        studentData
+        `${API_BASE_URL}/api/admin/members`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      console.log("Created student:", response.data);
+      console.log("Created student via admin members:", response.data);
       return response.data;
     } catch (error) {
-      console.error("Error creating student:", error);
+      console.error("Error creating student via admin members:", error);
       throw error;
     }
   }, []);

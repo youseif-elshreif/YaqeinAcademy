@@ -375,7 +375,10 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
             numOfPartsofQuran: userData.numOfPartsofQuran || 0,
             quranLevel: userData.quranLevel || "",
           };
-          result = await createStudent(studentData);
+          if (!token) {
+            throw new Error("No authentication token available");
+          }
+          result = await createStudent(token, studentData);
           break;
 
         default:
@@ -394,10 +397,15 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
       }
 
       // For students, automatically open credits modal
-      if (userType === "student" && result && result.user && result.user.id) {
+      // Try to extract created student id from different possible shapes
+      const createdStudentId =
+        (result && result.user && (result.user.id || result.user._id)) ||
+        (result && (result.id || result._id));
+
+      if (userType === "student" && createdStudentId) {
         setTimeout(() => {
           openAddCreditsModal({
-            userId: result.user.id,
+            userId: createdStudentId,
             name: userData.name,
           });
         }, 500);
