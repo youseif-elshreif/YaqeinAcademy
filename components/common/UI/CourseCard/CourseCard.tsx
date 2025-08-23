@@ -3,40 +3,48 @@
 import styles from "./CourseCard.module.css";
 import { FaTag } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
-import { useAdminModal } from "@/contexts/AdminModalContext";
 
 interface CourseCardProps {
-  id?: number;
+  id?: string; // Changed from number to string
   title: string;
-  teacherName: string;
   startDate: string;
-  duration: string;
   shortDescription: string;
   showBtn?: boolean;
   isAdminView?: boolean;
+  onEdit?: () => void;
+  onDelete?: () => void;
+  telegramLink?: string;
+  duration?: string;
 }
 
 const CourseCard = ({
-  id,
   title,
-  teacherName,
   startDate,
-  duration,
   shortDescription,
   showBtn,
   isAdminView = false,
+  onEdit,
+  onDelete,
+  telegramLink,
+  duration,
 }: CourseCardProps) => {
-  const { openEditCourseModal, openDeleteCourseModal } = useAdminModal();
-
   const handleEdit = () => {
-    if (isAdminView && id) {
-      openEditCourseModal(id);
+    if (isAdminView && onEdit) {
+      onEdit();
     }
   };
 
   const handleDelete = () => {
-    if (isAdminView && id) {
-      openDeleteCourseModal(id);
+    if (isAdminView && onDelete) {
+      onDelete();
+    }
+  };
+
+  const handleBookNow = () => {
+    if (telegramLink) {
+      window.open(telegramLink, "_blank");
+    } else {
+      console.log("لا يوجد رابط تليجرام متاح");
     }
   };
 
@@ -45,7 +53,6 @@ const CourseCard = ({
       {/* edite and delete btns */}
       <div className={styles.cardHeader}>
         <h3 className={styles.title}>{title}</h3>
-        <p className={styles.teacher}>الأستاذ: {teacherName}</p>
       </div>
 
       <div className={styles.cardBody}>
@@ -57,7 +64,7 @@ const CourseCard = ({
             <span className={styles.value}>{startDate}</span>
           </div>
           <div className={styles.infoItem}>
-            <span className={styles.label}>المدة:</span>
+            <span className={styles.label}>مدة الدورة:</span>
             <span className={styles.value}>{duration}</span>
           </div>
         </div>
@@ -65,7 +72,10 @@ const CourseCard = ({
 
       {showBtn && (
         <div className={styles.cardFooter}>
-          <button className={`btn-primary ${styles.bookButton}`}>
+          <button
+            className={`btn-primary ${styles.bookButton}`}
+            onClick={handleBookNow}
+          >
             احجز الآن
           </button>
         </div>

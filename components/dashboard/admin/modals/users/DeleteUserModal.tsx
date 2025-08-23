@@ -3,7 +3,14 @@ import { useAdminModal } from "@/contexts/AdminModalContext";
 import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
 import { useAuth } from "@/contexts/AuthContext";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
-import { FaTimes, FaTrash, FaExclamationTriangle } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
+import {
+  ModalContainer,
+  ModalHeader,
+  ModalActions,
+  WarningPanel,
+  ConfirmTextInput,
+} from "@/components/common/Modal";
 
 const DeleteUserModal: React.FC = () => {
   const { deleteUserModalOpen, closeDeleteUserModal, selectedUserForActions } =
@@ -71,109 +78,79 @@ const DeleteUserModal: React.FC = () => {
   const isDeleteEnabled =
     confirmText.trim().toLowerCase() === "حذف" && !isDeleting;
 
+  const actions = [
+    {
+      label: "إلغاء",
+      onClick: handleClose,
+      variant: "secondary" as const,
+      disabled: isDeleting,
+    },
+    {
+      label: isDeleting
+        ? "جاري الحذف..."
+        : `حذف ${
+            selectedUserForActions.userType === "student" ? "الطالب" : "المعلم"
+          }`,
+      onClick: handleDelete,
+      variant: "danger" as const,
+      disabled: !isDeleteEnabled,
+      icon: <FaTrash />,
+    },
+  ];
+
   return (
-    <div
-      className={`${baseStyles.modalOverlay} ${
-        isClosing ? baseStyles.fadeOut : ""
-      }`}
-      onClick={handleClose}
+    <ModalContainer
+      isOpen={deleteUserModalOpen}
+      isClosing={isClosing}
+      variant="delete"
+      size="medium"
     >
-      <div
-        className={`${baseStyles.modal} ${
-          isClosing ? baseStyles.modalSlideOut : ""
+      <ModalHeader
+        title={`تأكيد حذف ${
+          selectedUserForActions.userType === "student" ? "الطالب" : "المعلم"
         }`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className={`${baseStyles.modalHeader} ${baseStyles.delete}`}>
-          <h2 className={baseStyles.modalTitle}>
-            <FaTrash className={baseStyles.titleIcon} />
-            تأكيد حذف{" "}
-            {selectedUserForActions.userType === "student"
-              ? "الطالب"
-              : "المعلم"}
-          </h2>
-          <button
-            onClick={handleClose}
-            className={baseStyles.closeButton}
-            disabled={isDeleting}
-          >
-            <FaTimes />
-          </button>
+        icon={<FaTrash />}
+        onClose={handleClose}
+        disabled={isDeleting}
+        variant="delete"
+      />
+
+      <div className={baseStyles.modalBody}>
+        <WarningPanel
+          title={`هل أنت متأكد من حذف هذا ${
+            selectedUserForActions.userType === "student" ? "الطالب" : "المعلم"
+          }؟`}
+          text="لا يمكن التراجع عن هذا الإجراء"
+        />
+
+        <div className={baseStyles.groupInfo}>
+          <h4 className={baseStyles.groupName}>
+            {selectedUserForActions.name}
+          </h4>
+          <p className={baseStyles.groupId}>
+            المعرف: {selectedUserForActions.id}
+          </p>
+          <p className={baseStyles.warningText}>
+            نوع المستخدم:{" "}
+            {selectedUserForActions.userType === "student" ? "طالب" : "معلم"}
+          </p>
         </div>
 
-        <div className={baseStyles.modalBody}>
-          <div className={baseStyles.warningContainer}>
-            <FaExclamationTriangle className={baseStyles.warningIcon} />
-            <div className={baseStyles.warningContent}>
-              <h3 className={baseStyles.warningTitle}>
-                هل أنت متأكد من حذف هذا{" "}
-                {selectedUserForActions.userType === "student"
-                  ? "الطالب"
-                  : "المعلم"}
-                ؟
-              </h3>
-              <p className={baseStyles.warningText}>
-                لا يمكن التراجع عن هذا الإجراء
-              </p>
-            </div>
-          </div>
+        <ConfirmTextInput
+          label={
+            <>
+              للحذف، اكتب “<strong>حذف</strong>” في المربع أدناه:
+            </>
+          }
+          value={confirmText}
+          onChange={setConfirmText}
+          placeholder="حذف"
+          disabled={isDeleting}
+        />
 
-          <div className={baseStyles.groupInfo}>
-            <h4 className={baseStyles.groupName}>
-              {selectedUserForActions.name}
-            </h4>
-            <p className={baseStyles.groupId}>
-              المعرف: {selectedUserForActions.id}
-            </p>
-            <p className={baseStyles.warningText}>
-              نوع المستخدم:{" "}
-              {selectedUserForActions.userType === "student" ? "طالب" : "معلم"}
-            </p>
-          </div>
-
-          <div className={baseStyles.confirmationInput}>
-            <label htmlFor="confirmText" className={baseStyles.confirmLabel}>
-              للحذف، اكتب &ldquo;<strong>حذف</strong>&rdquo; في المربع أدناه:
-            </label>
-            <input
-              id="confirmText"
-              type="text"
-              value={confirmText}
-              onChange={(e) => setConfirmText(e.target.value)}
-              placeholder="حذف"
-              className={baseStyles.textInput}
-              disabled={isDeleting}
-            />
-          </div>
-
-          <div className={baseStyles.formActions}>
-            <button
-              onClick={handleClose}
-              className={baseStyles.cancelButton}
-              disabled={isDeleting}
-            >
-              إلغاء
-            </button>
-            <button
-              onClick={handleDelete}
-              className={`${baseStyles.deleteButton} ${
-                !isDeleteEnabled ? baseStyles.disabled : ""
-              }`}
-              disabled={!isDeleteEnabled}
-            >
-              <FaTrash className={baseStyles.buttonIcon} />
-              {isDeleting
-                ? "جاري الحذف..."
-                : `حذف ${
-                    selectedUserForActions.userType === "student"
-                      ? "الطالب"
-                      : "المعلم"
-                  }`}
-            </button>
-          </div>
-        </div>
+        <ModalActions actions={actions} alignment="right" />
       </div>
-    </div>
+    </ModalContainer>
   );
 };
 

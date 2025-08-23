@@ -4,13 +4,12 @@ import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import styles from "./AddMembersModal.module.css";
 import {
-  FaTimes,
-  FaUserPlus,
-  FaPlus,
-  FaMinus,
-  FaSave,
-  FaExclamationTriangle,
-} from "react-icons/fa";
+  ModalContainer,
+  ModalHeader,
+  ModalActions,
+  ErrorDisplay,
+} from "@/components/common/Modal";
+import { FaUserPlus, FaPlus, FaMinus, FaSave } from "react-icons/fa";
 
 interface AddMembersModalProps {
   groupId: string;
@@ -208,146 +207,119 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
     }
   };
 
+  const actions = [
+    {
+      label: "إلغاء",
+      onClick: handleClose,
+      variant: "secondary" as const,
+      disabled: isSubmitting,
+    },
+    {
+      label: "إضافة الأعضاء",
+      onClick: () => {},
+      variant: "primary" as const,
+      disabled: isSubmitting,
+      icon: <FaSave />,
+      type: "submit" as const,
+    },
+  ];
+
   return (
-    <div
-      className={`${baseStyles.modalOverlay} ${
-        isClosing ? baseStyles.fadeOut : ""
-      }`}
-    >
-      <div
-        className={`${baseStyles.modal} ${
-          isClosing ? baseStyles.modalSlideOut : ""
-        }`}
-      >
-        <div className={baseStyles.modalHeader}>
-          <h2 className={baseStyles.modalTitle}>
-            <FaUserPlus className={baseStyles.titleIcon} />
-            إضافة أعضاء للحلقة
-          </h2>
-          <button
-            onClick={handleClose}
-            className={baseStyles.closeButton}
-            disabled={isSubmitting}
-          >
-            <FaTimes />
-          </button>
+    <ModalContainer isOpen={true} isClosing={isClosing} variant="add">
+      <ModalHeader
+        title="إضافة أعضاء للحلقة"
+        icon={<FaUserPlus />}
+        onClose={handleClose}
+        disabled={isSubmitting}
+        variant="add"
+      />
+
+      <div className={baseStyles.modalBody}>
+        <div className={styles.groupInfo}>
+          <h3 className={styles.groupName}>{groupName}</h3>
+          <span className={styles.groupType}>
+            {groupType === "private" ? "حلقة خاصة" : "حلقة عامة"}
+          </span>
         </div>
 
-        <div className={baseStyles.modalBody}>
-          <div className={styles.groupInfo}>
-            <h3 className={styles.groupName}>{groupName}</h3>
-            <span className={styles.groupType}>
-              {groupType === "private" ? "حلقة خاصة" : "حلقة عامة"}
-            </span>
-          </div>
+        <form onSubmit={handleSubmit} className={baseStyles.form}>
+          <ErrorDisplay message={errorMessage} />
 
-          <form onSubmit={handleSubmit} className={baseStyles.form}>
-            {errorMessage && (
-              <div className={baseStyles.errorMessage}>
-                <FaExclamationTriangle />
-                {errorMessage}
-              </div>
-            )}
+          <div className={styles.modalBody}>
+            <div className={styles.instructionsBox}>
+              <p className={styles.instructions}>
+                {groupType === "private"
+                  ? "يمكنك إضافة طالب واحد فقط للحلقة الخاصة"
+                  : "يمكنك إضافة عدة طلاب للحلقة العامة"}
+              </p>
+            </div>
 
-            <div className={styles.modalBody}>
-              <div className={styles.instructionsBox}>
-                <p className={styles.instructions}>
-                  {groupType === "private"
-                    ? "يمكنك إضافة طالب واحد فقط للحلقة الخاصة"
-                    : "يمكنك إضافة عدة طلاب للحلقة العامة"}
-                </p>
-              </div>
-
-              <div className={styles.membersInputs}>
-                {memberInputs.map((input, index) => (
-                  <div key={input.id} className={baseStyles.inputGroup}>
-                    <div className={styles.inputWrapper}>
-                      <label className={baseStyles.label}>
-                        اختيار الطالب {index + 1}:
-                      </label>
-                      <select
-                        value={input.memberId}
-                        onChange={(e) =>
-                          handleInputChange(input.id, e.target.value)
-                        }
-                        className={`${baseStyles.select} ${
-                          fieldErrors[input.id] ? baseStyles.inputError : ""
-                        }`}
-                        disabled={isSubmitting || loadingStudents}
-                      >
-                        <option value="">
-                          {loadingStudents
-                            ? "جاري تحميل الطلاب..."
-                            : "اختر الطالب"}
+            <div className={styles.membersInputs}>
+              {memberInputs.map((input, index) => (
+                <div key={input.id} className={baseStyles.inputGroup}>
+                  <div className={styles.inputWrapper}>
+                    <label className={baseStyles.label}>
+                      اختيار الطالب {index + 1}:
+                    </label>
+                    <select
+                      value={input.memberId}
+                      onChange={(e) =>
+                        handleInputChange(input.id, e.target.value)
+                      }
+                      className={`${baseStyles.select} ${
+                        fieldErrors[input.id] ? baseStyles.inputError : ""
+                      }`}
+                      disabled={isSubmitting || loadingStudents}
+                    >
+                      <option value="">
+                        {loadingStudents
+                          ? "جاري تحميل الطلاب..."
+                          : "اختر الطالب"}
+                      </option>
+                      {students.map((student) => (
+                        <option key={student.id} value={student.id}>
+                          {student.name}
                         </option>
-                        {students.map((student) => (
-                          <option key={student.id} value={student.id}>
-                            {student.name}
-                          </option>
-                        ))}
-                      </select>
-                      {fieldErrors[input.id] && (
-                        <span className={baseStyles.errorText}>
-                          {fieldErrors[input.id]}
-                        </span>
-                      )}
-                    </div>
-
-                    {memberInputs.length > 1 && (
-                      <button
-                        type="button"
-                        onClick={() => removeMemberInput(input.id)}
-                        className={styles.removeBtn}
-                        disabled={isSubmitting}
-                      >
-                        <FaMinus />
-                      </button>
+                      ))}
+                    </select>
+                    {fieldErrors[input.id] && (
+                      <span className={baseStyles.errorText}>
+                        {fieldErrors[input.id]}
+                      </span>
                     )}
                   </div>
-                ))}
-              </div>
-            </div>
 
-            {groupType === "public" && (
-              <button
-                type="button"
-                onClick={addMemberInput}
-                className={styles.addBtn}
-                disabled={isSubmitting}
-              >
-                <FaPlus />
-                إضافة طالب آخر
-              </button>
-            )}
-
-            <div className={baseStyles.formActions}>
-              <button
-                type="button"
-                onClick={handleClose}
-                className={baseStyles.cancelButton}
-                disabled={isSubmitting}
-              >
-                إلغاء
-              </button>
-              <button
-                type="submit"
-                className={`${baseStyles.submitButton}`}
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <span className={styles.loading}>جارٍ الإضافة...</span>
-                ) : (
-                  <>
-                    <FaSave />
-                    إضافة الأعضاء
-                  </>
-                )}
-              </button>
+                  {memberInputs.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeMemberInput(input.id)}
+                      className={styles.removeBtn}
+                      disabled={isSubmitting}
+                    >
+                      <FaMinus />
+                    </button>
+                  )}
+                </div>
+              ))}
             </div>
-          </form>
-        </div>
+          </div>
+
+          {groupType === "public" && (
+            <button
+              type="button"
+              onClick={addMemberInput}
+              className={styles.addBtn}
+              disabled={isSubmitting}
+            >
+              <FaPlus />
+              إضافة طالب آخر
+            </button>
+          )}
+
+          <ModalActions actions={actions} alignment="right" />
+        </form>
       </div>
-    </div>
+    </ModalContainer>
   );
 };
 

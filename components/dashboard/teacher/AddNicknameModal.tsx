@@ -1,6 +1,13 @@
 import { useState } from "react";
 import styles from "./AddNicknameModal.module.css";
-import { FaTag, FaTimes, FaSave } from "react-icons/fa";
+import { FaTag, FaSave } from "react-icons/fa";
+import {
+  ModalContainer,
+  ModalHeader,
+  ModalActions,
+  FormField,
+  ErrorDisplay,
+} from "@/components/common/Modal";
 
 interface StudentData {
   studentId: number;
@@ -22,6 +29,7 @@ const AddNicknameModal = ({
   const [nickname, setNickname] = useState(studentData.nickname || "");
   const [isClosing, setIsClosing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,29 +68,34 @@ const AddNicknameModal = ({
     }, 280); // Match the animation duration
   };
 
-  return (
-    <div
-      className={`${styles.modalOverlay} ${isClosing ? styles.fadeOut : ""}`}
-      onClick={handleClose}
-    >
-      <form
-        className={`${styles.modal} ${isClosing ? styles.modalSlideOut : ""}`}
-        onClick={(e) => e.stopPropagation()}
-        onSubmit={handleSubmit}
-      >
-        <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>
-            <FaTag /> إضافة/تعديل اللقب
-          </h2>
-          <button
-            type="button"
-            onClick={handleClose}
-            className={styles.closeBtn}
-          >
-            <FaTimes />
-          </button>
-        </div>
+  const actions = [
+    {
+      label: "إلغاء",
+      onClick: handleClose,
+      variant: "secondary" as const,
+      disabled: isSubmitting,
+    },
+    {
+      label: isSubmitting ? "جاري الحفظ" : "حفظ اللقب",
+      onClick: () => {},
+      variant: "primary" as const,
+      disabled: isSubmitting,
+      loading: isSubmitting,
+      icon: <FaSave />,
+      type: "submit" as const,
+    },
+  ];
 
+  return (
+    <ModalContainer isOpen={true} isClosing={isClosing} variant="add">
+      <ModalHeader
+        title="إضافة/تعديل اللقب"
+        icon={<FaTag />}
+        onClose={handleClose}
+        disabled={isSubmitting}
+        variant="add"
+      />
+      <form onSubmit={handleSubmit}>
         <div className={styles.modalBody}>
           <div className={styles.studentInfo}>
             <p>
@@ -96,54 +109,28 @@ const AddNicknameModal = ({
           </div>
 
           <div className={styles.inputSection}>
-            <label className={styles.inputLabel} htmlFor="nickname">
-              اللقب الجديد:
-            </label>
-            <input
-              id="nickname"
+            <FormField
+              label="اللقب الجديد"
+              name="nickname"
               type="text"
               value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-              className={styles.textInput}
+              onChange={(e) => {
+                setNickname(e.target.value);
+                if (error) setError("");
+              }}
               placeholder="أدخل لقباً مناسباً للطالب..."
-              maxLength={20}
               required
               disabled={isSubmitting}
             />
+            <ErrorDisplay message={error || undefined} />
             <div className={styles.inputHint}>
               سيساعدك اللقب في التعرف على الطالب بسهولة أكبر
             </div>
           </div>
         </div>
-
-        <div className={styles.modalFooter}>
-          <button
-            type="button"
-            onClick={handleClose}
-            className={styles.cancelBtn}
-            disabled={isSubmitting}
-          >
-            إلغاء
-          </button>
-          <button
-            type="submit"
-            className={styles.saveBtn}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <>
-                <span className={styles.spinner}></span>
-                جاري الحفظ
-              </>
-            ) : (
-              <>
-                <FaSave /> حفظ اللقب
-              </>
-            )}
-          </button>
-        </div>
+        <ModalActions actions={actions} alignment="right" />
       </form>
-    </div>
+    </ModalContainer>
   );
 };
 

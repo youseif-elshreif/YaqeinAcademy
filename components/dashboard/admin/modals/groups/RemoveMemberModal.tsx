@@ -1,13 +1,13 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
-import {
-  FaTimes,
-  FaUserMinus,
-  FaUser,
-  FaExclamationTriangle,
-} from "react-icons/fa";
+import { FaUserMinus, FaUser } from "react-icons/fa";
 import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
+import {
+  ModalContainer,
+  ModalHeader,
+  ModalActions,
+} from "@/components/common/Modal";
 
 interface Member {
   _id: string;
@@ -128,145 +128,124 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
     }
   };
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
+  // Backdrop click handled by ModalContainer
 
   if (!isOpen) return null;
 
   return (
-    <div className={baseStyles.modalOverlay} onClick={handleBackdropClick}>
-      <div className={baseStyles.modal} onClick={(e) => e.stopPropagation()}>
-        <div className={`${baseStyles.modalHeader} ${baseStyles.delete}`}>
-          <h2 className={baseStyles.modalTitle}>
-            <FaUserMinus className={baseStyles.titleIcon} />
-            حذف عضو من الحلقة
-          </h2>
-          <button className={baseStyles.closeButton} onClick={onClose}>
-            <FaTimes />
-          </button>
+    <ModalContainer isOpen={true} variant="delete">
+      <ModalHeader
+        title="حذف عضو من الحلقة"
+        icon={<FaUserMinus />}
+        onClose={onClose}
+        variant="delete"
+      />
+
+      <div className={baseStyles.modalBody}>
+        <div className={baseStyles.groupInfo}>
+          <h4 className={baseStyles.groupName}>الحلقة: {groupName}</h4>
+          <p className={baseStyles.groupId}>المعرف: {groupId}</p>
         </div>
 
-        <div className={baseStyles.modalBody}>
-          <div className={baseStyles.groupInfo}>
-            <h4 className={baseStyles.groupName}>الحلقة: {groupName}</h4>
-            <p className={baseStyles.groupId}>المعرف: {groupId}</p>
+        {loading ? (
+          <div className={baseStyles.loadingContainer}>
+            <div className={baseStyles.spinner}></div>
+            <p>جاري تحميل الأعضاء...</p>
           </div>
+        ) : error ? (
+          <div className={baseStyles.errorContainer}>
+            <p className={baseStyles.errorMessage}>{error}</p>
+            <button
+              onClick={fetchGroupMembers}
+              className={baseStyles.secondaryButton}
+            >
+              إعادة المحاولة
+            </button>
+          </div>
+        ) : members.length === 0 ? (
+          <div className={baseStyles.emptyContainer}>
+            <FaUser className={baseStyles.emptyIcon} />
+            <p className={baseStyles.emptyText}>لا يوجد أعضاء في هذه الحلقة</p>
+          </div>
+        ) : (
+          <div className={baseStyles.membersContainer}>
+            <div className={baseStyles.selectAllContainer}>
+              <label className={baseStyles.selectAllLabel}>
+                <input
+                  type="checkbox"
+                  checked={
+                    selectedMemberIds.length === members.length &&
+                    members.length > 0
+                  }
+                  onChange={handleSelectAll}
+                  className={baseStyles.checkboxInput}
+                />
+                تحديد الكل ({selectedMemberIds.length} من {members.length})
+              </label>
+            </div>
 
-          {loading ? (
-            <div className={baseStyles.loadingContainer}>
-              <div className={baseStyles.spinner}></div>
-              <p>جاري تحميل الأعضاء...</p>
-            </div>
-          ) : error ? (
-            <div className={baseStyles.errorContainer}>
-              <p className={baseStyles.errorMessage}>{error}</p>
-              <button
-                onClick={fetchGroupMembers}
-                className={baseStyles.secondaryButton}
-              >
-                إعادة المحاولة
-              </button>
-            </div>
-          ) : members.length === 0 ? (
-            <div className={baseStyles.emptyContainer}>
-              <FaUser className={baseStyles.emptyIcon} />
-              <p className={baseStyles.emptyText}>
-                لا يوجد أعضاء في هذه الحلقة
-              </p>
-            </div>
-          ) : (
-            <div className={baseStyles.membersContainer}>
-              <div className={baseStyles.selectAllContainer}>
-                <label className={baseStyles.selectAllLabel}>
+            <p className={baseStyles.instructionText}>
+              اختر الأعضاء الذين تريد حذفهم من الحلقة:
+            </p>
+
+            <div className={baseStyles.formGrid}>
+              {members.map((member) => (
+                <label
+                  key={member._id}
+                  className={`${baseStyles.memberItem} ${
+                    selectedMemberIds.includes(member._id)
+                      ? baseStyles.selected
+                      : ""
+                  }`}
+                >
                   <input
                     type="checkbox"
-                    checked={
-                      selectedMemberIds.length === members.length &&
-                      members.length > 0
-                    }
-                    onChange={handleSelectAll}
+                    checked={selectedMemberIds.includes(member._id)}
+                    onChange={() => handleMemberToggle(member._id)}
                     className={baseStyles.checkboxInput}
                   />
-                  تحديد الكل ({selectedMemberIds.length} من {members.length})
+                  <div className={baseStyles.memberInfo}>
+                    <span className={baseStyles.memberName}>{member.name}</span>
+                    <span className={baseStyles.memberEmail}>
+                      {member.email}
+                    </span>
+                    <span className={baseStyles.memberId}>
+                      المعرف: {member._id}
+                    </span>
+                  </div>
                 </label>
-              </div>
-
-              <p className={baseStyles.instructionText}>
-                اختر الأعضاء الذين تريد حذفهم من الحلقة:
-              </p>
-
-              <div className={baseStyles.membersList}>
-                {members.map((member) => (
-                  <label
-                    key={member._id}
-                    className={`${baseStyles.memberItem} ${
-                      selectedMemberIds.includes(member._id)
-                        ? baseStyles.selected
-                        : ""
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedMemberIds.includes(member._id)}
-                      onChange={() => handleMemberToggle(member._id)}
-                      className={baseStyles.checkboxInput}
-                    />
-                    <div className={baseStyles.memberInfo}>
-                      <span className={baseStyles.memberName}>
-                        {member.name}
-                      </span>
-                      <span className={baseStyles.memberEmail}>
-                        {member.email}
-                      </span>
-                      <span className={baseStyles.memberId}>
-                        المعرف: {member._id}
-                      </span>
-                    </div>
-                  </label>
-                ))}
-              </div>
+              ))}
             </div>
-          )}
+          </div>
+        )}
 
-          <div className={baseStyles.formActions}>
-            <button
-              onClick={onClose}
-              className={baseStyles.cancelButton}
-              disabled={removing}
-            >
-              إلغاء
-            </button>
-            <button
-              onClick={handleRemoveMember}
-              className={baseStyles.deleteButton}
-              disabled={
+        <ModalActions
+          actions={[
+            {
+              label: "إلغاء",
+              onClick: onClose,
+              variant: "secondary" as const,
+              disabled: removing,
+            },
+            {
+              label: removing
+                ? "جاري الحذف..."
+                : selectedMemberIds.length > 1
+                ? `حذف ${selectedMemberIds.length} أعضاء`
+                : "حذف العضو",
+              onClick: handleRemoveMember,
+              variant: "danger" as const,
+              disabled:
                 selectedMemberIds.length === 0 ||
                 removing ||
-                members.length === 0
-              }
-            >
-              {removing ? (
-                <>
-                  <span className={baseStyles.spinner}></span>
-                  جاري الحذف...
-                </>
-              ) : (
-                <>
-                  <FaUserMinus className={baseStyles.buttonIcon} />
-                  حذف{" "}
-                  {selectedMemberIds.length > 1
-                    ? `${selectedMemberIds.length} أعضاء`
-                    : "العضو"}
-                </>
-              )}
-            </button>
-          </div>
-        </div>
+                members.length === 0,
+              icon: <FaUserMinus />,
+            },
+          ]}
+          alignment="right"
+        />
       </div>
-    </div>
+    </ModalContainer>
   );
 };
 

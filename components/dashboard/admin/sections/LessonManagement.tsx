@@ -1,64 +1,53 @@
-import React, { useState } from "react";
-import { FiCalendar, FiPlus, FiUsers, FiCheckCircle } from "react-icons/fi";
+import React, { useState, useEffect } from "react";
+import { FiCalendar, FiPlus } from "react-icons/fi";
 import { useAdminModal } from "@/contexts/AdminModalContext";
+import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
 import StatCard from "@/components/common/UI/StatCard";
 import styles from "@/styles/AdminDashboard.module.css";
-import { getLegacyCourses } from "@/data/mockCourses";
 import CoursesGrid from "@/components/common/UI/CoursesGrid/CoursesGrid";
-import { LessonManagementItem } from "@/utils/types";
 
 const LessonManagement: React.FC = () => {
   const { openAddCourseModal } = useAdminModal();
-  const coursesData = getLegacyCourses(); // Get mock courses data
-  const [lessons] = useState<LessonManagementItem[]>([
-    {
-      id: "1",
-      title: "درس التجويد - أحكام النون الساكنة",
-      groupName: "حلقة حفظ القرآن المتقدمة",
-      teacherName: "فاطمة حسن",
-      date: "2024-07-08",
-      startTime: "20:00",
-      endTime: "21:00",
-      status: "completed",
-      attendanceCount: 8,
-      totalStudents: 10,
-    },
-    {
-      id: "2",
-      title: "حفظ سورة البقرة - الآيات 1-20",
-      groupName: "حلقة التجويد للمبتدئين",
-      teacherName: "محمد أحمد",
-      date: "2024-07-09",
-      startTime: "19:00",
-      endTime: "20:00",
-      status: "scheduled",
-      attendanceCount: 0,
-      totalStudents: 12,
-    },
-    {
-      id: "3",
-      title: "مراجعة الحفظ السابق",
-      groupName: "حلقة حفظ القرآن المتقدمة",
-      teacherName: "فاطمة حسن",
-      date: "2024-07-10",
-      startTime: "20:00",
-      endTime: "21:00",
-      status: "cancelled",
-      attendanceCount: 0,
-      totalStudents: 10,
-    },
-  ]);
+  const { courses, getCourses } = useAdminDashboardContext();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const getStats = () => {
-    const total = lessons.length;
-    const completed = lessons.filter((l) => l.status === "completed").length;
-    const scheduled = lessons.filter((l) => l.status === "scheduled").length;
-    const cancelled = lessons.filter((l) => l.status === "cancelled").length;
-
-    return { total, completed, scheduled, cancelled };
+  // Transform API data to match CoursesGrid interface
+  const transformCourseData = (apiCourses: any[]) => {
+    return apiCourses.map((course) => ({
+      id: course._id, // Use _id from API response
+      title: course.title,
+      startDate: course.startAt
+        ? new Date(course.startAt).toLocaleDateString("ar-EG")
+        : "غير محدد",
+      shortDescription:
+        course.description.length > 100
+          ? course.description.slice(0, 100) + "..."
+          : course.description,
+      telegramLink: course.telegramLink,
+    }));
   };
 
-  const stats = getStats();
+  const coursesData = transformCourseData(courses || []);
+
+  // Fetch courses on component mount
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        console.log(true);
+        setIsLoading(true);
+        const token = localStorage.getItem("accessToken");
+        if (token) {
+          await getCourses(token);
+        }
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, [getCourses]);
 
   return (
     <div className={styles.overviewContainer}>
@@ -75,9 +64,18 @@ const LessonManagement: React.FC = () => {
 
       {/* Stats Cards */}
       <div className={styles.statsGrid}>
-        <StatCard icon={FiCalendar} value={stats.total} label="عدد الدورات" />
+        <StatCard
+          icon={FiCalendar}
+          value={coursesData.length}
+          label="عدد الدورات"
+        />
       </div>
-      {coursesData.length > 0 ? (
+
+      {isLoading ? (
+        <div style={{ textAlign: "center", padding: "2rem" }}>
+          <p>جاري تحميل الدورات...</p>
+        </div>
+      ) : coursesData.length > 0 ? (
         <CoursesGrid courses={coursesData} isAdminView={true} />
       ) : (
         <div>

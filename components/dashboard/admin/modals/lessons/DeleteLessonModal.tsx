@@ -2,7 +2,14 @@ import { useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import styles from "./DeleteLessonModal.module.css";
-import { FaTimes, FaTrash, FaExclamationTriangle } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
+import {
+  ModalContainer,
+  ModalHeader,
+  ModalActions,
+  WarningPanel,
+  ConfirmTextInput,
+} from "@/components/common/Modal";
 
 const DeleteLessonModal: React.FC = () => {
   const { closeDeleteLessonModal, selectedLessonData } = useAdminModal();
@@ -56,113 +63,75 @@ const DeleteLessonModal: React.FC = () => {
   const isDeleteEnabled =
     confirmText.trim().toLowerCase() === "حذف" && !isDeleting;
 
+  const actions = [
+    {
+      label: "إلغاء",
+      onClick: handleClose,
+      variant: "secondary" as const,
+      disabled: isDeleting,
+    },
+    {
+      label: "حذف الحلقة",
+      onClick: handleDelete,
+      variant: "danger" as const,
+      disabled: !isDeleteEnabled,
+      icon: <FaTrash />,
+    },
+  ];
+
   return (
-    <div
-      className={`${baseStyles.modalOverlay} ${
-        isClosing ? baseStyles.fadeOut : ""
-      }`}
-    >
-      <div
-        className={`${baseStyles.modal} ${
-          isClosing ? baseStyles.modalSlideOut : ""
-        }`}
-      >
-        <div className={`${baseStyles.modalHeader} ${baseStyles.delete}`}>
-          <div className={baseStyles.modalTitle}>
-            <FaTrash className={baseStyles.titleIcon} />
-            حذف الحلقة
-          </div>
-          <button
-            onClick={handleClose}
-            className={baseStyles.closeBtn}
-            disabled={isDeleting}
-          >
-            <FaTimes />
-          </button>
-        </div>
+    <ModalContainer isOpen={true} isClosing={isClosing} variant="delete">
+      <ModalHeader
+        title="حذف الحلقة"
+        icon={<FaTrash />}
+        onClose={handleClose}
+        disabled={isDeleting}
+        variant="delete"
+      />
+      <div className={baseStyles.modalBody}>
+        <WarningPanel
+          title="هل أنت متأكد من حذف هذه الحلقة؟"
+          text="لا يمكن التراجع عن هذا الإجراء"
+        />
 
-        <div className={baseStyles.modalBody}>
-          <div className={baseStyles.warningContainer}>
-            <FaExclamationTriangle className={baseStyles.warningIcon} />
-            <div className={baseStyles.warningContent}>
-              <h3 className={baseStyles.warningTitle}>
-                هل أنت متأكد من حذف هذه الحلقة؟
-              </h3>
-              <p className={baseStyles.warningText}>
-                لا يمكن التراجع عن هذا الإجراء
-              </p>
+        <div className={styles.lessonDetails}>
+          <h4 className={styles.detailsTitle}>تفاصيل الحلقة:</h4>
+          <div className={styles.detailsGrid}>
+            <div className={styles.detailItem}>
+              <span className={styles.detailLabel}>اليوم:</span>
+              <span className={styles.detailValue}>
+                {selectedLessonData.day}
+              </span>
+            </div>
+            <div className={styles.detailItem}>
+              <span className={styles.detailLabel}>الوقت:</span>
+              <span className={styles.detailValue}>
+                {selectedLessonData.time}
+              </span>
+            </div>
+            <div className={styles.detailItem}>
+              <span className={styles.detailLabel}>التاريخ:</span>
+              <span className={styles.detailValue}>
+                {formatDate(selectedLessonData.date)}
+              </span>
             </div>
           </div>
-
-          <div className={styles.lessonDetails}>
-            <h4 className={styles.detailsTitle}>تفاصيل الحلقة:</h4>
-            <div className={styles.detailsGrid}>
-              <div className={styles.detailItem}>
-                <span className={styles.detailLabel}>اليوم:</span>
-                <span className={styles.detailValue}>
-                  {selectedLessonData.day}
-                </span>
-              </div>
-              <div className={styles.detailItem}>
-                <span className={styles.detailLabel}>الوقت:</span>
-                <span className={styles.detailValue}>
-                  {selectedLessonData.time}
-                </span>
-              </div>
-              <div className={styles.detailItem}>
-                <span className={styles.detailLabel}>التاريخ:</span>
-                <span className={styles.detailValue}>
-                  {formatDate(selectedLessonData.date)}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.confirmationInput}>
-            <label htmlFor="confirmText" className={baseStyles.confirmLabel}>
-              للحذف، اكتب &ldquo;<strong>حذف</strong>&rdquo; في المربع أدناه:
-            </label>
-            <input
-              id="confirmText"
-              type="text"
-              value={confirmText}
-              onChange={(e) => setConfirmText(e.target.value)}
-              placeholder="حذف"
-              className={baseStyles.textInput}
-              disabled={isDeleting}
-            />
-          </div>
-
-          <div className={baseStyles.modalFooter}>
-            <button
-              type="button"
-              onClick={handleClose}
-              className={baseStyles.cancelButton}
-              disabled={isDeleting}
-            >
-              إلغاء
-            </button>
-            <button
-              type="button"
-              onClick={handleDelete}
-              className={`${baseStyles.deleteButton} ${
-                !isDeleteEnabled ? baseStyles.disabled : ""
-              }`}
-              disabled={!isDeleteEnabled}
-            >
-              {isDeleting ? (
-                <span className={baseStyles.loading}>جارٍ الحذف...</span>
-              ) : (
-                <>
-                  <FaTrash />
-                  حذف الحلقة
-                </>
-              )}
-            </button>
-          </div>
         </div>
+
+        <ConfirmTextInput
+          label={
+            <>
+              للحذف، اكتب &quot;<strong>حذف</strong>&quot; في المربع أدناه:
+            </>
+          }
+          value={confirmText}
+          onChange={setConfirmText}
+          disabled={isDeleting}
+        />
+
+        <ModalActions actions={actions} alignment="right" />
       </div>
-    </div>
+    </ModalContainer>
   );
 };
 

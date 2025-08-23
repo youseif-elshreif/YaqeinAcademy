@@ -1,55 +1,69 @@
-import { useState, useEffect } from "react";
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
-import { useAuth } from "@/contexts/AuthContext";
-import { CheckboxField, ErrorMessage } from "@/components/auth";
-import baseStyles from "../../../../../styles/BaseModal.module.css";
-import styles from "./EditUserModal.module.css";
-import countries from "@/public/data/country.json";
+import { UserFormData, UserType } from "@/utils/types";
+import { CheckboxField } from "@/components/auth";
+import CountrySelect from "@/components/auth/CountrySelect";
+import { isValidPhoneNumber, CountryCode } from "libphonenumber-js";
+import { FaSave, FaEdit } from "react-icons/fa";
 import {
-  FaTimes,
-  FaSave,
-  FaUserShield,
-  FaChalkboardTeacher,
-  FaGraduationCap,
-  FaEye,
-  FaEyeSlash,
-  FaEdit,
-} from "react-icons/fa";
+  ModalContainer,
+  ModalHeader,
+  FormField,
+  ModalActions,
+  SelectedUserTypeHeader,
+  ErrorDisplay,
+} from "@/components/common/Modal";
+import baseStyles from "../../../../../styles/BaseModal.module.css";
 
-interface EditUserFormData {
-  name: string;
-  email: string;
-  password: string;
-  phone: string;
-  quranMemorized?: string;
-  numOfPartsofQuran?: number;
-  PrivitelessonCredits?: number;
-  age?: number;
-  country?: string;
-  meetingLink?: string; // For teachers
-}
+const EditUserModal = () => {
+  const {
+    editUserModalOpen,
+    closeEditUserModal,
+    selectedUserData,
+    updateUser,
+  } = useAdminModal();
 
-const EditUserModal: React.FC = () => {
-  const { editUserModalOpen, closeEditUserModal, selectedUserData } =
-    useAdminModal();
-  const { updateTeacher, updateStudent, getTeachers, getStudents } =
-    useAdminDashboardContext();
-  const { token } = useAuth();
+  // Derive user type from selected user
+  const currentUserType: UserType = useMemo(() => {
+    if (!selectedUserData) return "student";
+    if (
+      selectedUserData.role === "admin" ||
+      selectedUserData.userType === "admin"
+    )
+      return "admin";
+    if (
+      selectedUserData.role === "teacher" ||
+      selectedUserData.userType === "teacher" ||
+      selectedUserData.meetingLink
+    )
+      return "teacher";
+    return "student";
+  }, [selectedUserData]);
 
-  const [formData, setFormData] = useState<EditUserFormData>({
+  const [formData, setFormData] = useState<UserFormData>({
     name: "",
     email: "",
     password: "",
     phone: "",
-    quranMemorized: "",
-    numOfPartsofQuran: 0,
-    PrivitelessonCredits: 0,
-    age: 0,
+    phoneNumber: "",
     country: "",
+    userType: "student",
+    age: null,
+    hasQuranMemorization: false,
+    numOfPartsofQuran: 0,
+    quranLevel: "",
     meetingLink: "",
+    quranMemorized: "",
+    subject: "",
+    bio: "",
+    address: "",
+    privateCredits: 0,
+    publicCredits: 0,
   });
 
+  const [countryCode, setCountryCode] = useState<CountryCode | "">("");
   const [isClosing, setIsClosing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasQuranMemorization, setHasQuranMemorization] = useState(false);
@@ -57,78 +71,36 @@ const EditUserModal: React.FC = () => {
   const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
   const [serverError, setServerError] = useState<string>("");
 
-  // Determine user type from selected data
-  const getUserType = () => {
-    if (!selectedUserData) return null;
-
-    // Check if it's from teacher table (has teacherInfo and userInfo)
-    if (selectedUserData.meetingLink) {
-      return "teacher";
-    }
-
-    // Check if it's from student table or has student-specific fields
-    if (
-      selectedUserData.quranMemorized !== undefined ||
-      selectedUserData.numOfPartsofQuran !== undefined ||
-      selectedUserData.age !== undefined
-    ) {
-      return "student";
-    }
-
-    // Default fallback based on userType if available
-    return selectedUserData.userType || "student";
-  };
-
-  const userType = getUserType();
-
-  // Load initial data when modal opens
+  // Populate form when modal opens
   useEffect(() => {
     if (editUserModalOpen && selectedUserData) {
-      // Handle different data structures
-      let userData;
-
-      if (selectedUserData.meetingLink) {
-        // Teacher data from combined structure
-        userData = {
-          name: selectedUserData.userId.name,
-          email: selectedUserData.userId.email,
-          phone: selectedUserData.userId.phone,
-          meetingLink: selectedUserData.meetingLink,
-        };
-      } else if (selectedUserData.fullData) {
-        // Data from fullData property
-        userData = selectedUserData.fullData;
-      } else {
-        // Direct data
-        userData = selectedUserData;
-      }
-
       setFormData({
-        name: userData.name || "",
-        email: userData.email || "",
-        password: "", // Always empty for security
-        phone: userData.phone || "",
-        quranMemorized: userData.quranMemorized || "",
-        numOfPartsofQuran: userData.numOfPartsofQuran || 0,
-        PrivitelessonCredits: userData.PrivitelessonCredits || 0,
-        age: userData.age || 0,
-        country: userData.country || "",
-        meetingLink: userData.meetingLink || "",
+        name: selectedUserData.name || "",
+        email: selectedUserData.email || "",
+        password: "",
+        phone: selectedUserData.phone || selectedUserData.phoneNumber || "",
+        phoneNumber:
+          selectedUserData.phoneNumber || selectedUserData.phone || "",
+        country: selectedUserData.country || "",
+        userType: currentUserType,
+        age: selectedUserData.age || null,
+        hasQuranMemorization: selectedUserData.hasQuranMemorization || false,
+        numOfPartsofQuran: selectedUserData.numOfPartsofQuran || 0,
+        quranLevel: selectedUserData.quranLevel || "",
+        meetingLink: selectedUserData.meetingLink || "",
+        quranMemorized: selectedUserData.quranMemorized || "",
+        subject: selectedUserData.subject || "",
+        bio: selectedUserData.bio || "",
+        address: selectedUserData.address || "",
+        privateCredits: selectedUserData.privateCredits || 0,
+        publicCredits: selectedUserData.publicCredits || 0,
       });
-
-      // Set Quran memorization checkbox state
-      setHasQuranMemorization(!!userData.quranMemorized);
-
-      // Reset states
-      setShowPassword(false);
-      setFieldErrors({});
-      setServerError("");
-      setIsClosing(false);
-      setIsSubmitting(false);
+      setHasQuranMemorization(selectedUserData.hasQuranMemorization || false);
+      if (selectedUserData.countryCode) {
+        setCountryCode(selectedUserData.countryCode as CountryCode);
+      }
     }
-  }, [editUserModalOpen, selectedUserData]);
-
-  if (!editUserModalOpen || !selectedUserData) return null;
+  }, [editUserModalOpen, selectedUserData, currentUserType]);
 
   const handleClose = () => {
     setIsClosing(true);
@@ -137,6 +109,7 @@ const EditUserModal: React.FC = () => {
       setIsClosing(false);
       setFieldErrors({});
       setServerError("");
+      setShowPassword(false);
     }, 300);
   };
 
@@ -152,17 +125,31 @@ const EditUserModal: React.FC = () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(value)) return "البريد الإلكتروني غير صحيح";
         return "";
-      case "phone":
-        if (!value.trim()) return "رقم الهاتف مطلوب";
-        if (value.length < 10) return "رقم الهاتف غير صحيح";
-        return "";
       case "password":
-        // Password is optional in edit mode
         if (value && value.length < 6)
           return "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
         return "";
+      case "phone":
+        if (!value.trim()) return "رقم الهاتف مطلوب";
+        if (!countryCode) return "يرجى اختيار البلد أولاً";
+        if (!isValidPhoneNumber(value, countryCode)) {
+          return "رقم الهاتف غير صحيح لهذا البلد";
+        }
+        return "";
+      case "country":
+        if (!value.trim()) return "البلد مطلوب";
+        return "";
+      case "age":
+        if (currentUserType === "student") {
+          const ageNum = parseInt(value);
+          if (!value.trim()) return "العمر مطلوب";
+          if (isNaN(ageNum) || ageNum < 5 || ageNum > 100) {
+            return "العمر يجب أن يكون بين 5 و 100 سنة";
+          }
+        }
+        return "";
       case "meetingLink":
-        if (userType === "teacher" && value) {
+        if (currentUserType === "teacher" && value) {
           try {
             new URL(value);
             return "";
@@ -179,22 +166,24 @@ const EditUserModal: React.FC = () => {
   const validateForm = (): boolean => {
     const errors: { [key: string]: string } = {};
 
-    // Validate common fields
     errors.name = validateField("name", formData.name);
     errors.email = validateField("email", formData.email);
-    errors.phone = validateField("phone", formData.phone);
-
-    // Validate password only if provided
     if (formData.password) {
       errors.password = validateField("password", formData.password);
     }
+    errors.phone = validateField("phone", formData.phone || "");
+    errors.country = validateField("country", formData.country);
 
-    // Validate teacher specific fields
-    if (userType === "teacher" && formData.meetingLink) {
-      errors.meetingLink = validateField("meetingLink", formData.meetingLink);
+    if (currentUserType === "teacher") {
+      errors.meetingLink = validateField(
+        "meetingLink",
+        formData.meetingLink || ""
+      );
+    }
+    if (currentUserType === "student") {
+      errors.age = validateField("age", formData.age?.toString() || "");
     }
 
-    // Remove empty errors
     Object.keys(errors).forEach((key) => {
       if (!errors[key]) delete errors[key];
     });
@@ -203,40 +192,54 @@ const EditUserModal: React.FC = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    const { name, value, type } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]:
         name === "numOfPartsofQuran" ||
-        name === "PrivitelessonCredits" ||
-        name === "age"
+        name === "age" ||
+        name === "privateCredits" ||
+        name === "publicCredits"
           ? parseInt(value) || 0
+          : type === "checkbox" && "checked" in e.target
+          ? (e.target as HTMLInputElement).checked
           : value,
     }));
 
-    // Clear field error when user starts typing
     if (fieldErrors[name]) {
       setFieldErrors((prev) => {
-        const newErrors = { ...prev };
-        delete newErrors[name];
-        return newErrors;
+        const e = { ...prev };
+        delete e[name];
+        return e;
       });
     }
   };
 
-  const handleCountryChange = (value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      country: value,
-    }));
+  const handleCountryChange = (
+    selectedCountry: string,
+    selectedCountryCode: CountryCode
+  ) => {
+    setFormData((prev) => ({ ...prev, country: selectedCountry }));
+    setCountryCode(selectedCountryCode);
+
+    if (fieldErrors.country) {
+      setFieldErrors((prev) => {
+        const e = { ...prev };
+        delete e.country;
+        return e;
+      });
+    }
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
     setHasQuranMemorization(checked);
 
-    // Reset Quran fields when unchecked
     if (!checked) {
       setFormData((prev) => ({
         ...prev,
@@ -248,435 +251,292 @@ const EditUserModal: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Clear previous errors
     setServerError("");
 
-    // Validate form
-    if (!validateForm()) {
+    if (!selectedUserData?.id) {
+      setServerError("معرف المستخدم مفقود");
       return;
     }
 
+    if (!validateForm()) return;
+
     setIsSubmitting(true);
-
     try {
-      // Prepare data for submission
-      const submitData: any = { ...formData };
+      const payload: any = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        country: formData.country,
+      };
+      if (formData.password) payload.password = formData.password;
 
-      // Remove password if empty (don't update password)
-      if (!submitData.password) {
-        delete submitData.password;
+      if (currentUserType === "teacher") {
+        payload.meetingLink = formData.meetingLink;
+        payload.subject = formData.subject;
+        payload.bio = formData.bio;
+      }
+      if (currentUserType === "student") {
+        payload.age = formData.age;
+        payload.privateCredits = formData.privateCredits;
+        payload.publicCredits = formData.publicCredits;
+        payload.hasQuranMemorization = hasQuranMemorization;
+        if (hasQuranMemorization) {
+          payload.quranMemorized = formData.quranMemorized;
+          payload.numOfPartsofQuran = formData.numOfPartsofQuran;
+        }
       }
 
-      // Get user ID
-      let userId;
-      if (selectedUserData.meetingLink) {
-        userId = selectedUserData._id;
-      } else if (selectedUserData.fullData) {
-        userId = selectedUserData.fullData._id || selectedUserData.fullData.id;
-      } else {
-        userId = selectedUserData._id || selectedUserData.id;
-      }
-
-      if (!userId) {
-        throw new Error("لم يتم العثور على معرف المستخدم");
-      }
-
-      // Call appropriate update function based on user type
-      if (userType === "teacher") {
-        // For teachers, prepare data with meetingLink
-        const teacherData = {
-          name: submitData.name,
-          email: submitData.email,
-          phone: submitData.phone,
-          meetingLink: submitData.meetingLink,
-          ...(submitData.password && { password: submitData.password }),
-        };
-        await updateTeacher(token!, userId, teacherData);
-        await getTeachers(token!);
-      } else {
-        // For students, use all student-specific fields
-        await updateStudent(token!, userId, submitData);
-        await getStudents(token!);
-      }
-
-      // Close modal on success
+      await updateUser(selectedUserData.id, payload, currentUserType);
       handleClose();
-    } catch (error: any) {
-      console.error("❌ Error updating user:", error);
-      const errorMessage =
-        error?.response?.data?.message ||
-        error?.message ||
-        "حدث خطأ أثناء تحديث بيانات المستخدم";
-      setServerError(errorMessage);
+    } catch (err: any) {
+      const msg =
+        err?.response?.data?.message || err?.message || "حدث خطأ أثناء التحديث";
+      setServerError(msg);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const getUserTypeIcon = () => {
-    switch (userType) {
-      case "admin":
-        return <FaUserShield />;
-      case "teacher":
-        return <FaChalkboardTeacher />;
-      case "student":
-        return <FaGraduationCap />;
-      default:
-        return <FaEdit />;
-    }
-  };
+  if (!editUserModalOpen) return null;
 
-  const getUserTypeLabel = () => {
-    switch (userType) {
-      case "admin":
-        return "الإدارة";
-      case "teacher":
-        return "المدرس";
-      case "student":
-        return "الطالب";
-      default:
-        return "المستخدم";
-    }
-  };
+  const modalActions = [
+    {
+      label: "إلغاء",
+      onClick: handleClose,
+      variant: "secondary" as const,
+      disabled: isSubmitting,
+    },
+    {
+      label: "حفظ التغييرات",
+      onClick: () => {},
+      variant: "primary" as const,
+      disabled: isSubmitting,
+      loading: isSubmitting,
+      icon: <FaSave />,
+      type: "submit" as const,
+    },
+  ];
 
   return (
-    <div
-      className={`${baseStyles.modalOverlay} ${
-        isClosing ? baseStyles.fadeOut : ""
-      }`}
-      onClick={handleClose}
+    <ModalContainer
+      isOpen={editUserModalOpen}
+      isClosing={isClosing}
+      variant="add"
+      size="large"
     >
-      <div
-        className={`${baseStyles.modal} ${
-          isClosing ? baseStyles.modalSlideOut : ""
+      <ModalHeader
+        title={`تعديل بيانات ${
+          currentUserType === "teacher"
+            ? "مدرس"
+            : currentUserType === "admin"
+            ? "إدارة"
+            : "طالب"
         }`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className={baseStyles.modalHeader}>
-          <div className={baseStyles.modalTitle}>
-            <FaEdit className={baseStyles.titleIcon} />
-            تعديل بيانات {getUserTypeLabel()}
-          </div>
-          <button
-            onClick={handleClose}
-            className={baseStyles.closeButton}
+        icon={<FaEdit />}
+        onClose={handleClose}
+        disabled={isSubmitting}
+        variant="add"
+      />
+
+      <div className={baseStyles.modalBody}>
+        <div className={baseStyles.userForm}>
+          <SelectedUserTypeHeader
+            userType={currentUserType}
+            userName={formData.name}
+            mode="edit"
             disabled={isSubmitting}
-          >
-            <FaTimes />
-          </button>
-        </div>
+          />
 
-        <div className={baseStyles.modalBody}>
-          <div className={styles.editUserContainer}>
-            {/* User Type Indicator */}
-            <div className={styles.userTypeIndicator}>
-              {getUserTypeIcon()}
-              <span>
-                تعديل بيانات {getUserTypeLabel()}: {formData.name}
-              </span>
-            </div>
+          <form onSubmit={handleSubmit} className={baseStyles.form}>
+            <ErrorDisplay message={serverError} />
 
-            <form onSubmit={handleSubmit} className={baseStyles.form}>
-              {/* Server Error Display */}
-              {serverError && (
-                <div
-                  className={baseStyles.serverError}
-                  style={{ padding: "0 16px" }}
-                >
-                  <ErrorMessage message={serverError} />
-                </div>
+            <div className={baseStyles.formGrid}>
+              {/* Common Fields */}
+              <FormField
+                label="الاسم الكامل"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                error={fieldErrors.name}
+                disabled={isSubmitting}
+                required
+              />
+
+              <FormField
+                label="البريد الإلكتروني"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                error={fieldErrors.email}
+                disabled={isSubmitting}
+                required
+              />
+
+              <FormField
+                label="كلمة المرور الجديدة (اختياري)"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                error={fieldErrors.password}
+                disabled={isSubmitting}
+                placeholder="اتركه فارغاً إذا لم ترد تغييره"
+                showPasswordToggle
+                showPassword={showPassword}
+                onTogglePassword={() => setShowPassword(!showPassword)}
+              />
+
+              <div className={baseStyles.inputGroup}>
+                <label className={baseStyles.label}>البلد</label>
+                <CountrySelect onChange={handleCountryChange} />
+                {fieldErrors.country && (
+                  <div className={baseStyles.fieldError}>
+                    {fieldErrors.country}
+                  </div>
+                )}
+              </div>
+
+              <FormField
+                label="رقم الهاتف"
+                name="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={handleInputChange}
+                error={fieldErrors.phone}
+                disabled={isSubmitting}
+                placeholder={
+                  countryCode
+                    ? `مثال للرقم في ${formData.country}`
+                    : "اختر البلد أولاً"
+                }
+                required
+              />
+
+              {/* Teacher Specific Fields */}
+              {currentUserType === "teacher" && (
+                <>
+                  <FormField
+                    label="رابط الاجتماع"
+                    name="meetingLink"
+                    type="url"
+                    value={formData.meetingLink}
+                    onChange={handleInputChange}
+                    error={fieldErrors.meetingLink}
+                    disabled={isSubmitting}
+                    required
+                  />
+
+                  <FormField
+                    label="التخصص"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    disabled={isSubmitting}
+                    placeholder="مثال: تحفيظ القرآن، التجويد..."
+                  />
+
+                  <FormField
+                    label="نبذة عن المدرس"
+                    name="bio"
+                    type="textarea"
+                    value={formData.bio}
+                    onChange={handleInputChange}
+                    disabled={isSubmitting}
+                    placeholder="نبذة مختصرة عن المدرس وخبراته..."
+                    rows={3}
+                    fullWidth
+                  />
+                </>
               )}
 
-              <div className={baseStyles.formGrid}>
-                {/* Basic Information Section */}
-                <div
-                  className={styles.formSection}
-                  style={{ gridColumn: "1 / -1" }}
-                >
-                  <h3 className={styles.sectionTitle}>المعلومات الأساسية</h3>
-                </div>
-
-                {/* Name */}
-                <div className={baseStyles.inputGroup}>
-                  <label className={baseStyles.label}>الاسم الكامل</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
+              {/* Student Specific Fields */}
+              {currentUserType === "student" && (
+                <>
+                  <FormField
+                    label="العمر"
+                    name="age"
+                    type="number"
+                    value={formData.age || ""}
                     onChange={handleInputChange}
-                    className={`${baseStyles.textInput} ${
-                      fieldErrors.name ? baseStyles.inputError : ""
-                    }`}
+                    error={fieldErrors.age}
                     disabled={isSubmitting}
+                    placeholder="أدخل العمر"
+                    min="5"
+                    max="100"
+                    required
                   />
-                  {fieldErrors.name && (
-                    <div className={baseStyles.fieldError}>
-                      {fieldErrors.name}
-                    </div>
-                  )}
-                </div>
 
-                {/* Email */}
-                <div className={baseStyles.inputGroup}>
-                  <label className={baseStyles.label}>البريد الإلكتروني</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
+                  <FormField
+                    label="الدروس الخاصة"
+                    name="privateCredits"
+                    type="number"
+                    value={formData.privateCredits || 0}
                     onChange={handleInputChange}
-                    className={`${baseStyles.textInput} ${
-                      fieldErrors.email ? baseStyles.inputError : ""
-                    }`}
                     disabled={isSubmitting}
+                    placeholder="عدد الدروس الخاصة المتاحة"
+                    min="0"
                   />
-                  {fieldErrors.email && (
-                    <div className={baseStyles.fieldError}>
-                      {fieldErrors.email}
-                    </div>
-                  )}
-                </div>
 
-                {/* Password */}
-                <div className={baseStyles.inputGroup}>
-                  <label className={baseStyles.label}>
-                    كلمة المرور الجديدة (اختيارية)
-                  </label>
-                  <div className={baseStyles.passwordInputWrapper}>
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      value={formData.password}
-                      onChange={handleInputChange}
-                      className={`${baseStyles.textInput} ${
-                        fieldErrors.password ? baseStyles.inputError : ""
-                      }`}
-                      placeholder="اتركها فارغة للاحتفاظ بكلمة المرور الحالية"
+                  <FormField
+                    label="الدروس العامة"
+                    name="publicCredits"
+                    type="number"
+                    value={formData.publicCredits || 0}
+                    onChange={handleInputChange}
+                    disabled={isSubmitting}
+                    placeholder="عدد الدروس العامة المتاحة"
+                    min="0"
+                  />
+
+                  {/* Checkbox for Quran Memorization */}
+                  <div
+                    className={baseStyles.inputGroup}
+                    style={{ gridColumn: "1 / -1" }}
+                  >
+                    <CheckboxField
+                      id="hasQuranMemorization"
+                      name="hasQuranMemorization"
+                      checked={hasQuranMemorization}
+                      onChange={handleCheckboxChange}
+                      label="هل يحفظ من القرآن الكريم؟"
                       disabled={isSubmitting}
                     />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className={baseStyles.passwordToggleBtn}
-                      disabled={isSubmitting}
-                    >
-                      {showPassword ? <FaEyeSlash /> : <FaEye />}
-                    </button>
                   </div>
-                  {fieldErrors.password && (
-                    <div className={baseStyles.fieldError}>
-                      {fieldErrors.password}
-                    </div>
-                  )}
-                </div>
 
-                {/* Phone */}
-                <div className={baseStyles.inputGroup}>
-                  <label className={baseStyles.label}>رقم الهاتف</label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className={`${baseStyles.textInput} ${
-                      fieldErrors.phone ? baseStyles.inputError : ""
-                    }`}
-                    disabled={isSubmitting}
-                  />
-                  {fieldErrors.phone && (
-                    <div className={baseStyles.fieldError}>
-                      {fieldErrors.phone}
-                    </div>
-                  )}
-                </div>
-
-                {/* Teacher Specific Fields */}
-                {userType === "teacher" && (
-                  <>
-                    <div
-                      className={styles.formSection}
-                      style={{ gridColumn: "1 / -1" }}
-                    >
-                      <h3 className={styles.sectionTitle}>معلومات المدرس</h3>
-                    </div>
-
-                    <div
-                      className={baseStyles.inputGroup}
-                      style={{ gridColumn: "1 / -1" }}
-                    >
-                      <label className={baseStyles.label}>رابط الاجتماع</label>
-                      <input
-                        type="url"
-                        name="meetingLink"
-                        value={formData.meetingLink}
-                        onChange={handleInputChange}
-                        className={`${baseStyles.textInput} ${
-                          fieldErrors.meetingLink ? baseStyles.inputError : ""
-                        }`}
-                        disabled={isSubmitting}
-                      />
-                      {fieldErrors.meetingLink && (
-                        <div className={baseStyles.fieldError}>
-                          {fieldErrors.meetingLink}
-                        </div>
-                      )}
-                    </div>
-                  </>
-                )}
-
-                {/* Student Specific Fields */}
-                {userType === "student" && (
-                  <>
-                    <div
-                      className={styles.formSection}
-                      style={{ gridColumn: "1 / -1" }}
-                    >
-                      <h3 className={styles.sectionTitle}>معلومات الطالب</h3>
-                    </div>
-
-                    {/* Age */}
-                    <div className={baseStyles.inputGroup}>
-                      <label className={baseStyles.label}>العمر</label>
-                      <input
-                        type="number"
-                        name="age"
-                        value={formData.age}
-                        onChange={handleInputChange}
-                        className={baseStyles.textInput}
-                        min="0"
-                        max="100"
-                        disabled={isSubmitting}
-                      />
-                    </div>
-
-                    {/* Country */}
-                    <div className={baseStyles.inputGroup}>
-                      <label className={baseStyles.label}>الدولة</label>
-                      <select
-                        name="country"
-                        value={formData.country || ""}
-                        onChange={(e) => handleCountryChange(e.target.value)}
-                        className={baseStyles.textInput}
-                        disabled={isSubmitting}
-                      >
-                        <option value="">اختر الدولة</option>
-                        {Object.entries(countries).map(([code, name]) => (
-                          <option key={code} value={name}>
-                            {name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Private Lesson Credits */}
-                    <div className={baseStyles.inputGroup}>
-                      <label className={baseStyles.label}>
-                        أرصدة الدروس الخاصة
-                      </label>
-                      <input
-                        type="number"
-                        name="PrivitelessonCredits"
-                        value={formData.PrivitelessonCredits}
-                        onChange={handleInputChange}
-                        className={baseStyles.textInput}
-                        min="0"
-                        disabled={isSubmitting}
-                      />
-                    </div>
-
-                    {/* Checkbox for Quran Memorization */}
-                    <div
-                      className={baseStyles.inputGroup}
-                      style={{ gridColumn: "1 / -1" }}
-                    >
-                      <CheckboxField
-                        id="hasQuranMemorization"
-                        name="hasQuranMemorization"
-                        checked={hasQuranMemorization}
-                        onChange={handleCheckboxChange}
-                        label="هل يحفظ من القرآن الكريم؟"
-                        disabled={isSubmitting}
-                      />
-                    </div>
-
-                    {/* Conditional Quran Fields */}
-                    {hasQuranMemorization && (
-                      <div
-                        className={styles.conditionalFields}
-                        style={{ gridColumn: "1 / -1", display: "contents" }}
-                      >
-                        <div
-                          className={`${baseStyles.inputGroup} ${baseStyles.fadeIn}`}
-                        >
-                          <label className={baseStyles.label}>
-                            القرآن المحفوظ
-                          </label>
-                          <input
-                            type="text"
-                            name="quranMemorized"
-                            value={formData.quranMemorized}
-                            onChange={handleInputChange}
-                            className={baseStyles.textInput}
-                            placeholder="مثال: الفاتحة، البقرة..."
-                            disabled={isSubmitting}
-                          />
-                        </div>
-
-                        <div
-                          className={`${baseStyles.inputGroup} ${baseStyles.fadeIn}`}
-                        >
-                          <label className={baseStyles.label}>
-                            عدد الأجزاء المحفوظة
-                          </label>
-                          <input
-                            type="number"
-                            name="numOfPartsofQuran"
-                            value={formData.numOfPartsofQuran}
-                            onChange={handleInputChange}
-                            className={baseStyles.textInput}
-                            min="0"
-                            max="30"
-                            disabled={isSubmitting}
-                          />
-                        </div>
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-
-              <div className={baseStyles.formActions}>
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  className={baseStyles.cancelButton}
-                  disabled={isSubmitting}
-                >
-                  إلغاء
-                </button>
-                <button
-                  type="submit"
-                  className={baseStyles.submitButton}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
+                  {/* Conditional Quran Fields */}
+                  {hasQuranMemorization && (
                     <>
-                      <span className={baseStyles.spinner}></span>
-                      جاري الحفظ...
-                    </>
-                  ) : (
-                    <>
-                      <FaSave />
-                      حفظ التعديلات
+                      <FormField
+                        label="القرآن المحفوظ"
+                        name="quranMemorized"
+                        value={formData.quranMemorized}
+                        onChange={handleInputChange}
+                        disabled={isSubmitting}
+                        placeholder="مثال: الفاتحة، البقرة..."
+                      />
+
+                      <FormField
+                        label="عدد الأجزاء المحفوظة"
+                        name="numOfPartsofQuran"
+                        type="number"
+                        value={formData.numOfPartsofQuran}
+                        onChange={handleInputChange}
+                        disabled={isSubmitting}
+                        min="0"
+                        max="30"
+                      />
                     </>
                   )}
-                </button>
-              </div>
-            </form>
-          </div>
+                </>
+              )}
+            </div>
+
+            <ModalActions actions={modalActions} />
+          </form>
         </div>
       </div>
-    </div>
+    </ModalContainer>
   );
 };
 

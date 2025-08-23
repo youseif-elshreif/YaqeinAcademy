@@ -1,12 +1,20 @@
 import { useState } from "react";
+import { FaTrash } from "react-icons/fa";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
-import styles from "./DeleteCourseModal.module.css";
-import { FaTimes, FaTrash, FaExclamationTriangle } from "react-icons/fa";
+import {
+  ModalContainer,
+  ModalHeader,
+  ModalActions,
+  WarningPanel,
+  ConfirmTextInput,
+} from "@/components/common/Modal";
+import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface DeleteCourseModalProps {
   isOpen: boolean;
   onClose: () => void;
-  courseId: number | null;
+  courseId: string | null;
   courseName?: string;
 }
 
@@ -16,6 +24,9 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
   courseId,
   courseName = "هذه الدورة",
 }) => {
+  const { deleteCourse } = useAdminDashboardContext();
+  const { token } = useAuth();
+
   const [isClosing, setIsClosing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [confirmText, setConfirmText] = useState("");
@@ -34,17 +45,14 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
       return;
     }
 
+    if (!courseId || !token) {
+      console.error("Missing courseId or token");
+      return;
+    }
+
     setIsDeleting(true);
-
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      console.log("=== DELETE COURSE API CALL ===");
-      console.log("Course ID:", courseId);
-      console.log("Course Name:", courseName);
-      console.log("✅ Course deletion request logged to console");
-
+      await deleteCourse(token, courseId);
       handleClose();
     } catch (error) {
       console.error("Error deleting course:", error);
@@ -54,94 +62,67 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
   };
 
   if (!isOpen) return null;
-
   const isDeleteEnabled =
     confirmText.trim().toLowerCase() === "حذف" && !isDeleting;
 
   return (
-    <div
-      className={`${baseStyles.modalOverlay} ${
-        isClosing ? baseStyles.fadeOut : ""
-      }`}
+    <ModalContainer
+      isOpen={isOpen}
+      isClosing={isClosing}
+      variant="delete"
+      size="medium"
     >
-      <div
-        className={`${baseStyles.modal} ${
-          isClosing ? baseStyles.modalSlideOut : ""
-        }`}
-      >
-        <div className={`${baseStyles.modalHeader} ${baseStyles.delete}`}>
-          <h2 className={baseStyles.modalTitle}>
-            <FaExclamationTriangle className={baseStyles.titleIcon} />
-            تأكيد حذف الدورة
-          </h2>
-          <button
-            onClick={handleClose}
-            className={baseStyles.closeBtn}
-            disabled={isDeleting}
-          >
-            <FaTimes />
-          </button>
-        </div>
+      <ModalHeader
+        title="تأكيد حذف الدورة"
+        icon={<FaTrash />}
+        onClose={handleClose}
+        disabled={isDeleting}
+        variant="delete"
+      />
 
-        <div className={baseStyles.modalBody}>
-          <div className={baseStyles.warningContainer}>
-            <FaExclamationTriangle className={baseStyles.warningIcon} />
-            <div className={baseStyles.warningContent}>
-              <h3 className={baseStyles.warningTitle}>
-                هل أنت متأكد من حذف &quot;{courseName}&quot;؟
-              </h3>
-              <p className={baseStyles.warningText}>
-                سيتم حذف الدورة نهائياً ولن يمكن استرجاعها. سيتم أيضاً حذف جميع
-                البيانات المرتبطة بها.
-              </p>
-            </div>
-          </div>
+      <div className={baseStyles.modalBody}>
+        <WarningPanel
+          title={`هل أنت متأكد من حذف "${courseName}"؟`}
+          text={
+            <>
+              سيتم حذف الدورة نهائياً ولن يمكن استرجاعها. سيتم أيضاً حذف جميع
+              البيانات المرتبطة بها.
+            </>
+          }
+        />
 
-          <div className={baseStyles.confirmationInput}>
-            <label htmlFor="confirmText" className={baseStyles.confirmLabel}>
-              للحذف، اكتب &ldquo;<strong>حذف</strong>&rdquo; في المربع أدناه:
-            </label>
-            <input
-              id="confirmText"
-              type="text"
-              value={confirmText}
-              onChange={(e) => setConfirmText(e.target.value)}
-              placeholder="حذف"
-              className={baseStyles.textInput}
-              disabled={isDeleting}
-            />
-          </div>
-        </div>
+        <ConfirmTextInput
+          label={
+            <>
+              للحذف، اكتب “<strong>حذف</strong>” في المربع أدناه:
+            </>
+          }
+          value={confirmText}
+          onChange={setConfirmText}
+          disabled={isDeleting}
+          placeholder="حذف"
+        />
 
-        <div className={baseStyles.modalActions}>
-          <button
-            type="button"
-            onClick={handleClose}
-            className={baseStyles.cancelButton}
-            disabled={isDeleting}
-          >
-            إلغاء
-          </button>
-          <button
-            type="button"
-            onClick={handleDelete}
-            className={`${baseStyles.deleteButton} ${
-              !isDeleteEnabled ? baseStyles.disabled : ""
-            }`}
-            disabled={!isDeleteEnabled}
-          >
-            {isDeleting ? (
-              <div className={baseStyles.spinner}></div>
-            ) : (
-              <>
-                <FaTrash className={baseStyles.buttonIcon} />
-                حذف الدورة
-              </>
-            )}
-          </button>
-        </div>
+        <ModalActions
+          alignment="right"
+          actions={[
+            {
+              label: "إلغاء",
+              onClick: handleClose,
+              variant: "secondary",
+              disabled: isDeleting,
+            },
+            {
+              label: "حذف الدورة",
+              onClick: handleDelete,
+              variant: "danger",
+              disabled: !isDeleteEnabled,
+              icon: <FaTrash />,
+            },
+          ]}
+        />
       </div>
-    </div>
+    </ModalContainer>
   );
 };
 

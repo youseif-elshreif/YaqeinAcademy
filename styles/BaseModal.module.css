@@ -36,6 +36,21 @@
   transform-origin: center;
 }
 
+.modalContent {
+  background: var(--base-bg);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  animation: modalSlideIn 0.3s ease-out;
+  transform-origin: center;
+}
+
 .modalSlideOut {
   animation: modalSlideOut 0.3s ease-in;
 }
@@ -174,7 +189,7 @@
 .submitButton:hover:not(:disabled) {
   background: var(--primary-dark);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(69, 123, 157, 0.3);
+  box-shadow: 0 4px 12px rgba(30, 61, 50, 0.3);
 }
 
 .submitButton:disabled {
@@ -200,6 +215,11 @@
   font-family: inherit;
 }
 
+.cancelButton {
+  background: var(--text-light);
+  color: white;
+}
+
 .cancelButton:hover:not(:disabled) {
   background: var(--text-dark);
   transform: translateY(-1px);
@@ -213,7 +233,7 @@
 .deleteButton:hover:not(:disabled) {
   background: var(--danger-dark);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
 }
 
 .deleteButton:disabled,
@@ -395,6 +415,7 @@
   font-size: 1rem;
   font-weight: 600;
   color: var(--text-dark);
+  justify-content: center;
 }
 
 .actionBtn:hover {
@@ -522,6 +543,25 @@
   color: var(--text-dark);
   margin-bottom: 0.5rem;
   line-height: 1.4;
+}
+
+/* Student Info Styles */
+.studentInfo {
+  padding: 1rem;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  margin-bottom: 1.5rem;
+}
+
+.studentInfo p {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+.studentInfo strong {
+  color: var(--primary-color);
+  font-weight: 600;
 }
 
 /* Error Message Styles */
@@ -801,6 +841,7 @@
   color: var(--text-dark);
   margin-bottom: 1rem;
   font-weight: 500;
+  padding: 0 1.5rem;
 }
 
 .membersList {
@@ -901,4 +942,127 @@
 .errorMessage {
   color: var(--danger-color);
   margin-bottom: 1rem;
+}
+
+/* Modal Variants */
+.modalAdd {
+  border-top: 4px solid var(--primary-color);
+}
+
+.modalEdit {
+  border-top: 4px solid var(--info-color);
+}
+
+.modalDelete {
+  border-top: 4px solid var(--danger-color);
+}
+
+/* Modal Header Variants */
+.modalHeaderAdd {
+  background: var(--primary-color);
+  color: white;
+}
+
+.modalHeaderEdit {
+  background: var(--info-color);
+  color: white;
+}
+
+.modalHeaderDelete {
+  background: var(--danger-color);
+  color: white;
+}
+
+/* Modal Sizes */
+.modalSmall {
+  max-width: 400px;
+}
+
+.modalLarge {
+  max-width: 800px;
+}
+
+/* Actions Alignment */
+.actionsLeft {
+  justify-content: flex-start;
+}
+
+.actionsRight {
+  justify-content: flex-end;
+}
+
+.actionsCenter {
+  justify-content: center;
+}
+
+/* Danger Button */
+.dangerButton {
+  background: var(--danger-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dangerButton:hover:not(:disabled) {
+  background: var(--danger-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+}
+
+.dangerButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Input Group Full Width */
+.inputGroupFullWidth {
+  grid-column: 1 / -1;
+}
+
+/* Required Field Indicator */
+.required {
+  color: var(--danger-color);
+  margin-left: 0.25rem;
+}
+
+/* Message Variants */
+.warningMessage {
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  color: var(--warning-color);
+  margin-bottom: 1rem;
+}
+
+.infoMessage {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  color: var(--blue-color);
+  margin-bottom: 1rem;
+}
+
+/* Spinner */
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

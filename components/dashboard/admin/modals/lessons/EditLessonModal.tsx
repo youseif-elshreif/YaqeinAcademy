@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
-import { FaTimes, FaEdit, FaSave } from "react-icons/fa";
+import { FaEdit, FaSave } from "react-icons/fa";
+import {
+  ModalContainer,
+  ModalHeader,
+  FormField,
+  ModalActions,
+  SelectField,
+} from "@/components/common/Modal";
 
 const EditLessonModal: React.FC = () => {
   const { closeEditLessonModal, selectedLessonData } = useAdminModal();
@@ -33,14 +40,16 @@ const EditLessonModal: React.FC = () => {
     }, 300);
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  const handleTextChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -75,113 +84,69 @@ const EditLessonModal: React.FC = () => {
 
   if (!selectedLessonData) return null;
 
+  const actions = [
+    {
+      label: "إلغاء",
+      onClick: handleClose,
+      variant: "secondary" as const,
+      disabled: isSubmitting,
+    },
+    {
+      label: "حفظ التغييرات",
+      onClick: () => {},
+      variant: "primary" as const,
+      disabled: isSubmitting,
+      icon: <FaSave />,
+      type: "submit" as const,
+    },
+  ];
+
   return (
-    <div
-      className={`${baseStyles.modalOverlay} ${
-        isClosing ? baseStyles.fadeOut : ""
-      }`}
-    >
-      <div
-        className={`${baseStyles.modal} ${
-          isClosing ? baseStyles.modalSlideOut : ""
-        }`}
-      >
-        <div className={baseStyles.modalHeader}>
-          <div className={baseStyles.modalTitle}>
-            <FaEdit className={baseStyles.titleIcon} />
-            تعديل الحلقة
+    <ModalContainer isOpen={true} isClosing={isClosing} variant="add">
+      <ModalHeader
+        title="تعديل الحلقة"
+        icon={<FaEdit />}
+        onClose={handleClose}
+        disabled={isSubmitting}
+        variant="add"
+      />
+      <div className={baseStyles.modalBody}>
+        <form onSubmit={handleSubmit} className={baseStyles.form}>
+          <div className={baseStyles.formGrid}>
+            <SelectField
+              label="اليوم"
+              name="day"
+              value={formData.day}
+              onChange={handleSelectChange}
+              options={dayOptions}
+              required
+              disabled={isSubmitting}
+            />
+
+            <FormField
+              label="الوقت"
+              name="time"
+              type="time"
+              value={formData.time}
+              onChange={handleTextChange}
+              required
+              disabled={isSubmitting}
+            />
+
+            <FormField
+              label="التاريخ"
+              name="date"
+              type="date"
+              value={formData.date}
+              onChange={handleTextChange}
+              required
+              disabled={isSubmitting}
+            />
           </div>
-          <button
-            onClick={handleClose}
-            className={baseStyles.closeBtn}
-            disabled={isSubmitting}
-          >
-            <FaTimes />
-          </button>
-        </div>
-
-        <div className={baseStyles.modalBody}>
-          <form onSubmit={handleSubmit} className={baseStyles.form}>
-            <div className={baseStyles.formGrid}>
-              <div className={baseStyles.inputGroup}>
-                <label className={baseStyles.label}>
-                  اليوم <span className={baseStyles.required}>*</span>
-                </label>
-                <select
-                  name="day"
-                  value={formData.day}
-                  onChange={handleInputChange}
-                  className={baseStyles.select}
-                  required
-                  disabled={isSubmitting}
-                >
-                  {dayOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className={baseStyles.inputGroup}>
-                <label className={baseStyles.label}>
-                  الوقت <span className={baseStyles.required}>*</span>
-                </label>
-                <input
-                  type="time"
-                  name="time"
-                  value={formData.time}
-                  onChange={handleInputChange}
-                  className={baseStyles.textInput}
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <div className={baseStyles.inputGroup}>
-                <label className={baseStyles.label}>
-                  التاريخ <span className={baseStyles.required}>*</span>
-                </label>
-                <input
-                  type="date"
-                  name="date"
-                  value={formData.date}
-                  onChange={handleInputChange}
-                  className={baseStyles.textInput}
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
-            </div>
-
-            <div className={baseStyles.modalFooter}>
-              <button
-                type="button"
-                onClick={handleClose}
-                className={baseStyles.cancelButton}
-                disabled={isSubmitting}
-              >
-                إلغاء
-              </button>
-              <button
-                type="submit"
-                className={baseStyles.submitButton}
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <span className={baseStyles.loading}>جارٍ التحديث...</span>
-                ) : (
-                  <>
-                    <FaSave />
-                    حفظ التغييرات
-                  </>
-                )}
-              </button>
-            </div>
-          </form>
-        </div>
+          <ModalActions actions={actions} alignment="right" />
+        </form>
       </div>
-    </div>
+    </ModalContainer>
   );
 };
 

@@ -128,11 +128,22 @@ export type LoginFormErrors = Partial<
 export interface UserFormData {
   name: string;
   email: string;
-  password: string;
-  phone: string;
+  password?: string;
+  phone?: string;
+  phoneNumber?: string;
+  country: string;
+  userType?: string;
+  age?: number | null;
+  hasQuranMemorization?: boolean;
+  numOfPartsofQuran?: number;
+  quranLevel?: string;
   meetingLink?: string; // For teachers only
   quranMemorized?: string; // For students only
-  numOfPartsofQuran?: number; // For students only
+  subject?: string;
+  bio?: string;
+  address?: string;
+  privateCredits?: number;
+  publicCredits?: number;
 }
 
 export type UserType = "admin" | "teacher" | "student";
@@ -361,23 +372,23 @@ export interface PostponeData {
 // ==================================================
 
 export interface Course {
-  id: number;
+  _id: string;
   title: string;
-  teacherName: string;
-  startDate: string;
+  description: string;
+  telegramLink: string;
+  linkId: string;
   duration: string;
-  shortDescription: string;
-  type: string;
+  startAt: string;
   createdAt: string;
 }
 
 export interface CourseFormData {
   title: string;
-  teacherName: string;
-  startDate: string;
+  description: string;
+  telegramLink: string;
+  linkId: string;
   duration: string;
-  shortDescription: string;
-  type: string;
+  startAt: string;
 }
 
 // ==================================================
@@ -661,6 +672,12 @@ export interface AdminDashboardContextType {
   deleteTeacher: (token: string, teacherId: string) => Promise<any>;
   createStudent: (studentData: any) => Promise<any>;
   createAdmin: (adminData: any) => Promise<any>;
+  addCreditsToStudent: (
+    token: string,
+    studentId: string,
+    privateAmount: number,
+    publicAmount?: number
+  ) => Promise<any>;
   createGroup: (token: string, groupData: any) => Promise<any>;
   updateGroup: (token: string, groupId: string, groupData: any) => Promise<any>;
   deleteGroup: (token: string, groupId: string) => Promise<any>;
@@ -803,10 +820,11 @@ export interface AdminModalContextType {
   userActionsModalOpen: boolean;
   editUserModalOpen: boolean;
   deleteUserModalOpen: boolean;
+  addCreditsModalOpen: boolean;
 
   // Selected data
   selectedUserType: UserType | null;
-  selectedCourseId: number | null;
+  selectedCourseId: string | null;
   selectedGroupData: {
     id: string;
     name: string;
@@ -845,12 +863,16 @@ export interface AdminModalContextType {
     fullData?: any; // البيانات الكاملة للمستخدم
   } | null;
   selectedUserData: any;
+  selectedStudentForCredits: {
+    userId: string;
+    name: string;
+  } | null;
 
   // Modal actions
   openAddUserModal: () => void;
   openAddCourseModal: () => void;
-  openEditCourseModal: (courseId: number) => void;
-  openDeleteCourseModal: (courseId: number) => void;
+  openEditCourseModal: (courseId: string) => void;
+  openDeleteCourseModal: (courseId: string) => void;
   openAddGroupModal: () => void;
   openEditGroupModal: (groupData: { id: string; name: string }) => void;
   openAddMembersModal: (groupData: {
@@ -892,6 +914,7 @@ export interface AdminModalContextType {
     name: string;
     userType: "student" | "teacher";
   }) => void;
+  openAddCreditsModal: (studentData: { userId: string; name: string }) => void;
 
   // Close actions
   closeAddUserModal: () => void;
@@ -911,18 +934,35 @@ export interface AdminModalContextType {
   closeUserActionsModal: () => void;
   closeEditUserModal: () => void;
   closeDeleteUserModal: () => void;
+  closeAddCreditsModal: () => void;
 
   // User type selection
   setUserType: (type: UserType | null) => void;
 
   // Save actions
   saveNewUser: (userData: UserFormData, userType: UserType) => Promise<void>;
+  updateUser: (
+    userId: string,
+    userData: any,
+    userType: UserType
+  ) => Promise<void>;
   saveNewGroup: (groupData: any) => Promise<void>;
   handleDeleteGroup: (groupId: string) => Promise<void>;
+  addCreditsToStudent: (
+    studentId: string,
+    privateAmount: number,
+    publicAmount?: number
+  ) => Promise<void>;
 }
 
 export interface AdminModalProviderProps {
   children: React.ReactNode;
+}
+
+// Credits Modal Types
+export interface CreditsFormData {
+  privateAmount: number;
+  publicAmount?: number;
 }
 
 // ==================================================

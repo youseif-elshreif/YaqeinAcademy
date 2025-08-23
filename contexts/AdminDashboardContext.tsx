@@ -200,6 +200,14 @@ export const AdminDashboardProvider: React.FC<{
           throw new Error("Not running in browser environment");
         }
 
+        console.log("🔄 updateStudent called with:");
+        console.log("- studentId:", studentId);
+        console.log("- studentData:", studentData);
+        console.log(
+          "- API URL:",
+          `${API_BASE_URL}/api/admin/members/${studentId}`
+        );
+
         const response = await api.put(
           `${API_BASE_URL}/api/admin/members/${studentId}`,
           studentData,
@@ -209,14 +217,18 @@ export const AdminDashboardProvider: React.FC<{
             },
           }
         );
-        console.log("Updated student:", response.data);
+        console.log("✅ Student updated successfully:", response.data);
 
         // Refresh students data after update
         await getStudents(token);
 
         return response.data;
       } catch (error) {
-        console.error("Error updating student:", error);
+        console.error("❌ Error updating student:", error);
+        if (error.response) {
+          console.error("📤 Response status:", error.response.status);
+          console.error("📤 Response data:", error.response.data);
+        }
         throw error;
       }
     },
@@ -287,6 +299,45 @@ export const AdminDashboardProvider: React.FC<{
       throw error;
     }
   }, []);
+
+  // add credits to student
+  const addCreditsToStudent = useCallback(
+    async (
+      token: string,
+      studentId: string,
+      privateAmount: number,
+      publicAmount: number = 0
+    ) => {
+      try {
+        if (typeof window === "undefined") {
+          throw new Error("Not running in browser environment");
+        }
+
+        const creditsData = {
+          userId: studentId,
+          privateAmount,
+          publicAmount,
+        };
+
+        console.log("Adding credits:", creditsData);
+        const response = await api.patch(
+          `${API_BASE_URL}/api/admin/credits`,
+          creditsData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Added credits:", response.data);
+        return response.data;
+      } catch (error) {
+        console.error("Error adding credits:", error);
+        throw error;
+      }
+    },
+    []
+  );
 
   // create group
   const createGroup = useCallback(async (token: string, groupData: any) => {
@@ -724,6 +775,7 @@ export const AdminDashboardProvider: React.FC<{
       deleteTeacher,
       createStudent,
       createAdmin,
+      addCreditsToStudent,
       createGroup,
       updateGroup,
       deleteGroup,
@@ -752,6 +804,7 @@ export const AdminDashboardProvider: React.FC<{
       deleteTeacher,
       createStudent,
       createAdmin,
+      addCreditsToStudent,
       createGroup,
       updateGroup,
       deleteGroup,

@@ -2,58 +2,58 @@ import { Course } from "@/utils/types";
 
 export const coursesData: Course[] = [
   {
-    id: 1,
+    _id: "1",
     title: "تفسير سورة البقرة",
-    teacherName: "د. أحمد محمد",
-    startDate: "2024-07-15",
-    duration: "3 أشهر",
-    shortDescription:
+    description:
       "دراسة شاملة لسورة البقرة مع التفسير والتدبر، تشمل أسباب النزول والأحكام الفقهية المستنبطة من الآيات الكريمة.",
-    type: "تفسير",
+    telegramLink: "https://t.me/tafseer_baqara",
+    linkId: "",
+    duration: "3 أشهر",
+    startAt: "2024-07-15",
     createdAt: "2024-06-01",
   },
   {
-    id: 2,
+    _id: "2",
     title: "علوم الحديث النبوي",
-    teacherName: "د. فاطمة علي",
-    startDate: "2024-07-20",
+    description:
+      "دراسة أصول علم الحديث ومصطلحاته، وتطبيقات عملية على الأحاديث النبوية الشريفة لتعلم منهج النقد والتحليل.",
+    telegramLink: "https://t.me/uloom_hadith",
+    linkId: "",
     duration: "شهرين",
-    shortDescription:
-      "دورة متخصصة في علوم الحديث تشمل قواعد الجرح والتعديل، وطرق التحقق من صحة الأحاديث النبوية الشريفة.",
-    type: "حديث",
-    createdAt: "2024-06-15",
+    startAt: "2024-07-20",
+    createdAt: "2024-06-05",
   },
   {
-    id: 3,
+    _id: "3",
     title: "فقه العبادات",
-    teacherName: "الشيخ محمد حسن",
-    startDate: "2024-08-01",
-    duration: "6 أشهر",
-    shortDescription:
+    description:
       "دراسة شاملة لأحكام العبادات في الإسلام من الطهارة والصلاة والزكاة والصوم والحج مع الأدلة الشرعية.",
-    type: "فقه",
+    telegramLink: "https://t.me/fiqh_ibadat",
+    linkId: "",
+    duration: "6 أشهر",
+    startAt: "2024-08-01",
     createdAt: "2024-05-20",
   },
   {
-    id: 4,
+    _id: "4",
     title: "العقيدة الإسلامية",
-    teacherName: "د. عائشة أحمد",
-    startDate: "2024-07-25",
-    duration: "شهر واحد",
-    shortDescription:
+    description:
       "أساسيات العقيدة الإسلامية الصحيحة، التوحيد بأنواعه، الإيمان بالله وملائكته وكتبه ورسله واليوم الآخر.",
-    type: "عقيدة",
+    telegramLink: "https://t.me/aqeedah_islam",
+    linkId: "",
+    duration: "شهر واحد",
+    startAt: "2024-07-25",
     createdAt: "2024-06-10",
   },
   {
-    id: 5,
+    _id: "5",
     title: "السيرة النبوية الشريفة",
-    teacherName: "د. أحمد محمد",
-    startDate: "2024-08-10",
-    duration: "3 أشهر",
-    shortDescription:
+    description:
       "دراسة مفصلة لحياة النبي محمد صلى الله عليه وسلم، من الولادة إلى الوفاة، مع استخلاص الدروس والعبر.",
-    type: "سيرة",
+    telegramLink: "https://t.me/seerah_nabawiya",
+    linkId: "",
+    duration: "3 أشهر",
+    startAt: "2024-08-10",
     createdAt: "2024-05-15",
   },
 ];

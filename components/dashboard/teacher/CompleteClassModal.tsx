@@ -1,6 +1,11 @@
 import { useState } from "react";
 import styles from "./CompleteClassModal.module.css";
-import { FaTimes, FaPlus } from "react-icons/fa";
+import { FaPlus, FaTimes } from "react-icons/fa";
+import {
+  ModalContainer,
+  ModalHeader,
+  ModalActions,
+} from "@/components/common/Modal";
 
 interface ClassData {
   id: number;
@@ -191,9 +196,6 @@ const CompleteClassModal = ({
     return true;
   }
 
-  const handleNext = () => {
-    firstValidation() && setStep(2);
-  };
   const handlePrev = () => {
     setStep(1);
   };
@@ -271,15 +273,7 @@ const CompleteClassModal = ({
     }
   };
 
-  const handleSave = () => {
-    // This function is kept for backward compatibility but now just triggers form submit
-    const form = document.querySelector(
-      "#complete-class-form"
-    ) as HTMLFormElement;
-    if (form) {
-      form.requestSubmit();
-    }
-  };
+  // Removed deprecated handleSave; submit handled via form submission
 
   const renderDynamicFields = (
     fields: string[],
@@ -332,26 +326,55 @@ const CompleteClassModal = ({
     }, 280);
   };
 
-  return (
-    <div
-      className={`${styles.modalOverlay} ${isClosing ? styles.fadeOut : ""}`}
-      onClick={handleClose}
-    >
-      <form
-        id="complete-class-form"
-        className={`${styles.modal} ${isClosing ? styles.modalSlideOut : ""}`}
-        onClick={(e) => e.stopPropagation()}
-        onSubmit={handleSubmit}
-      >
-        <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>
-            {step === 1 ? "إكمال الحلقة" : "تحديد المطلوب للحصة القادمة"}
-          </h2>
-          <button onClick={handleClose} className={styles.closeBtn}>
-            <FaTimes />
-          </button>
-        </div>
+  const actions =
+    step === 1
+      ? [
+          {
+            label: "إلغاء",
+            onClick: handleClose,
+            variant: "secondary" as const,
+            disabled: isSubmitting,
+          },
+          {
+            label: "التالي",
+            onClick: () => {},
+            variant: "primary" as const,
+            disabled: isSubmitting,
+            type: "submit" as const,
+          },
+        ]
+      : [
+          {
+            label: "إلغاء",
+            onClick: handleClose,
+            variant: "secondary" as const,
+            disabled: isSubmitting,
+          },
+          {
+            label: "السابق",
+            onClick: handlePrev,
+            variant: "secondary" as const,
+            disabled: isSubmitting,
+          },
+          {
+            label: isGroup ? "حفظ البيانات" : "حفظ وإكمال الحلقة",
+            onClick: () => {},
+            variant: "primary" as const,
+            disabled: isSubmitting,
+            loading: isSubmitting,
+            type: "submit" as const,
+          },
+        ];
 
+  return (
+    <ModalContainer isOpen={true} isClosing={isClosing} variant="add">
+      <ModalHeader
+        title={step === 1 ? "إكمال الحلقة" : "تحديد المطلوب للحصة القادمة"}
+        onClose={handleClose}
+        disabled={isSubmitting}
+        variant="add"
+      />
+      <form id="complete-class-form" onSubmit={handleSubmit}>
         <div className={styles.modalBody}>
           <div className={styles.classInfo}>
             <p>
@@ -415,62 +438,9 @@ const CompleteClassModal = ({
             </div>
           )}
         </div>
-
-        <div className={styles.modalFooter}>
-          <button
-            type="button"
-            onClick={handleClose}
-            className={styles.cancelBtn}
-            disabled={isSubmitting}
-          >
-            إلغاء
-          </button>
-          {step === 1 ? (
-            <button
-              type="submit"
-              className={styles.nextBtn}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
-                  <span className={styles.spinner}></span>
-                  جاري التحميل
-                </>
-              ) : (
-                "التالي"
-              )}
-            </button>
-          ) : (
-            <>
-              <button
-                type="submit"
-                className={styles.saveBtn}
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    <span className={styles.spinner}></span>
-                    {isGroup ? "جاري الحفظ..." : "جاري إكمال الحلقة..."}
-                  </>
-                ) : isGroup ? (
-                  "حفظ البيانات"
-                ) : (
-                  "حفظ وإكمال الحلقة"
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={handlePrev}
-                className={styles.saveBtn}
-                disabled={isSubmitting}
-              >
-                السابق
-              </button>
-            </>
-          )}
-        </div>
+        <ModalActions actions={actions} alignment="right" />
       </form>
-    </div>
+    </ModalContainer>
   );
 };
 

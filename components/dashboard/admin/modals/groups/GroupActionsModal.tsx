@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import { FaEdit, FaTrash, FaUsers, FaUserMinus } from "react-icons/fa";
-import { FaTimes } from "react-icons/fa";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import styles from "./GroupActionsModal.module.css";
+import { ModalContainer, ModalHeader } from "@/components/common/Modal";
 
 interface GroupActionsModalProps {
   isOpen: boolean;
@@ -54,50 +54,36 @@ const GroupActionsModal: React.FC<GroupActionsModalProps> = ({
   };
 
   return (
-    <div className={baseStyles.modalOverlay} onClick={onClose}>
-      <div className={baseStyles.modal} onClick={(e) => e.stopPropagation()}>
-        <div className={baseStyles.modalHeader}>
-          <h3 className={baseStyles.modalTitle}>إجراءات الحلقة</h3>
-          <button className={baseStyles.closeButton} onClick={onClose}>
-            <FaTimes />
+    <ModalContainer isOpen={true}>
+      <ModalHeader title="إجراءات الحلقة" onClose={onClose} />
+      <div className={styles.modalBody}>
+        <div className={baseStyles.groupInfo}>
+          الحلقة: <span>{groupName}</span>
+        </div>
+
+        <div className={baseStyles.actionsContainer}>
+          <button className={baseStyles.actionBtn} onClick={handleEdit}>
+            <FaEdit className={baseStyles.btnIcon} />
+            <span className={baseStyles.btnTitle}>تعديل الحلقة</span>
+          </button>
+
+          <button className={baseStyles.actionBtn} onClick={handleAddMember}>
+            <FaUsers className={baseStyles.btnIcon} />
+            <span className={baseStyles.btnTitle}>إضافة عضو</span>
+          </button>
+
+          <button className={baseStyles.actionBtn} onClick={handleRemoveMember}>
+            <FaUserMinus className={baseStyles.btnIcon} />
+            <span className={baseStyles.btnTitle}>حذف عضو</span>
+          </button>
+
+          <button className={`${baseStyles.actionBtn}`} onClick={handleDelete}>
+            <FaTrash className={baseStyles.btnIcon} />
+            <span className={baseStyles.btnTitle}>حذف الحلقة</span>
           </button>
         </div>
-
-        <div className={styles.modalBody}>
-          <div className={baseStyles.groupInfo}>
-            الحلقة: <span>{groupName}</span>
-          </div>
-
-          <div className={baseStyles.actionsContainer}>
-            <button className={baseStyles.actionBtn} onClick={handleEdit}>
-              <FaEdit className={baseStyles.btnIcon} />
-              <span className={baseStyles.btnTitle}>تعديل الحلقة</span>
-            </button>
-
-            <button className={baseStyles.actionBtn} onClick={handleAddMember}>
-              <FaUsers className={baseStyles.btnIcon} />
-              <span className={baseStyles.btnTitle}>إضافة عضو</span>
-            </button>
-
-            <button
-              className={baseStyles.actionBtn}
-              onClick={handleRemoveMember}
-            >
-              <FaUserMinus className={baseStyles.btnIcon} />
-              <span className={baseStyles.btnTitle}>حذف عضو</span>
-            </button>
-
-            <button
-              className={`${baseStyles.actionBtn}`}
-              onClick={handleDelete}
-            >
-              <FaTrash className={baseStyles.btnIcon} />
-              <span className={baseStyles.btnTitle}>حذف الحلقة</span>
-            </button>
-          </div>
-        </div>
       </div>
-    </div>
+    </ModalContainer>
   );
 };
 

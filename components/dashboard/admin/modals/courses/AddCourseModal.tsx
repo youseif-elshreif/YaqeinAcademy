@@ -3,13 +3,22 @@ import { useAdminModal } from "@/contexts/AdminModalContext";
 import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
 import { getCourseById } from "@/data/mockCourses";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
-import { FaTimes, FaSave, FaBook, FaTelegram, FaEdit } from "react-icons/fa";
+import { FaSave, FaBook } from "react-icons/fa";
+import {
+  ModalContainer,
+  ModalHeader,
+  FormField,
+  ModalActions,
+  ErrorDisplay,
+} from "@/components/common/Modal";
 
 interface CourseFormData {
   _id?: string;
   title: string;
   description: string;
   telegramLink: string;
+  duration: string;
+  startAt: string;
 }
 
 interface AddCourseModalProps {
@@ -30,6 +39,8 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
     title: "",
     description: "",
     telegramLink: "",
+    duration: "",
+    startAt: "",
   });
 
   const [isClosing, setIsClosing] = useState(false);
@@ -55,6 +66,8 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
         title: "",
         description: "",
         telegramLink: "",
+        duration: "",
+        startAt: "",
       });
     }, 300);
   };
@@ -79,6 +92,8 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
           title: courseData.title || "",
           description: courseData.description || "",
           telegramLink: courseData.telegramLink || "",
+          duration: courseData.duration || "",
+          startAt: courseData.startAt || "",
         });
       } catch (apiError) {
         // Fallback to mock data if API fails
@@ -91,6 +106,8 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
             title: mockCourse.title,
             description: mockCourse.description,
             telegramLink: mockCourse.telegramLink,
+            duration: "",
+            startAt: "",
           });
         } else {
           throw new Error("لم يتم العثور على الدورة");
@@ -134,6 +151,12 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
         } catch {
           return "رابط التليجرام غير صحيح";
         }
+      case "duration":
+        if (!value.trim()) return "مدة الدورة مطلوبة";
+        return "";
+      case "startAt":
+        if (!value.trim()) return "تاريخ بداية الدورة مطلوب";
+        return "";
       default:
         return "";
     }
@@ -145,6 +168,8 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
     errors.title = validateField("title", formData.title);
     errors.description = validateField("description", formData.description);
     errors.telegramLink = validateField("telegramLink", formData.telegramLink);
+    errors.duration = validateField("duration", formData.duration);
+    errors.startAt = validateField("startAt", formData.startAt);
 
     // Remove empty errors
     Object.keys(errors).forEach((key) => {
@@ -201,10 +226,14 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
 
       if (isEditMode && editCourseId) {
         // Update existing course using context
-        await updateCourse(token, editCourseId, formData);
+        await updateCourse(token, editCourseId, {
+          ...formData,
+        });
       } else {
         // Create new course using context
-        await createCourse(token, formData);
+        await createCourse(token, {
+          ...formData,
+        });
       }
 
       // Reset form after successful submission
@@ -213,6 +242,8 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
         title: "",
         description: "",
         telegramLink: "",
+        duration: "",
+        startAt: "",
       });
       setFieldErrors({});
       setServerError("");
@@ -233,169 +264,115 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
 
   if (isLoading) {
     return (
-      <div
-        className={`${baseStyles.modalOverlay} ${
-          isClosing ? baseStyles.fadeOut : ""
-        }`}
-      >
-        <div
-          className={`${baseStyles.modal} ${
-            isClosing ? baseStyles.modalSlideOut : ""
-          }`}
-        >
-          <div className={baseStyles.modalHeader}>
-            <h2 className={baseStyles.modalTitle}>جاري التحميل...</h2>
-          </div>
-          <div className={baseStyles.modalBody}>
-            <div className={baseStyles.loadingSpinner}>
-              <span className={baseStyles.spinner}></span>
-              <p>جاري تحميل بيانات الدورة...</p>
-            </div>
+      <ModalContainer isOpen={true} isClosing={isClosing}>
+        <ModalHeader title="جاري التحميل..." onClose={handleClose} />
+        <div className={baseStyles.modalBody}>
+          <div className={baseStyles.loadingSpinner}>
+            <span className={baseStyles.spinner}></span>
+            <p>جاري تحميل بيانات الدورة...</p>
           </div>
         </div>
-      </div>
+      </ModalContainer>
     );
   }
 
+  const actions = [
+    {
+      label: "إلغاء",
+      onClick: handleClose,
+      variant: "secondary" as const,
+      disabled: isSubmitting,
+    },
+    {
+      label: isEditMode ? "تحديث الدورة" : "إنشاء الدورة",
+      onClick: () => {},
+      variant: "primary" as const,
+      disabled: isSubmitting,
+      icon: <FaSave />,
+      type: "submit" as const,
+    },
+  ];
+
   return (
-    <div
-      className={`${baseStyles.modalOverlay} ${
-        isClosing ? baseStyles.fadeOut : ""
-      }`}
+    <ModalContainer
+      isOpen={true}
+      isClosing={isClosing}
+      variant={isEditMode ? "edit" : "add"}
+      size="large"
     >
-      <div
-        className={`${baseStyles.modal} ${
-          isClosing ? baseStyles.modalSlideOut : ""
-        }`}
-      >
-        <div className={baseStyles.modalHeader}>
-          <h2 className={baseStyles.modalTitle}>
-            <FaBook />
-            {isEditMode ? "تعديل الدورة" : "إضافة دورة جديدة"}
-          </h2>
-          <button
-            onClick={handleClose}
-            className={baseStyles.closeButton}
-            disabled={isSubmitting}
-          >
-            <FaTimes />
-          </button>
-        </div>
+      <ModalHeader
+        title={isEditMode ? "تعديل الدورة" : "إضافة دورة جديدة"}
+        icon={<FaBook />}
+        onClose={handleClose}
+        disabled={isSubmitting}
+        variant={isEditMode ? "edit" : "add"}
+      />
 
-        <div className={baseStyles.modalBody}>
-          <form onSubmit={handleSubmit} className={baseStyles.form}>
-            {/* Server Error Display */}
-            {serverError && (
-              <div className={baseStyles.errorMessage}>{serverError}</div>
-            )}
+      <div className={baseStyles.modalBody}>
+        <form onSubmit={handleSubmit} className={baseStyles.form}>
+          <ErrorDisplay message={serverError} />
 
-            <div className={baseStyles.formGrid}>
-              {/* Course Title */}
-              <div className={baseStyles.inputGroup}>
-                <label className={baseStyles.label}>
-                  <FaBook className={baseStyles.labelIcon} />
-                  عنوان الدورة
-                </label>
-                <input
-                  type="text"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleInputChange}
-                  className={`${baseStyles.textInput} ${
-                    fieldErrors.title ? baseStyles.inputError : ""
-                  }`}
-                  placeholder="مثال: دورة تأسيس القرآن الكريم"
-                  disabled={isSubmitting}
-                />
-                {fieldErrors.title && (
-                  <span className={baseStyles.fieldError}>
-                    {fieldErrors.title}
-                  </span>
-                )}
-              </div>
+          <div className={baseStyles.formGrid}>
+            <FormField
+              label="عنوان الدورة"
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
+              error={fieldErrors.title}
+              disabled={isSubmitting}
+              placeholder="مثال: دورة تأسيس القرآن الكريم"
+              fullWidth={false}
+            />
 
-              {/* Telegram Link */}
-              <div className={baseStyles.inputGroup}>
-                <label className={baseStyles.label}>
-                  <FaTelegram className={baseStyles.labelIcon} />
-                  رابط التليجرام
-                </label>
-                <input
-                  type="url"
-                  name="telegramLink"
-                  value={formData.telegramLink}
-                  onChange={handleInputChange}
-                  className={`${baseStyles.textInput} ${
-                    fieldErrors.telegramLink ? baseStyles.inputError : ""
-                  }`}
-                  placeholder="https://t.me/channelname"
-                  disabled={isSubmitting}
-                />
-                {fieldErrors.telegramLink && (
-                  <span className={baseStyles.fieldError}>
-                    {fieldErrors.telegramLink}
-                  </span>
-                )}
-              </div>
+            <FormField
+              label="رابط التليجرام"
+              name="telegramLink"
+              type="url"
+              value={formData.telegramLink}
+              onChange={handleInputChange}
+              error={fieldErrors.telegramLink}
+              disabled={isSubmitting}
+              placeholder="https://t.me/channelname"
+            />
 
-              {/* Course Description */}
-              <div
-                className={`${baseStyles.inputGroup} ${baseStyles.fullWidth}`}
-              >
-                <label className={baseStyles.label}>
-                  <FaEdit className={baseStyles.labelIcon} />
-                  وصف الدورة
-                </label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  className={`${baseStyles.textarea} ${
-                    fieldErrors.description ? baseStyles.inputError : ""
-                  }`}
-                  placeholder="وصف مفصل للدورة ومحتواها..."
-                  rows={4}
-                  disabled={isSubmitting}
-                />
-                {fieldErrors.description && (
-                  <span className={baseStyles.fieldError}>
-                    {fieldErrors.description}
-                  </span>
-                )}
-              </div>
-            </div>
+            <FormField
+              label="مدة الدورة"
+              name="duration"
+              value={formData.duration}
+              onChange={handleInputChange}
+              error={fieldErrors.duration}
+              disabled={isSubmitting}
+              placeholder="مثال: 3 أشهر"
+            />
 
-            <div className={baseStyles.formActions}>
-              <button
-                type="button"
-                onClick={handleClose}
-                className={baseStyles.cancelButton}
-                disabled={isSubmitting}
-              >
-                إلغاء
-              </button>
-              <button
-                type="submit"
-                className={baseStyles.submitButton}
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    <span className={baseStyles.spinner}></span>
-                    جاري الحفظ...
-                  </>
-                ) : (
-                  <>
-                    <FaSave />
-                    {isEditMode ? "تحديث الدورة" : "إنشاء الدورة"}
-                  </>
-                )}
-              </button>
-            </div>
-          </form>
-        </div>
+            <FormField
+              label="تاريخ البداية"
+              name="startAt"
+              type="date"
+              value={formData.startAt}
+              onChange={handleInputChange}
+              error={fieldErrors.startAt}
+              disabled={isSubmitting}
+            />
+
+            <FormField
+              label="وصف الدورة"
+              name="description"
+              type="textarea"
+              value={formData.description}
+              onChange={handleInputChange}
+              error={fieldErrors.description}
+              disabled={isSubmitting}
+              placeholder="وصف مفصل للدورة ومحتواها..."
+              rows={4}
+              fullWidth
+            />
+          </div>
+
+          <ModalActions actions={actions} alignment="right" />
+        </form>
       </div>
-    </div>
+    </ModalContainer>
   );
 };
 

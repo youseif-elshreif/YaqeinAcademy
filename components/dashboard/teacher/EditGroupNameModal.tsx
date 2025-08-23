@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 import styles from "./EditGroupNameModal.module.css";
+import {
+  ModalContainer,
+  ModalHeader,
+  ModalActions,
+  FormField,
+  ErrorDisplay,
+} from "@/components/common/Modal";
 
 interface GroupData {
   classId: number;
@@ -20,35 +27,36 @@ const EditGroupNameModal: React.FC<EditGroupNameModalProps> = ({
   const [groupName, setGroupName] = useState(groupData.currentGroupName);
   const [isClosing, setIsClosing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (groupName.trim()) {
-      setIsSubmitting(true);
-
-      try {
-        // TODO: Replace with actual API call when backend is ready
-        console.log("=== UPDATE GROUP NAME API CALL ===");
-        console.log("Class ID:", groupData.classId);
-        console.log("Old Group Name:", groupData.currentGroupName);
-        console.log("New Group Name:", groupName.trim());
-        console.log("API Endpoint: PUT /api/classes/group-name");
-        console.log("Request Body:", {
-          classId: groupData.classId,
-          groupName: groupName.trim(),
-        });
-
-        // Simulate API delay
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        console.log("✅ Group name updated successfully");
-        onSave(groupName.trim());
-      } catch (error) {
-        console.error("❌ Error updating group name:", error);
-        // TODO: Show error message to user
-      } finally {
-        setIsSubmitting(false);
-      }
+    if (!groupName.trim()) {
+      setError("اسم الحلقة مطلوب");
+      return;
+    }
+    setIsSubmitting(true);
+    setError("");
+    try {
+      // TODO: Replace with actual API call when backend is ready
+      console.log("=== UPDATE GROUP NAME API CALL ===");
+      console.log("Class ID:", groupData.classId);
+      console.log("Old Group Name:", groupData.currentGroupName);
+      console.log("New Group Name:", groupName.trim());
+      console.log("API Endpoint: PUT /api/classes/group-name");
+      console.log("Request Body:", {
+        classId: groupData.classId,
+        groupName: groupName.trim(),
+      });
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      console.log("✅ Group name updated successfully");
+      onSave(groupName.trim());
+    } catch (err) {
+      setError("حدث خطأ أثناء حفظ اسم الحلقة");
+      console.error("❌ Error updating group name:", err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -59,74 +67,51 @@ const EditGroupNameModal: React.FC<EditGroupNameModalProps> = ({
     }, 200);
   };
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      handleClose();
-    }
-  };
+  // Backdrop click handled by ModalContainer
+
+  const actions = [
+    {
+      label: "إلغاء",
+      onClick: handleClose,
+      variant: "secondary" as const,
+      disabled: isSubmitting,
+    },
+    {
+      label: isSubmitting ? "جاري الحفظ" : "حفظ",
+      onClick: () => {},
+      variant: "primary" as const,
+      disabled: !groupName.trim() || isSubmitting,
+      type: "submit" as const,
+    },
+  ];
 
   return (
-    <div
-      className={`${styles.modalOverlay} ${isClosing ? styles.closing : ""}`}
-      onClick={handleBackdropClick}
-    >
-      <div className={`${styles.modal} ${isClosing ? styles.closing : ""}`}>
-        <div className={styles.modalHeader}>
-          <h3 className={styles.modalTitle}>تعديل اسم الحلقة</h3>
-          <button
-            className={styles.closeButton}
-            onClick={handleClose}
-            type="button"
-          >
-            ×
-          </button>
+    <ModalContainer isOpen={true} isClosing={isClosing} variant="add">
+      <ModalHeader
+        title="تعديل اسم الحلقة"
+        onClose={handleClose}
+        disabled={isSubmitting}
+        variant="add"
+      />
+      <form onSubmit={handleSubmit}>
+        <div className={styles.modalBody}>
+          <FormField
+            label="اسم الحلقة:"
+            name="groupName"
+            value={groupName}
+            onChange={(e) => {
+              setGroupName(e.target.value);
+              if (error) setError("");
+            }}
+            placeholder="أدخل اسم الحلقة الجديد"
+            required
+            disabled={isSubmitting}
+          />
+          <ErrorDisplay message={error || undefined} />
         </div>
-
-        <form onSubmit={handleSubmit} className={styles.modalBody}>
-          <div className={styles.inputGroup}>
-            <label htmlFor="groupName" className={styles.label}>
-              اسم الحلقة:
-            </label>
-            <input
-              type="text"
-              id="groupName"
-              value={groupName}
-              onChange={(e) => setGroupName(e.target.value)}
-              className={styles.input}
-              placeholder="أدخل اسم الحلقة الجديد"
-              autoFocus
-              required
-              disabled={isSubmitting}
-            />
-          </div>
-
-          <div className={styles.modalFooter}>
-            <button
-              type="button"
-              onClick={handleClose}
-              className={styles.cancelButton}
-              disabled={isSubmitting}
-            >
-              إلغاء
-            </button>
-            <button
-              type="submit"
-              className={styles.saveButton}
-              disabled={!groupName.trim() || isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
-                  <span className={styles.spinner}></span>
-                  جاري الحفظ
-                </>
-              ) : (
-                "حفظ"
-              )}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+        <ModalActions actions={actions} alignment="right" />
+      </form>
+    </ModalContainer>
   );
 };
 

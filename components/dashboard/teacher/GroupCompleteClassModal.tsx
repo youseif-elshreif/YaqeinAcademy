@@ -1,7 +1,12 @@
 import { useState } from "react";
 import styles from "./GroupCompleteClassModal.module.css";
 import CompleteClassModal from "./CompleteClassModal";
-import { FaTimes, FaCheck, FaUser } from "react-icons/fa";
+import { FaCheck, FaUser } from "react-icons/fa";
+import {
+  ModalContainer,
+  ModalHeader,
+  ModalActions,
+} from "@/components/common/Modal";
 
 interface Student {
   id: number;
@@ -143,108 +148,95 @@ const GroupCompleteClassModal = ({
         ) || undefined
       : undefined;
 
+  const actions = [
+    {
+      label: "إلغاء",
+      onClick: handleClose,
+      variant: "secondary" as const,
+      disabled: isSubmitting,
+    },
+    {
+      label: allStudentsCompleted ? "حفظ جميع البيانات" : "أكمل بيانات الطلاب",
+      onClick: handleSubmitAll,
+      variant: "primary" as const,
+      disabled: !allStudentsCompleted || isSubmitting,
+      loading: isSubmitting,
+    },
+  ];
+
   return (
     <>
-      <div
-        className={`${styles.modalOverlay} ${isClosing ? styles.fadeOut : ""}`}
-        onClick={handleClose}
-      >
-        <div
-          className={`${styles.modal} ${isClosing ? styles.modalSlideOut : ""}`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className={styles.modalHeader}>
-            <h2 className={styles.modalTitle}>إكمال حصة الحلقة</h2>
-            <button onClick={handleClose} className={styles.closeBtn}>
-              <FaTimes />
-            </button>
+      <ModalContainer isOpen={true} isClosing={isClosing} variant="add">
+        <ModalHeader
+          title="إكمال حصة الحلقة"
+          onClose={handleClose}
+          disabled={isSubmitting}
+          variant="add"
+        />
+        <div className={styles.modalBody}>
+          <div className={styles.groupInfo}>
+            <h3 className={styles.groupName}>{groupClassData.groupName}</h3>
+            <div className={styles.classDetails}>
+              <p>
+                <strong>التاريخ:</strong> {groupClassData.date}
+              </p>
+              <p>
+                <strong>الوقت:</strong> {groupClassData.time}
+              </p>
+            </div>
           </div>
 
-          <div className={styles.modalBody}>
-            <div className={styles.groupInfo}>
-              <h3 className={styles.groupName}>{groupClassData.groupName}</h3>
-              <div className={styles.classDetails}>
-                <p>
-                  <strong>التاريخ:</strong> {groupClassData.date}
-                </p>
-                <p>
-                  <strong>الوقت:</strong> {groupClassData.time}
-                </p>
-              </div>
-            </div>
+          <div className={styles.studentsSection}>
+            <h4 className={styles.sectionTitle}>
+              الطلاب ({completedStudents.size}/{groupClassData.students.length})
+            </h4>
 
-            <div className={styles.studentsSection}>
-              <h4 className={styles.sectionTitle}>
-                الطلاب ({completedStudents.size}/
-                {groupClassData.students.length})
-              </h4>
-
-              <div className={styles.studentsList}>
-                {groupClassData.students.map((student, index) => (
-                  <div
-                    key={student.id}
-                    className={`${styles.studentCard} ${
-                      completedStudents.has(student.id) ? styles.completed : ""
-                    }`}
-                    onClick={() => handleStudentClick(index)}
-                  >
-                    <div className={styles.studentInfo}>
-                      <FaUser className={styles.studentIcon} />
-                      <span className={styles.studentName}>{student.name}</span>
-                    </div>
-
-                    <div className={styles.statusIndicator}>
-                      {completedStudents.has(student.id) ? (
-                        <FaCheck className={styles.checkIcon} />
-                      ) : (
-                        <span className={styles.pendingText}>انقر للإكمال</span>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className={styles.progressBar}>
-              <div className={styles.progressTrack}>
+            <div className={styles.studentsList}>
+              {groupClassData.students.map((student, index) => (
                 <div
-                  className={styles.progressFill}
-                  style={{
-                    width: `${
-                      (completedStudents.size /
-                        groupClassData.students.length) *
-                      100
-                    }%`,
-                  }}
-                />
-              </div>
-              <span className={styles.progressText}>
-                تم إكمال {completedStudents.size} من{" "}
-                {groupClassData.students.length} طلاب
-              </span>
+                  key={student.id}
+                  className={`${styles.studentCard} ${
+                    completedStudents.has(student.id) ? styles.completed : ""
+                  }`}
+                  onClick={() => handleStudentClick(index)}
+                >
+                  <div className={styles.studentInfo}>
+                    <FaUser className={styles.studentIcon} />
+                    <span className={styles.studentName}>{student.name}</span>
+                  </div>
+
+                  <div className={styles.statusIndicator}>
+                    {completedStudents.has(student.id) ? (
+                      <FaCheck className={styles.checkIcon} />
+                    ) : (
+                      <span className={styles.pendingText}>انقر للإكمال</span>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className={styles.modalFooter}>
-            <button
-              type="button"
-              onClick={handleClose}
-              className={styles.cancelBtn}
-              disabled={isSubmitting}
-            >
-              إلغاء
-            </button>
-            <button
-              type="button"
-              onClick={handleSubmitAll}
-              className={styles.submitBtn}
-              disabled={!allStudentsCompleted || isSubmitting}
-            >
-              {isSubmitting ? "جاري حفظ البيانات..." : "حفظ جميع البيانات"}
-            </button>
+          <div className={styles.progressBar}>
+            <div className={styles.progressTrack}>
+              <div
+                className={styles.progressFill}
+                style={{
+                  width: `${
+                    (completedStudents.size / groupClassData.students.length) *
+                    100
+                  }%`,
+                }}
+              />
+            </div>
+            <span className={styles.progressText}>
+              تم إكمال {completedStudents.size} من{" "}
+              {groupClassData.students.length} طلاب
+            </span>
           </div>
         </div>
-      </div>
+        <ModalActions actions={actions} alignment="right" />
+      </ModalContainer>
 
       {/* Individual Student Modal */}
       {currentStudentIndex !== null && currentStudent && (

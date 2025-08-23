@@ -1,6 +1,13 @@
 import { useState } from "react";
 import styles from "./PostponeClassModal.module.css";
-import { FaTimes, FaClock, FaBan } from "react-icons/fa";
+import { FaClock, FaBan } from "react-icons/fa";
+import {
+  ModalContainer,
+  ModalHeader,
+  ModalActions,
+  FormField,
+  ErrorDisplay,
+} from "@/components/common/Modal";
 
 interface ClassData {
   id: number;
@@ -124,24 +131,44 @@ const PostponeClassModal = ({
     }, 280);
   };
 
-  return (
-    <div
-      className={`${styles.modalOverlay} ${isClosing ? styles.fadeOut : ""}`}
-      onClick={handleClose}
-    >
-      <form
-        id="postpone-class-form"
-        className={`${styles.modal} ${isClosing ? styles.modalSlideOut : ""}`}
-        onClick={(e) => e.stopPropagation()}
-        onSubmit={handleSubmit}
-      >
-        <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>تأجيل أو إلغاء الحلقة</h2>
-          <button onClick={handleClose} className={styles.closeBtn}>
-            <FaTimes />
-          </button>
-        </div>
+  const actions = [
+    {
+      label: "إلغاء",
+      onClick: handleClose,
+      variant: "secondary" as const,
+      disabled: isSubmitting,
+    },
+    {
+      label: isSubmitting
+        ? action === "postponed"
+          ? "جاري التأجيل"
+          : "جاري الإلغاء"
+        : action === "postponed"
+        ? "تأجيل الحلقة"
+        : "إلغاء الحلقة",
+      onClick: () => {},
+      variant: (action === "postponed" ? "primary" : "danger") as
+        | "primary"
+        | "danger", // only allowed values
+      disabled: isSubmitting,
+      icon: action === "postponed" ? <FaClock /> : <FaBan />,
+      type: "submit" as const,
+    },
+  ];
 
+  return (
+    <ModalContainer
+      isOpen={true}
+      isClosing={isClosing}
+      variant={action === "postponed" ? "edit" : "delete"}
+    >
+      <ModalHeader
+        title="تأجيل أو إلغاء الحلقة"
+        onClose={handleClose}
+        disabled={isSubmitting}
+        variant={action === "postponed" ? "edit" : "delete"}
+      />
+      <form id="postpone-class-form" onSubmit={handleSubmit}>
         <div className={styles.modalBody}>
           <div className={styles.classInfo}>
             <p>
@@ -193,89 +220,59 @@ const PostponeClassModal = ({
             <h4 className={styles.sectionTitle}>
               سبب {action === "postponed" ? "التأجيل" : "الإلغاء"}
             </h4>
-            <textarea
+            <FormField
+              label={`أدخل سبب ${
+                action === "postponed" ? "تأجيل" : "إلغاء"
+              } الحلقة...`}
+              name="reason"
+              type="textarea"
               value={reason}
               onChange={(e) => {
                 setReason(e.target.value);
-                if (error) setError(""); // Clear error when user starts typing
+                if (error) setError("");
               }}
-              className={styles.textarea}
-              placeholder={`أدخل سبب ${
-                action === "postponed" ? "تأجيل" : "إلغاء"
-              } الحلقة...`}
               rows={4}
               required
+              disabled={isSubmitting}
             />
-            {error && <div className={styles.errorMessage}>{error}</div>}
+            <ErrorDisplay message={error || undefined} />
           </div>
 
           {action === "postponed" && (
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>الميعاد الجديد</h4>
               <div className={styles.dateTimeContainer}>
-                <div className={styles.dateField}>
-                  <label className={styles.fieldLabel}>التاريخ الجديد</label>
-                  <input
-                    type="date"
-                    value={newDate}
-                    onChange={(e) => {
-                      setNewDate(e.target.value);
-                      if (error) setError("");
-                    }}
-                    className={styles.dateInput}
-                    required
-                  />
-                </div>
-                <div className={styles.timeField}>
-                  <label className={styles.fieldLabel}>الوقت الجديد</label>
-                  <input
-                    type="time"
-                    value={newTime}
-                    onChange={(e) => {
-                      setNewTime(e.target.value);
-                      if (error) setError("");
-                    }}
-                    className={styles.timeInput}
-                    required
-                  />
-                </div>
+                <FormField
+                  label="التاريخ الجديد"
+                  name="newDate"
+                  type="date"
+                  value={newDate}
+                  onChange={(e) => {
+                    setNewDate(e.target.value);
+                    if (error) setError("");
+                  }}
+                  required
+                  disabled={isSubmitting}
+                />
+                <FormField
+                  label="الوقت الجديد"
+                  name="newTime"
+                  type="time"
+                  value={newTime}
+                  onChange={(e) => {
+                    setNewTime(e.target.value);
+                    if (error) setError("");
+                  }}
+                  required
+                  disabled={isSubmitting}
+                />
               </div>
             </div>
           )}
         </div>
-
-        <div className={styles.modalFooter}>
-          <button
-            type="button"
-            onClick={handleClose}
-            className={styles.cancelBtn}
-            disabled={isSubmitting}
-          >
-            إلغاء
-          </button>
-          <button
-            type="submit"
-            className={styles.saveBtn}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <>
-                <span className={styles.spinner}></span>
-                {action === "postponed" ? "جاري التأجيل" : "جاري الإلغاء"}
-              </>
-            ) : action === "postponed" ? (
-              <>
-                <FaClock /> تأجيل الحلقة
-              </>
-            ) : (
-              <>
-                <FaBan /> إلغاء الحلقة
-              </>
-            )}
-          </button>
-        </div>
+        <ModalActions actions={actions} alignment="right" />
       </form>
-    </div>
+    </ModalContainer>
   );
 };
 

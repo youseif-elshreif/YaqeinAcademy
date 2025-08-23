@@ -4,14 +4,19 @@ import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import styles from "./AddGroupModal.module.css";
 import {
-  FaTimes,
+  ModalContainer,
+  ModalHeader,
+  ModalActions,
+  FormField,
+  SelectField,
+  ErrorDisplay,
+} from "@/components/common/Modal";
+import {
   FaSave,
   FaUsers,
   FaCalendarAlt,
-  FaLink,
   FaPlus,
   FaMinus,
-  FaExclamationTriangle,
 } from "react-icons/fa";
 
 interface TimeSlot {
@@ -36,27 +41,7 @@ interface GroupFormErrors {
   timeSlots?: string;
 }
 
-// Error Message Component
-interface ErrorMessageProps {
-  message?: string;
-  type?: "error" | "success" | "info";
-}
-
-const ErrorMessage: React.FC<ErrorMessageProps> = ({
-  message,
-  type = "error",
-}) => {
-  if (!message) return null;
-
-  return (
-    <div className={`${styles.errorMessage} ${styles[type]}`}>
-      <span className={styles.errorIcon}>
-        <FaExclamationTriangle />
-      </span>
-      <span className={styles.errorText}>{message}</span>
-    </div>
-  );
-};
+// removed local ErrorMessage in favor of shared ErrorDisplay
 
 interface AddGroupModalProps {
   isEditMode?: boolean;
@@ -434,253 +419,184 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
     { value: "الجمعة", label: "الجمعة" },
   ];
 
+  const teacherOptions = [
+    {
+      value: "",
+      label: loadingTeachers ? "جاري تحميل المدرسين..." : "اختر المدرس",
+    },
+    ...teachers.map((t: any) => ({ value: t.id, label: t.name })),
+  ];
+
+  const actions = [
+    {
+      label: "إلغاء",
+      onClick: handleClose,
+      variant: "secondary" as const,
+      disabled: isSubmitting,
+    },
+    {
+      label: isEditMode ? "حفظ التعديلات" : "حفظ الحلقة",
+      onClick: () => {},
+      variant: "primary" as const,
+      disabled: isSubmitting,
+      icon: <FaSave />,
+      type: "submit" as const,
+    },
+  ];
+
   return (
-    <div
-      className={`${baseStyles.modalOverlay} ${
-        isClosing ? baseStyles.fadeOut : ""
-      }`}
+    <ModalContainer
+      isOpen={true}
+      isClosing={isClosing}
+      variant="add"
+      size="large"
     >
-      <div
-        className={`${baseStyles.modal} ${
-          isClosing ? baseStyles.modalSlideOut : ""
-        }`}
-      >
-        <div className={baseStyles.modalHeader}>
-          <h2 className={baseStyles.modalTitle}>
-            {isEditMode ? "تعديل الحلقة" : "إضافة حلقة جديدة"}
-          </h2>
-          <button
-            onClick={handleClose}
-            className={baseStyles.closeBtn}
-            disabled={isSubmitting}
-          >
-            <FaTimes />
-          </button>
-        </div>
+      <ModalHeader
+        title={isEditMode ? "تعديل الحلقة" : "إضافة حلقة جديدة"}
+        icon={<FaUsers />}
+        onClose={handleClose}
+        disabled={isSubmitting}
+        variant="add"
+      />
 
-        <div className={styles.modalBody}>
-          {isLoading ? (
-            <div className={styles.loadingContainer}>
-              <div className={styles.loadingSpinner}></div>
-              <p>جاري تحميل بيانات الحلقة...</p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className={styles.form}>
-              <div style={{ padding: "0 16px" }}>
-                <ErrorMessage message={errorMessage} type="error" />
-              </div>
+      <div className={baseStyles.modalBody}>
+        {isLoading ? (
+          <div className={styles.loadingContainer}>
+            <div className={styles.loadingSpinner}></div>
+            <p>جاري تحميل بيانات الحلقة...</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className={styles.form}>
+            <ErrorDisplay message={errorMessage} />
 
-              <div className={baseStyles.formGrid}>
-                {/* اسم الحلقة */}
-                <div className={baseStyles.inputGroup}>
-                  <label className={baseStyles.label}>
-                    <FaUsers className={styles.labelIcon} />
-                    اسم الحلقة
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className={`${baseStyles.textInput} ${
-                      fieldErrors.name ? styles.inputError : ""
-                    }`}
-                    placeholder="مثال: حلقة التأسيس"
-                    disabled={isSubmitting}
-                  />
-                  {fieldErrors.name && (
-                    <span className={styles.fieldError}>
-                      {fieldErrors.name}
-                    </span>
-                  )}
-                </div>
+            <div className={baseStyles.formGrid}>
+              <FormField
+                label="اسم الحلقة"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                error={fieldErrors.name}
+                disabled={isSubmitting}
+                placeholder="مثال: حلقة التأسيس"
+              />
 
-                {/* نوع الحلقة */}
-                <div className={baseStyles.inputGroup}>
-                  <label className={baseStyles.label}>نوع الحلقة</label>
-                  <select
-                    name="type"
-                    value={formData.type}
-                    onChange={handleInputChange}
-                    className={baseStyles.select}
-                    disabled={isSubmitting}
-                  >
-                    <option value="private">خاصة</option>
-                    <option value="public">عامة</option>
-                  </select>
-                </div>
+              <SelectField
+                label="نوع الحلقة"
+                name="type"
+                value={formData.type}
+                onChange={handleInputChange as any}
+                options={[
+                  { value: "private", label: "خاصة" },
+                  { value: "public", label: "عامة" },
+                ]}
+                disabled={isSubmitting}
+              />
 
-                {/* المدرس */}
-                <div className={baseStyles.inputGroup}>
-                  <label className={baseStyles.label}>اختيار المدرس</label>
-                  <select
-                    name="teacherId"
-                    value={formData.teacherId}
-                    onChange={handleInputChange}
-                    className={`${baseStyles.select} ${
-                      fieldErrors.teacherId ? styles.inputError : ""
-                    }`}
-                    disabled={isSubmitting || loadingTeachers}
-                  >
-                    <option value="">
-                      {loadingTeachers
-                        ? "جاري تحميل المدرسين..."
-                        : "اختر المدرس"}
-                    </option>
-                    {teachers.map((teacher) => (
-                      <option key={teacher.id} value={teacher.id}>
-                        {teacher.name}
-                      </option>
-                    ))}
-                  </select>
-                  {fieldErrors.teacherId && (
-                    <span className={styles.fieldError}>
-                      {fieldErrors.teacherId}
-                    </span>
-                  )}
-                </div>
+              <SelectField
+                label="اختيار المدرس"
+                name="teacherId"
+                value={formData.teacherId}
+                onChange={handleInputChange as any}
+                options={teacherOptions}
+                disabled={isSubmitting || loadingTeachers}
+                error={fieldErrors.teacherId}
+              />
 
-                {/* رابط الاجتماع */}
-                <div className={baseStyles.inputGroup}>
-                  <label className={baseStyles.label}>
-                    <FaLink className={styles.labelIcon} />
-                    رابط الاجتماع
-                  </label>
-                  <input
-                    type="url"
-                    name="meetingLink"
-                    value={formData.meetingLink}
-                    onChange={handleInputChange}
-                    className={`${baseStyles.textInput} ${
-                      fieldErrors.meetingLink ? styles.inputError : ""
-                    }`}
-                    placeholder="https://zoom.us/j/..."
-                    disabled={isSubmitting}
-                  />
-                  {fieldErrors.meetingLink && (
-                    <span className={styles.fieldError}>
-                      {fieldErrors.meetingLink}
-                    </span>
-                  )}
-                </div>
+              <FormField
+                label="رابط الاجتماع"
+                name="meetingLink"
+                type="url"
+                value={formData.meetingLink}
+                onChange={handleInputChange}
+                error={fieldErrors.meetingLink}
+                disabled={isSubmitting}
+                placeholder="https://zoom.us/j/..."
+              />
 
-                {/* الوصف */}
-                <div className={baseStyles.inputGroup}>
-                  <label className={baseStyles.label}>الوصف</label>
-                  <textarea
-                    name="description"
-                    value={formData.description}
-                    onChange={handleInputChange}
-                    className={`${baseStyles.textarea} ${
-                      fieldErrors.description ? styles.inputError : ""
-                    }`}
-                    placeholder="وصف مختصر للحلقة"
-                    rows={3}
-                    disabled={isSubmitting}
-                  />
-                  {fieldErrors.description && (
-                    <span className={styles.fieldError}>
-                      {fieldErrors.description}
-                    </span>
-                  )}
-                </div>
+              <FormField
+                label="الوصف"
+                name="description"
+                type="textarea"
+                value={formData.description}
+                onChange={handleInputChange}
+                error={fieldErrors.description}
+                disabled={isSubmitting}
+                placeholder="وصف مختصر للحلقة"
+                rows={3}
+                fullWidth
+              />
 
-                {/* المواعيد */}
-                <div
-                  className={baseStyles.inputGroup}
-                  style={{ gridColumn: "1 / -1" }}
-                >
-                  <label className={baseStyles.label}>
-                    <FaCalendarAlt className={styles.labelIcon} />
-                    مواعيد الدروس
-                  </label>
-                  {formData.timeSlots.map((slot, index) => (
-                    <div key={index} className={baseStyles.timeSlotRow}>
-                      <select
-                        value={slot.day}
-                        onChange={(e) =>
-                          handleTimeSlotChange(index, "day", e.target.value)
-                        }
-                        className={baseStyles.select}
-                        disabled={isSubmitting}
-                      >
-                        {daysOfWeek.map((day) => (
-                          <option key={day.value} value={day.value}>
-                            {day.label}
-                          </option>
-                        ))}
-                      </select>
-
-                      <input
-                        type="time"
-                        value={slot.time}
-                        onChange={(e) =>
-                          handleTimeSlotChange(index, "time", e.target.value)
-                        }
-                        className={baseStyles.textInput}
-                        disabled={isSubmitting}
-                      />
-
-                      {index > 0 && (
-                        <button
-                          type="button"
-                          onClick={() => removeTimeSlot(index)}
-                          className={baseStyles.deleteButton}
-                          disabled={isSubmitting}
-                        >
-                          <FaMinus />
-                        </button>
-                      )}
-                    </div>
-                  ))}
-
-                  {formData.timeSlots.length < 3 && (
-                    <button
-                      type="button"
-                      onClick={addTimeSlot}
-                      className={baseStyles.secondaryButton}
+              <div
+                className={baseStyles.inputGroup}
+                style={{ gridColumn: "1 / -1" }}
+              >
+                <label className={baseStyles.label}>
+                  <FaCalendarAlt className={styles.labelIcon} /> مواعيد الدروس
+                </label>
+                {formData.timeSlots.map((slot, index) => (
+                  <div key={index} className={baseStyles.timeSlotRow}>
+                    <select
+                      value={slot.day}
+                      onChange={(e) =>
+                        handleTimeSlotChange(index, "day", e.target.value)
+                      }
+                      className={baseStyles.select}
                       disabled={isSubmitting}
                     >
-                      <FaPlus /> إضافة موعد آخر
-                    </button>
-                  )}
-                  {fieldErrors.timeSlots && (
-                    <span className={styles.fieldError}>
-                      {fieldErrors.timeSlots}
-                    </span>
-                  )}
-                </div>
-              </div>
+                      {daysOfWeek.map((day) => (
+                        <option key={day.value} value={day.value}>
+                          {day.label}
+                        </option>
+                      ))}
+                    </select>
 
-              <div className={baseStyles.modalFooter}>
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  className={baseStyles.cancelButton}
-                  disabled={isSubmitting}
-                >
-                  إلغاء
-                </button>
-                <button
-                  type="submit"
-                  className={baseStyles.submitButton}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <span className={baseStyles.loading}>جارٍ الحفظ...</span>
-                  ) : (
-                    <>
-                      <FaSave />
-                      {isEditMode ? "حفظ التعديلات" : "حفظ الحلقة"}
-                    </>
-                  )}
-                </button>
+                    <input
+                      type="time"
+                      value={slot.time}
+                      onChange={(e) =>
+                        handleTimeSlotChange(index, "time", e.target.value)
+                      }
+                      className={baseStyles.textInput}
+                      disabled={isSubmitting}
+                    />
+
+                    {index > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => removeTimeSlot(index)}
+                        className={baseStyles.deleteButton}
+                        disabled={isSubmitting}
+                      >
+                        <FaMinus />
+                      </button>
+                    )}
+                  </div>
+                ))}
+
+                {fieldErrors.timeSlots && (
+                  <span className={styles.fieldError}>
+                    {fieldErrors.timeSlots}
+                  </span>
+                )}
+
+                {formData.timeSlots.length < 3 && (
+                  <button
+                    type="button"
+                    onClick={addTimeSlot}
+                    className={baseStyles.secondaryButton}
+                    disabled={isSubmitting}
+                  >
+                    <FaPlus /> إضافة موعد آخر
+                  </button>
+                )}
               </div>
-            </form>
-          )}
-        </div>
+            </div>
+
+            <ModalActions actions={actions} alignment="right" />
+          </form>
+        )}
       </div>
-    </div>
+    </ModalContainer>
   );
 };
 

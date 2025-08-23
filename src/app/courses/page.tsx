@@ -1,9 +1,49 @@
+"use client";
+
 import Head from "next/head";
 import HeroSection from "@/components/common/HeroSection/HeroSection";
 import CoursesGrid from "@/components/common/UI/CoursesGrid/CoursesGrid";
-import { coursesData } from "@/data/courses";
+import { useEffect, useState } from "react";
+import api, { API_BASE_URL } from "@/utils/api";
 
 const CoursesPage = () => {
+  const [courses, setCourses] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch courses on component mount (public API call)
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        setIsLoading(true);
+        // Try to fetch from API (without authentication for public access)
+        const response = await api.get(`${API_BASE_URL}/api/course`);
+        setCourses(response.data || []);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+        // Fallback to empty array if API fails
+        setCourses([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  // Transform courses data to match CoursesGrid interface
+  const transformedCourses = courses.map((course) => ({
+    id: course._id,
+    title: course.title,
+    startDate: course.startAt
+      ? new Date(course.startAt).toLocaleDateString("ar-EG")
+      : "غير محدد",
+    shortDescription:
+      course.description.length > 100
+        ? course.description.slice(0, 100) + "..."
+        : course.description,
+    telegramLink: course.telegramLink,
+  }));
+
   return (
     <>
       <Head>
@@ -22,10 +62,20 @@ const CoursesPage = () => {
 
       <main>
         <HeroSection />
-        {coursesData.length > 0 ? (
+        {isLoading ? (
+          <div
+            style={{
+              textAlign: "center",
+              padding: "3rem 0",
+              color: "var(--text-light)",
+            }}
+          >
+            جاري تحميل الدورات...
+          </div>
+        ) : transformedCourses.length > 0 ? (
           <>
             <CoursesGrid
-              courses={coursesData}
+              courses={transformedCourses}
               showBtn={true}
               isContainer={true}
             />

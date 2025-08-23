@@ -1,7 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import { FaTrash, FaTimes, FaExclamationTriangle } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
+import {
+  ModalContainer,
+  ModalHeader,
+  ModalActions,
+  WarningPanel,
+  ConfirmTextInput,
+} from "@/components/common/Modal";
 
 interface ConfirmDeleteGroupModalProps {
   isOpen: boolean;
@@ -53,91 +60,59 @@ const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
   const isDeleteEnabled =
     confirmText.trim().toLowerCase() === "حذف" && !isLoading;
 
+  const actions = [
+    {
+      label: "إلغاء",
+      onClick: handleClose,
+      variant: "secondary" as const,
+      disabled: isLoading,
+    },
+    {
+      label: isLoading ? "جاري الحذف..." : "حذف الحلقة",
+      onClick: handleConfirmDelete,
+      variant: "danger" as const,
+      disabled: !isDeleteEnabled,
+      icon: <FaTrash />,
+    },
+  ];
+
   return (
-    <div
-      className={`${baseStyles.modalOverlay} ${
-        isClosing ? baseStyles.fadeOut : ""
-      }`}
-      onClick={handleClose}
-    >
-      <div
-        className={`${baseStyles.modal} ${
-          isClosing ? baseStyles.modalSlideOut : ""
-        }`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className={`${baseStyles.modalHeader} ${baseStyles.delete}`}>
-          <h2 className={baseStyles.modalTitle}>
-            <FaTrash className={baseStyles.titleIcon} />
-            تأكيد حذف الحلقة
-          </h2>
-          <button
-            className={baseStyles.closeButton}
-            onClick={handleClose}
-            disabled={isLoading}
-          >
-            <FaTimes />
-          </button>
+    <ModalContainer isOpen={true} isClosing={isClosing} variant="delete">
+      <ModalHeader
+        title="تأكيد حذف الحلقة"
+        icon={<FaTrash />}
+        onClose={handleClose}
+        disabled={isLoading}
+        variant="delete"
+      />
+      <div className={baseStyles.modalBody}>
+        <WarningPanel
+          title="هل أنت متأكد من حذف هذه الحلقة؟"
+          text="لا يمكن التراجع عن هذا الإجراء"
+        />
+
+        <div className={baseStyles.groupInfo}>
+          <h4 className={baseStyles.groupName}>&ldquo;{groupName}&rdquo;</h4>
+          <p className={baseStyles.groupId}>المعرف: {groupId}</p>
+          <p className={baseStyles.warningText}>
+            سيتم حذف جميع البيانات والأعضاء المرتبطة بهذه الحلقة
+          </p>
         </div>
 
-        <div className={baseStyles.modalBody}>
-          <div className={baseStyles.warningContainer}>
-            <FaExclamationTriangle className={baseStyles.warningIcon} />
-            <div className={baseStyles.warningContent}>
-              <h3 className={baseStyles.warningTitle}>
-                هل أنت متأكد من حذف هذه الحلقة؟
-              </h3>
-              <p className={baseStyles.warningText}>
-                لا يمكن التراجع عن هذا الإجراء
-              </p>
-            </div>
-          </div>
+        <ConfirmTextInput
+          label={
+            <>
+              للحذف، اكتب &quot;<strong>حذف</strong>&quot; في المربع أدناه:
+            </>
+          }
+          value={confirmText}
+          onChange={setConfirmText}
+          disabled={isLoading}
+        />
 
-          <div className={baseStyles.groupInfo}>
-            <h4 className={baseStyles.groupName}>&ldquo;{groupName}&rdquo;</h4>
-            <p className={baseStyles.groupId}>المعرف: {groupId}</p>
-            <p className={baseStyles.warningText}>
-              سيتم حذف جميع البيانات والأعضاء المرتبطة بهذه الحلقة
-            </p>
-          </div>
-
-          <div className={baseStyles.confirmationInput}>
-            <label htmlFor="confirmText" className={baseStyles.confirmLabel}>
-              للحذف، اكتب &ldquo;<strong>حذف</strong>&rdquo; في المربع أدناه:
-            </label>
-            <input
-              id="confirmText"
-              type="text"
-              value={confirmText}
-              onChange={(e) => setConfirmText(e.target.value)}
-              placeholder="حذف"
-              className={baseStyles.textInput}
-              disabled={isLoading}
-            />
-          </div>
-
-          <div className={baseStyles.formActions}>
-            <button
-              onClick={handleClose}
-              className={baseStyles.cancelButton}
-              disabled={isLoading}
-            >
-              إلغاء
-            </button>
-            <button
-              onClick={handleConfirmDelete}
-              className={`${baseStyles.deleteButton} ${
-                !isDeleteEnabled ? baseStyles.disabled : ""
-              }`}
-              disabled={!isDeleteEnabled}
-            >
-              <FaTrash className={baseStyles.buttonIcon} />
-              {isLoading ? "جاري الحذف..." : "حذف الحلقة"}
-            </button>
-          </div>
-        </div>
+        <ModalActions actions={actions} alignment="right" />
       </div>
-    </div>
+    </ModalContainer>
   );
 };
 
