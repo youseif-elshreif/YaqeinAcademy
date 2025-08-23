@@ -244,7 +244,7 @@ const GroupsTable: React.FC = () => {
                         className={`${styles.studentName} ${styles.darkColor} ${styles.tooltipContainer}`}
                       >
                         {group.teacherId._id
-                          ? group.teacherId._id
+                          ? group.teacherId.name
                           : "لا يوجد معلم"}
                       </div>
                     </td>

@@ -1,4 +1,5 @@
-import { useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import styles from "./LessonsModal.module.css";
 import {
@@ -10,20 +11,24 @@ import {
   FaCalendarDay,
 } from "react-icons/fa";
 import { ModalContainer, ModalHeader } from "@/components/common/Modal";
+import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface LessonsModalProps {
   groupId: string;
   groupName: string;
 }
 
-interface Lesson {
+interface UILesson {
   id: string;
   day: string;
-  time: string;
-  date: string;
+  time: string; // HH:mm 24h
+  date: string; // ISO string
+  meetingLink?: string;
+  status?: string;
 }
 
-const LessonsModal: React.FC<LessonsModalProps> = ({ groupName }) => {
+const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
   const {
     closeLessonsModal,
     openAddLessonModal,
@@ -32,28 +37,50 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupName }) => {
   } = useAdminModal();
 
   const [isClosing, setIsClosing] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [lessons, setLessons] = useState<UILesson[]>([]);
 
-  // بيانات افتراضية للحصص
-  const [lessons] = useState<Lesson[]>([
-    {
-      id: "1",
-      day: "الأحد",
-      time: "10:00",
-      date: "2025-01-15",
-    },
-    {
-      id: "2",
-      day: "الثلاثاء",
-      time: "14:00",
-      date: "2025-01-17",
-    },
-    {
-      id: "3",
-      day: "الخميس",
-      time: "16:00",
-      date: "2025-01-19",
-    },
-  ]);
+  const { getGroupById } = useAdminDashboardContext();
+  const { token } = useAuth();
+
+  // Fetch group lessons when modal opens
+  useEffect(() => {
+    let cancelled = false;
+    const fetchLessons = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        if (!token || !getGroupById) throw new Error("no token");
+        const data = await getGroupById(token, groupId);
+        const apiLessons = data?.group?.lessons ?? [];
+        const mapped: UILesson[] = apiLessons.map((l) => {
+          const d = new Date(l.scheduledAt);
+          const day = d.toLocaleDateString("ar-EG", { weekday: "long" });
+          const hh = String(d.getHours()).padStart(2, "0");
+          const mm = String(d.getMinutes()).padStart(2, "0");
+          return {
+            id: l._id,
+            day,
+            time: `${hh}:${mm}`,
+            date: d.toISOString(),
+            meetingLink: l.meetingLink,
+            status: l.status,
+          };
+        });
+        if (!cancelled) setLessons(mapped);
+      } catch (e) {
+        console.error("Error loading lessons:", e);
+        if (!cancelled) setError("فشل في جلب بيانات الحصص");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    fetchLessons();
+    return () => {
+      cancelled = true;
+    };
+  }, [groupId, token, getGroupById]);
 
   const handleClose = () => {
     setIsClosing(true);
@@ -100,7 +127,16 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupName }) => {
         </div>
 
         <div className={styles.lessonsContainer}>
-          {lessons.length === 0 ? (
+          {loading ? (
+            <div className={styles.emptyState}>
+              <FaCalendarDay className={styles.emptyIcon} />
+              <h3>جاري تحميل الحصص...</h3>
+            </div>
+          ) : error ? (
+            <div className={styles.emptyState}>
+              <h3 style={{ color: "#e53e3e" }}>{error}</h3>
+            </div>
+          ) : lessons.length === 0 ? (
             <div className={styles.emptyState}>
               <FaCalendarDay className={styles.emptyIcon} />
               <h3>لا توجد حصص</h3>

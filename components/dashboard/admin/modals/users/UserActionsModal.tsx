@@ -61,7 +61,11 @@ const UserActionsModal: React.FC = () => {
     >
       <ModalHeader
         title={`إجراءات على ${
-          selectedUserForActions.userType === "student" ? "الطالب" : "المعلم"
+          selectedUserForActions.userType === "student"
+            ? "الطالب"
+            : selectedUserForActions.userType === "teacher"
+            ? "المعلم"
+            : "الإداري"
         }: ${selectedUserForActions.name}`}
         icon={<FaListUl />}
         onClose={handleClose}
@@ -73,7 +77,9 @@ const UserActionsModal: React.FC = () => {
             اختر الإجراء المطلوب على هذا{" "}
             {selectedUserForActions.userType === "student"
               ? "الطالب"
-              : "المعلم"}
+              : selectedUserForActions.userType === "teacher"
+              ? "المعلم"
+              : "الإداري"}
             :
           </p>
         </div>

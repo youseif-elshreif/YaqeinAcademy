@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import styles from "./ProfileSettings.module.css";
+import { FormField, ErrorDisplay } from "@/components/common/Modal";
 
 interface User {
   email: string;
@@ -90,51 +91,37 @@ const ProfileSettings = ({ studentData }: StudentDataProps) => {
       <div className={styles.profileCard}>
         <form id="profile-form" onSubmit={handleSubmit}>
           <div className={styles.formGrid}>
-            {errorMessage && (
-              <div className={`${styles.errorMessage} ${styles.error}`}>
-                {errorMessage}
-              </div>
-            )}
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>الاسم الكامل</label>
-              <input
-                type="text"
-                value={student.name}
-                disabled={!editState || isSubmitting}
-                className={`${styles.formInput} ${
-                  (!editState || isSubmitting) && styles.disabledInput
-                }`}
-                onChange={(e) => handleInputChange(e, "name")}
-                required
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>البريد الإلكتروني</label>
-              <input
-                type="email"
-                value={student.email}
-                disabled={!editState || isSubmitting}
-                className={`${styles.formInput} ${
-                  (!editState || isSubmitting) && styles.disabledInput
-                }`}
-                onChange={(e) => handleInputChange(e, "email")}
-                required
-              />
-            </div>
+            {errorMessage && <ErrorDisplay message={errorMessage} />}
 
-            <div className={styles.formGroup}>
-              <label className={styles.formLabel}>رقم الهاتف</label>
-              <input
-                type="tel"
-                value={student.phone}
-                disabled={!editState || isSubmitting}
-                className={`${styles.formInput} ${
-                  (!editState || isSubmitting) && styles.disabledInput
-                }`}
-                onChange={(e) => handleInputChange(e, "phone")}
-                required
-              />
-            </div>
+            <FormField
+              label="الاسم الكامل"
+              name="name"
+              type="text"
+              value={student.name}
+              onChange={(e) => handleInputChange(e as any, "name")}
+              disabled={!editState || isSubmitting}
+              required
+            />
+
+            <FormField
+              label="البريد الإلكتروني"
+              name="email"
+              type="email"
+              value={student.email}
+              onChange={(e) => handleInputChange(e as any, "email")}
+              disabled={!editState || isSubmitting}
+              required
+            />
+
+            <FormField
+              label="رقم الهاتف"
+              name="phone"
+              type="tel"
+              value={student.phone}
+              onChange={(e) => handleInputChange(e as any, "phone")}
+              disabled={!editState || isSubmitting}
+              required
+            />
             {editState && (
               <button
                 type="submit"

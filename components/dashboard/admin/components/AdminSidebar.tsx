@@ -1,6 +1,12 @@
 "use client";
 import React from "react";
-import { FiUsers, FiCalendar, FiBarChart, FiHome } from "react-icons/fi";
+import {
+  FiUsers,
+  FiCalendar,
+  FiBarChart,
+  FiHome,
+  FiMail,
+} from "react-icons/fi";
 import { HiOutlineViewList } from "react-icons/hi";
 import { FaTimes, FaUserFriends } from "react-icons/fa";
 import { usePathname } from "next/navigation";
@@ -40,6 +46,12 @@ const AdminSidebar: React.FC = () => {
       label: "النظرة المالية",
       icon: FiBarChart,
       path: "/admin/dashboard/financial",
+    },
+    {
+      id: "contact",
+      label: "معلومات التواصل",
+      icon: FiMail,
+      path: "/admin/dashboard/contact",
     },
   ];
 

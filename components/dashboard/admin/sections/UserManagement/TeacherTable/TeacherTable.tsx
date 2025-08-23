@@ -1,37 +1,18 @@
 import { useState, useEffect } from "react";
 import { FiUsers } from "react-icons/fi";
 import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
-import { useAuth } from "@/contexts/AuthContext";
 import styles from "@/components/dashboard/admin/styles.module.css";
-import { CombinedTeacherData } from "@/utils/types";
 import SkeletonTable from "@/components/dashboard/admin/components/SkeletonTable";
 import SkeletonCards from "@/components/dashboard/admin/components/SkeletonCards";
 import MobileClassCards from "./Mobile/MobileClassCards";
 import ClassTableRow from "./ClassTableRow";
 
 const TeacherTable = () => {
-  const { teachers, getTeachers } = useAdminDashboardContext();
-  const { token } = useAuth();
-  const [loading, setLoading] = useState(false);
+  const { teachers } = useAdminDashboardContext();
   const [combinedTeachers, setCombinedTeachers] = useState<any[]>([]);
 
-  // Fetch teachers on component mount
-  useEffect(() => {
-    const fetchTeachers = async () => {
-      if (token) {
-        setLoading(true);
-        try {
-          await getTeachers(token);
-        } catch (error) {
-          console.error("Error fetching teachers:", error);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchTeachers();
-  }, [token, getTeachers]);
+  // Use context-loaded data; consider loading while teachers is not yet set
+  const loading = teachers === null;
 
   // Combine teacher and user data when teachers data is available
   useEffect(() => {

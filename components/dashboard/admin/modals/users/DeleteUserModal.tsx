@@ -15,7 +15,7 @@ import {
 const DeleteUserModal: React.FC = () => {
   const { deleteUserModalOpen, closeDeleteUserModal, selectedUserForActions } =
     useAdminModal();
-  const { deleteTeacher } = useAdminDashboardContext();
+  const { deleteTeacher, deleteMember } = useAdminDashboardContext();
   const { token } = useAuth();
 
   const [confirmText, setConfirmText] = useState("");
@@ -60,10 +60,10 @@ const DeleteUserModal: React.FC = () => {
         await deleteTeacher(token, teacherId);
         console.log("✅ Teacher deleted successfully");
       } else {
-        // For students, you might need to implement deleteStudent function
-        console.log("Student deletion not implemented yet");
-        alert("حذف الطلاب غير متاح حالياً");
-        return;
+        // Students/Admins deletion via admin member API
+        const studentId = selectedUserForActions.id;
+        await deleteMember(token, studentId);
+        console.log("✅ User deleted successfully");
       }
 
       handleClose();
@@ -89,7 +89,11 @@ const DeleteUserModal: React.FC = () => {
       label: isDeleting
         ? "جاري الحذف..."
         : `حذف ${
-            selectedUserForActions.userType === "student" ? "الطالب" : "المعلم"
+            selectedUserForActions.userType === "student"
+              ? "الطالب"
+              : selectedUserForActions.userType === "teacher"
+              ? "المعلم"
+              : "الإداري"
           }`,
       onClick: handleDelete,
       variant: "danger" as const,
@@ -107,7 +111,11 @@ const DeleteUserModal: React.FC = () => {
     >
       <ModalHeader
         title={`تأكيد حذف ${
-          selectedUserForActions.userType === "student" ? "الطالب" : "المعلم"
+          selectedUserForActions.userType === "student"
+            ? "الطالب"
+            : selectedUserForActions.userType === "teacher"
+            ? "المعلم"
+            : "الإداري"
         }`}
         icon={<FaTrash />}
         onClose={handleClose}
@@ -132,7 +140,11 @@ const DeleteUserModal: React.FC = () => {
           </p>
           <p className={baseStyles.warningText}>
             نوع المستخدم:{" "}
-            {selectedUserForActions.userType === "student" ? "طالب" : "معلم"}
+            {selectedUserForActions.userType === "student"
+              ? "طالب"
+              : selectedUserForActions.userType === "teacher"
+              ? "معلم"
+              : "إداري"}
           </p>
         </div>
 

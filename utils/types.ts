@@ -644,6 +644,7 @@ export interface AdminDashboardStats {
   totalTeachers: number;
   totalStudents: number;
   totalUsers: number;
+  totalAdmins?: number;
 }
 
 export interface AdminDashboardContextType {
@@ -652,6 +653,7 @@ export interface AdminDashboardContextType {
   students: any[]; // ✅ بيانات الطلاب
   courses: any[]; // ✅ بيانات الكورسات
   stats: AdminDashboardStats;
+  admins?: any[];
   getTeachers: (token: string) => Promise<any>;
   createTeacher: (token: string, teacherData: any) => Promise<any>;
   updateMember: (
@@ -670,6 +672,7 @@ export interface AdminDashboardContextType {
     studentData: any
   ) => Promise<any>;
   deleteTeacher: (token: string, teacherId: string) => Promise<any>;
+  deleteMember: (token: string, memberId: string) => Promise<any>;
   createStudent: (token: string, studentData: any) => Promise<any>;
   createAdmin: (adminData: any) => Promise<any>;
   addCreditsToStudent: (
@@ -693,6 +696,15 @@ export interface AdminDashboardContextType {
   ) => Promise<any>;
   getStudents: (token: string) => Promise<any>;
   getGroups: (token: string) => Promise<any>;
+  getGroupById?: (token: string, groupId: string) => Promise<any>;
+  // Admin users
+  getAdmins?: (token: string) => Promise<any>;
+  updateAdmin?: (
+    token: string,
+    adminId: string,
+    adminData: any
+  ) => Promise<any>;
+  deleteAdmin?: (token: string, adminId: string) => Promise<any>;
   // Course functions
   getCourses: (token: string) => Promise<any>;
   getCourseByIdAPI: (token: string, courseId: string) => Promise<any>;
@@ -703,6 +715,20 @@ export interface AdminDashboardContextType {
     courseData: any
   ) => Promise<any>;
   deleteCourse: (token: string, courseId: string) => Promise<any>;
+  // Contact info
+  getContactInfo: (token: string) => Promise<any>;
+  updateContactInfo: (
+    token: string,
+    data: {
+      email: string;
+      phone: string[];
+      address: string;
+      whatsappNumber: string[];
+      telegramLink: string;
+      facebook: string;
+      linkedin: string;
+    }
+  ) => Promise<any>;
 }
 
 export interface UsualDate {
@@ -859,7 +885,7 @@ export interface AdminModalContextType {
   selectedUserForActions: {
     id: string;
     name: string;
-    userType: "student" | "teacher";
+    userType: "student" | "teacher" | "admin";
     fullData?: any; // البيانات الكاملة للمستخدم
   } | null;
   selectedUserData: any;
@@ -905,14 +931,14 @@ export interface AdminModalContextType {
   openUserActionsModal: (userData: {
     id: string;
     name: string;
-    userType: "student" | "teacher";
+    userType: "student" | "teacher" | "admin";
     fullData?: any;
   }) => void;
   openEditUserModal: (userData: any) => void;
   openDeleteUserModal: (userData: {
     id: string;
     name: string;
-    userType: "student" | "teacher";
+    userType: "student" | "teacher" | "admin";
   }) => void;
   openAddCreditsModal: (studentData: { userId: string; name: string }) => void;
 

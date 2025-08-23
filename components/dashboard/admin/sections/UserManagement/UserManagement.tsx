@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FiPlus, FiDownload, FiSearch } from "react-icons/fi";
 import StatCard from "@/components/common/UI/StatCard";
 // import api from "@/utils/api";
@@ -11,7 +11,8 @@ import StudentTable from "./StudentTable/StudentTable";
 import TeacherTable from "./TeacherTable/TeacherTable";
 import DashboardTabs from "@/components/dashboard/student/DashboardTabs";
 import { ChartData } from "@/utils/types";
-import { FiUsers, FiUserCheck } from "react-icons/fi";
+import { FiUsers, FiUserCheck, FiShield } from "react-icons/fi";
+import AdminsTable from "./AdminsTable";
 import {
   XAxis,
   YAxis,
@@ -25,7 +26,9 @@ import {
 
 const UserManagement: React.FC = () => {
   const { openAddUserModal } = useAdminModal();
-  const { stats } = useAdminDashboardContext();
+  const { stats, getAdmins, getTeachers, getStudents } =
+    useAdminDashboardContext();
+  const { token } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("students");
 
@@ -61,12 +64,24 @@ const UserManagement: React.FC = () => {
     setActiveTab(tabId);
   };
 
+  useEffect(() => {
+    if (!token) return;
+    // Fire-and-forget parallel fetches to hydrate context
+    Promise.allSettled([
+      getAdmins?.(token),
+      getTeachers?.(token),
+      getStudents?.(token),
+    ]).catch(() => {});
+  }, [token, getAdmins, getTeachers, getStudents]);
+
   const getTabContent = () => {
     switch (activeTab) {
       case "students":
         return <StudentTable />;
       case "teachers":
         return <TeacherTable />;
+      case "admins":
+        return <AdminsTable />;
       default:
         return <StudentTable />;
     }
@@ -80,6 +95,10 @@ const UserManagement: React.FC = () => {
     {
       id: "teachers",
       label: "المعلمين",
+    },
+    {
+      id: "admins",
+      label: "الإداريين",
     },
   ];
   return (
@@ -109,6 +128,12 @@ const UserManagement: React.FC = () => {
           icon={FiUserCheck}
           value={stats.totalStudents}
           label="إجمالي الطلاب"
+        />
+
+        <StatCard
+          icon={FiShield}
+          value={stats.totalAdmins ?? 0}
+          label="إجمالي الإداريين"
         />
       </div>
 

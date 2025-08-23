@@ -22,6 +22,8 @@ export const AdminDashboardProvider: React.FC<{
   const [groups, setGroups] = useState<any[]>([]);
   // Teachers state
   const [teachers, setTeachers] = useState<TeachersResponse | null>(null);
+  // Admins state
+  const [admins, setAdmins] = useState<any[]>([]);
   // Students state
   const [students, setStudents] = useState<any[]>([]);
   // Courses state
@@ -71,6 +73,13 @@ export const AdminDashboardProvider: React.FC<{
       });
       console.log("Fetched teachers:", response.data);
       setTeachers(response.data);
+      // Update total teachers count if available
+      const count = Array.isArray(response.data?.teachers)
+        ? response.data.teachers.length
+        : Array.isArray(response.data)
+        ? response.data.length
+        : 0;
+      setStats((prev) => ({ ...prev, totalTeachers: count }));
       return response.data;
     } catch (error) {
       console.error("Error fetching teachers:", error);
@@ -116,50 +125,100 @@ export const AdminDashboardProvider: React.FC<{
         throw new Error("Not running in browser environment");
       }
 
-      const response = await api.get(`${API_BASE_URL}/api/user/all`, {
+      // Use admin students endpoint
+      const response = await api.get(`${API_BASE_URL}/api/admin/students`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      // Get all users from the response
-      const allUsers = response.data.data.users;
-
-      // Filter students
-      const studentsOnly = allUsers.filter(
-        (user: any) => user.role === "student"
-      );
-
-      // Calculate stats
-      const totalTeachers = allUsers.filter(
-        (user: any) => user.role === "teacher"
-      ).length;
-      const totalStudents = studentsOnly.length;
-      const totalUsers = allUsers.length;
+      // Endpoint returns an array of students directly
+      const studentsOnly: any[] = Array.isArray(response.data)
+        ? response.data
+        : [];
 
       // Set students data
       setStudents(studentsOnly);
 
-      // Set stats data
-      setStats({
-        totalTeachers,
-        totalStudents,
-        totalUsers,
-      });
+      // Update only student count to avoid incorrect totals (teachers/totalUsers unknown here)
+      setStats((prev) => ({
+        ...prev,
+        totalStudents: studentsOnly.length,
+      }));
 
       console.log("Fetched students:", studentsOnly);
-      console.log("Dashboard stats:", {
-        totalTeachers,
-        totalStudents,
-        totalUsers,
-      });
-
       return studentsOnly;
     } catch (error) {
       console.error("Error fetching students:", error);
       throw error;
     }
   }, []);
+
+  // Admin users
+  const getAdmins = useCallback(async (token: string) => {
+    try {
+      if (typeof window === "undefined") {
+        throw new Error("Not running in browser environment");
+      }
+
+      const response = await api.get(`${API_BASE_URL}/api/admin/admins`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const list: any[] = Array.isArray(response.data) ? response.data : [];
+      setAdmins(list);
+      setStats((prev) => ({ ...prev, totalAdmins: list.length }));
+      return list;
+    } catch (error) {
+      console.error("Error fetching admins:", error);
+      throw error;
+    }
+  }, []);
+
+  const updateAdmin = useCallback(
+    async (token: string, adminId: string, adminData: any) => {
+      try {
+        if (typeof window === "undefined") {
+          throw new Error("Not running in browser environment");
+        }
+
+        const response = await api.put(
+          `${API_BASE_URL}/api/admin/admins/${adminId}`,
+          adminData,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        // refresh list
+        await getAdmins(token);
+        return response.data;
+      } catch (error) {
+        console.error("Error updating admin:", error);
+        throw error;
+      }
+    },
+    [getAdmins]
+  );
+
+  const deleteAdmin = useCallback(
+    async (token: string, adminId: string) => {
+      try {
+        if (typeof window === "undefined") {
+          throw new Error("Not running in browser environment");
+        }
+
+        const response = await api.delete(
+          `${API_BASE_URL}/api/admin/admins/${adminId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        // refresh list
+        await getAdmins(token);
+        return response.data;
+      } catch (error) {
+        console.error("Error deleting admin:", error);
+        throw error;
+      }
+    },
+    [getAdmins]
+  );
 
   // update teacher - specific API for teachers
   const updateTeacher = useCallback(
@@ -263,6 +322,36 @@ export const AdminDashboardProvider: React.FC<{
       }
     },
     [getTeachers]
+  );
+
+  // delete member (student/admin)
+  const deleteMember = useCallback(
+    async (token: string, memberId: string) => {
+      try {
+        if (typeof window === "undefined") {
+          throw new Error("Not running in browser environment");
+        }
+
+        const response = await api.delete(
+          `${API_BASE_URL}/api/admin/member/${memberId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Deleted member:", response.data);
+
+        // Refresh students after deletion
+        await getStudents(token);
+
+        return response.data;
+      } catch (error) {
+        console.error("Error deleting member:", error);
+        throw error;
+      }
+    },
+    [getStudents]
   );
 
   // create student (as admin)
@@ -471,6 +560,26 @@ export const AdminDashboardProvider: React.FC<{
       return response.data;
     } catch (error) {
       console.error("Error fetching groups:", error);
+      throw error;
+    }
+  }, []);
+
+  // get group by id (with lessons)
+  const getGroupById = useCallback(async (token: string, groupId: string) => {
+    try {
+      if (typeof window === "undefined") {
+        throw new Error("Not running in browser environment");
+      }
+
+      const response = await api.get(`${API_BASE_URL}/api/group/${groupId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("Fetched group by id:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching group by id:", error);
       throw error;
     }
   }, []);
@@ -767,6 +876,64 @@ export const AdminDashboardProvider: React.FC<{
     [getCourses]
   );
 
+  // Contact info
+  const getContactInfo = useCallback(async (token: string) => {
+    try {
+      if (typeof window === "undefined") {
+        throw new Error("Not running in browser environment");
+      }
+
+      const response = await api.get(`${API_BASE_URL}/api/admin/contact`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("Fetched contact info:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching contact info:", error);
+      throw error;
+    }
+  }, []);
+
+  const updateContactInfo = useCallback(
+    async (
+      token: string,
+      data: {
+        email: string;
+        phone: string[];
+        address: string;
+        whatsappNumber: string[];
+        telegramLink: string;
+        facebook: string;
+        linkedin: string;
+      }
+    ) => {
+      try {
+        if (typeof window === "undefined") {
+          throw new Error("Not running in browser environment");
+        }
+
+        const response = await api.put(
+          `${API_BASE_URL}/api/admin/contact`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("Updated contact info:", response.data);
+        return response.data;
+      } catch (error) {
+        console.error("Error updating contact info:", error);
+        throw error;
+      }
+    },
+    []
+  );
+
   // Memoize context value to prevent unnecessary re-renders
   const contextValue = useMemo(
     () => ({
@@ -775,12 +942,14 @@ export const AdminDashboardProvider: React.FC<{
       students, // ✅ بيانات الطلاب
       courses, // ✅ بيانات الكورسات
       stats, // ✅ الإحصائيات
+      admins,
       getTeachers,
       createTeacher,
       updateMember,
       updateTeacher,
       updateStudent,
       deleteTeacher,
+      deleteMember,
       createStudent,
       createAdmin,
       addCreditsToStudent,
@@ -791,12 +960,20 @@ export const AdminDashboardProvider: React.FC<{
       removeGroupMember,
       getStudents,
       getGroups,
+      getGroupById,
       // Course functions
       getCourses,
       getCourseByIdAPI,
       createCourse,
       updateCourse,
       deleteCourse,
+      // Contact
+      getContactInfo,
+      updateContactInfo,
+      // Admin users
+      getAdmins,
+      updateAdmin,
+      deleteAdmin,
     }),
     [
       groups, // ✅ التحديث عند تغيير البيانات
@@ -804,12 +981,14 @@ export const AdminDashboardProvider: React.FC<{
       students, // ✅ التحديث عند تغيير بيانات الطلاب
       courses, // ✅ التحديث عند تغيير بيانات الكورسات
       stats, // ✅ التحديث عند تغيير الإحصائيات
+      admins,
       getTeachers,
       createTeacher,
       updateMember,
       updateTeacher,
       updateStudent,
       deleteTeacher,
+      deleteMember,
       createStudent,
       createAdmin,
       addCreditsToStudent,
@@ -820,12 +999,20 @@ export const AdminDashboardProvider: React.FC<{
       removeGroupMember,
       getStudents,
       getGroups,
+      getGroupById,
       // Course functions
       getCourses,
       getCourseByIdAPI,
       createCourse,
       updateCourse,
       deleteCourse,
+      // Contact
+      getContactInfo,
+      updateContactInfo,
+      // Admin users
+      getAdmins,
+      updateAdmin,
+      deleteAdmin,
     ]
   );
 
