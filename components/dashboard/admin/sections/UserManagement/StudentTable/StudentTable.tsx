@@ -9,7 +9,9 @@ import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
 import SkeletonTable from "@/components/dashboard/admin/components/SkeletonTable";
 import SkeletonCards from "@/components/dashboard/admin/components/SkeletonCards";
 
-const StudentTable = () => {
+const StudentTable: React.FC<{ searchTerm?: string }> = ({
+  searchTerm = "",
+}) => {
   const { token } = useAuth();
   const { students, getStudents } = useAdminDashboardContext();
   const [loading, setLoading] = useState(true);
@@ -73,13 +75,29 @@ const StudentTable = () => {
       </div>
     );
   }
+  const normalized = searchTerm.trim().toLowerCase();
+  const filtered = !normalized
+    ? students
+    : students.filter((s: any) => {
+        const name = (s.name || "").toLowerCase();
+        const email = (s.email || "").toLowerCase();
+        const phone = (s.phone || s.phoneNumber || "").toLowerCase();
+        const country = (s.country || "").toLowerCase();
+        return (
+          name.includes(normalized) ||
+          email.includes(normalized) ||
+          phone.includes(normalized) ||
+          country.includes(normalized)
+        );
+      });
+
   return (
     <div className={styles.tableContainer}>
       <div className={styles.header}>
         <h2 className={styles.title}>الطلاب</h2>
       </div>
 
-      {students.length === 0 ? (
+      {filtered.length === 0 ? (
         <div
           style={{
             textAlign: "center",
@@ -111,7 +129,7 @@ const StudentTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {students.map((student: any) => (
+                {filtered.map((student: any) => (
                   <ClassTableRow key={student._id} studentitem={student} />
                 ))}
               </tbody>
@@ -119,7 +137,7 @@ const StudentTable = () => {
           </div>
 
           {/* Mobile Cards View */}
-          <MobileClassCards Students={students} />
+          <MobileClassCards Students={filtered} />
         </>
       )}
     </div>

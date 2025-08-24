@@ -567,12 +567,7 @@ export interface PostponeClassModalProps {
   onPostpone: (postponeData: PostponeData) => void;
 }
 
-export interface EditGroupNameModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  group: GroupData;
-  onSave: (groupName: string) => void;
-}
+// EditGroupNameModal removed
 
 export interface AddNicknameModalProps {
   isOpen: boolean;
@@ -654,6 +649,8 @@ export interface AdminDashboardContextType {
   courses: any[]; // ✅ بيانات الكورسات
   stats: AdminDashboardStats;
   admins?: any[];
+  // Lessons refresh key to allow listeners to refetch when lessons change
+  lessonsRefreshKey?: number;
   getTeachers: (token: string) => Promise<any>;
   createTeacher: (token: string, teacherData: any) => Promise<any>;
   updateMember: (
@@ -697,6 +694,18 @@ export interface AdminDashboardContextType {
   getStudents: (token: string) => Promise<any>;
   getGroups: (token: string) => Promise<any>;
   getGroupById?: (token: string, groupId: string) => Promise<any>;
+  // Lessons APIs
+  addLessonToGroup?: (
+    token: string,
+    groupId: string,
+    data: { scheduledAt: string; subject?: string; meetingLink?: string }
+  ) => Promise<any>;
+  updateLesson?: (
+    token: string,
+    lessonId: string,
+    data: { scheduledAt?: string; subject?: string; meetingLink?: string }
+  ) => Promise<any>;
+  deleteLesson?: (token: string, lessonId: string) => Promise<any>;
   // Admin users
   getAdmins?: (token: string) => Promise<any>;
   updateAdmin?: (
@@ -759,30 +768,22 @@ export interface StudentDashboardContextType {
   userLessons: Lesson[];
 }
 
+export interface TeacherDashboardContextType {
+  teacherLessons: any[];
+  getMyLessons: (token: string) => Promise<any[]>;
+}
+
 export interface ModalContextType {
   // Modal states
   completeModalOpen: boolean;
   postponeModalOpen: boolean;
-  nicknameModalOpen: boolean;
   studentAllDataModalOpen: boolean;
-  editGroupNameModalOpen: boolean;
   groupCompleteModalOpen: boolean;
   addClassLinkModalOpen: boolean;
 
   // Modal data
   selectedClass: ClassData | null;
-  selectedStudent: {
-    studentId: number;
-    studentName?: string;
-    nickname?: string;
-    groupName?: string;
-    classLink?: string; // Add classLink to interface
-  } | null;
   studentAllData: any;
-  selectedGroupData: {
-    classId: number;
-    currentGroupName: string;
-  } | null;
   selectedGroupClass: ClassData | null;
   selectedClassForLink: {
     id: number;
@@ -796,29 +797,20 @@ export interface ModalContextType {
   // Modal actions
   openCompleteModal: (classData: ClassData) => void;
   openPostponeModal: (classData: ClassData) => void;
-  openNicknameModal: (studentData: StudentData) => void;
   openStudentDataModal: (studentId: number) => void;
-  openEditGroupNameModal: (groupData: {
-    classId: number;
-    currentGroupName: string;
-  }) => void;
   openGroupCompleteModal: (classData: ClassData) => void;
   openAddClassLinkModal: (classData: ClassData) => void;
 
   // Close actions
   closeCompleteModal: () => void;
   closePostponeModal: () => void;
-  closeNicknameModal: () => void;
   closeStudentDataModal: () => void;
-  closeEditGroupNameModal: () => void;
   closeGroupCompleteModal: () => void;
   closeAddClassLinkModal: () => void;
 
   // Save actions
   saveClassCompletion: (completionData: any) => void;
   saveClassPostpone: (postponeData: any) => void;
-  saveStudentNickname: (nickname: string, studentId: number) => void;
-  saveGroupName: (groupName: string, classId: number) => void;
   saveGroupCompletion: (completionData: any) => void;
   saveClassLink: (classLink: string, classId: number) => void;
 }
@@ -881,6 +873,7 @@ export interface AdminModalContextType {
     day: string;
     time: string;
     date: string;
+    meetingLink?: string;
   } | null;
   selectedUserForActions: {
     id: string;
@@ -919,12 +912,14 @@ export interface AdminModalContextType {
     day: string;
     time: string;
     date: string;
+    meetingLink?: string;
   }) => void;
   openDeleteLessonModal: (lessonData: {
     id: string;
     day: string;
     time: string;
     date: string;
+    meetingLink?: string;
   }) => void;
 
   // User actions

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FiPlus, FiDownload, FiSearch } from "react-icons/fi";
+import { FiPlus, FiDownload } from "react-icons/fi";
 import StatCard from "@/components/common/UI/StatCard";
 // import api from "@/utils/api";
 import styles from "@/styles/AdminDashboard.module.css";
@@ -13,6 +13,7 @@ import DashboardTabs from "@/components/dashboard/student/DashboardTabs";
 import { ChartData } from "@/utils/types";
 import { FiUsers, FiUserCheck, FiShield } from "react-icons/fi";
 import AdminsTable from "./AdminsTable";
+import SearchFilter from "@/components/common/UI/SearchFilter";
 import {
   XAxis,
   YAxis,
@@ -77,13 +78,13 @@ const UserManagement: React.FC = () => {
   const getTabContent = () => {
     switch (activeTab) {
       case "students":
-        return <StudentTable />;
+        return <StudentTable searchTerm={searchTerm} />;
       case "teachers":
-        return <TeacherTable />;
+        return <TeacherTable searchTerm={searchTerm} />;
       case "admins":
-        return <AdminsTable />;
+        return <AdminsTable searchTerm={searchTerm} />;
       default:
-        return <StudentTable />;
+        return <StudentTable searchTerm={searchTerm} />;
     }
   };
 
@@ -156,16 +157,14 @@ const UserManagement: React.FC = () => {
       {/* Filters */}
       <div className={styles.filterContainer}>
         <div className={styles.filterGroup}>
-          <div className={userStyles.filterInputWrapper}>
-            <FiSearch className={userStyles.filterIcon} />
-            <input
-              type="text"
-              placeholder="البحث بالاسم، البريد الإلكتروني، أو رقم الهاتف..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className={userStyles.formInput}
-            />
-          </div>
+          <SearchFilter
+            value={searchTerm}
+            onChange={setSearchTerm}
+            placeholder="البحث بالاسم، البريد الإلكتروني، أو رقم الهاتف..."
+            wrapperClassName={userStyles.filterInputWrapper}
+            inputClassName={userStyles.formInput}
+            iconClassName={userStyles.filterIcon}
+          />
         </div>
       </div>
       <DashboardTabs

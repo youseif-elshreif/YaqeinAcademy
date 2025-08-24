@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FiEdit, FiCalendar, FiUsers } from "react-icons/fi";
-import {
-  FaExternalLinkAlt,
-  FaCopy,
-  FaEdit as FaEditIcon,
-} from "react-icons/fa";
+import { FaExternalLinkAlt, FaCopy } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
 import { useAdminModal } from "@/contexts/AdminModalContext";
@@ -42,7 +38,10 @@ interface ApiGroup {
   updatedAt: string;
 }
 
-const GroupsTable: React.FC = () => {
+const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
+  searchTerm = "",
+  dayFilter = "",
+}) => {
   const { groups, getGroups } = useAdminDashboardContext();
   const { openGroupActionsModal, openLessonsModal } = useAdminModal();
   const [loading, setLoading] = useState(true);
@@ -86,14 +85,7 @@ const GroupsTable: React.FC = () => {
     window.open(link, "_blank", "noopener,noreferrer");
   };
 
-  // Function to handle editing a group link
-  const handleEditLink = (groupId: string, currentLink: string) => {
-    const newLink = prompt("تعديل رابط الحلقة:", currentLink);
-    if (newLink && newLink !== currentLink) {
-      console.log("تحديث رابط الحلقة:", groupId, "إلى:", newLink);
-      // سيتم إضافة منطق التحديث لاحقاً
-    }
-  };
+  // Note: edit link handled via group actions modal
 
   const formatSchedule = (usualDate: ApiGroup["usualDate"]) => {
     const days = [];
@@ -155,6 +147,36 @@ const GroupsTable: React.FC = () => {
     );
   }
 
+  // Apply filtering: name-only search + optional day filter
+  const normalizedSearch = searchTerm.trim().toLowerCase();
+  const byName = !normalizedSearch
+    ? groups
+    : groups.filter((g) =>
+        (g.name || "").toLowerCase().includes(normalizedSearch)
+      );
+
+  const selectedDay = dayFilter.trim();
+  const filteredGroups = !selectedDay
+    ? byName
+    : byName.filter((g) => {
+        const usualDays = [
+          g.usualDate?.firstDay,
+          g.usualDate?.secondDay,
+          g.usualDate?.thirdDay,
+        ]
+          .filter(Boolean)
+          .map((d) => String(d));
+        const usualMatch = usualDays.includes(selectedDay);
+
+        const lessonsDays = (g.lessons || []).map((l) =>
+          new Date(l.scheduledAt).toLocaleDateString("ar-EG", {
+            weekday: "long",
+          })
+        );
+        const lessonsMatch = lessonsDays.includes(selectedDay);
+        return usualMatch || lessonsMatch;
+      });
+
   return (
     <div className={styles.tableContainer}>
       <div className={styles.header}>
@@ -162,7 +184,7 @@ const GroupsTable: React.FC = () => {
       </div>
       {/* Desktop Table View */}
 
-      {groups.length === 0 ? (
+      {filteredGroups.length === 0 ? (
         <div
           style={{
             textAlign: "center",
@@ -192,7 +214,7 @@ const GroupsTable: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {groups.map((group) => {
+              {filteredGroups.map((group) => {
                 const nextLesson = getNextLesson(group.lessons);
                 return (
                   <tr key={group._id} className={styles.tableRow}>
@@ -244,7 +266,7 @@ const GroupsTable: React.FC = () => {
                         className={`${styles.studentName} ${styles.darkColor} ${styles.tooltipContainer}`}
                       >
                         {group.teacherId._id
-                          ? group.teacherId.name
+                          ? group.teacherId._id
                           : "لا يوجد معلم"}
                       </div>
                     </td>

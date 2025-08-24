@@ -7,18 +7,21 @@ import {
   ModalHeader,
   FormField,
   ModalActions,
-  SelectField,
 } from "@/components/common/Modal";
+import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 const AddLessonModal: React.FC = () => {
-  const { closeAddLessonModal } = useAdminModal();
+  const { closeAddLessonModal, selectedGroupForLessons } = useAdminModal();
+  const { addLessonToGroup } = useAdminDashboardContext();
+  const { token } = useAuth();
 
   const [isClosing, setIsClosing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    day: "",
     time: "",
     date: "",
+    meetingLink: "",
   });
 
   const handleClose = () => {
@@ -36,22 +39,21 @@ const AddLessonModal: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      // TODO: إضافة منطق حفظ الحلقة
-      console.log("Adding lesson:", formData);
-
-      // محاكاة API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
+      if (!token || !addLessonToGroup || !selectedGroupForLessons) {
+        throw new Error("Missing token or group context");
+      }
+      const { date, time } = formData;
+      // Combine date and time to ISO string in local timezone
+      const scheduledAt = new Date(`${date}T${time}:00`).toISOString();
+      await addLessonToGroup(token, selectedGroupForLessons.groupId, {
+        scheduledAt,
+        meetingLink: formData.meetingLink || undefined,
+      });
       handleClose();
     } catch (error) {
       console.error("Error adding lesson:", error);
@@ -59,17 +61,6 @@ const AddLessonModal: React.FC = () => {
       setIsSubmitting(false);
     }
   };
-
-  const dayOptions = [
-    { value: "", label: "اختر اليوم" },
-    { value: "الأحد", label: "الأحد" },
-    { value: "الاثنين", label: "الاثنين" },
-    { value: "الثلاثاء", label: "الثلاثاء" },
-    { value: "الأربعاء", label: "الأربعاء" },
-    { value: "الخميس", label: "الخميس" },
-    { value: "الجمعة", label: "الجمعة" },
-    { value: "السبت", label: "السبت" },
-  ];
 
   const actions = [
     {
@@ -100,16 +91,6 @@ const AddLessonModal: React.FC = () => {
       <div className={baseStyles.modalBody}>
         <form onSubmit={handleSubmit} className={baseStyles.form}>
           <div className={baseStyles.formGrid}>
-            <SelectField
-              label="اليوم"
-              name="day"
-              value={formData.day}
-              onChange={handleSelectChange}
-              options={dayOptions}
-              required
-              disabled={isSubmitting}
-            />
-
             <FormField
               label="الوقت"
               name="time"
@@ -128,6 +109,16 @@ const AddLessonModal: React.FC = () => {
               onChange={handleTextChange}
               required
               disabled={isSubmitting}
+            />
+
+            <FormField
+              label="رابط الحصة (اختياري)"
+              name="meetingLink"
+              type="url"
+              value={formData.meetingLink}
+              onChange={handleTextChange}
+              disabled={isSubmitting}
+              placeholder="https://..."
             />
           </div>
           <ModalActions actions={actions} alignment="right" />

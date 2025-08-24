@@ -1,29 +1,12 @@
-import {
-  FaTag,
-  FaUsers,
-  FaExternalLinkAlt,
-  FaCopy,
-  FaEdit,
-} from "react-icons/fa";
+import { FaUsers, FaExternalLinkAlt, FaCopy } from "react-icons/fa";
 import styles from "../MonthlyClassTable.module.css";
-import { ClassData } from "@/utils/types";
 import { formatDate, getStatusColor, getStatusText } from "../utils";
-import { useModal } from "@/contexts/ModalContext";
 
 interface ClassTableRowProps {
-  classItem: ClassData;
+  classItem: any; // raw lesson from API
 }
 
 const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
-  const {
-    openCompleteModal,
-    openPostponeModal,
-    openNicknameModal,
-    openStudentDataModal,
-    openEditGroupNameModal,
-    openAddClassLinkModal,
-  } = useModal();
-
   // Function to copy class link to clipboard
   const handleCopyLink = async (link: string) => {
     try {
@@ -40,115 +23,67 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
     window.open(link, "_blank", "noopener,noreferrer");
   };
 
-  // Function to handle editing a class link
-  const handleEditLink = (classData: ClassData) => {
-    openAddClassLinkModal(classData);
-  };
+  const group = classItem?.groupId || {};
+  const members = Array.isArray(group?.members) ? group.members : [];
+  const scheduledAt: string = classItem?.scheduledAt;
+  const meetingLink: string | undefined =
+    classItem?.meetingLink || group?.meetingLink;
+
   return (
-    <tr key={classItem.id} className={styles.tableRow}>
+    <tr key={classItem._id} className={styles.tableRow}>
       <td className={styles.studentCell}>
         <div className={styles.studentInfo}>
-          {classItem.students.length > 1 ? (
-            // Group view with multiple students
-            <>
-              <div className={styles.groupContainer}>
-                <div className={styles.groupBadge}>
-                  <FaUsers />
-                  <span>حلقة</span>
-                </div>
-                <div className={styles.groupNameContainer}>
-                  <span
-                    className={`${styles.groupName} ${styles.clickableText} ${styles.primaryColor}`}
-                  >
-                    {classItem.groupName}
-                    <span
-                      className={`${styles.groupIndicator} ${styles.secondaryColor}`}
-                    >
-                      ({classItem.students.length} طلاب)
-                    </span>
-                  </span>
-                </div>
-
-                {/* Group members list - hidden by default, shown on hover */}
-                <div className={styles.groupMembersTooltip}>
-                  {classItem.students.map((student, index) => (
-                    <span
-                      key={student.studentId}
-                      className={`${styles.groupMemberName} ${styles.clickableText} ${styles.primaryColor}`}
-                      onClick={() => openStudentDataModal(student.studentId)}
-                    >
-                      {student.studentName}
-                      {student.nickname && (
-                        <span
-                          className={`${styles.memberNickname} ${styles.lightColor}`}
-                        >
-                          ({student.nickname})
-                        </span>
-                      )}
-                      {index < classItem.students.length - 1 && ", "}
-                    </span>
-                  ))}
-                </div>
+          {/* Always show group-style display with group name, even for single-student classes */}
+          <>
+            <div className={styles.groupContainer}>
+              <div className={styles.groupBadge}>
+                <FaUsers />
+                <span>
+                  {group?.type == "private" ? "حلقة خاصة" : "حلقة عامة"}
+                </span>
               </div>
-              <button
-                className={`${styles.iconButton} ${styles.iconButtonSmall} ${styles.allTransition}`}
-                onClick={() =>
-                  openEditGroupNameModal({
-                    classId: classItem.id,
-                    currentGroupName: classItem.groupName,
-                  })
-                }
-                title="تعديل اسم الحلقة"
-              >
-                <FaTag />
-              </button>
-            </>
-          ) : (
-            // Single student view
-            <>
-              <span
-                className={`${styles.studentName} ${styles.clickableTextWithChildren} ${styles.darkColor}`}
-                onClick={() => {
-                  openStudentDataModal(classItem.students[0].studentId);
-                }}
-              >
-                {classItem.students[0].studentName}
-                {classItem.students[0].nickname && (
+              <div className={styles.groupNameContainer}>
+                <span
+                  className={`${styles.groupName} ${styles.clickableText} ${styles.primaryColor}`}
+                >
+                  {group?.name || "حلقة"}
                   <span
-                    className={`${styles.nickname} ${styles.clickableText} ${styles.lightColor}`}
-                    onClick={() => {
-                      openStudentDataModal(classItem.students[0].studentId);
-                    }}
+                    className={`${styles.groupIndicator} ${styles.secondaryColor}`}
                   >
-                    ({classItem.students[0].nickname})
+                    ({members.length} طلاب)
                   </span>
-                )}
-              </span>
-              <button
-                className={`${styles.iconButton} ${styles.iconButtonMedium} ${styles.allTransition}`}
-                onClick={() =>
-                  openNicknameModal({
-                    studentId: classItem.students[0].studentId,
-                    studentName: classItem.students[0].studentName,
-                    nickname: classItem.students[0].nickname,
-                  })
-                }
-                title="إضافة لقب"
-              >
-                <FaTag />
-              </button>
-            </>
-          )}
+                </span>
+              </div>
+
+              {/* Group members list - hidden by default, shown on hover */}
+              <div className={styles.groupMembersTooltip}>
+                {members.map((m: any, index: number) => (
+                  <span
+                    key={m?._id || index}
+                    className={`${styles.groupMemberName} ${styles.primaryColor}`}
+                  >
+                    {m?.name}
+                    {index < members.length - 1 && ", "}
+                  </span>
+                ))}
+              </div>
+            </div>
+            {/* Edit group name button removed as requested */}
+          </>
         </div>
       </td>
 
       <td className={styles.dateTimeCell}>
         <div className={styles.dateTimeContent}>
           <span className={`${styles.dateText} ${styles.darkColor}`}>
-            {formatDate(classItem.date)}
+            {formatDate(scheduledAt)}
           </span>
           <span className={`${styles.timeText} ${styles.primaryColor}`}>
-            {classItem.time}
+            {new Date(scheduledAt).toLocaleTimeString("ar-EG", {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: true,
+            })}
           </span>
         </div>
       </td>
@@ -165,73 +100,31 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
 
       <td className={styles.linkCell}>
         <div className={styles.linkContainer}>
-          <button
-            className={`${styles.linkButton} ${styles.openLinkBtn}`}
-            onClick={() => handleOpenLink(classItem.classLink!)}
-            title="فتح رابط الحلقة"
-          >
-            <FaExternalLinkAlt />
-            <span>دخول الحلقة</span>
-          </button>
-          <button
-            className={`${styles.linkButton} ${styles.copyLinkBtn}`}
-            onClick={() => handleCopyLink(classItem.classLink!)}
-            title="نسخ رابط الحلقة"
-          >
-            <FaCopy />
-          </button>
-        </div>
-      </td>
-
-      <td className={styles.rateCell}>
-        {classItem.students.length > 1 ? (
-          <span className={`${styles.groupRate} ${styles.primaryColor}`}>
-            ⭐ {classItem.groupRate}/10
-          </span>
-        ) : classItem.students[0].rate ? (
-          <span className={`${styles.rate} ${styles.primaryColor}`}>
-            ⭐ {classItem.students[0].rate}/10
-          </span>
-        ) : (
-          <span className={`${styles.lightColor}`}>-</span>
-        )}
-      </td>
-
-      <td className={styles.actionsCell}>
-        <div className={styles.actionButtons}>
-          {(classItem.status === "pending" ||
-            classItem.status === "postponed") && (
+          {meetingLink ? (
             <>
               <button
-                className={`${styles.baseButton} ${styles.actionBtn} ${styles.completeBtn}`}
-                onClick={() => openCompleteModal(classItem)}
+                className={`${styles.linkButton} ${styles.openLinkBtn}`}
+                onClick={() => handleOpenLink(meetingLink)}
+                title="فتح رابط الحلقة"
               >
-                إكمال الحلقة
+                <FaExternalLinkAlt />
+                <span>دخول الحلقة</span>
               </button>
               <button
-                className={`${styles.baseButton} ${styles.actionBtn} ${styles.postponeBtn}`}
-                onClick={() => openPostponeModal(classItem)}
+                className={`${styles.linkButton} ${styles.copyLinkBtn}`}
+                onClick={() => handleCopyLink(meetingLink)}
+                title="نسخ رابط الحلقة"
               >
-                {classItem.status === "postponed"
-                  ? "تعديل/إلغاء"
-                  : "تأجيل/إلغاء"}
+                <FaCopy />
               </button>
             </>
-          )}
-          {classItem.status === "completed" && (
-            <button
-              className={`${styles.baseButton} ${styles.actionBtn} ${styles.viewBtn}`}
-              onClick={() => {
-                /* Navigate to student record */
-              }}
-            >
-              عرض التفاصيل
-            </button>
-          )}
-          {classItem.status === "cancelled" && (
-            <span className={styles.cancelledText}>تم الإلغاء</span>
+          ) : (
+            <span className={styles.lightColor}>—</span>
           )}
         </div>
+      </td>
+      <td className={styles.actionsCell}>
+        <div className={styles.actionButtons}>—</div>
       </td>
     </tr>
   );

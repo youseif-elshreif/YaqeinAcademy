@@ -7,7 +7,9 @@ import SkeletonCards from "@/components/dashboard/admin/components/SkeletonCards
 import MobileClassCards from "./Mobile/MobileClassCards";
 import ClassTableRow from "./ClassTableRow";
 
-const TeacherTable = () => {
+const TeacherTable: React.FC<{ searchTerm?: string }> = ({
+  searchTerm = "",
+}) => {
   const { teachers } = useAdminDashboardContext();
   const [combinedTeachers, setCombinedTeachers] = useState<any[]>([]);
 
@@ -47,13 +49,29 @@ const TeacherTable = () => {
     );
   }
 
+  const normalized = searchTerm.trim().toLowerCase();
+  const filtered = !normalized
+    ? combinedTeachers
+    : combinedTeachers.filter((t: any) => {
+        const name = (t.name || "").toLowerCase();
+        const email = (t.email || "").toLowerCase();
+        const phone = (t.phone || "").toLowerCase();
+        const link = (t.meetingLink || "").toLowerCase();
+        return (
+          name.includes(normalized) ||
+          email.includes(normalized) ||
+          phone.includes(normalized) ||
+          link.includes(normalized)
+        );
+      });
+
   return (
     <div className={styles.tableContainer}>
       <div className={styles.header}>
         <h2 className={styles.title}>المعلمين</h2>
       </div>
 
-      {combinedTeachers.length === 0 ? (
+      {filtered.length === 0 ? (
         <div
           style={{
             textAlign: "center",
@@ -82,7 +100,7 @@ const TeacherTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {combinedTeachers.map((teacher) => (
+                {filtered.map((teacher) => (
                   <ClassTableRow key={teacher._id} teacher={teacher} />
                 ))}
               </tbody>
@@ -90,7 +108,7 @@ const TeacherTable = () => {
           </div>
 
           {/* Mobile Cards View */}
-          <MobileClassCards teachers={combinedTeachers} />
+          <MobileClassCards teachers={filtered} />
         </>
       )}
     </div>

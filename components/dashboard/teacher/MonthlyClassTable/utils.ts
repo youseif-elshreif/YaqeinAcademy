@@ -16,7 +16,7 @@ export const formatDate = (dateString: string): string => {
       month: "short",
       day: "numeric",
     });
-  } catch (error) {
+  } catch {
     const day = date.getDate();
     const month = date.getMonth() + 1;
     return `${day}/${month}`;
@@ -27,11 +27,11 @@ export const getStatusColor = (status: string): string => {
   switch (status) {
     case "completed":
       return styles.completedStatus;
-    case "pending":
+    case "scheduled":
       return styles.pendingStatus;
     case "cancelled":
       return styles.cancelledStatus;
-    case "postponed":
+    case "in_progress":
       return styles.postponedStatus;
     default:
       return "";
@@ -42,12 +42,12 @@ export const getStatusText = (status: string): string => {
   switch (status) {
     case "completed":
       return "مكتملة";
-    case "pending":
-      return "معلقة";
+    case "scheduled":
+      return "مجدولة";
     case "cancelled":
       return "ملغية";
-    case "postponed":
-      return "مؤجلة";
+    case "in_progress":
+      return "جارية";
     default:
       return status;
   }

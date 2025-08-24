@@ -7,27 +7,36 @@ import {
   ModalHeader,
   FormField,
   ModalActions,
-  SelectField,
 } from "@/components/common/Modal";
+import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 const EditLessonModal: React.FC = () => {
   const { closeEditLessonModal, selectedLessonData } = useAdminModal();
+  const { updateLesson } = useAdminDashboardContext();
+  const { token } = useAuth();
 
   const [isClosing, setIsClosing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    day: "",
     time: "",
     date: "",
+    meetingLink: "",
   });
 
   // تعبئة البيانات عند فتح المودال
   useEffect(() => {
     if (selectedLessonData) {
+      // Normalize ISO date to YYYY-MM-DD for date input
+      const rawDate = selectedLessonData.date;
+      const d = new Date(rawDate);
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
       setFormData({
-        day: selectedLessonData.day,
         time: selectedLessonData.time,
-        date: selectedLessonData.date,
+        date: `${yyyy}-${mm}-${dd}`,
+        meetingLink: selectedLessonData.meetingLink || "",
       });
     }
   }, [selectedLessonData]);
@@ -47,22 +56,20 @@ const EditLessonModal: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      // TODO: إضافة منطق تحديث الحلقة
-      console.log("Updating lesson:", selectedLessonData?.id, formData);
-
-      // محاكاة API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
+      if (!token || !updateLesson || !selectedLessonData) {
+        throw new Error("Missing token or lesson context");
+      }
+      const { date, time } = formData;
+      const scheduledAt = new Date(`${date}T${time}:00`).toISOString();
+      await updateLesson(token, selectedLessonData.id, {
+        scheduledAt,
+        meetingLink: formData.meetingLink || undefined,
+      });
       handleClose();
     } catch (error) {
       console.error("Error updating lesson:", error);
@@ -70,17 +77,6 @@ const EditLessonModal: React.FC = () => {
       setIsSubmitting(false);
     }
   };
-
-  const dayOptions = [
-    { value: "", label: "اختر اليوم" },
-    { value: "الأحد", label: "الأحد" },
-    { value: "الاثنين", label: "الاثنين" },
-    { value: "الثلاثاء", label: "الثلاثاء" },
-    { value: "الأربعاء", label: "الأربعاء" },
-    { value: "الخميس", label: "الخميس" },
-    { value: "الجمعة", label: "الجمعة" },
-    { value: "السبت", label: "السبت" },
-  ];
 
   if (!selectedLessonData) return null;
 
@@ -113,16 +109,6 @@ const EditLessonModal: React.FC = () => {
       <div className={baseStyles.modalBody}>
         <form onSubmit={handleSubmit} className={baseStyles.form}>
           <div className={baseStyles.formGrid}>
-            <SelectField
-              label="اليوم"
-              name="day"
-              value={formData.day}
-              onChange={handleSelectChange}
-              options={dayOptions}
-              required
-              disabled={isSubmitting}
-            />
-
             <FormField
               label="الوقت"
               name="time"
@@ -141,6 +127,16 @@ const EditLessonModal: React.FC = () => {
               onChange={handleTextChange}
               required
               disabled={isSubmitting}
+            />
+
+            <FormField
+              label="رابط الحصة (اختياري)"
+              name="meetingLink"
+              type="url"
+              value={formData.meetingLink}
+              onChange={handleTextChange}
+              disabled={isSubmitting}
+              placeholder="https://..."
             />
           </div>
           <ModalActions actions={actions} alignment="right" />

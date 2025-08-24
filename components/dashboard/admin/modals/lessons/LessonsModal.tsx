@@ -9,6 +9,7 @@ import {
   FaTrash,
   FaClock,
   FaCalendarDay,
+  FaLink,
 } from "react-icons/fa";
 import { ModalContainer, ModalHeader } from "@/components/common/Modal";
 import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
@@ -41,7 +42,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
   const [error, setError] = useState<string | null>(null);
   const [lessons, setLessons] = useState<UILesson[]>([]);
 
-  const { getGroupById } = useAdminDashboardContext();
+  const { getGroupById, lessonsRefreshKey } = useAdminDashboardContext();
   const { token } = useAuth();
 
   // Fetch group lessons when modal opens
@@ -80,7 +81,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
     return () => {
       cancelled = true;
     };
-  }, [groupId, token, getGroupById]);
+  }, [groupId, token, getGroupById, lessonsRefreshKey]);
 
   const handleClose = () => {
     setIsClosing(true);
@@ -158,6 +159,19 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
                           <FaCalendarDay className={styles.detailIcon} />
                           {formatDate(lesson.date)}
                         </span>
+                        {lesson.meetingLink ? (
+                          <span className={styles.lessonDate}>
+                            <FaLink className={styles.detailIcon} />
+                            <a
+                              href={lesson.meetingLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={styles.meetingLink}
+                            >
+                              رابط الحصة
+                            </a>
+                          </span>
+                        ) : null}
                       </div>
                     </div>
                     <div className={styles.lessonActions}>
@@ -168,6 +182,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
                             day: lesson.day,
                             time: lesson.time,
                             date: lesson.date,
+                            meetingLink: lesson.meetingLink,
                           })
                         }
                         className={`${styles.actionBtn} ${styles.editBtn}`}
@@ -182,6 +197,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
                             day: lesson.day,
                             time: lesson.time,
                             date: lesson.date,
+                            meetingLink: lesson.meetingLink,
                           })
                         }
                         className={`${styles.actionBtn} ${styles.deleteBtn}`}

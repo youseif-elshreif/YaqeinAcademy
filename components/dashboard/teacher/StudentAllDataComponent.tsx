@@ -85,9 +85,6 @@ const StudentAllDataComponent: React.FC<StudentAllDataComponentProps> = ({
         <div className={styles.header}>
           <div className={styles.studentInfo}>
             <h2 className={styles.studentName}>{studentData.studentName}</h2>
-            {studentData.nickname && (
-              <span className={styles.nickname}>({studentData.nickname})</span>
-            )}
           </div>
           <button className={styles.closeBtn} onClick={handleClose}>
             <FaTimes />

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { FiPlus, FiDownload, FiSearch } from "react-icons/fi";
+import { FiPlus, FiDownload } from "react-icons/fi";
 import StatCard from "@/components/common/UI/StatCard";
 import styles from "@/styles/AdminDashboard.module.css";
 import userStyles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import GroupsTable from "./GroupsTable";
+import SearchFilter from "@/components/common/UI/SearchFilter";
+import DayFilter from "@/components/common/UI/DayFilter";
 import DashboardTabs from "@/components/dashboard/student/DashboardTabs";
 import { FiUsers } from "react-icons/fi";
 import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
@@ -14,6 +16,7 @@ const GroupManagement: React.FC = () => {
 
   const { openAddGroupModal } = useAdminModal();
   const [searchTerm, setSearchTerm] = useState("");
+  const [dayFilter, setDayFilter] = useState("");
   const [activeTab, setActiveTab] = useState("groups");
 
   const handleAddGroup = () => {
@@ -31,9 +34,9 @@ const GroupManagement: React.FC = () => {
   const getTabContent = () => {
     switch (activeTab) {
       case "groups":
-        return <GroupsTable />;
+        return <GroupsTable searchTerm={searchTerm} dayFilter={dayFilter} />;
       default:
-        return <GroupsTable />;
+        return <GroupsTable searchTerm={searchTerm} dayFilter={dayFilter} />;
     }
   };
 
@@ -69,16 +72,23 @@ const GroupManagement: React.FC = () => {
 
       <div className={styles.filterContainer}>
         <div className={styles.filterGroup}>
-          <div className={userStyles.filterInputWrapper}>
-            <FiSearch className={userStyles.filterIcon} />
-            <input
-              type="text"
-              placeholder="البحث في الحلقات..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className={userStyles.formInput}
-            />
-          </div>
+          <SearchFilter
+            value={searchTerm}
+            onChange={setSearchTerm}
+            placeholder="البحث باسم الحلقة فقط..."
+            wrapperClassName={userStyles.filterInputWrapper}
+            inputClassName={userStyles.formInput}
+            iconClassName={userStyles.filterIcon}
+          />
+        </div>
+        <div className={styles.filterGroup}>
+          <DayFilter
+            value={dayFilter}
+            onChange={setDayFilter}
+            placeholder="كل الأيام"
+            wrapperClassName={userStyles.filterInputWrapper}
+            selectClassName={userStyles.formInput}
+          />
         </div>
       </div>
 

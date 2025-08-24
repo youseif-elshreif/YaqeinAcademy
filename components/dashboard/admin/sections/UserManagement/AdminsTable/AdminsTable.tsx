@@ -8,7 +8,9 @@ import SkeletonCards from "@/components/dashboard/admin/components/SkeletonCards
 import { FiUsers } from "react-icons/fi";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 
-const AdminsTable = () => {
+const AdminsTable: React.FC<{ searchTerm?: string }> = ({
+  searchTerm = "",
+}) => {
   const { token } = useAuth();
   const { admins = [], getAdmins } = useAdminDashboardContext();
   const [loading, setLoading] = useState(true);
@@ -70,13 +72,29 @@ const AdminsTable = () => {
     );
   }
 
+  const normalized = searchTerm.trim().toLowerCase();
+  const filtered = !normalized
+    ? admins
+    : admins.filter((a: any) => {
+        const name = (a.name || "").toLowerCase();
+        const email = (a.email || "").toLowerCase();
+        const phone = (a.phone || "").toLowerCase();
+        const country = (a.country || "").toLowerCase();
+        return (
+          name.includes(normalized) ||
+          email.includes(normalized) ||
+          phone.includes(normalized) ||
+          country.includes(normalized)
+        );
+      });
+
   return (
     <div className={styles.tableContainer}>
       <div className={styles.header}>
         <h2 className={styles.title}>الإداريين</h2>
       </div>
 
-      {admins.length === 0 ? (
+      {filtered.length === 0 ? (
         <div
           style={{
             textAlign: "center",
@@ -103,7 +121,7 @@ const AdminsTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {admins.map((admin: any) => (
+                {filtered.map((admin: any) => (
                   <tr key={admin._id || admin.id} className={styles.tableRow}>
                     <td className={`${styles.studentCell} ${styles.firstCell}`}>
                       <div className={styles.teacherInfo}>

@@ -34,6 +34,8 @@ export const AdminDashboardProvider: React.FC<{
     totalStudents: 0,
     totalUsers: 0,
   });
+  // Lessons refresh key (increment to trigger refetch in listeners)
+  const [lessonsRefreshKey, setLessonsRefreshKey] = useState(0);
 
   // create teatcher
   const createTeacher = useCallback(async (token: string, teacherData: any) => {
@@ -584,6 +586,84 @@ export const AdminDashboardProvider: React.FC<{
     }
   }, []);
 
+  // ===== Lessons CRUD =====
+  const addLessonToGroup = useCallback(
+    async (
+      token: string,
+      groupId: string,
+      data: { scheduledAt: string; subject?: string; meetingLink?: string }
+    ) => {
+      try {
+        if (typeof window === "undefined") {
+          throw new Error("Not running in browser environment");
+        }
+
+        const response = await api.post(
+          `${API_BASE_URL}/api/lesson/group/${groupId}`,
+          data,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        // bump refresh key so UI can refetch
+        setLessonsRefreshKey((k) => k + 1);
+        return response.data;
+      } catch (error) {
+        console.error("Error adding lesson to group:", error);
+        throw error;
+      }
+    },
+    []
+  );
+
+  const updateLesson = useCallback(
+    async (
+      token: string,
+      lessonId: string,
+      data: { scheduledAt?: string; subject?: string; meetingLink?: string }
+    ) => {
+      try {
+        if (typeof window === "undefined") {
+          throw new Error("Not running in browser environment");
+        }
+
+        const response = await api.put(
+          `${API_BASE_URL}/api/lesson/${lessonId}`,
+          data,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setLessonsRefreshKey((k) => k + 1);
+        return response.data;
+      } catch (error) {
+        console.error("Error updating lesson:", error);
+        throw error;
+      }
+    },
+    []
+  );
+
+  const deleteLesson = useCallback(async (token: string, lessonId: string) => {
+    try {
+      if (typeof window === "undefined") {
+        throw new Error("Not running in browser environment");
+      }
+
+      const response = await api.delete(
+        `${API_BASE_URL}/api/lesson/${lessonId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setLessonsRefreshKey((k) => k + 1);
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting lesson:", error);
+      throw error;
+    }
+  }, []);
+
   // delete group
   const deleteGroup = useCallback(async (token: string, groupId: string) => {
     try {
@@ -961,6 +1041,10 @@ export const AdminDashboardProvider: React.FC<{
       getStudents,
       getGroups,
       getGroupById,
+      lessonsRefreshKey,
+      addLessonToGroup,
+      updateLesson,
+      deleteLesson,
       // Course functions
       getCourses,
       getCourseByIdAPI,
@@ -1000,6 +1084,10 @@ export const AdminDashboardProvider: React.FC<{
       getStudents,
       getGroups,
       getGroupById,
+      lessonsRefreshKey,
+      addLessonToGroup,
+      updateLesson,
+      deleteLesson,
       // Course functions
       getCourses,
       getCourseByIdAPI,

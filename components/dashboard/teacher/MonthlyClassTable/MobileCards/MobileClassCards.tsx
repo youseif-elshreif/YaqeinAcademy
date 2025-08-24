@@ -1,16 +1,15 @@
 import ClassCard from "./ClassCard";
 import styles from "../MonthlyClassTable.module.css";
-import { ClassData } from "@/utils/types";
 
 interface MobileClassCardsProps {
-  classes: ClassData[];
+  classes: any[];
 }
 
 const MobileClassCards = ({ classes }: MobileClassCardsProps) => {
   return (
     <div className={styles.mobileCardsContainer}>
-      {classes.map((classItem) => (
-        <ClassCard key={classItem.id} classItem={classItem} />
+      {classes.map((classItem: any) => (
+        <ClassCard key={classItem._id} classItem={classItem} />
       ))}
     </div>
   );

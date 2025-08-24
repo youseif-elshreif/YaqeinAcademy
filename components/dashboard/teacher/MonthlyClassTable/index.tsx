@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import styles from "./MonthlyClassTable.module.css";
 import ClassTable from "./Table/ClassTable";
 import MobileClassCards from "./MobileCards/MobileClassCards";
-import { ClassData } from "@/utils/types";
+// Using raw lesson items from API
 
 interface MonthlyClassTableProps {
-  initialClasses: ClassData[];
+  initialClasses: any[];
 }
 
 const MonthlyClassTable = ({ initialClasses }: MonthlyClassTableProps) => {
-  const [classes, setClasses] = useState<ClassData[]>(initialClasses);
+  const [classes, setClasses] = useState<any[]>(initialClasses);
 
   // Sync with external changes to initialClasses
   useEffect(() => {

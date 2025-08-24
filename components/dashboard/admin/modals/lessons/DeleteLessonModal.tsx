@@ -10,9 +10,13 @@ import {
   WarningPanel,
   ConfirmTextInput,
 } from "@/components/common/Modal";
+import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 const DeleteLessonModal: React.FC = () => {
   const { closeDeleteLessonModal, selectedLessonData } = useAdminModal();
+  const { deleteLesson } = useAdminDashboardContext();
+  const { token } = useAuth();
 
   const [isClosing, setIsClosing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -35,12 +39,10 @@ const DeleteLessonModal: React.FC = () => {
     setIsDeleting(true);
 
     try {
-      // TODO: إضافة منطق حذف الحلقة
-      console.log("Deleting lesson:", selectedLessonData?.id);
-
-      // محاكاة API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
+      if (!token || !deleteLesson || !selectedLessonData) {
+        throw new Error("Missing token or lesson context");
+      }
+      await deleteLesson(token, selectedLessonData.id);
       handleClose();
     } catch (error) {
       console.error("Error deleting lesson:", error);

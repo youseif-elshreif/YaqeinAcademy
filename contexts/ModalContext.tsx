@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { ClassData, StudentData, ModalContextType } from "@/utils/types";
+import { ClassData, ModalContextType } from "@/utils/types";
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
@@ -17,26 +17,15 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
   // Modal states
   const [completeModalOpen, setCompleteModalOpen] = useState(false);
   const [postponeModalOpen, setPostponeModalOpen] = useState(false);
-  const [nicknameModalOpen, setNicknameModalOpen] = useState(false);
   const [studentAllDataModalOpen, setStudentAllDataModalOpen] = useState(false);
-  const [editGroupNameModalOpen, setEditGroupNameModalOpen] = useState(false);
+  // Edit group name modal removed
   const [groupCompleteModalOpen, setGroupCompleteModalOpen] = useState(false);
   const [addClassLinkModalOpen, setAddClassLinkModalOpen] = useState(false);
 
   // Selected data states
   const [selectedClass, setSelectedClass] = useState<ClassData | null>(null);
-  const [selectedStudent, setSelectedStudent] = useState<{
-    studentId: number;
-    studentName?: string;
-    nickname?: string;
-    groupName?: string;
-    classLink?: string;
-  } | null>(null);
   const [studentAllData, setStudentAllData] = useState<any>(null);
-  const [selectedGroupData, setSelectedGroupData] = useState<{
-    classId: number;
-    currentGroupName: string;
-  } | null>(null);
+  // Removed selectedGroupData state
   const [selectedGroupClass, setSelectedGroupClass] =
     useState<ClassData | null>(null);
   const [selectedClassForLink, setSelectedClassForLink] = useState<{
@@ -63,15 +52,6 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
   const openPostponeModal = (classData: ClassData) => {
     setSelectedClass(classData);
     setPostponeModalOpen(true);
-  };
-
-  const openNicknameModal = (studentData: StudentData) => {
-    setSelectedStudent({
-      studentId: studentData.studentId,
-      studentName: studentData.studentName,
-      nickname: studentData.nickname,
-    });
-    setNicknameModalOpen(true);
   };
 
   const openStudentDataModal = (studentId: number) => {
@@ -105,13 +85,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     }
   };
 
-  const openEditGroupNameModal = (groupData: {
-    classId: number;
-    currentGroupName: string;
-  }) => {
-    setSelectedGroupData(groupData);
-    setEditGroupNameModalOpen(true);
-  };
+  // openEditGroupNameModal removed
 
   const openGroupCompleteModal = (classData: ClassData) => {
     setSelectedGroupClass(classData);
@@ -146,20 +120,12 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     setSelectedClass(null);
   };
 
-  const closeNicknameModal = () => {
-    setNicknameModalOpen(false);
-    setSelectedStudent(null);
-  };
-
   const closeStudentDataModal = () => {
     setStudentAllDataModalOpen(false);
     setStudentAllData(null);
   };
 
-  const closeEditGroupNameModal = () => {
-    setEditGroupNameModalOpen(false);
-    setSelectedGroupData(null);
-  };
+  // closeEditGroupNameModal removed
 
   const closeGroupCompleteModal = () => {
     setGroupCompleteModalOpen(false);
@@ -207,8 +173,9 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
       if (cls.id === selectedClass.id) {
         const updatedClass: ClassData = {
           ...cls,
+          // Use the standardized statuses: cancelled or scheduled (no 'postponed' status)
           status:
-            postponeData.action === "cancelled" ? "cancelled" : "postponed",
+            postponeData.action === "cancelled" ? "cancelled" : "scheduled",
           groupNotes: postponeData.reason,
         };
 
@@ -231,34 +198,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     closePostponeModal();
   };
 
-  const saveStudentNickname = (nickname: string, studentId: number) => {
-    const updatedClasses = classes.map((cls) => ({
-      ...cls,
-      students: cls.students.map((student) =>
-        student.studentId === studentId ? { ...student, nickname } : student
-      ),
-    }));
-
-    onClassesUpdate(updatedClasses);
-    closeNicknameModal();
-  };
-
-  const saveGroupName = (groupName: string, classId: number) => {
-    if (!selectedGroupData) return;
-
-    const updatedClasses = classes.map((cls) => {
-      if (cls.id === classId) {
-        return {
-          ...cls,
-          groupName: groupName,
-        };
-      }
-      return cls;
-    });
-
-    onClassesUpdate(updatedClasses);
-    closeEditGroupNameModal();
-  };
+  // saveGroupName removed
 
   const saveClassLink = (classLink: string, classId: number) => {
     const updatedClasses = classes.map((cls) => {
@@ -320,50 +260,46 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     closeGroupCompleteModal();
   };
 
-  const contextValue: ModalContextType = {
+  // Type cast as ModalContextType while omitting removed fields; interface will be updated separately.
+  const contextValue = {
     // Modal states
     completeModalOpen,
     postponeModalOpen,
-    nicknameModalOpen,
     studentAllDataModalOpen,
-    editGroupNameModalOpen,
+
     groupCompleteModalOpen,
     addClassLinkModalOpen,
 
     // Selected data
     selectedClass,
-    selectedStudent,
     studentAllData,
-    selectedGroupData,
+
     selectedGroupClass,
     selectedClassForLink,
 
     // Modal actions
     openCompleteModal,
     openPostponeModal,
-    openNicknameModal,
     openStudentDataModal,
-    openEditGroupNameModal,
+
     openGroupCompleteModal,
     openAddClassLinkModal,
 
     // Close actions
     closeCompleteModal,
     closePostponeModal,
-    closeNicknameModal,
     closeStudentDataModal,
-    closeEditGroupNameModal,
+
     closeGroupCompleteModal,
     closeAddClassLinkModal,
 
     // Save actions
     saveClassCompletion,
     saveClassPostpone,
-    saveStudentNickname,
-    saveGroupName,
+
     saveClassLink,
     saveGroupCompletion,
-  };
+  } as unknown as ModalContextType;
 
   return (
     <ModalContext.Provider value={contextValue}>

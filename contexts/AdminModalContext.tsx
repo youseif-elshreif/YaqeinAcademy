@@ -96,6 +96,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     day: string;
     time: string;
     date: string;
+    meetingLink?: string;
   } | null>(null);
 
   const [selectedUserForActions, setSelectedUserForActions] = useState<{
@@ -242,6 +243,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     day: string;
     time: string;
     date: string;
+    meetingLink?: string;
   }) => {
     setSelectedLessonData(lessonData);
     setEditLessonModalOpen(true);
@@ -257,6 +259,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     day: string;
     time: string;
     date: string;
+    meetingLink?: string;
   }) => {
     setSelectedLessonData(lessonData);
     setDeleteLessonModalOpen(true);

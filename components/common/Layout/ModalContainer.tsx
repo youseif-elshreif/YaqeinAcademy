@@ -2,9 +2,7 @@ import React, { useEffect } from "react";
 import { useModal } from "@/contexts/ModalContext";
 import CompleteClassModal from "@/components/dashboard/teacher/CompleteClassModal";
 import PostponeClassModal from "@/components/dashboard/teacher/PostponeClassModal";
-import AddNicknameModal from "@/components/dashboard/teacher/AddNicknameModal";
 import StudentAllDataComponent from "@/components/dashboard/teacher/StudentAllDataComponent";
-import EditGroupNameModal from "@/components/dashboard/teacher/EditGroupNameModal";
 import GroupCompleteClassModal from "@/components/dashboard/teacher/GroupCompleteClassModal";
 import EditClassLinkModal from "@/components/dashboard/teacher/AddClassLinkModal";
 
@@ -13,48 +11,33 @@ const ModalContainer: React.FC = () => {
     // Modal states
     completeModalOpen,
     postponeModalOpen,
-    nicknameModalOpen,
     studentAllDataModalOpen,
-    editGroupNameModalOpen,
+
     groupCompleteModalOpen,
     addClassLinkModalOpen,
 
     // Selected data
     selectedClass,
-    selectedStudent,
     studentAllData,
-    selectedGroupData,
+
     selectedGroupClass,
     selectedClassForLink,
 
     // Actions
     saveClassCompletion,
     saveClassPostpone,
-    saveStudentNickname,
-    saveGroupName,
+
     saveGroupCompletion,
     saveClassLink,
     closeCompleteModal,
     closePostponeModal,
-    closeNicknameModal,
     closeStudentDataModal,
-    closeEditGroupNameModal,
+
     closeGroupCompleteModal,
     closeAddClassLinkModal,
   } = useModal();
 
-  // Wrapper functions to handle signature mismatches
-  const handleSaveNickname = (nickname: string) => {
-    if (selectedStudent) {
-      saveStudentNickname(nickname, selectedStudent.studentId);
-    }
-  };
-
-  const handleSaveGroupName = (newGroupName: string) => {
-    if (selectedGroupData) {
-      saveGroupName(newGroupName, selectedGroupData.classId);
-    }
-  };
+  // Group name edit removed
 
   const handleSaveClassLink = (link: string) => {
     if (selectedClassForLink) {
@@ -66,9 +49,6 @@ const ModalContainer: React.FC = () => {
     if (
       completeModalOpen ||
       postponeModalOpen ||
-      nicknameModalOpen ||
-      studentAllDataModalOpen ||
-      editGroupNameModalOpen ||
       groupCompleteModalOpen ||
       addClassLinkModalOpen
     ) {
@@ -80,9 +60,8 @@ const ModalContainer: React.FC = () => {
   }, [
     completeModalOpen,
     postponeModalOpen,
-    nicknameModalOpen,
     studentAllDataModalOpen,
-    editGroupNameModalOpen,
+
     groupCompleteModalOpen,
     addClassLinkModalOpen,
   ]);
@@ -134,18 +113,6 @@ const ModalContainer: React.FC = () => {
           onClose={closePostponeModal}
         />
       )}
-      {/* Add Nickname Modal */}
-      {nicknameModalOpen && selectedStudent && selectedStudent.studentName && (
-        <AddNicknameModal
-          studentData={{
-            studentId: selectedStudent.studentId,
-            studentName: selectedStudent.studentName,
-            nickname: selectedStudent.nickname || "",
-          }}
-          onSave={handleSaveNickname}
-          onClose={closeNicknameModal}
-        />
-      )}
       {/* Student All Data Modal */}
       {studentAllDataModalOpen && studentAllData && (
         <StudentAllDataComponent
@@ -153,14 +120,7 @@ const ModalContainer: React.FC = () => {
           onClose={closeStudentDataModal}
         />
       )}
-      {/* Edit Group Name Modal */}
-      {editGroupNameModalOpen && selectedGroupData && (
-        <EditGroupNameModal
-          groupData={selectedGroupData}
-          onSave={handleSaveGroupName}
-          onClose={closeEditGroupNameModal}
-        />
-      )}
+      {/* Edit Group Name Modal removed */}
       {/* Edit Class Link Modal */}
       {addClassLinkModalOpen && selectedClassForLink && (
         <EditClassLinkModal

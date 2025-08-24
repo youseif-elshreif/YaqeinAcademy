@@ -2,7 +2,6 @@ import CompleteClassModal from "@/components/dashboard/teacher/CompleteClassModa
 import PostponeClassModal from "@/components/dashboard/teacher/PostponeClassModal";
 import AddNicknameModal from "@/components/dashboard/teacher/AddNicknameModal";
 import StudentAllDataComponent from "@/components/dashboard/teacher/StudentAllDataComponent";
-import EditGroupNameModal from "@/components/dashboard/teacher/EditGroupNameModal";
 import GroupCompleteClassModal from "@/components/dashboard/teacher/GroupCompleteClassModal";
 
 interface ClassModalsProps {
@@ -43,14 +42,7 @@ interface ClassModalsProps {
   studentAllData: any;
   onCloseStudentAllData: () => void;
 
-  // Group name editing modal props
-  editGroupNameModalOpen: boolean;
-  selectedGroupData: {
-    classId: number;
-    currentGroupName: string;
-  } | null;
-  onSaveGroupName: (newGroupName: string) => void;
-  onCloseEditGroupNameModal: () => void;
+  // Group name editing modal removed
 }
 
 const ClassModals = ({
@@ -72,10 +64,6 @@ const ClassModals = ({
   studentAllDataModalOpen,
   studentAllData,
   onCloseStudentAllData,
-  editGroupNameModalOpen,
-  selectedGroupData,
-  onSaveGroupName,
-  onCloseEditGroupNameModal,
 }: ClassModalsProps) => {
   return (
     <>
@@ -132,14 +120,7 @@ const ClassModals = ({
         />
       )}
 
-      {/* Edit Group Name Modal */}
-      {editGroupNameModalOpen && selectedGroupData && (
-        <EditGroupNameModal
-          groupData={selectedGroupData}
-          onSave={onSaveGroupName}
-          onClose={onCloseEditGroupNameModal}
-        />
-      )}
+      {/* Edit Group Name Modal removed */}
     </>
   );
 };

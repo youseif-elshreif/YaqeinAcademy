@@ -9,13 +9,12 @@ import {
   FaCoins,
 } from "react-icons/fa";
 
-interface ClassData {
-  id: number;
+interface LessonLike {
   status: string;
 }
 
 interface TeacherSummaryCardsProps {
-  classes: ClassData[];
+  classes: LessonLike[];
 }
 
 const TeacherSummaryCards = ({ classes }: TeacherSummaryCardsProps) => {
@@ -36,8 +35,8 @@ const TeacherSummaryCards = ({ classes }: TeacherSummaryCardsProps) => {
     },
     {
       id: 3,
-      title: "الحلقات المعلقة",
-      value: classes.filter((cls) => cls.status === "pending").length,
+      title: "الحلقات المجدولة",
+      value: classes.filter((cls) => cls.status === "scheduled").length,
       icon: FaHourglassHalf,
       color: "warning",
     },

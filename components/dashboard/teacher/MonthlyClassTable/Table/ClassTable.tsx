@@ -1,9 +1,9 @@
 import ClassTableRow from "./ClassTableRow";
 import styles from "../MonthlyClassTable.module.css";
-import { ClassData } from "@/utils/types";
+// Using raw lesson items from API
 
 interface ClassTableProps {
-  classes: ClassData[];
+  classes: any[];
 }
 
 const ClassTable = ({ classes }: ClassTableProps) => {
@@ -16,13 +16,12 @@ const ClassTable = ({ classes }: ClassTableProps) => {
             <th>التاريخ والوقت</th>
             <th>الحالة</th>
             <th>رابط الحلقة</th>
-            <th>التقييم</th>
             <th>الإجراءات</th>
           </tr>
         </thead>
         <tbody>
-          {classes.map((classItem) => (
-            <ClassTableRow key={classItem.id} classItem={classItem} />
+          {classes.map((classItem: any) => (
+            <ClassTableRow key={classItem._id} classItem={classItem} />
           ))}
         </tbody>
       </table>
