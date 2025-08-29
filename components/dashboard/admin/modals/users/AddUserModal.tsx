@@ -414,7 +414,10 @@ const AddUserModal = () => {
                 />
 
                 <div className={baseStyles.inputGroup}>
-                  <label className={baseStyles.label}>البلد</label>
+                  <label className={baseStyles.label}>
+                    البلد
+                    <span className={baseStyles.required}>*</span>
+                  </label>
                   <CountrySelect onChange={handleCountryChange} />
                   {fieldErrors.country && (
                     <div className={baseStyles.fieldError}>

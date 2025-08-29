@@ -1,11 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { FiUsers } from "react-icons/fi";
 import { useAuth } from "@/contexts/AuthContext";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import ClassTableRow from "./ClassTableRow";
 import MobileClassCards from "./Mobile/MobileClassCards";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useStudentsContext } from "@/contexts/StudentsContext";
 import SkeletonTable from "@/components/dashboard/admin/components/SkeletonTable";
 import SkeletonCards from "@/components/dashboard/admin/components/SkeletonCards";
 
@@ -13,23 +13,21 @@ const StudentTable: React.FC<{ searchTerm?: string }> = ({
   searchTerm = "",
 }) => {
   const { token } = useAuth();
-  const { students, getStudents } = useAdminDashboardContext();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    students,
+    getStudents,
+    isLoading: loading,
+    error,
+  } = useStudentsContext();
 
   useEffect(() => {
     const fetchStudents = async () => {
       if (!token) return;
 
       try {
-        setLoading(true);
-        setError(null);
         await getStudents(token);
       } catch (err) {
         console.error("Error fetching students:", err);
-        setError("فشل في جلب بيانات الطلاب");
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -125,6 +123,7 @@ const StudentTable: React.FC<{ searchTerm?: string }> = ({
                   <th>حفظ القرآن</th>
                   <th>عدد الأجزاء</th>
                   <th>تاريخ التسجيل</th>
+                  <th>التقارير</th>
                   <th>الإجراءات</th>
                 </tr>
               </thead>

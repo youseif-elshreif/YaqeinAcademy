@@ -15,11 +15,13 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useStudentDashboard } from "@/contexts/StudentDashboardContext";
 import { FaCopy, FaExternalLinkAlt } from "react-icons/fa";
 import { Lessons } from "./Lessons";
+import StudentMyReportsModal from "./StudentMyReportsModal";
 
 function StudentDashboard() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("next-session");
   const { getUserStats, userStats } = useStudentDashboard();
+  const [myReportsOpen, setMyReportsOpen] = useState(false);
 
   // Fetch student stats when the component mounts
   useEffect(() => {
@@ -87,13 +89,24 @@ function StudentDashboard() {
       ].filter(Boolean)
     : [];
 
-  // Tabs configuration
+  // Tabs configuration - filter based on available credits
   const tabs = [
-    // { id: "schedule", label: "الجدول الأسبوعي" },
-    { id: "next-session", label: "متطلب الحلقة القادمة" },
-    { id: "lessons", label: "الحلقات" },
+    // Only show lesson-related tabs if student has credits
+    ...((userStats?.PrivitelessonCredits || 0) > 0
+      ? [
+          { id: "next-session", label: "متطلب الحلقة القادمة" },
+          { id: "lessons", label: "الحلقات" },
+        ]
+      : []),
     { id: "profile", label: "الملف الشخصي" },
   ];
+
+  // Set default active tab based on available credits
+  useEffect(() => {
+    if ((userStats?.PrivitelessonCredits || 0) === 0) {
+      setActiveTab("profile");
+    }
+  }, [userStats?.PrivitelessonCredits]);
 
   // Function to open link in new tab
   const handleOpenLink = (link: string) => {
@@ -162,60 +175,99 @@ function StudentDashboard() {
                 <h2 className={styles.studentName}>{studentData.name}</h2>
               </div>
             </div>
+            <div style={{ marginTop: 8, textAlign: "end" }}>
+              <button
+                className={`${styles.linkButton} ${styles.openLinkBtn}`}
+                onClick={() => setMyReportsOpen(true)}
+              >
+                عرض تقاريري
+              </button>
+            </div>
           </div>
-          <div className={styles.studentHeader}>
-            {userStats && groupMeetingLink ? (
-              <div className={styles.dateContent}>
-                <div className={styles.groupTimes}>
-                  {days.map((day, index) => (
-                    <div key={index} className={styles.dateContent}>
-                      <span className={styles.dateText}>
-                        {day || "تاريخ غير متاح"}
-                      </span>
-                      <span className={styles.timeText}>
-                        {times[index] || "الوقت غير متاح"}
-                      </span>
-                    </div>
-                  ))}
-                  {days.length === 0 && (
-                    <div className={styles.dateContent}>
-                      <span className={styles.dateText}>
-                        {groupName || "حلقة غير محددة"}
-                      </span>
-                      <span className={styles.timeText}>الوقت غير متاح</span>
+
+          {/* Show schedule section only if student has credits */}
+          {(userStats?.PrivitelessonCredits || 0) > 0 ? (
+            <div className={styles.studentHeader}>
+              <div className={styles.studentInfoContainer}>
+                <div className={styles.studentInfo}>
+                  <h2
+                    className={styles.studentName}
+                    style={{ marginBottom: "10px" }}
+                  >
+                    الميعاد المعتاد للحصة
+                  </h2>{" "}
+                  {userStats && (
+                    <div className={styles.groupTimes}>
+                      {days.length > 0 ? (
+                        days.map((day, index) => (
+                          <div key={index} className={styles.dateContent}>
+                            <span className={styles.dateText}>{day}</span>
+                            <span className={styles.timeText}>
+                              {times[index] || "—"}
+                            </span>
+                          </div>
+                        ))
+                      ) : (
+                        <div className={styles.dateContent}>
+                          <span className={styles.dateText}>
+                            {groupName || "حلقة غير محددة"}
+                          </span>
+                          <span className={styles.timeText}>—</span>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
-                <div className={styles.whatDone}>
-                  <span className={styles.linkText}>رابط الحلقة</span>
-                  <div className={styles.linkContainer}>
-                    {" "}
-                    <button
-                      className={`${styles.linkButton} ${styles.openLinkBtn}`}
-                      onClick={() => handleOpenLink(groupMeetingLink || "")}
-                      title="فتح رابط الحلقة"
-                    >
-                      <FaExternalLinkAlt />
-                      <span>دخول الحلقة</span>
-                    </button>
-                    <button
-                      className={`${styles.linkButton} ${styles.copyLinkBtn}`}
-                      onClick={() => handleCopyLink(groupMeetingLink || "")}
-                      title="نسخ رابط الحلقة"
-                    >
-                      <FaCopy />
-                    </button>
+              </div>
+              <div>
+                {userStats && groupMeetingLink ? (
+                  <div className={styles.whatDone}>
+                    <span className={styles.linkText}>رابط الحلقة</span>
+                    <div className={styles.linkContainer}>
+                      <button
+                        className={`${styles.linkButton} ${styles.openLinkBtn}`}
+                        onClick={() => handleOpenLink(groupMeetingLink || "")}
+                        title="فتح رابط الحلقة"
+                      >
+                        <FaExternalLinkAlt />
+                        <span>دخول الحلقة</span>
+                      </button>
+                      <button
+                        className={`${styles.linkButton} ${styles.copyLinkBtn}`}
+                        onClick={() => handleCopyLink(groupMeetingLink || "")}
+                        title="نسخ رابط الحلقة"
+                      >
+                        <FaCopy />
+                      </button>
+                    </div>
                   </div>
+                ) : (
+                  <p className={styles.studentName}>
+                    لا توجد حلقة حتى الأن برجاء التواصل مع الإدارة
+                  </p>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className={styles.studentHeader}>
+              <div className={styles.studentInfoContainer}>
+                <div className={styles.studentInfo}>
+                  <h2
+                    className={styles.studentName}
+                    style={{
+                      marginBottom: "10px",
+                      color: "var(--warning-color)",
+                    }}
+                  >
+                    ⚠️ عذراً، لا توجد حلقات مستحقة حالياً
+                  </h2>
+                  <p className={styles.pageSubtitle}>
+                    يرجى التواصل مع الإدارة لتفعيل الحلقات
+                  </p>
                 </div>
               </div>
-            ) : (
-              <div className={styles.dateContent}>
-                <p className={styles.studentName}>
-                  لا توجد حلقة حتى الأن برجاء التواصل مع الإدارة
-                </p>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
 
           {/* Summary Cards */}
           <StudentSummaryCards studentData={studentData} />
@@ -229,6 +281,10 @@ function StudentDashboard() {
 
           {/* Tab Content */}
           <div className={styles.tabContent}>{renderTabContent()}</div>
+          <StudentMyReportsModal
+            isOpen={myReportsOpen}
+            onClose={() => setMyReportsOpen(false)}
+          />
         </div>
       </main>
     </>

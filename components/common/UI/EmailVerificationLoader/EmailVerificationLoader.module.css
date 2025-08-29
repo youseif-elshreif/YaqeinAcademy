@@ -1,0 +1,272 @@
+/* Email Verification Loader */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  font-family: "Cairo", sans-serif;
+  direction: rtl;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Email Icon Animation */
+.emailIcon {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.envelope {
+  position: relative;
+  width: 80px;
+  height: 60px;
+  margin: 0 auto;
+}
+
+.body {
+  width: 80px;
+  height: 60px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  animation: emailFloat 3s ease-in-out infinite;
+}
+
+.lid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 40px solid transparent;
+  border-right: 40px solid transparent;
+  border-bottom: 30px solid #5a67d8;
+  border-radius: 4px 4px 0 0;
+  transform-origin: bottom;
+  animation: lidOpen 2s ease-in-out infinite;
+}
+
+.checkmark {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  opacity: 0;
+  animation: checkmarkAppear 3s ease-in-out infinite;
+}
+
+.checkmarkCircle {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #4caf50;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.background {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #4caf50;
+  animation: scaleIn 0.3s ease-in-out forwards;
+  animation-delay: 1.5s;
+  transform: scale(0);
+}
+
+.checkmarkDraw {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 14px;
+  height: 14px;
+}
+
+.checkmarkDraw::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 8px;
+  width: 3px;
+  height: 6px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  animation: drawCheck 0.5s ease-in-out forwards;
+  animation-delay: 1.8s;
+  opacity: 0;
+}
+
+/* Text Styles */
+.textContainer {
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0 0 8px 0;
+  animation: textSlideIn 1s ease-out;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #718096;
+  margin: 0;
+  line-height: 1.5;
+  animation: textSlideIn 1s ease-out 0.2s both;
+}
+
+/* Progress Bar */
+.progressBar {
+  width: 100%;
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 2px;
+  animation: progressFill 3s ease-in-out infinite;
+  transform: translateX(-100%);
+}
+
+/* Animations */
+@keyframes emailFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes lidOpen {
+  0%,
+  40% {
+    transform: rotateX(0deg);
+  }
+  60%,
+  100% {
+    transform: rotateX(-20deg);
+  }
+}
+
+@keyframes checkmarkAppear {
+  0%,
+  50% {
+    opacity: 0;
+    transform: scale(0) rotate(-45deg);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.1) rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes drawCheck {
+  0% {
+    opacity: 0;
+    height: 0;
+  }
+  50% {
+    opacity: 1;
+    height: 0;
+  }
+  100% {
+    opacity: 1;
+    height: 6px;
+  }
+}
+
+@keyframes textSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes progressFill {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 30px 15px;
+  }
+
+  .envelope {
+    width: 70px;
+    height: 52px;
+  }
+
+  .body {
+    width: 70px;
+    height: 52px;
+  }
+
+  .lid {
+    border-left: 35px solid transparent;
+    border-right: 35px solid transparent;
+    border-bottom: 26px solid #5a67d8;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .title {
+    color: #f7fafc;
+  }
+
+  .subtitle {
+    color: #a0aec0;
+  }
+
+  .progressBar {
+    background: #4a5568;
+  }
+}

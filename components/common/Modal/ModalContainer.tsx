@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import baseStyles from "../../../styles/BaseModal.module.css";
 
 interface ModalContainerProps {
@@ -44,11 +45,13 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
     }
   };
 
-  return (
+  const overlay = (
     <div
       className={`${baseStyles.modalOverlay} ${
         isClosing ? baseStyles.fadeOut : ""
       }`}
+      role="dialog"
+      aria-modal="true"
     >
       <div
         className={`${
@@ -61,6 +64,12 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
       </div>
     </div>
   );
+
+  // Use a portal to escape any parent stacking context
+  if (typeof document !== "undefined") {
+    return ReactDOM.createPortal(overlay, document.body);
+  }
+  return overlay;
 };
 
 export default ModalContainer;

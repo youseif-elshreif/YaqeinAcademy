@@ -1,12 +1,6 @@
 "use client";
 import React from "react";
-import {
-  FiUsers,
-  FiCalendar,
-  FiBarChart,
-  FiHome,
-  FiMail,
-} from "react-icons/fi";
+import { FiUsers, FiCalendar, FiMail } from "react-icons/fi";
 import { HiOutlineViewList } from "react-icons/hi";
 import { FaTimes, FaUserFriends } from "react-icons/fa";
 import { usePathname } from "next/navigation";
@@ -17,12 +11,6 @@ const AdminSidebar: React.FC = () => {
   const pathname = usePathname();
 
   const navigationItems = [
-    {
-      id: "overview",
-      label: "نظرة عامة",
-      icon: FiHome,
-      path: "/admin/dashboard/overview",
-    },
     {
       id: "users",
       label: "إدارة المستخدمين",
@@ -40,12 +28,6 @@ const AdminSidebar: React.FC = () => {
       label: "إدارة الدورات",
       icon: FiCalendar,
       path: "/admin/dashboard/courses",
-    },
-    {
-      id: "financial",
-      label: "النظرة المالية",
-      icon: FiBarChart,
-      path: "/admin/dashboard/financial",
     },
     {
       id: "contact",

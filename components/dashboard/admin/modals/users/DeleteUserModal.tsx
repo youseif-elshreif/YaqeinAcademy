@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useTeachersContext } from "@/contexts/TeachersContext";
+import { useStudentsContext } from "@/contexts/StudentsContext";
 import { useAuth } from "@/contexts/AuthContext";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import { FaTrash } from "react-icons/fa";
@@ -15,7 +16,8 @@ import {
 const DeleteUserModal: React.FC = () => {
   const { deleteUserModalOpen, closeDeleteUserModal, selectedUserForActions } =
     useAdminModal();
-  const { deleteTeacher, deleteMember } = useAdminDashboardContext();
+  const { deleteTeacher } = useTeachersContext();
+  const { deleteMember } = useStudentsContext();
   const { token } = useAuth();
 
   const [confirmText, setConfirmText] = useState("");

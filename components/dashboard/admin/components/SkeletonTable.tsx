@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import skeletonStyles from "@/components/dashboard/admin/styles/SkeletonLoading.module.css";
+import EnhancedLoader from "@/components/common/UI/EnhancedLoader";
 
 interface SkeletonTableProps {
   rows?: number;
@@ -11,12 +12,21 @@ interface SkeletonTableProps {
 const SkeletonTable: React.FC<SkeletonTableProps> = ({
   rows = 5,
   columns = 6,
-  title = "جاري التحميل...",
+  title,
 }) => {
   return (
     <div className={styles.tableContainer}>
       <div className={styles.header}>
-        <h2 className={styles.title}>{title}</h2>
+        {title ? (
+          <h2 className={styles.title}>{title}</h2>
+        ) : (
+          <EnhancedLoader
+            type="inline"
+            text="جاري تحميل البيانات..."
+            size="medium"
+            color="primary"
+          />
+        )}
       </div>
 
       {/* Desktop Table Skeleton */}

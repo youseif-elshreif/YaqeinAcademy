@@ -9,10 +9,10 @@ import SearchFilter from "@/components/common/UI/SearchFilter";
 import DayFilter from "@/components/common/UI/DayFilter";
 import DashboardTabs from "@/components/dashboard/student/DashboardTabs";
 import { FiUsers } from "react-icons/fi";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useGroupsContext } from "@/contexts/GroupsContext";
 
 const GroupManagement: React.FC = () => {
-  const { groups } = useAdminDashboardContext();
+  const { groups } = useGroupsContext();
 
   const { openAddGroupModal } = useAdminModal();
   const [searchTerm, setSearchTerm] = useState("");

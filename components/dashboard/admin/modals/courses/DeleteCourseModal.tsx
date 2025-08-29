@@ -8,7 +8,7 @@ import {
   WarningPanel,
   ConfirmTextInput,
 } from "@/components/common/Modal";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useCoursesContext } from "@/contexts/CoursesContext";
 import { useAuth } from "@/contexts/AuthContext";
 
 interface DeleteCourseModalProps {
@@ -24,7 +24,7 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
   courseId,
   courseName = "هذه الدورة",
 }) => {
-  const { deleteCourse } = useAdminDashboardContext();
+  const { deleteCourse } = useCoursesContext();
   const { token } = useAuth();
 
   const [isClosing, setIsClosing] = useState(false);

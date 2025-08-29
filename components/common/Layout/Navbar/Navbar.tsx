@@ -8,7 +8,7 @@ import { FaTimes } from "react-icons/fa";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
-  const { logout, user, isAuthenticated } = useAuth();
+  const { logout, user, isAuthenticated, isLoading } = useAuth(); // ✅ إضافة isLoading
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
@@ -93,14 +93,46 @@ const Navbar = () => {
 
   const isActiveRoute = (href: string) => {
     if (!isMounted) return false;
-    return pathname === href;
-  };
 
+    if (href === "/") {
+      return pathname === "/";
+    }
+
+    return pathname.startsWith(href);
+  };
   const handleLogout = () => {
     logout();
     router.push("/");
     closeMenu();
   };
+
+  // ✅ عرض loader أثناء فحص التوثيق
+  if (isLoading) {
+    return (
+      <nav className={styles.navbar}>
+        <div className="container">
+          <div className={styles.navContent}>
+            <div className={styles.logo}>
+              <Link href="/">
+                <Image
+                  src="/img/logo/logo.webp"
+                  alt="أكاديمية يقين للعلوم الشرعية"
+                  className={styles.logoImage}
+                  width={60}
+                  height={60}
+                  priority
+                />
+              </Link>
+            </div>
+            <div className={styles.authLoader}>
+              <div className={styles.loadingSpinner}></div>
+              <span>جاري التحميل...</span>
+            </div>
+          </div>
+        </div>
+      </nav>
+    );
+  }
 
   return (
     <nav className={styles.navbar}>
@@ -118,6 +150,18 @@ const Navbar = () => {
                 priority
               />
             </Link>
+            {/* Greeting for authenticated users (desktop) */}
+            {isAuthenticated && user?.name && (
+              <li className={`${styles.navItem} ${styles.greetingItem}`}>
+                <span
+                  className={styles.greetingText}
+                  style={{ marginRight: "1rem" }}
+                >
+                  أهلاً بك يا{" "}
+                  <strong className={styles.greetingName}>{user.name}</strong>
+                </span>
+              </li>
+            )}
           </div>
 
           {/* Desktop Menu */}
@@ -186,6 +230,16 @@ const Navbar = () => {
               <FaTimes />
             </button>
           </div>
+
+          {/* Greeting for authenticated users (mobile) */}
+          {isAuthenticated && user?.name && (
+            <div className={styles.userInfo}>
+              <p>
+                أهلاً بك يا{" "}
+                <strong className={styles.greetingName}>{user.name}</strong>
+              </p>
+            </div>
+          )}
 
           <ul className={styles.mobileNavList}>
             {menuItems.map((item, index) => (

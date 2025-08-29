@@ -67,10 +67,35 @@ const CoursesPage = () => {
             style={{
               textAlign: "center",
               padding: "3rem 0",
-              color: "var(--text-light)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
             }}
           >
-            جاري تحميل الدورات...
+            <div style={{ marginBottom: "1rem" }}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  fontSize: "16px",
+                  color: "var(--text-light)",
+                }}
+              >
+                <div
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                    border: "2px solid #e3f2fd",
+                    borderTop: "2px solid #2196f3",
+                    borderRadius: "50%",
+                    animation: "spin 1s linear infinite",
+                  }}
+                ></div>
+                جاري تحميل الدورات...
+              </div>
+            </div>
           </div>
         ) : transformedCourses.length > 0 ? (
           <>

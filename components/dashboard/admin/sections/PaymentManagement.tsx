@@ -8,6 +8,7 @@ import {
   FiCalendar,
 } from "react-icons/fi";
 import StatCard from "@/components/common/UI/StatCard";
+import EnhancedLoader from "@/components/common/UI/EnhancedLoader";
 import api from "@/utils/api";
 import styles from "@/styles/AdminDashboard.module.css";
 import { Payment, PaymentHistory } from "@/utils/types";
@@ -245,9 +246,12 @@ const PaymentManagement: React.FC = () => {
   if (loading) {
     return (
       <div className={styles.overviewContainer}>
-        <div style={{ textAlign: "center", padding: "50px" }}>
-          <p>جاري تحميل بيانات المدفوعات...</p>
-        </div>
+        <EnhancedLoader
+          type="default"
+          text="جاري تحميل بيانات المدفوعات..."
+          size="large"
+          color="primary"
+        />
       </div>
     );
   }

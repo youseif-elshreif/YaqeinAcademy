@@ -642,10 +642,10 @@
 .selectedUserType {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 1rem 1.5rem;
   background: var(--separator-bg);
   font-weight: 600;
+  gap: 0.5rem;
 }
 
 .changeTypeButton {
@@ -1065,4 +1065,30 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Selected Members Display Styles */
+.selectedMembersInfo {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(239, 68, 68, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.1);
+}
+
+.selectedMembersList {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+}
+
+.selectedMemberItem {
+  padding: 0.5rem 0;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  border-bottom: 1px solid rgba(239, 68, 68, 0.1);
+}
+
+.selectedMemberItem:last-child {
+  border-bottom: none;
 }

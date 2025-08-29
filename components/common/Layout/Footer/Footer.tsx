@@ -7,38 +7,10 @@ import {
   FaWhatsapp,
 } from "react-icons/fa";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
-
-type FooterContact = {
-  email?: string;
-  phone?: string[];
-  address?: string;
-  whatsappNumber?: string[];
-  telegramLink?: string;
-  facebook?: string;
-  linkedin?: string;
-};
+import { useContactContext } from "@/contexts/ContactContext";
 
 const Footer = () => {
-  const { getContactInfo } = useAdminDashboardContext();
-  const [contact, setContact] = useState<FooterContact>({});
-
-  useEffect(() => {
-    const token =
-      typeof window !== "undefined"
-        ? localStorage.getItem("accessToken")
-        : null;
-    if (!token) return;
-    (async () => {
-      try {
-        const data = await getContactInfo(token);
-        setContact(data || {});
-      } catch {
-        // silent fail, keep defaults
-      }
-    })();
-  }, [getContactInfo]);
+  const { contactInfo } = useContactContext();
 
   return (
     <footer className={`${styles.footer} custom-bg`}>
@@ -111,34 +83,34 @@ const Footer = () => {
           <div className={styles.footerSection}>
             <h4 className={styles.sectionTitle}>تواصل معنا</h4>
             <div className={styles.contactInfo}>
-              {contact.email && (
+              {contactInfo?.email && (
                 <p className={styles.contactItem}>
                   <span className={styles.contactLabel}>
                     البريد الإلكتروني:
                   </span>
                   <a
-                    href={`mailto:${contact.email}`}
+                    href={`mailto:${contactInfo.email}`}
                     className={styles.contactLink}
                   >
-                    {contact.email}
+                    {contactInfo.email}
                   </a>
                 </p>
               )}
-              {contact.phone && contact.phone.length > 0 && (
+              {contactInfo?.phone && contactInfo.phone.length > 0 && (
                 <p className={styles.contactItem}>
                   <span className={styles.contactLabel}>الهاتف:</span>
-                  {contact.phone.map((p, i) => (
+                  {contactInfo.phone.map((p, i) => (
                     <a key={i} href={`tel:${p}`} className={styles.contactLink}>
                       {p}
-                      {i < contact.phone!.length - 1 ? " ، " : ""}
+                      {i < contactInfo.phone!.length - 1 ? " ، " : ""}
                     </a>
                   ))}
                 </p>
               )}
-              {contact.whatsappNumber && contact.whatsappNumber.length > 0 && (
+              {contactInfo?.whatsappNumber && contactInfo.whatsappNumber.length > 0 && (
                 <p className={styles.contactItem}>
                   <span className={styles.contactLabel}>واتساب:</span>
-                  {contact.whatsappNumber.map((w, i) => {
+                  {contactInfo.whatsappNumber.map((w, i) => {
                     const digits = (w || "").replace(/[^\d+]/g, "");
                     const wa = `https://wa.me/${digits.replace(/^\+/, "")}`;
                     return (
@@ -149,16 +121,18 @@ const Footer = () => {
                         className={styles.contactLink}
                       >
                         {w}
-                        {i < contact.whatsappNumber!.length - 1 ? " ، " : ""}
+                        {i < contactInfo.whatsappNumber!.length - 1 ? " ، " : ""}
                       </a>
                     );
                   })}
                 </p>
               )}
-              {contact.address && (
+              {contactInfo?.address && (
                 <p className={styles.contactItem}>
                   <span className={styles.contactLabel}>العنوان:</span>
-                  <span className={styles.contactLink}>{contact.address}</span>
+                  <span className={styles.contactLink}>
+                    {contactInfo.address}
+                  </span>
                 </p>
               )}
             </div>
@@ -167,9 +141,9 @@ const Footer = () => {
             <div className={styles.socialMedia}>
               <h5 className={styles.socialTitle}>تابعنا على:</h5>
               <div className={styles.socialLinks}>
-                {contact.facebook && (
+                {contactInfo?.facebook && (
                   <a
-                    href={contact.facebook}
+                    href={contactInfo.facebook}
                     className={styles.socialLink}
                     aria-label="فيسبوك"
                     target="_blank"
@@ -177,9 +151,9 @@ const Footer = () => {
                     <FaFacebook />
                   </a>
                 )}
-                {contact.telegramLink && (
+                {contactInfo?.telegramLink && (
                   <a
-                    href={contact.telegramLink}
+                    href={contactInfo.telegramLink}
                     className={styles.socialLink}
                     aria-label="تليجرام"
                     target="_blank"
@@ -187,9 +161,9 @@ const Footer = () => {
                     <FaTelegramPlane />
                   </a>
                 )}
-                {contact.linkedin && (
+                {contactInfo?.linkedin && (
                   <a
-                    href={contact.linkedin}
+                    href={contactInfo.linkedin}
                     className={styles.socialLink}
                     aria-label="لينكدإن"
                     target="_blank"
@@ -197,10 +171,10 @@ const Footer = () => {
                     <FaLinkedin />
                   </a>
                 )}
-                {contact.whatsappNumber &&
-                  contact.whatsappNumber.length > 0 && (
+                {contactInfo?.whatsappNumber &&
+                  contactInfo.whatsappNumber.length > 0 && (
                     <a
-                      href={`https://wa.me/${contact.whatsappNumber[0].replace(
+                      href={`https://wa.me/${contactInfo.whatsappNumber[0].replace(
                         /^\+/,
                         ""
                       )}`}
@@ -221,15 +195,26 @@ const Footer = () => {
         {/* Footer Bottom */}
         <div className={styles.footerBottom}>
           <p className={styles.copyright}>
-            © 2024 أكاديمية يقين. جميع الحقوق محفوظة.
+            © 2025 أكاديمية يقين. جميع الحقوق محفوظة.
           </p>
           <div className={styles.bottomLinks}>
-            <Link href="/privacy" className={styles.bottomLink}>
-              سياسة الخصوصية
-            </Link>
-            <Link href="/terms" className={styles.bottomLink}>
-              شروط الاستخدام
-            </Link>
+            تم اتنفيذ بواسطة
+            <span className={styles.bottomLink}>
+              <a
+                href="https://www.linkedin.com/in/mohammed-aboellil-628360296/"
+                target="_blank"
+              >
+                محمد ابو الليل
+              </a>
+            </span>
+            <span className={styles.bottomLink}>
+              <a
+                href="https://www.linkedin.com/in/youseif-elshreif/"
+                target="_blank"
+              >
+                يوسف الشريف
+              </a>
+            </span>
           </div>
         </div>
       </div>

@@ -112,6 +112,7 @@
 .groupTimes {
   display: flex;
   gap: 1rem;
+  margin-left: auto;
 }
 
 .dateContent {
@@ -167,6 +168,7 @@
   font-size: 0.8rem;
   transition: all 0.3s ease;
   color: var(--text-color);
+  white-space: nowrap;
 }
 
 .openLinkBtn {

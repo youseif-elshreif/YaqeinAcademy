@@ -6,44 +6,36 @@ import {
   ModalHeader,
   ModalActions,
 } from "@/components/common/Modal";
+import { useTeacherDashboard } from "@/contexts/TeacherDashboardContext";
 
-interface ClassData {
-  id: number;
-  studentName: string;
-  date: string;
-  time: string;
-}
-
-interface CompletionData {
-  rate: number;
-  completed: {
-    newMemorization: string[];
-    review: string[];
-  };
-  nextPrep: {
-    newMemorization: string[];
-    review: string[];
-  };
-  notes: string;
-}
-
-interface CompleteClassModalProps {
-  classData: ClassData;
-  initialData?: CompletionData; // البيانات المحفوظة للطالب
-  isGroup?: boolean; // 🎯 إضافة الـ flag ده
-  onSave: (completionData: CompletionData) => void;
+type BaseProps = {
+  lessonId: string;
+  scheduledAt: string;
+  student: { id: string; name: string };
+  groupName?: string;
   onClose: () => void;
-}
+};
 
-const CompleteClassModal = ({
-  classData,
-  initialData, // البيانات المحفوظة
-  isGroup = false, // 🎯 Default false للـ single students
-  onSave,
-  onClose,
-}: CompleteClassModalProps) => {
+export type GroupStudentCompletion = {
+  rate: number;
+  completed: { newMemorization: string[]; review: string[] };
+  nextPrep: { newMemorization: string[]; review: string[] };
+  notes: string;
+  attended: boolean;
+};
+
+export type CompleteClassModalProps =
+  | (BaseProps & { mode: "single"; onSave?: never })
+  | (BaseProps & {
+      mode: "group";
+      onSave: (data: GroupStudentCompletion) => void;
+    });
+
+export default function CompleteClassModal(props: CompleteClassModalProps) {
+  const { lessonId, scheduledAt, student, groupName, onClose } = props;
+  const { reportLesson, completeLesson } = useTeacherDashboard();
   const [step, setStep] = useState(1);
-  const [rate, setrate] = useState(initialData?.rate || 7);
+  const [rate, setrate] = useState(3);
   const [isClosing, setIsClosing] = useState(false);
   const [error, setError] = useState({
     new: "",
@@ -51,64 +43,36 @@ const CompleteClassModal = ({
     nextNew: "",
     nextReview: "",
   });
-  const [newMemorization, setNewMemorization] = useState(
-    initialData?.completed?.newMemorization || [""]
-  );
-  const [review, setReview] = useState(initialData?.completed?.review || [""]);
-  const [nextNewMemorization, setNextNewMemorization] = useState(
-    initialData?.nextPrep?.newMemorization || [""]
-  );
-  const [nextReview, setNextReview] = useState(
-    initialData?.nextPrep?.review || [""]
-  );
-  const [notes, setNotes] = useState(initialData?.notes || "");
+  const [attended, setAttended] = useState<boolean | null>(null);
+  const [newMemorization, setNewMemorization] = useState<string[]>([""]);
+  const [review, setReview] = useState<string[]>([""]);
+  const [nextNewMemorization, setNextNewMemorization] = useState<string[]>([
+    "",
+  ]);
+  const [nextReview, setNextReview] = useState<string[]>([""]);
+  const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const addField = (type: "new" | "review" | "nextNew" | "nextReview") => {
-    switch (type) {
-      case "new":
-        setNewMemorization([...newMemorization, ""]);
-        break;
-      case "review":
-        setReview([...review, ""]);
-        break;
-      case "nextNew":
-        setNextNewMemorization([...nextNewMemorization, ""]);
-        break;
-      case "nextReview":
-        setNextReview([...nextReview, ""]);
-        break;
-    }
+    if (type === "new") setNewMemorization([...newMemorization, ""]);
+    if (type === "review") setReview([...review, ""]);
+    if (type === "nextNew")
+      setNextNewMemorization([...nextNewMemorization, ""]);
+    if (type === "nextReview") setNextReview([...nextReview, ""]);
   };
 
   const removeField = (
     type: "new" | "review" | "nextNew" | "nextReview",
     index: number
   ) => {
-    switch (type) {
-      case "new":
-        if (newMemorization.length > 1) {
-          setNewMemorization(newMemorization.filter((_, i) => i !== index));
-        }
-        break;
-      case "review":
-        if (review.length > 1) {
-          setReview(review.filter((_, i) => i !== index));
-        }
-        break;
-      case "nextNew":
-        if (nextNewMemorization.length > 1) {
-          setNextNewMemorization(
-            nextNewMemorization.filter((_, i) => i !== index)
-          );
-        }
-        break;
-      case "nextReview":
-        if (nextReview.length > 1) {
-          setNextReview(nextReview.filter((_, i) => i !== index));
-        }
-        break;
-    }
+    if (type === "new" && newMemorization.length > 1)
+      setNewMemorization(newMemorization.filter((_, i) => i !== index));
+    if (type === "review" && review.length > 1)
+      setReview(review.filter((_, i) => i !== index));
+    if (type === "nextNew" && nextNewMemorization.length > 1)
+      setNextNewMemorization(nextNewMemorization.filter((_, i) => i !== index));
+    if (type === "nextReview" && nextReview.length > 1)
+      setNextReview(nextReview.filter((_, i) => i !== index));
   };
 
   const updateField = (
@@ -116,164 +80,133 @@ const CompleteClassModal = ({
     index: number,
     value: string
   ) => {
-    switch (type) {
-      case "new":
-        const newNew = [...newMemorization];
-        newNew[index] = value;
-        setNewMemorization(newNew);
-        break;
-      case "review":
-        const newReview = [...review];
-        newReview[index] = value;
-        setReview(newReview);
-        break;
-      case "nextNew":
-        const newNextNew = [...nextNewMemorization];
-        newNextNew[index] = value;
-        setNextNewMemorization(newNextNew);
-        break;
-      case "nextReview":
-        const newNextReview = [...nextReview];
-        newNextReview[index] = value;
-        setNextReview(newNextReview);
-        break;
+    if (type === "new")
+      setNewMemorization(
+        Object.assign([...newMemorization], { [index]: value })
+      );
+    if (type === "review")
+      setReview(Object.assign([...review], { [index]: value }));
+    if (type === "nextNew")
+      setNextNewMemorization(
+        Object.assign([...nextNewMemorization], { [index]: value })
+      );
+    if (type === "nextReview")
+      setNextReview(Object.assign([...nextReview], { [index]: value }));
+  };
+
+  const firstValidation = () => {
+    let ok = true;
+    const newErr = newMemorization.some((s) => s.trim() === "");
+    const revErr = review.some((s) => s.trim() === "");
+    setError((p) => ({
+      ...p,
+      new: newErr ? "هذا الحقل مطلوب" : "",
+      review: revErr ? "هذا الحقل مطلوب" : "",
+    }));
+    ok = !(newErr || revErr) && ok;
+    return ok;
+  };
+
+  const secondValidation = () => {
+    let ok = true;
+    const nextNewErr = nextNewMemorization.some((s) => s.trim() === "");
+    const nextRevErr = nextReview.some((s) => s.trim() === "");
+    setError((p) => ({
+      ...p,
+      nextNew: nextNewErr ? "هذا الحقل مطلوب" : "",
+      nextReview: nextRevErr ? "هذا الحقل مطلوب" : "",
+    }));
+    ok = !(nextNewErr || nextRevErr) && ok;
+    return ok;
+  };
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => onClose(), 280);
+  };
+
+  const submitAbsent = async () => {
+    if (props.mode === "single") {
+      try {
+        setIsSubmitting(true);
+        await reportLesson(lessonId, {
+          studentId: student.id,
+          attended: false,
+          wantedForNextLesson: { new: [], old: [] },
+          newMemorized: { new: [], old: [] },
+          notes: "",
+          rating: 0,
+        });
+        await completeLesson(lessonId);
+        handleClose();
+      } finally {
+        setIsSubmitting(false);
+      }
+    } else {
+      props.onSave({
+        rate: 0,
+        completed: { newMemorization: [], review: [] },
+        nextPrep: { newMemorization: [], review: [] },
+        notes: "",
+        attended: false,
+      });
+      handleClose();
     }
   };
 
-  function firstValidation() {
-    let hasError = false;
-    const newMemorizationError = newMemorization.some(
-      (item) => item.trim() === ""
-    );
-    const reviewError = review.some((item) => item.trim() === "");
-
-    if (newMemorizationError) {
-      setError((prev) => ({ ...prev, new: "هذا الحقل مطلوب" }));
-      hasError = true;
-    } else {
-      setError((prev) => ({ ...prev, new: "" }));
-    }
-
-    if (reviewError) {
-      setError((prev) => ({ ...prev, review: "هذا الحقل مطلوب" }));
-      hasError = true;
-    } else {
-      setError((prev) => ({ ...prev, review: "" }));
-    }
-
-    if (hasError) {
-      return false;
-    }
-
-    return true;
-  }
-
-  function secondValidation() {
-    let hasError = false;
-    const nextNewMemorizationError = nextNewMemorization.some(
-      (item) => item.trim() === ""
-    );
-    const nextReviewError = nextReview.some((item) => item.trim() === "");
-
-    if (nextNewMemorizationError) {
-      setError((prev) => ({ ...prev, nextNew: "هذا الحقل مطلوب" }));
-      hasError = true;
-    } else {
-      setError((prev) => ({ ...prev, nextNew: "" }));
-    }
-
-    if (nextReviewError) {
-      setError((prev) => ({ ...prev, nextReview: "هذا الحقل مطلوب" }));
-      hasError = true;
-    } else {
-      setError((prev) => ({ ...prev, nextReview: "" }));
-    }
-
-    if (hasError) {
-      return false;
-    }
-
-    return true;
-  }
-
-  const handlePrev = () => {
-    setStep(1);
-  };
+  const handlePrev = () => setStep(1);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (attended === null) return; // must choose
+    if (attended === false) return; // handled by submitAbsent
 
     if (step === 1) {
-      if (firstValidation()) {
-        setStep(2);
-      }
+      if (firstValidation()) setStep(2);
       return;
     }
-
-    if (!secondValidation()) {
-      return;
-    }
+    if (!secondValidation()) return;
 
     setIsSubmitting(true);
-
     try {
-      const completionData: CompletionData = {
-        rate,
-        completed: {
-          newMemorization: newMemorization.filter((item) => item.trim() !== ""),
-          review: review.filter((item) => item.trim() !== ""),
+      const payload = {
+        studentId: student.id,
+        attended: true,
+        wantedForNextLesson: {
+          new: nextNewMemorization.filter((s) => s.trim() !== ""),
+          old: nextReview.filter((s) => s.trim() !== ""),
         },
-        nextPrep: {
-          newMemorization: nextNewMemorization.filter(
-            (item) => item.trim() !== ""
-          ),
-          review: nextReview.filter((item) => item.trim() !== ""),
+        newMemorized: {
+          new: newMemorization.filter((s) => s.trim() !== ""),
+          old: review.filter((s) => s.trim() !== ""),
         },
         notes,
+        rating: rate,
       };
-
-      // TODO: Replace with actual API call when backend is ready
-      console.log("=== COMPLETE CLASS API CALL ===");
-      console.log("Class Data:", classData);
-      console.log("Completion Data:", completionData);
-      console.log("Is Group:", isGroup);
-
-      if (isGroup) {
-        // 🎯 لو group - مجرد save local بدون API call
-        console.log("=== SAVE STUDENT DATA IN GROUP ===");
-        console.log("Student:", classData.studentName);
-        console.log("Data saved locally - no API call yet");
-        console.log("Will be submitted with group when all students are done");
-
-        // مجرد حفظ local وإغلاق الـ modal
-        onSave(completionData);
+      if (props.mode === "single") {
+        await reportLesson(lessonId, payload);
+        await completeLesson(lessonId);
+        handleClose();
       } else {
-        // 🎯 لو single student - عمل API call فوراً
-        console.log("=== SINGLE STUDENT COMPLETE CLASS API CALL ===");
-        console.log("API Endpoint: POST /api/classes/complete-single");
-        console.log("Request Body:", {
-          classId: classData.id,
-          studentCompletion: {
-            studentName: classData.studentName,
-            ...completionData,
+        props.onSave({
+          rate,
+          completed: {
+            newMemorization: payload.newMemorized.new,
+            review: payload.newMemorized.old,
           },
+          nextPrep: {
+            newMemorization: payload.wantedForNextLesson.new,
+            review: payload.wantedForNextLesson.old,
+          },
+          notes,
+          attended: true,
         });
-
-        // Simulate API delay for single student
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-
-        console.log("✅ Single student class completion saved successfully");
-        onSave(completionData);
+        handleClose();
       }
-    } catch (error) {
-      console.error("❌ Error saving class completion:", error);
-      // TODO: Show error message to user
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  // Removed deprecated handleSave; submit handled via form submission
 
   const renderDynamicFields = (
     fields: string[],
@@ -319,129 +252,193 @@ const CompleteClassModal = ({
     </div>
   );
 
-  const handleClose = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      onClose();
-    }, 280);
-  };
-
-  const actions =
-    step === 1
-      ? [
-          {
-            label: "إلغاء",
-            onClick: handleClose,
-            variant: "secondary" as const,
-            disabled: isSubmitting,
-          },
-          {
-            label: "التالي",
-            onClick: () => {},
-            variant: "primary" as const,
-            disabled: isSubmitting,
-            type: "submit" as const,
-          },
-        ]
-      : [
-          {
-            label: "إلغاء",
-            onClick: handleClose,
-            variant: "secondary" as const,
-            disabled: isSubmitting,
-          },
-          {
-            label: "السابق",
-            onClick: handlePrev,
-            variant: "secondary" as const,
-            disabled: isSubmitting,
-          },
-          {
-            label: isGroup ? "حفظ البيانات" : "حفظ وإكمال الحلقة",
-            onClick: () => {},
-            variant: "primary" as const,
-            disabled: isSubmitting,
-            loading: isSubmitting,
-            type: "submit" as const,
-          },
-        ];
+  // Actions in footer
+  const actions = (() => {
+    if (attended === null) {
+      return [
+        {
+          label: "إلغاء",
+          onClick: handleClose,
+          variant: "secondary" as const,
+          disabled: isSubmitting,
+        },
+      ];
+    }
+    if (attended === false) {
+      return [
+        {
+          label: "إلغاء",
+          onClick: handleClose,
+          variant: "secondary" as const,
+          disabled: isSubmitting,
+        },
+        {
+          label: "إرسال الغياب",
+          onClick: submitAbsent,
+          variant: "primary" as const,
+          disabled: isSubmitting,
+          loading: isSubmitting,
+        },
+      ];
+    }
+    if (step === 1) {
+      return [
+        {
+          label: "إلغاء",
+          onClick: handleClose,
+          variant: "secondary" as const,
+          disabled: isSubmitting,
+        },
+        {
+          label: "التالي",
+          onClick: () => {},
+          type: "submit" as const,
+          variant: "primary" as const,
+          disabled: isSubmitting,
+        },
+      ];
+    }
+    return [
+      {
+        label: "إلغاء",
+        onClick: handleClose,
+        variant: "secondary" as const,
+        disabled: isSubmitting,
+      },
+      {
+        label: "السابق",
+        onClick: handlePrev,
+        variant: "secondary" as const,
+        disabled: isSubmitting,
+      },
+      {
+        label: props.mode === "single" ? "حفظ وإتمام" : "حفظ الطالب",
+        onClick: () => {},
+        type: "submit" as const,
+        variant: "primary" as const,
+        disabled: isSubmitting,
+        loading: isSubmitting,
+      },
+    ];
+  })();
 
   return (
     <ModalContainer isOpen={true} isClosing={isClosing} variant="add">
       <ModalHeader
-        title={step === 1 ? "إكمال الحلقة" : "تحديد المطلوب للحصة القادمة"}
+        title={
+          attended === null
+            ? "حضور الطالب"
+            : step === 1
+            ? "إكمال الحلقة"
+            : "تحديد المطلوب للحصة القادمة"
+        }
         onClose={handleClose}
         disabled={isSubmitting}
         variant="add"
       />
-      <form id="complete-class-form" onSubmit={handleSubmit}>
-        <div className={styles.modalBody}>
+      <form
+        id="complete-class-form"
+        className={styles.modalBody}
+        onSubmit={handleSubmit}
+      >
+        {/* Avoid nesting the same modalBody container to prevent style conflicts */}
+        <div>
           <div className={styles.classInfo}>
             <p>
-              <strong>الطالب:</strong> {classData.studentName}
+              <strong>الحلقة:</strong> {groupName || "حلقة"}
             </p>
             <p>
-              <strong>التاريخ:</strong> {classData.date}
+              <strong>الطالب:</strong> {student.name}
             </p>
             <p>
-              <strong>الوقت:</strong> {classData.time}
+              <strong>الموعد:</strong>{" "}
+              {new Date(scheduledAt).toLocaleString("ar-EG", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+              })}
             </p>
           </div>
 
-          {step === 1 ? (
-            <div className={styles.stepContent}>
-              <div className={styles.section}>
-                <h4 className={styles.sectionTitle}>تقييم أداء الطالب</h4>
-                <div className={styles.rateContainer}>
-                  <label className={styles.rateLabel}>التقييم من 10:</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="10"
-                    value={rate}
-                    onChange={(e) => setrate(Number(e.target.value))}
-                    className={styles.rateSlider}
-                  />
-                  <span className={styles.rateValue}>{rate}/10</span>
+          {attended === null && (
+            <div className={styles.section}>
+              <h4 className={styles.sectionTitle}>هل حضر الطالب؟</h4>
+              <div className={styles.attendButtons}>
+                <button
+                  type="button"
+                  className={styles.btnPrimary}
+                  onClick={() => setAttended(true)}
+                >
+                  نعم
+                </button>
+                <button
+                  type="button"
+                  className={styles.btnSecondary}
+                  onClick={() => setAttended(false)}
+                >
+                  لا
+                </button>
+              </div>
+            </div>
+          )}
+
+          {attended === true && (
+            <>
+              {step === 1 ? (
+                <div className={styles.stepContent}>
+                  <div className={styles.section}>
+                    <h4 className={styles.sectionTitle}>تقييم أداء الطالب</h4>
+                    <div className={styles.rateContainer}>
+                      <label className={styles.rateLabel}>التقييم من 5:</label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="5"
+                        value={rate}
+                        onChange={(e) => setrate(Number(e.target.value))}
+                        className={styles.rateSlider}
+                      />
+                      <span className={styles.rateValue}>{rate}</span>
+                    </div>
+                  </div>
+                  {renderDynamicFields(newMemorization, "new", "الحفظ الجديد")}
+                  {renderDynamicFields(review, "review", "المراجعة")}
+                  <div className={styles.section}>
+                    <h4 className={styles.sectionTitle}>ملاحظات إضافية</h4>
+                    <textarea
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
+                      className={styles.textarea}
+                      placeholder="أدخل أي ملاحظات حول أداء الطالب..."
+                      rows={3}
+                    />
+                  </div>
                 </div>
-              </div>
-
-              {renderDynamicFields(newMemorization, "new", "الحفظ الجديد")}
-              {renderDynamicFields(review, "review", "المراجعة")}
-
-              <div className={styles.section}>
-                <h4 className={styles.sectionTitle}>ملاحظات إضافية</h4>
-                <textarea
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  className={styles.textarea}
-                  placeholder="أدخل أي ملاحظات حول أداء الطالب..."
-                  rows={3}
-                />
-              </div>
-            </div>
-          ) : (
-            <div className={styles.stepContent}>
-              <h3 className={styles.stepTitle}>
-                ما المطلوب تحضيره للحصة القادمة؟
-              </h3>
-              {renderDynamicFields(
-                nextNewMemorization,
-                "nextNew",
-                "الحفظ الجديد المطلوب"
+              ) : (
+                <div className={styles.stepContent}>
+                  <h3 className={styles.stepTitle}>
+                    ما المطلوب تحضيره للحصة القادمة؟
+                  </h3>
+                  {renderDynamicFields(
+                    nextNewMemorization,
+                    "nextNew",
+                    "الحفظ الجديد المطلوب"
+                  )}
+                  {renderDynamicFields(
+                    nextReview,
+                    "nextReview",
+                    "المراجعة المطلوبة"
+                  )}
+                </div>
               )}
-              {renderDynamicFields(
-                nextReview,
-                "nextReview",
-                "المراجعة المطلوبة"
-              )}
-            </div>
+            </>
           )}
         </div>
         <ModalActions actions={actions} alignment="right" />
       </form>
     </ModalContainer>
   );
-};
-
-export default CompleteClassModal;
+}

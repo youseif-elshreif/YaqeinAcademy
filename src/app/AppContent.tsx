@@ -2,7 +2,7 @@
 
 import Navbar from "@/components/common/Layout/Navbar/Navbar";
 import Footer from "@/components/common/Layout/Footer/Footer";
-import { AdminDashboardProvider } from "@/contexts/AdminDashboardContext";
+import { AppProviders } from "@/contexts/AppProviders";
 
 export default function AppContent({
   children,
@@ -10,10 +10,10 @@ export default function AppContent({
   children: React.ReactNode;
 }) {
   return (
-    <AdminDashboardProvider>
+    <AppProviders>
       <Navbar />
       {children}
       <Footer />
-    </AdminDashboardProvider>
+    </AppProviders>
   );
 }

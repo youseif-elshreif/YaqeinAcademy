@@ -45,3 +45,177 @@
   border-color: var(--danger-color) !important;
   box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1) !important;
 }
+
+/* الأنماط الجديدة للـ Custom Select */
+.selectContainer {
+  position: relative;
+  width: 100%;
+}
+
+.selectContainer.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.selectTrigger {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--text-color);
+  background: var(--base-bg);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  font-family: "Cairo", sans-serif;
+}
+
+.selectTrigger:hover {
+  border-color: var(--primary-color);
+}
+
+.selectTriggerOpen {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+}
+
+.selectValue {
+  color: var(--text-color);
+}
+
+.selectPlaceholder {
+  color: var(--text-light);
+}
+
+.selectIcon {
+  color: var(--text-light);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+}
+
+.selectIconRotated {
+  transform: rotate(180deg);
+}
+
+.selectDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--base-bg);
+  border: 2px solid var(--border-color);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  max-height: 300px;
+  overflow: hidden;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.searchContainer {
+  position: relative;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.searchIcon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+  z-index: 1;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: var(--text-color);
+  background: var(--base-bg);
+  outline: none;
+  transition: border-color 0.3s ease;
+  font-family: "Cairo", sans-serif;
+}
+
+.searchInput:focus {
+  border-color: var(--primary-color);
+}
+
+.optionsList {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.option {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  color: var(--text-color);
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid rgba(var(--border-color-rgb), 0.3);
+}
+
+.option:hover {
+  background-color: var(--separator-bg);
+}
+
+.option:last-child {
+  border-bottom: none;
+}
+
+.optionSelected {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.optionSelected:hover {
+  background-color: var(--primary-color);
+}
+
+.noResults {
+  padding: 1rem;
+  text-align: center;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* تحسينات للموبايل */
+@media (max-width: 768px) {
+  .selectDropdown {
+    max-height: 250px;
+  }
+
+  .optionsList {
+    max-height: 150px;
+  }
+
+  .option {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+}
+
+/* تحسين شريط التمرير */
+.optionsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.optionsList::-webkit-scrollbar-track {
+  background: var(--separator-bg);
+}
+
+.optionsList::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.optionsList::-webkit-scrollbar-thumb:hover {
+  background: var(--text-light);
+}

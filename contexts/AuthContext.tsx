@@ -8,7 +8,7 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
-import api, { API_BASE_URL } from "@/utils/api";
+import * as authSvc from "@/utils/services/auth.service";
 import { isAuthenticated } from "@/utils/authUtils";
 import { useRouter } from "next/navigation";
 import {
@@ -89,30 +89,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return isAuthenticated() && state.user !== null;
   }, [state.user]);
 
-  // Session check on app start
-  useEffect(() => {
-    const checkSession = async () => {
-      if (typeof window === "undefined") {
-        dispatch({ type: "SET_LOADING", payload: false });
-        return;
-      }
-
-      const token = localStorage.getItem("accessToken");
-      if (token && !state.user) {
-        try {
-          await getUserData(false);
-        } catch {
-          localStorage.removeItem("accessToken");
-          dispatch({ type: "SET_LOADING", payload: false });
-        }
-      } else {
-        dispatch({ type: "SET_LOADING", payload: false });
-      }
-    };
-
-    checkSession();
-  }, []);
-
   const getUserData = useCallback(
     async (shouldRedirect: boolean = false) => {
       dispatch({ type: "SET_LOADING", payload: true });
@@ -126,13 +102,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           throw new Error("No access token found");
         }
 
-        const response = await api.get(`${API_BASE_URL}/api/user/profile`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const userData = response.data.data;
+        const response = await authSvc.getUserProfile();
+        const userData = response.data;
 
         const user: User = {
           id: userData._id || userData.id,
@@ -183,17 +154,77 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     [router]
   );
 
+  // Session check on app start - بدون dependencies لتجنب infinite loop
+  useEffect(() => {
+    let isMounted = true;
+
+    const checkSession = async () => {
+      if (typeof window === "undefined") {
+        if (isMounted) {
+          dispatch({ type: "SET_LOADING", payload: false });
+        }
+        return;
+      }
+
+      const token = localStorage.getItem("accessToken");
+      if (token && !state.user) {
+        try {
+          if (isMounted) {
+            // استدعاء getUserData مباشرة بدلاً من dependency
+            dispatch({ type: "SET_LOADING", payload: true });
+            const response = await authSvc.getUserProfile();
+            const userData = response.data;
+
+            const user: User = {
+              id: userData._id || userData.id,
+              email: userData.email,
+              name: userData.name,
+              phone: userData.phone,
+              role: userData.role,
+              age: userData.age,
+              quranMemorized: userData.quranMemorized,
+              numOfPartsofQuran: userData.numOfPartsofQuran,
+              isVerified: userData.isVerified,
+              createdAt: userData.createdAt,
+              avatar: userData.avatar || "/avatar.png",
+            };
+
+            dispatch({
+              type: "LOGIN_SUCCESS",
+              payload: { user, token },
+            });
+          }
+        } catch {
+          if (isMounted) {
+            localStorage.removeItem("accessToken");
+            dispatch({ type: "SET_LOADING", payload: false });
+          }
+        }
+      } else {
+        if (isMounted) {
+          dispatch({ type: "SET_LOADING", payload: false });
+        }
+      }
+    };
+
+    checkSession();
+
+    return () => {
+      isMounted = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // ✅ بدون dependencies
+
   // Login function
   const login = useCallback(
     async (credentials: LoginCredentials) => {
       dispatch({ type: "LOGIN_START" });
 
       try {
-        const response = await api.post(
-          `${API_BASE_URL}/api/auth/login`,
-          credentials
+        const data = await authSvc.login(
+          credentials.email,
+          credentials.password
         );
-        const data = response.data;
         if (data.accessToken) {
           localStorage.setItem("accessToken", data.accessToken);
           await getUserData(true);
@@ -217,7 +248,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       dispatch({ type: "LOGIN_START" });
       console.log(regData);
       try {
-        await api.post(`${API_BASE_URL}/api/auth/register`, regData);
+        await authSvc.register(regData);
 
         router.push("/email-confirmation");
       } catch (error: any) {
@@ -232,7 +263,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         throw error;
       }
     },
-    [getUserData]
+    [router]
   );
 
   // verify-email
@@ -240,11 +271,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const verifyEmail = useCallback(
     async (token: string) => {
       try {
-        const response = await api.post(
-          `${API_BASE_URL}/api/auth/verify-email`,
-          { token }
-        );
-        const data = response.data;
+        const data = await authSvc.verifyEmail(token);
 
         if (typeof window !== "undefined") {
           localStorage.setItem("accessToken", data.accessToken);
@@ -268,11 +295,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   // Logout function
   const logout = useCallback(async () => {
     try {
-      await api.post(
-        `${API_BASE_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await authSvc.logout();
     } catch (error) {
       console.error("Logout API call failed:", error);
     } finally {
@@ -295,16 +318,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       dispatch({ type: "UPDATE_USER_START" });
 
       try {
-        const response = await api.put(
-          `${API_BASE_URL}/api/user/profile`,
-          userData,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-          }
-        );
-        const data = response.data;
+        const data = await authSvc.updateUserProfile(userData);
 
         if (typeof window !== "undefined") {
           localStorage.setItem("accessToken", data.accessToken);

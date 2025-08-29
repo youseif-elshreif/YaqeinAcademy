@@ -2,17 +2,15 @@
 import { useEffect, useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import styles from "./LessonsModal.module.css";
+import { FaCalendarPlus, FaCalendarCheck, FaCalendarDay } from "react-icons/fa";
 import {
-  FaCalendarPlus,
-  FaCalendarCheck,
-  FaEdit,
-  FaTrash,
-  FaClock,
-  FaCalendarDay,
-  FaLink,
-} from "react-icons/fa";
-import { ModalContainer, ModalHeader } from "@/components/common/Modal";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+  ModalContainer,
+  ModalHeader,
+  ModalActions,
+} from "@/components/common/Modal";
+import LessonCard, { UILessonCard } from "./components/LessonCard";
+import { useGroupsContext } from "@/contexts/GroupsContext";
+import { useLessonsContext } from "@/contexts/LessonsContext";
 import { useAuth } from "@/contexts/AuthContext";
 
 interface LessonsModalProps {
@@ -42,7 +40,8 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
   const [error, setError] = useState<string | null>(null);
   const [lessons, setLessons] = useState<UILesson[]>([]);
 
-  const { getGroupById, lessonsRefreshKey } = useAdminDashboardContext();
+  const { getGroupById } = useGroupsContext();
+  const { lessonsRefreshKey } = useLessonsContext();
   const { token } = useAuth();
 
   // Fetch group lessons when modal opens
@@ -91,22 +90,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
     }, 300);
   };
 
-  const formatTime = (timeString: string) => {
-    const [hours, minutes] = timeString.split(":");
-    const hour = parseInt(hours);
-    const period = hour >= 12 ? "م" : "ص";
-    const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
-    return `${displayHour}:${minutes} ${period}`;
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("ar-EG", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
+  // Formatting handled within LessonCard
 
   return (
     <ModalContainer isOpen={true} isClosing={isClosing}>
@@ -146,79 +130,43 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
           ) : (
             <div className={styles.lessonsGrid}>
               {lessons.map((lesson) => (
-                <div key={lesson.id} className={styles.lessonCard}>
-                  <div className={styles.lessonHeader}>
-                    <div className={styles.lessonInfo}>
-                      <h3 className={styles.lessonDay}>{lesson.day}</h3>
-                      <div className={styles.lessonDetails}>
-                        <span className={styles.lessonTime}>
-                          <FaClock className={styles.detailIcon} />
-                          {formatTime(lesson.time)}
-                        </span>
-                        <span className={styles.lessonDate}>
-                          <FaCalendarDay className={styles.detailIcon} />
-                          {formatDate(lesson.date)}
-                        </span>
-                        {lesson.meetingLink ? (
-                          <span className={styles.lessonDate}>
-                            <FaLink className={styles.detailIcon} />
-                            <a
-                              href={lesson.meetingLink}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={styles.meetingLink}
-                            >
-                              رابط الحصة
-                            </a>
-                          </span>
-                        ) : null}
-                      </div>
-                    </div>
-                    <div className={styles.lessonActions}>
-                      <button
-                        onClick={() =>
-                          openEditLessonModal({
-                            id: lesson.id,
-                            day: lesson.day,
-                            time: lesson.time,
-                            date: lesson.date,
-                            meetingLink: lesson.meetingLink,
-                          })
-                        }
-                        className={`${styles.actionBtn} ${styles.editBtn}`}
-                        title="تعديل الحلقة"
-                      >
-                        <FaEdit />
-                      </button>
-                      <button
-                        onClick={() =>
-                          openDeleteLessonModal({
-                            id: lesson.id,
-                            day: lesson.day,
-                            time: lesson.time,
-                            date: lesson.date,
-                            meetingLink: lesson.meetingLink,
-                          })
-                        }
-                        className={`${styles.actionBtn} ${styles.deleteBtn}`}
-                        title="حذف الحلقة"
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <LessonCard
+                  key={lesson.id}
+                  lesson={lesson as unknown as UILessonCard}
+                  onEdit={(l) =>
+                    openEditLessonModal({
+                      id: l.id,
+                      day: l.day,
+                      time: l.time,
+                      date: l.date,
+                      meetingLink: l.meetingLink,
+                    })
+                  }
+                  onDelete={(l) =>
+                    openDeleteLessonModal({
+                      id: l.id,
+                      day: l.day,
+                      time: l.time,
+                      date: l.date,
+                      meetingLink: l.meetingLink,
+                    })
+                  }
+                />
               ))}
             </div>
           )}
         </div>
       </div>
 
-      <div className={styles.modalFooter}>
-        <button onClick={handleClose} className={styles.closeButton}>
-          إغلاق
-        </button>
-      </div>
+      <ModalActions
+        actions={[
+          {
+            label: "إغلاق",
+            onClick: handleClose,
+            variant: "secondary" as const,
+          },
+        ]}
+      />
     </ModalContainer>
   );
 };

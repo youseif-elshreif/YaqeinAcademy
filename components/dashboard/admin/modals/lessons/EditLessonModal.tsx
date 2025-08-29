@@ -8,12 +8,12 @@ import {
   FormField,
   ModalActions,
 } from "@/components/common/Modal";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useLessonsContext } from "@/contexts/LessonsContext";
 import { useAuth } from "@/contexts/AuthContext";
 
 const EditLessonModal: React.FC = () => {
   const { closeEditLessonModal, selectedLessonData } = useAdminModal();
-  const { updateLesson } = useAdminDashboardContext();
+  const { updateLesson } = useLessonsContext();
   const { token } = useAuth();
 
   const [isClosing, setIsClosing] = useState(false);
@@ -21,6 +21,7 @@ const EditLessonModal: React.FC = () => {
   const [formData, setFormData] = useState({
     time: "",
     date: "",
+    subject: " ",
     meetingLink: "",
   });
 
@@ -36,6 +37,7 @@ const EditLessonModal: React.FC = () => {
       setFormData({
         time: selectedLessonData.time,
         date: `${yyyy}-${mm}-${dd}`,
+        subject: " ",
         meetingLink: selectedLessonData.meetingLink || "",
       });
     }
@@ -68,6 +70,7 @@ const EditLessonModal: React.FC = () => {
       const scheduledAt = new Date(`${date}T${time}:00`).toISOString();
       await updateLesson(token, selectedLessonData.id, {
         scheduledAt,
+        subject: " ",
         meetingLink: formData.meetingLink || undefined,
       });
       handleClose();
@@ -130,7 +133,7 @@ const EditLessonModal: React.FC = () => {
             />
 
             <FormField
-              label="رابط الحصة (اختياري)"
+              label="رابط الحصة"
               name="meetingLink"
               type="url"
               value={formData.meetingLink}

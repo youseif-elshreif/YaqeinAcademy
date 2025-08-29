@@ -16,18 +16,27 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
 }) => {
   // Modal states
   const [completeModalOpen, setCompleteModalOpen] = useState(false);
-  const [postponeModalOpen, setPostponeModalOpen] = useState(false);
   const [studentAllDataModalOpen, setStudentAllDataModalOpen] = useState(false);
   // Edit group name modal removed
   const [groupCompleteModalOpen, setGroupCompleteModalOpen] = useState(false);
   const [addClassLinkModalOpen, setAddClassLinkModalOpen] = useState(false);
+  const [studentListModalOpen, setStudentListModalOpen] = useState(false);
+  const [studentReportsModalOpen, setStudentReportsModalOpen] = useState(false);
 
   // Selected data states
-  const [selectedClass, setSelectedClass] = useState<ClassData | null>(null);
+  const [selectedClass, setSelectedClass] = useState<ClassData | null>(null); // legacy
+  const [selectedLesson, setSelectedLesson] = useState<any | null>(null); // raw lesson
+  const [selectedLessonForStudents, setSelectedLessonForStudents] = useState<
+    any | null
+  >(null);
   const [studentAllData, setStudentAllData] = useState<any>(null);
+  const [selectedStudentForReports, setSelectedStudentForReports] = useState<{
+    id: string;
+    name?: string;
+  } | null>(null);
   // Removed selectedGroupData state
   const [selectedGroupClass, setSelectedGroupClass] =
-    useState<ClassData | null>(null);
+    useState<ClassData | null>(null); // legacy
   const [selectedClassForLink, setSelectedClassForLink] = useState<{
     id: number;
     date: string;
@@ -38,21 +47,19 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
   } | null>(null);
 
   // Open modal actions
-  const openCompleteModal = (classData: ClassData) => {
-    // Check if it's a group class (more than 1 student)
-    if (classData.students.length > 1) {
-      setSelectedGroupClass(classData);
+  const openCompleteModal = (lesson: any) => {
+    setSelectedLesson(lesson);
+    const members = Array.isArray(lesson?.groupId?.members)
+      ? lesson.groupId.members
+      : [];
+    if (members.length > 1) {
       setGroupCompleteModalOpen(true);
     } else {
-      setSelectedClass(classData);
       setCompleteModalOpen(true);
     }
   };
 
-  const openPostponeModal = (classData: ClassData) => {
-    setSelectedClass(classData);
-    setPostponeModalOpen(true);
-  };
+  // openPostponeModal removed
 
   const openStudentDataModal = (studentId: number) => {
     const student = classes
@@ -92,6 +99,16 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     setGroupCompleteModalOpen(true);
   };
 
+  const openStudentListModal = (lesson: any) => {
+    setSelectedLessonForStudents(lesson);
+    setStudentListModalOpen(true);
+  };
+
+  const openStudentReportsModal = (student: { id: string; name?: string }) => {
+    setSelectedStudentForReports(student);
+    setStudentReportsModalOpen(true);
+  };
+
   const openAddClassLinkModal = (classData: ClassData) => {
     const classForLink = {
       id: classData.id,
@@ -113,12 +130,10 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
   const closeCompleteModal = () => {
     setCompleteModalOpen(false);
     setSelectedClass(null);
+    setSelectedLesson(null);
   };
 
-  const closePostponeModal = () => {
-    setPostponeModalOpen(false);
-    setSelectedClass(null);
-  };
+  // closePostponeModal removed
 
   const closeStudentDataModal = () => {
     setStudentAllDataModalOpen(false);
@@ -130,11 +145,22 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
   const closeGroupCompleteModal = () => {
     setGroupCompleteModalOpen(false);
     setSelectedGroupClass(null);
+    setSelectedLesson(null);
   };
 
   const closeAddClassLinkModal = () => {
     setAddClassLinkModalOpen(false);
     setSelectedClassForLink(null);
+  };
+
+  const closeStudentListModal = () => {
+    setStudentListModalOpen(false);
+    setSelectedLessonForStudents(null);
+  };
+
+  const closeStudentReportsModal = () => {
+    setStudentReportsModalOpen(false);
+    setSelectedStudentForReports(null);
   };
 
   // Save actions
@@ -166,37 +192,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     closeCompleteModal();
   };
 
-  const saveClassPostpone = (postponeData: any) => {
-    if (!selectedClass) return;
-
-    const updatedClasses = classes.map((cls) => {
-      if (cls.id === selectedClass.id) {
-        const updatedClass: ClassData = {
-          ...cls,
-          // Use the standardized statuses: cancelled or scheduled (no 'postponed' status)
-          status:
-            postponeData.action === "cancelled" ? "cancelled" : "scheduled",
-          groupNotes: postponeData.reason,
-        };
-
-        // إذا كان تأجيل، أضف التاريخ والوقت الجديد
-        if (
-          postponeData.action === "postponed" &&
-          postponeData.newDate &&
-          postponeData.newTime
-        ) {
-          updatedClass.date = postponeData.newDate;
-          updatedClass.time = postponeData.newTime;
-        }
-
-        return updatedClass;
-      }
-      return cls;
-    });
-
-    onClassesUpdate(updatedClasses);
-    closePostponeModal();
-  };
+  // saveClassPostpone removed
 
   // saveGroupName removed
 
@@ -264,14 +260,18 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
   const contextValue = {
     // Modal states
     completeModalOpen,
-    postponeModalOpen,
     studentAllDataModalOpen,
 
     groupCompleteModalOpen,
     addClassLinkModalOpen,
+    studentListModalOpen,
+    studentReportsModalOpen,
 
     // Selected data
     selectedClass,
+    selectedLesson,
+    selectedLessonForStudents,
+    selectedStudentForReports,
     studentAllData,
 
     selectedGroupClass,
@@ -279,23 +279,24 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
 
     // Modal actions
     openCompleteModal,
-    openPostponeModal,
     openStudentDataModal,
 
     openGroupCompleteModal,
     openAddClassLinkModal,
+    openStudentListModal,
+    openStudentReportsModal,
 
     // Close actions
     closeCompleteModal,
-    closePostponeModal,
     closeStudentDataModal,
 
     closeGroupCompleteModal,
     closeAddClassLinkModal,
+    closeStudentListModal,
+    closeStudentReportsModal,
 
     // Save actions
     saveClassCompletion,
-    saveClassPostpone,
 
     saveClassLink,
     saveGroupCompletion,

@@ -560,21 +560,7 @@ export interface GroupCompleteClassModalProps {
   onComplete: (completionData: StudentCompletionData[]) => void;
 }
 
-export interface PostponeClassModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  classData: ClassData;
-  onPostpone: (postponeData: PostponeData) => void;
-}
-
-// EditGroupNameModal removed
-
-export interface AddNicknameModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  student: StudentData;
-  onSave: (nickname: string) => void;
-}
+// PostponeClassModal and AddNicknameModal removed
 
 export interface EditClassLinkModalProps {
   isOpen: boolean;
@@ -607,12 +593,10 @@ export interface ClassModalsProps {
   selectedClass: ClassData | null;
   modals: {
     complete: boolean;
-    postpone: boolean;
     link: boolean;
   };
-  onCloseModal: (modal: "complete" | "postpone" | "link") => void;
+  onCloseModal: (modal: "complete" | "link") => void;
   onCompleteClass: (completionData: CompletionData) => void;
-  onPostponeClass: (postponeData: PostponeData) => void;
   onUpdateLink: (newLink: string) => void;
 }
 
@@ -646,7 +630,7 @@ export interface AdminDashboardContextType {
   groups: any[]; // ✅ إضافة البيانات
   teachers: TeachersResponse | null;
   students: any[]; // ✅ بيانات الطلاب
-  courses: any[]; // ✅ بيانات الكورسات
+  courses: any[]; 
   stats: AdminDashboardStats;
   admins?: any[];
   // Lessons refresh key to allow listeners to refetch when lessons change
@@ -662,6 +646,11 @@ export interface AdminDashboardContextType {
     token: string,
     teacherId: string,
     teacherData: any
+  ) => Promise<any>;
+  updateTeacherMeetingLink: (
+    token: string,
+    teacherId: string,
+    meetingLink: string
   ) => Promise<any>;
   updateStudent: (
     token: string,
@@ -698,22 +687,16 @@ export interface AdminDashboardContextType {
   addLessonToGroup?: (
     token: string,
     groupId: string,
-    data: { scheduledAt: string; subject?: string; meetingLink?: string }
+    data: { scheduledAt: string; subject: string; meetingLink: string }
   ) => Promise<any>;
   updateLesson?: (
     token: string,
     lessonId: string,
-    data: { scheduledAt?: string; subject?: string; meetingLink?: string }
+    data: { scheduledAt: string; subject: string; meetingLink: string }
   ) => Promise<any>;
   deleteLesson?: (token: string, lessonId: string) => Promise<any>;
   // Admin users
   getAdmins?: (token: string) => Promise<any>;
-  updateAdmin?: (
-    token: string,
-    adminId: string,
-    adminData: any
-  ) => Promise<any>;
-  deleteAdmin?: (token: string, adminId: string) => Promise<any>;
   // Course functions
   getCourses: (token: string) => Promise<any>;
   getCourseByIdAPI: (token: string, courseId: string) => Promise<any>;
@@ -732,7 +715,7 @@ export interface AdminDashboardContextType {
       email: string;
       phone: string[];
       address: string;
-      whatsappNumber: string[];
+      whatsapp: string[];
       telegramLink: string;
       facebook: string;
       linkedin: string;
@@ -771,20 +754,49 @@ export interface StudentDashboardContextType {
 export interface TeacherDashboardContextType {
   teacherLessons: any[];
   getMyLessons: (token: string) => Promise<any[]>;
+  reportLesson: (
+    lessonId: string,
+    payload: {
+      studentId: string;
+      attended: boolean;
+      wantedForNextLesson: { new: string[]; old: string[] };
+      newMemorized: { new: string[]; old: string[] };
+      notes: string;
+      rating: number;
+      content?: string; // backend expects a content field; we'll send a single space
+    }
+  ) => Promise<any>;
+  completeLesson: (lessonId: string) => Promise<any>;
+  reportMultipleAndComplete: (
+    lessonId: string,
+    reports: Array<{
+      studentId: string;
+      attended: boolean;
+      wantedForNextLesson: { new: string[]; old: string[] };
+      newMemorized: { new: string[]; old: string[] };
+      notes: string;
+      rating: number;
+      content?: string; // will be auto-filled as " " when sending
+    }>
+  ) => Promise<void>;
 }
 
 export interface ModalContextType {
   // Modal states
   completeModalOpen: boolean;
-  postponeModalOpen: boolean;
   studentAllDataModalOpen: boolean;
   groupCompleteModalOpen: boolean;
   addClassLinkModalOpen: boolean;
+  studentListModalOpen: boolean;
+  studentReportsModalOpen: boolean;
 
   // Modal data
-  selectedClass: ClassData | null;
+  selectedClass: ClassData | null; // legacy
+  selectedLesson?: any | null; // raw lesson for new teacher flow
+  selectedLessonForStudents?: any | null; // for student list modal
+  selectedStudentForReports?: { id: string; name?: string } | null;
   studentAllData: any;
-  selectedGroupClass: ClassData | null;
+  selectedGroupClass: ClassData | null; // legacy
   selectedClassForLink: {
     id: number;
     date: string;
@@ -795,22 +807,23 @@ export interface ModalContextType {
   } | null;
 
   // Modal actions
-  openCompleteModal: (classData: ClassData) => void;
-  openPostponeModal: (classData: ClassData) => void;
+  openCompleteModal: (lesson: any) => void;
   openStudentDataModal: (studentId: number) => void;
   openGroupCompleteModal: (classData: ClassData) => void;
   openAddClassLinkModal: (classData: ClassData) => void;
+  openStudentListModal: (lesson: any) => void;
+  openStudentReportsModal: (student: { id: string; name?: string }) => void;
 
   // Close actions
   closeCompleteModal: () => void;
-  closePostponeModal: () => void;
   closeStudentDataModal: () => void;
   closeGroupCompleteModal: () => void;
   closeAddClassLinkModal: () => void;
+  closeStudentListModal: () => void;
+  closeStudentReportsModal: () => void;
 
   // Save actions
   saveClassCompletion: (completionData: any) => void;
-  saveClassPostpone: (postponeData: any) => void;
   saveGroupCompletion: (completionData: any) => void;
   saveClassLink: (classLink: string, classId: number) => void;
 }
@@ -839,6 +852,9 @@ export interface AdminModalContextType {
   editUserModalOpen: boolean;
   deleteUserModalOpen: boolean;
   addCreditsModalOpen: boolean;
+  studentListModalOpen: boolean;
+  studentReportsModalOpen: boolean;
+  editTeacherLinkModalOpen: boolean;
 
   // Selected data
   selectedUserType: UserType | null;
@@ -886,6 +902,9 @@ export interface AdminModalContextType {
     userId: string;
     name: string;
   } | null;
+  selectedLessonForStudents: any | null;
+  selectedStudentForReports: { id: string; name?: string } | null;
+  selectedTeacherForLink: any;
 
   // Modal actions
   openAddUserModal: () => void;
@@ -921,6 +940,8 @@ export interface AdminModalContextType {
     date: string;
     meetingLink?: string;
   }) => void;
+  openStudentListModal: (lesson: any) => void;
+  openStudentReportsModal: (student: { id: string; name?: string }) => void;
 
   // User actions
   openUserActionsModal: (userData: {
@@ -956,6 +977,8 @@ export interface AdminModalContextType {
   closeEditUserModal: () => void;
   closeDeleteUserModal: () => void;
   closeAddCreditsModal: () => void;
+  closeStudentListModal: () => void;
+  closeStudentReportsModal: () => void;
 
   // User type selection
   setUserType: (type: UserType | null) => void;
@@ -974,6 +997,12 @@ export interface AdminModalContextType {
     privateAmount: number,
     publicAmount?: number
   ) => Promise<void>;
+  updateTeacherMeetingLinkOnly: (
+    teacherId: string,
+    meetingLink: string
+  ) => Promise<void>;
+  openEditTeacherLinkModal: (teacherData: any) => void;
+  closeEditTeacherLinkModal: () => void;
 }
 
 export interface AdminModalProviderProps {

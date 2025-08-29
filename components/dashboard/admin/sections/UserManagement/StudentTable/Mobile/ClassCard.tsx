@@ -1,4 +1,4 @@
-import { FaCog } from "react-icons/fa";
+import { FaCog, FaListUl } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 
@@ -7,7 +7,7 @@ interface ClassCardProps {
 }
 
 const ClassCard = ({ studentItem }: ClassCardProps) => {
-  const { openUserActionsModal } = useAdminModal();
+  const { openUserActionsModal, openStudentReportsModal } = useAdminModal();
 
   const handleActionsClick = () => {
     openUserActionsModal({
@@ -92,6 +92,23 @@ const ClassCard = ({ studentItem }: ClassCardProps) => {
             </span>
           </div>
 
+          <div className={styles.infoItem}>
+            <span className={styles.infoLabel}>التقارير:</span>
+            <span className={styles.cardLinkContainer}>
+              <button
+                onClick={() =>
+                  openStudentReportsModal({
+                    id: studentItem._id,
+                    name: studentItem.name,
+                  })
+                }
+                className={`${styles.linkButton} ${styles.openLinkBtn}`}
+              >
+                <FaListUl />
+                <span className={styles.iconButtonText}>عرض التقارير</span>
+              </button>
+            </span>
+          </div>
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>الإجراءات:</span>
             <span className={styles.cardLinkContainer}>

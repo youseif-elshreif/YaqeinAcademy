@@ -4,14 +4,14 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import styles from "@/styles/TeacherDashboard.module.css";
 import TeacherSummaryCards from "@/components/dashboard/teacher/TeacherSummaryCards";
-import MonthlyClassTable from "@/components/dashboard/teacher/MonthlyClassTable";
+import MonthlyClassTable from "@/components/dashboard/teacher/MonthlyClassTable/index";
 import DashboardTabs from "@/components/dashboard/student/DashboardTabs";
 import ProfileSettings from "@/components/dashboard/student/ProfileSettings";
 import { ModalProvider } from "@/contexts/ModalContext";
 import ModalContainer from "@/components/common/Layout/ModalContainer";
 // Use raw lessons shape from API; no local remapping
 import { useAuth } from "@/contexts/AuthContext";
-// import { withTeacherProtection } from "@/components/auth/withRoleProtection";
+import { withTeacherProtection } from "@/components/auth/withRoleProtection";
 import {
   TeacherDashboardProvider,
   useTeacherDashboard,
@@ -58,6 +58,7 @@ const TeacherDashboardContent = () => {
   const { getMyLessons } = useTeacherDashboard();
   const [classes, setClasses] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState("monthly-classes");
+  const [loading, setLoading] = useState(true);
 
   // No local remapping; consume lessons as returned from API
 
@@ -65,6 +66,7 @@ const TeacherDashboardContent = () => {
     let mounted = true;
     const fetchLessons = async () => {
       try {
+        setLoading(true);
         const token = localStorage.getItem("accessToken");
         if (!token) return;
         const lessons = await getMyLessons(token);
@@ -78,6 +80,10 @@ const TeacherDashboardContent = () => {
         setClasses(sorted);
       } catch (e) {
         console.error(e);
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
       }
     };
     fetchLessons();
@@ -113,11 +119,11 @@ const TeacherDashboardContent = () => {
   const getTabContent = () => {
     switch (activeTab) {
       case "monthly-classes":
-        return <MonthlyClassTable initialClasses={classes} />;
+        return <MonthlyClassTable initialClasses={classes} loading={loading} />;
       case "edit-profile":
         return <ProfileSettings studentData={treacherData} />;
       default:
-        return <MonthlyClassTable initialClasses={classes} />;
+        return <MonthlyClassTable initialClasses={classes} loading={loading} />;
     }
   };
   //#endregion of table data
@@ -171,5 +177,4 @@ const TeacherDashboard = () => (
   </TeacherDashboardProvider>
 );
 
-// export default withTeacherProtection(TeacherDashboard);
-export default TeacherDashboard;
+export default withTeacherProtection(TeacherDashboard);

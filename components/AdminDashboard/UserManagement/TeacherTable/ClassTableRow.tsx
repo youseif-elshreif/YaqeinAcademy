@@ -1,9 +1,12 @@
-import { FaExternalLinkAlt, FaCopy, FaCog, FaEdit } from "react-icons/fa";
-import styles from "../../styles.module.css";
-import { TeacherItemProps } from "../../../../utils/types";
+import { FaExternalLinkAlt, FaCopy, FaCog } from "react-icons/fa";
+import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 
-const ClassTableRow = ({ teacher }: TeacherItemProps) => {
+interface ClassTableRowProps {
+  teacher: any;
+}
+
+const ClassTableRow = ({ teacher }: ClassTableRowProps) => {
   const { openUserActionsModal } = useAdminModal();
 
   // Function to copy class link to clipboard
@@ -105,6 +108,7 @@ const ClassTableRow = ({ teacher }: TeacherItemProps) => {
           <button
             className={`${styles.linkButton} ${styles.openLinkBtn}`}
             title="فتح رابط الحلقة"
+            onClick={() => handleOpenLink(teacher.meetingLink)}
           >
             <FaExternalLinkAlt />
             <span>دخول الحلقة</span>
@@ -112,6 +116,7 @@ const ClassTableRow = ({ teacher }: TeacherItemProps) => {
           <button
             className={`${styles.linkButton} ${styles.copyLinkBtn}`}
             title="نسخ رابط الحلقة"
+            onClick={() => handleCopyLink(teacher.meetingLink)}
           >
             <FaCopy />
           </button>

@@ -66,6 +66,66 @@ const NextSessionTasks = () => {
   const handleOpenLink = (link: string) => {
     window.open(link, "_blank", "noopener,noreferrer");
   };
+
+  // Check if student has available credits
+  const availableCredits = userStats?.PrivitelessonCredits || 0;
+
+  // If no credits, show contact admin message
+  if (availableCredits === 0) {
+    return (
+      <div className={styles.tasksContainer}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>المطلوب للحصة القادمة</h2>
+        </div>
+
+        <div className={styles.tasksContent}>
+          <div className={styles.taskSection}>
+            <div
+              className={styles.sectionHeader}
+              style={{ justifyContent: "center" }}
+            >
+              <h3
+                className={styles.sectionTitle}
+                style={{ color: "var(--warning-color)" }}
+              >
+                ⚠️ لا توجد حلقات مستحقة حالياً
+              </h3>
+            </div>
+            <div
+              className={styles.emptyState}
+              style={{ textAlign: "center", padding: "2rem" }}
+            >
+              <p style={{ fontSize: "1.1rem", marginBottom: "1rem" }}>
+                عذراً، لا يمكن عرض معلومات الحصة القادمة لأنه لا توجد حلقات
+                مستحقة في رصيدك
+              </p>
+              <p style={{ color: "var(--text-light)", marginBottom: "1.5rem" }}>
+                للحصول على حلقات جديدة، يرجى التواصل مع الإدارة لإضافة كريديتس
+                إلى حسابك
+              </p>
+              <div className={styles.contactInfo}>
+                <h4
+                  style={{
+                    marginBottom: "0.75rem",
+                    color: "var(--primary-color)",
+                  }}
+                >
+                  طرق التواصل مع الإدارة:
+                </h4>
+                <p style={{ marginBottom: "0.5rem" }}>
+                  📧 البريد الإلكتروني: admin@yaqeinacademy.com
+                </p>
+                <p style={{ marginBottom: "0.5rem" }}>
+                  📞 الهاتف: +966123456789
+                </p>
+                <p>💬 واتساب: +966123456789</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
   // Mock data for next session tasks
   const nextSessionData = {
     sessionDate: "2025-01-20",
@@ -101,6 +161,8 @@ const NextSessionTasks = () => {
   };
 
   const nextDate = getNextLesson();
+
+  // Show normal content for students with credits
   return (
     <div className={styles.tasksContainer}>
       <div className={styles.header}>

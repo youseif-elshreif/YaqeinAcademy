@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useGroupsContext } from "@/contexts/GroupsContext";
+import { useTeachersContext } from "@/contexts/TeachersContext";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import styles from "./AddGroupModal.module.css";
 import {
@@ -54,8 +55,8 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
 }) => {
   const { closeAddGroupModal, closeEditGroupModal, openAddMembersModal } =
     useAdminModal();
-  const { createGroup, updateGroup, getGroups, getTeachers } =
-    useAdminDashboardContext();
+  const { createGroup, updateGroup, getGroups } = useGroupsContext();
+  const { getTeachers } = useTeachersContext();
 
   const [formData, setFormData] = useState<GroupFormData>({
     name: "",

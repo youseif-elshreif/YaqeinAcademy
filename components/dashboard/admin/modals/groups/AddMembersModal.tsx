@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useGroupsContext } from "@/contexts/GroupsContext";
+import { useStudentsContext } from "@/contexts/StudentsContext";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import styles from "./AddMembersModal.module.css";
 import {
@@ -34,7 +35,8 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
   onSuccess,
 }) => {
   const { closeAddMembersModal } = useAdminModal();
-  const { addGroupMember, getGroups, getStudents } = useAdminDashboardContext();
+  const { addGroupMember, getGroups } = useGroupsContext();
+  const { getStudents } = useStudentsContext();
 
   const [memberInputs, setMemberInputs] = useState<MemberInput[]>([
     { id: "1", memberId: "" },

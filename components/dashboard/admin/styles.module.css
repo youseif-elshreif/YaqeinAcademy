@@ -118,7 +118,6 @@
 
 /* ==== ACTION BUTTONS STYLES ==== */
 .actionsCell {
-  min-width: 18rem;
   text-align: center;
 }
 
@@ -340,9 +339,6 @@
 }
 
 /* ==== DATE/TIME CELL STYLES ==== */
-.dateTimeCell {
-  min-width: 9rem;
-}
 
 .dateTimeContent,
 .dateContent {
@@ -374,9 +370,6 @@
 }
 
 /* ==== STATUS CELL STYLES ==== */
-.statusCell {
-  min-width: 9rem;
-}
 
 .statusBadge {
   padding: 0.5rem 1rem;
@@ -417,17 +410,14 @@
 
 /* ==== LINK CELL STYLES ==== */
 .linkCell {
-  min-width: 9rem;
   text-align: center;
 }
 
 .linkContainer {
-  min-width: 9rem;
   display: flex;
   gap: 0.5rem;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
   z-index: 5;
 }
 
@@ -443,6 +433,7 @@
   font-size: 0.8rem;
   transition: all 0.3s ease;
   color: var(--text-color);
+  white-space: nowrap;
 }
 
 .openLinkBtn {
@@ -470,6 +461,32 @@
   background: var(--secondary-color);
   color: white;
   transform: translateY(-1px);
+}
+
+/* Disabled state for link buttons */
+.linkButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.linkButton:disabled:hover {
+  background: var(--separator-bg);
+  color: var(--text-light);
+  border-color: var(--border-color);
+  transform: none !important;
+}
+
+.openLinkBtn:disabled {
+  background: var(--border-color);
+  color: var(--text-light);
+  border-color: var(--border-color);
+}
+
+.copyLinkBtn:disabled {
+  background: var(--separator-bg);
+  color: var(--text-light);
+  border-color: var(--border-color);
 }
 
 .addLinkBtn {
@@ -667,6 +684,9 @@
 .infoValue {
   font-size: 0.9rem;
   font-weight: 600;
+  word-wrap: break-word;
+  width: calc(100% - 100px);
+  text-align: left;
 }
 
 /* ==== MOBILE CARD LINK STYLES ==== */
@@ -675,6 +695,7 @@
   gap: 0.375rem;
   align-items: baseline;
   flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .cardLinkBtn {
@@ -859,11 +880,6 @@
   transform: translateY(-1px);
 }
 
-.iconButtonText {
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
 /* ==== USER MANAGEMENT STYLES ==== */
 .iconMargin {
   margin-left: 8px;
@@ -906,6 +922,7 @@
   font-size: 1rem;
   transition: border-color 0.2s;
   outline: none;
+  margin-bottom: 10px;
 }
 
 .formInput:focus {
@@ -1221,6 +1238,7 @@
   font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.025em;
+  white-space: nowrap;
 }
 
 .closeModalBtn {

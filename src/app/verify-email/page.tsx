@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BsCheckCircle, BsXCircle, BsClockHistory } from "react-icons/bs";
 import { useAuth } from "@/contexts/AuthContext";
+import EmailVerificationLoader from "@/components/common/UI/EmailVerificationLoader";
 import styles from "@/styles/VerifyEmailPage.module.css";
 
 const VerifyEmailPage: React.FC = () => {
@@ -35,12 +36,7 @@ const VerifyEmailPage: React.FC = () => {
 
   const renderContent = () => {
     if (status === "loading") {
-      return (
-        <>
-          <BsClockHistory className={`${styles.icon} ${styles.spin} `} />
-          <p className={styles.text}>جاري التحقق من البريد الإلكتروني...</p>
-        </>
-      );
+      return <EmailVerificationLoader />;
     }
 
     if (status === "success") {

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./GroupCompleteClassModal.module.css";
 import CompleteClassModal from "./CompleteClassModal";
+import { useTeacherDashboard } from "@/contexts/TeacherDashboardContext";
 import { FaCheck, FaUser } from "react-icons/fa";
 import {
   ModalContainer,
@@ -9,16 +10,8 @@ import {
 } from "@/components/common/Modal";
 
 interface Student {
-  id: number;
+  id: string;
   name: string;
-}
-
-interface GroupClassData {
-  id: number;
-  groupName: string;
-  students: Student[];
-  date: string;
-  time: string;
 }
 
 interface CompletionData {
@@ -34,31 +27,33 @@ interface CompletionData {
   notes: string;
 }
 
-interface StudentCompletionData extends CompletionData {
-  studentId: number;
-  studentName: string;
-}
+// legacy type removed
 
 interface GroupCompleteClassModalProps {
-  groupClassData: GroupClassData;
-  onSave: (completionData: StudentCompletionData[]) => void;
+  lessonId: string;
+  groupName: string;
+  scheduledAt: string;
+  students: Student[];
   onClose: () => void;
 }
 
 const GroupCompleteClassModal = ({
-  groupClassData,
-  onSave,
+  lessonId,
+  groupName,
+  scheduledAt,
+  students,
   onClose,
 }: GroupCompleteClassModalProps) => {
+  const { reportLesson, completeLesson } = useTeacherDashboard();
   const [isClosing, setIsClosing] = useState(false);
   const [currentStudentIndex, setCurrentStudentIndex] = useState<number | null>(
     null
   );
-  const [completedStudents, setCompletedStudents] = useState<Set<number>>(
+  const [completedStudents, setCompletedStudents] = useState<Set<string>>(
     new Set()
   );
   const [studentCompletions, setStudentCompletions] = useState<
-    Map<number, CompletionData>
+    Map<string, CompletionData & { attended: boolean }>
   >(new Map());
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -66,8 +61,8 @@ const GroupCompleteClassModal = ({
     setCurrentStudentIndex(studentIndex);
   };
 
-  const handleStudentCompletion = (completionData: CompletionData) => {
-    const studentId = groupClassData.students[currentStudentIndex!].id;
+  const handleStudentCompletion = (completionData: any) => {
+    const studentId = students[currentStudentIndex!].id;
 
     // Save the completion data
     setStudentCompletions((prev) =>
@@ -96,35 +91,27 @@ const GroupCompleteClassModal = ({
     setIsSubmitting(true);
 
     try {
-      const allCompletions: StudentCompletionData[] = Array.from(
-        studentCompletions.entries()
-      ).map(([studentId, completion]) => {
-        const student = groupClassData.students.find(
-          (s) => s.id === studentId
-        )!;
-        return {
-          ...completion,
+      // Send reports for each student
+      const entries = Array.from(studentCompletions.entries());
+      for (const [studentId, completion] of entries) {
+        const payload = {
           studentId,
-          studentName: student.name,
-        };
-      });
-
-      // TODO: Replace with actual API call when backend is ready
-      console.log("=== GROUP COMPLETE CLASS API CALL ===");
-      console.log("Group Class Data:", groupClassData);
-      console.log("All Student Completions:", allCompletions);
-      console.log("API Endpoint: POST /api/classes/complete-group");
-      console.log("Request Body:", {
-        classId: groupClassData.id,
-        groupName: groupClassData.groupName,
-        completions: allCompletions,
-      });
-
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      console.log("✅ Group class completion saved successfully");
-      onSave(allCompletions);
+          attended: completion.attended ?? true,
+          wantedForNextLesson: {
+            new: completion.nextPrep?.newMemorization || [],
+            old: completion.nextPrep?.review || [],
+          },
+          newMemorized: {
+            new: completion.completed?.newMemorization || [],
+            old: completion.completed?.review || [],
+          },
+          notes: completion.notes || "",
+          rating: completion.rate ?? 0,
+        } as any;
+        await reportLesson(lessonId, payload);
+      }
+      await completeLesson(lessonId);
+      handleClose();
     } catch (error) {
       console.error("❌ Error saving group completion:", error);
       // TODO: Show error message to user
@@ -133,20 +120,11 @@ const GroupCompleteClassModal = ({
     }
   };
 
-  const allStudentsCompleted =
-    completedStudents.size === groupClassData.students.length;
+  const allStudentsCompleted = completedStudents.size === students.length;
   const currentStudent =
-    currentStudentIndex !== null
-      ? groupClassData.students[currentStudentIndex]
-      : null;
+    currentStudentIndex !== null ? students[currentStudentIndex] : null;
 
-  // Get existing completion data for current student if exists
-  const currentStudentData =
-    currentStudentIndex !== null
-      ? studentCompletions.get(
-          groupClassData.students[currentStudentIndex].id
-        ) || undefined
-      : undefined;
+  // existing completion data not used in current UI
 
   const actions = [
     {
@@ -156,7 +134,7 @@ const GroupCompleteClassModal = ({
       disabled: isSubmitting,
     },
     {
-      label: allStudentsCompleted ? "حفظ جميع البيانات" : "أكمل بيانات الطلاب",
+      label: allStudentsCompleted ? "إتمام الحصة" : "أكمل بيانات الطلاب",
       onClick: handleSubmitAll,
       variant: "primary" as const,
       disabled: !allStudentsCompleted || isSubmitting,
@@ -175,24 +153,29 @@ const GroupCompleteClassModal = ({
         />
         <div className={styles.modalBody}>
           <div className={styles.groupInfo}>
-            <h3 className={styles.groupName}>{groupClassData.groupName}</h3>
+            <h3 className={styles.groupName}>{groupName}</h3>
             <div className={styles.classDetails}>
               <p>
-                <strong>التاريخ:</strong> {groupClassData.date}
-              </p>
-              <p>
-                <strong>الوقت:</strong> {groupClassData.time}
+                <strong>الموعد:</strong>{" "}
+                {new Date(scheduledAt).toLocaleString("ar-EG", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
+                })}
               </p>
             </div>
           </div>
 
           <div className={styles.studentsSection}>
             <h4 className={styles.sectionTitle}>
-              الطلاب ({completedStudents.size}/{groupClassData.students.length})
+              الطلاب ({completedStudents.size}/{students.length})
             </h4>
 
             <div className={styles.studentsList}>
-              {groupClassData.students.map((student, index) => (
+              {students.map((student, index) => (
                 <div
                   key={student.id}
                   className={`${styles.studentCard} ${
@@ -222,16 +205,12 @@ const GroupCompleteClassModal = ({
               <div
                 className={styles.progressFill}
                 style={{
-                  width: `${
-                    (completedStudents.size / groupClassData.students.length) *
-                    100
-                  }%`,
+                  width: `${(completedStudents.size / students.length) * 100}%`,
                 }}
               />
             </div>
             <span className={styles.progressText}>
-              تم إكمال {completedStudents.size} من{" "}
-              {groupClassData.students.length} طلاب
+              تم إكمال {completedStudents.size} من {students.length} طلاب
             </span>
           </div>
         </div>
@@ -241,15 +220,12 @@ const GroupCompleteClassModal = ({
       {/* Individual Student Modal */}
       {currentStudentIndex !== null && currentStudent && (
         <CompleteClassModal
-          classData={{
-            id: groupClassData.id,
-            studentName: currentStudent.name,
-            date: groupClassData.date,
-            time: groupClassData.time,
-          }}
-          initialData={currentStudentData} // البيانات المحفوظة
-          isGroup={true} // 🎯 إضافة الـ flag ده
-          onSave={handleStudentCompletion}
+          mode="group"
+          lessonId={lessonId}
+          scheduledAt={scheduledAt}
+          student={{ id: currentStudent.id, name: currentStudent.name }}
+          groupName={groupName}
+          onSave={(data) => handleStudentCompletion({ ...data })}
           onClose={handleCloseStudentModal}
         />
       )}

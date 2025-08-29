@@ -1,18 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useAdminStatsContext } from "@/contexts/AdminStatsContext";
 import { useAuth } from "@/contexts/AuthContext";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import SkeletonTable from "@/components/dashboard/admin/components/SkeletonTable";
 import SkeletonCards from "@/components/dashboard/admin/components/SkeletonCards";
 import { FiUsers } from "react-icons/fi";
 import { useAdminModal } from "@/contexts/AdminModalContext";
+import MobileAdminCards from "./Mobile/MobileAdminCards";
 
 const AdminsTable: React.FC<{ searchTerm?: string }> = ({
   searchTerm = "",
 }) => {
   const { token } = useAuth();
-  const { admins = [], getAdmins } = useAdminDashboardContext();
+  const { admins = [], getAdmins } = useAdminStatsContext();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -108,54 +109,70 @@ const AdminsTable: React.FC<{ searchTerm?: string }> = ({
         </div>
       ) : (
         <>
-          <div className={styles.tableWrapper}>
-            <table className={styles.classTable}>
-              <thead>
-                <tr>
-                  <th className={styles.firstCell}>الاسم</th>
-                  <th>البريد الإلكتروني</th>
-                  <th>رقم الهاتف</th>
-                  <th>الدولة</th>
-                  <th>تاريخ الإنشاء</th>
-                  <th>الإجراءات</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map((admin: any) => (
-                  <tr key={admin._id || admin.id} className={styles.tableRow}>
-                    <td className={`${styles.studentCell} ${styles.firstCell}`}>
-                      <div className={styles.teacherInfo}>
-                        <span className={styles.teacherName}>{admin.name}</span>
-                      </div>
-                    </td>
-                    <td>{admin.email}</td>
-                    <td>{admin.phone}</td>
-                    <td>{admin.country || "-"}</td>
-                    <td>
-                      {admin.createdAt
-                        ? new Date(admin.createdAt).toLocaleDateString("ar-EG")
-                        : "-"}
-                    </td>
-                    <td>
-                      <button
-                        onClick={() =>
-                          openUserActionsModal({
-                            id: admin._id || admin.id,
-                            name: admin.name,
-                            userType: "admin" as any,
-                            fullData: admin,
-                          })
-                        }
-                        className={`${styles.linkButton} ${styles.openLinkBtn}`}
-                        title="إجراءات المسؤول"
-                      >
-                        <span className={styles.iconButtonText}>الإجراءات</span>
-                      </button>
-                    </td>
+          {/* Desktop Table View */}
+          <div className={styles.desktopView}>
+            <div className={styles.tableWrapper}>
+              <table className={styles.classTable}>
+                <thead>
+                  <tr>
+                    <th className={styles.firstCell}>الاسم</th>
+                    <th>البريد الإلكتروني</th>
+                    <th>رقم الهاتف</th>
+                    <th>الدولة</th>
+                    <th>تاريخ الإنشاء</th>
+                    <th>الإجراءات</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {filtered.map((admin: any) => (
+                    <tr key={admin._id || admin.id} className={styles.tableRow}>
+                      <td
+                        className={`${styles.studentCell} ${styles.firstCell}`}
+                      >
+                        <div className={styles.teacherInfo}>
+                          <span className={styles.teacherName}>
+                            {admin.name}
+                          </span>
+                        </div>
+                      </td>
+                      <td>{admin.email}</td>
+                      <td>{admin.phone}</td>
+                      <td>{admin.country || "-"}</td>
+                      <td>
+                        {admin.createdAt
+                          ? new Date(admin.createdAt).toLocaleDateString(
+                              "ar-EG"
+                            )
+                          : "-"}
+                      </td>
+                      <td>
+                        <button
+                          onClick={() =>
+                            openUserActionsModal({
+                              id: admin._id || admin.id,
+                              name: admin.name,
+                              userType: "admin" as any,
+                              fullData: admin,
+                            })
+                          }
+                          className={`${styles.linkButton} ${styles.openLinkBtn}`}
+                          title="إجراءات المسؤول"
+                        >
+                          <span className={styles.iconButtonText}>
+                            الإجراءات
+                          </span>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Mobile Cards View */}
+          <div className={styles.mobileView}>
+            <MobileAdminCards admins={filtered} />
           </div>
         </>
       )}

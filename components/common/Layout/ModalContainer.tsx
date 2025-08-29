@@ -1,40 +1,44 @@
 import React, { useEffect } from "react";
 import { useModal } from "@/contexts/ModalContext";
 import CompleteClassModal from "@/components/dashboard/teacher/CompleteClassModal";
-import PostponeClassModal from "@/components/dashboard/teacher/PostponeClassModal";
 import StudentAllDataComponent from "@/components/dashboard/teacher/StudentAllDataComponent";
 import GroupCompleteClassModal from "@/components/dashboard/teacher/GroupCompleteClassModal";
 import EditClassLinkModal from "@/components/dashboard/teacher/AddClassLinkModal";
+import StudentListModal from "@/components/dashboard/teacher/StudentListModal";
+import StudentReportsModal from "@/components/dashboard/teacher/StudentReportsModal";
 
 const ModalContainer: React.FC = () => {
   const {
     // Modal states
     completeModalOpen,
-    postponeModalOpen,
     studentAllDataModalOpen,
 
     groupCompleteModalOpen,
     addClassLinkModalOpen,
+    studentListModalOpen,
+    studentReportsModalOpen,
 
     // Selected data
-    selectedClass,
+    selectedLesson,
+    selectedLessonForStudents,
+    selectedStudentForReports,
     studentAllData,
 
-    selectedGroupClass,
+    // selectedGroupClass,
     selectedClassForLink,
 
     // Actions
-    saveClassCompletion,
-    saveClassPostpone,
-
-    saveGroupCompletion,
+    // saveClassCompletion,
+    // saveGroupCompletion,
     saveClassLink,
     closeCompleteModal,
-    closePostponeModal,
     closeStudentDataModal,
 
     closeGroupCompleteModal,
     closeAddClassLinkModal,
+    closeStudentListModal,
+    closeStudentReportsModal,
+    openStudentReportsModal,
   } = useModal();
 
   // Group name edit removed
@@ -46,12 +50,7 @@ const ModalContainer: React.FC = () => {
   };
 
   useEffect(() => {
-    if (
-      completeModalOpen ||
-      postponeModalOpen ||
-      groupCompleteModalOpen ||
-      addClassLinkModalOpen
-    ) {
+    if (completeModalOpen || groupCompleteModalOpen || addClassLinkModalOpen) {
       document.documentElement.style.overflowY = "hidden"; // Disable scrolling
     }
     return () => {
@@ -59,7 +58,6 @@ const ModalContainer: React.FC = () => {
     };
   }, [
     completeModalOpen,
-    postponeModalOpen,
     studentAllDataModalOpen,
 
     groupCompleteModalOpen,
@@ -69,50 +67,45 @@ const ModalContainer: React.FC = () => {
   return (
     <>
       {/* Complete Class Modal */}
-      {completeModalOpen && selectedClass && (
+      {completeModalOpen && selectedLesson && (
         <CompleteClassModal
-          classData={{
-            id: selectedClass.id,
-            studentName: selectedClass.students?.[0]?.studentName || "Student",
-            date: selectedClass.date,
-            time: selectedClass.time,
+          mode="single"
+          lessonId={selectedLesson._id}
+          scheduledAt={selectedLesson.scheduledAt}
+          student={{
+            id:
+              Array.isArray(selectedLesson.groupId?.members) &&
+              selectedLesson.groupId.members[0]?._id
+                ? selectedLesson.groupId.members[0]?._id
+                : selectedLesson.studentId || "",
+            name:
+              Array.isArray(selectedLesson.groupId?.members) &&
+              selectedLesson.groupId.members[0]?.name
+                ? selectedLesson.groupId.members[0]?.name
+                : selectedLesson.studentName || "طالب",
           }}
-          initialData={undefined} // No initial data for single student modal
-          isGroup={false} // 🎯 وضوح إن ده single student
-          onSave={saveClassCompletion}
+          groupName={selectedLesson.groupId?.name}
           onClose={closeCompleteModal}
         />
       )}
       {/* Group Complete Class Modal */}
-      {groupCompleteModalOpen && selectedGroupClass && (
+      {groupCompleteModalOpen && selectedLesson && (
         <GroupCompleteClassModal
-          groupClassData={{
-            id: selectedGroupClass.id,
-            groupName: selectedGroupClass.groupName,
-            students: selectedGroupClass.students.map((student: any) => ({
-              id: student.studentId,
-              name: student.studentName,
-            })),
-            date: selectedGroupClass.date,
-            time: selectedGroupClass.time,
-          }}
-          onSave={saveGroupCompletion}
+          lessonId={selectedLesson._id}
+          groupName={selectedLesson.groupId?.name}
+          scheduledAt={selectedLesson.scheduledAt}
+          students={
+            Array.isArray(selectedLesson.groupId?.members)
+              ? selectedLesson.groupId.members.map((m: any) => ({
+                  id: m?._id,
+                  name: m?.name,
+                }))
+              : []
+          }
           onClose={closeGroupCompleteModal}
         />
       )}
-      {/* Postpone Class Modal */}
-      {postponeModalOpen && selectedClass && (
-        <PostponeClassModal
-          classData={{
-            id: selectedClass.id,
-            studentName: selectedClass.students?.[0]?.studentName || "Student",
-            date: selectedClass.date,
-            time: selectedClass.time,
-          }}
-          onSave={saveClassPostpone}
-          onClose={closePostponeModal}
-        />
-      )}
+      {/* Postpone Class Modal removed */}
       {/* Student All Data Modal */}
       {studentAllDataModalOpen && studentAllData && (
         <StudentAllDataComponent
@@ -131,6 +124,25 @@ const ModalContainer: React.FC = () => {
           }}
           onSubmit={handleSaveClassLink}
           onClose={closeAddClassLinkModal}
+        />
+      )}
+
+      {/* Student List Modal (for viewing lesson members) */}
+      {studentListModalOpen && selectedLessonForStudents && (
+        <StudentListModal
+          isOpen={studentListModalOpen}
+          onClose={closeStudentListModal}
+          lesson={selectedLessonForStudents}
+          onOpenStudentReports={(s) => openStudentReportsModal(s)}
+        />
+      )}
+
+      {/* Student Reports Modal */}
+      {studentReportsModalOpen && selectedStudentForReports && (
+        <StudentReportsModal
+          isOpen={studentReportsModalOpen}
+          onClose={closeStudentReportsModal}
+          student={selectedStudentForReports}
         />
       )}
     </>

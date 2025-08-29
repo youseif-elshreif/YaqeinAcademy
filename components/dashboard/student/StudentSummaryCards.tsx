@@ -25,13 +25,16 @@ interface StudentSummaryCardsProps {
 }
 
 const StudentSummaryCards = ({ studentData }: StudentSummaryCardsProps) => {
+  const hasCredits = (studentData.PrivitelessonCredits || 0) > 0;
+
   const summaryCards = [
     {
       id: 1,
       title: "عدد الحلقات المستحقة",
       value: studentData.PrivitelessonCredits || 0,
       icon: FaBook,
-      color: "primary",
+      color: hasCredits ? "primary" : "warning",
+      warning: !hasCredits,
     },
     {
       id: 2,
@@ -59,14 +62,20 @@ const StudentSummaryCards = ({ studentData }: StudentSummaryCardsProps) => {
   return (
     <div className={styles.summaryContainer}>
       <h2 className={styles.sectionTitle}>ملخص الأداء</h2>
+      {!hasCredits && (
+        <div className={styles.warningMessage}>
+          <p>⚠️ لا توجد حلقات مستحقة حالياً. يرجى التواصل مع الإدارة.</p>
+        </div>
+      )}
       <div className={styles.cardsGrid}>
         {summaryCards.map((card) => (
-          <StatCard
-            key={card.id}
-            icon={card.icon}
-            value={card.value || 0}
-            label={card.title}
-          />
+          <div key={card.id} className={card.warning ? styles.warningCard : ""}>
+            <StatCard
+              icon={card.icon}
+              value={card.value || 0}
+              label={card.title}
+            />
+          </div>
         ))}
       </div>
     </div>

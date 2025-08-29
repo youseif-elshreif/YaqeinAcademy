@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { FiCalendar, FiPlus } from "react-icons/fi";
 import { useAdminModal } from "@/contexts/AdminModalContext";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useCoursesContext } from "@/contexts/CoursesContext";
 import StatCard from "@/components/common/UI/StatCard";
+import EnhancedLoader from "@/components/common/UI/EnhancedLoader";
 import styles from "@/styles/AdminDashboard.module.css";
 import CoursesGrid from "@/components/common/UI/CoursesGrid/CoursesGrid";
 
 const LessonManagement: React.FC = () => {
   const { openAddCourseModal } = useAdminModal();
-  const { courses, getCourses } = useAdminDashboardContext();
+  const { courses, getCourses } = useCoursesContext();
   const [isLoading, setIsLoading] = useState(false);
 
   // Transform API data to match CoursesGrid interface
@@ -72,9 +73,12 @@ const LessonManagement: React.FC = () => {
       </div>
 
       {isLoading ? (
-        <div style={{ textAlign: "center", padding: "2rem" }}>
-          <p>جاري تحميل الدورات...</p>
-        </div>
+        <EnhancedLoader
+          type="default"
+          text="جاري تحميل الدورات..."
+          size="large"
+          color="primary"
+        />
       ) : coursesData.length > 0 ? (
         <CoursesGrid courses={coursesData} isAdminView={true} />
       ) : (

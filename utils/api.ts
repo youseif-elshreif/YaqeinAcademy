@@ -77,7 +77,7 @@ api.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
-      originalRequest.url !== "/refresh-token"
+      originalRequest.url !== "/api/auth/refresh-token" // ✅ تحديث المسار
     ) {
       console.log("Token expired, attempting refresh...");
 
@@ -98,11 +98,17 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        // Make sure we're using the right endpoint for refresh
-        const { data } = await axios.post<RefreshTokenResponse>(
-          `${API_BASE_URL}/api/auth/refresh-token`,
+        // ✅ استخدام axios instance بدلاً من axios منفصل
+        const { data } = await api.post<RefreshTokenResponse>(
+          `/api/auth/refresh-token`,
           {},
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            headers: {
+              // ✅ إزالة Authorization header للـ refresh request
+              Authorization: undefined,
+            },
+          }
         );
 
         const newToken = data.accessToken;
@@ -110,9 +116,6 @@ api.interceptors.response.use(
 
         // Update stored token
         localStorage.setItem("accessToken", newToken);
-
-        // Update auth header for future requests
-        api.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
 
         // Process queue with new token
         processQueue(null, newToken);
@@ -124,9 +127,14 @@ api.interceptors.response.use(
         console.error("Token refresh failed:", refreshError);
         processQueue(refreshError as AxiosError);
 
-        // Clear auth state and redirect to login
+        // ✅ تنظيف شامل للحالة
         localStorage.removeItem("accessToken");
-        // window.location.href = "/login";
+
+        // ✅ إعادة توجيه لصفحة تسجيل الدخول إذا كنا في البراوزر
+        if (typeof window !== "undefined") {
+          window.location.href = "/login";
+        }
+
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;

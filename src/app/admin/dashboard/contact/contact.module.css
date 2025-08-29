@@ -2,7 +2,8 @@
   max-width: 900px;
   margin: 0 auto;
   padding: 20px;
-  z-index: 500;
+  z-index: 10;
+  position: relative;
 }
 .profileEditeHeader {
   display: flex;
@@ -15,8 +16,8 @@
   font-weight: 700;
 }
 .saveButton {
-  background: #1e293b;
-  color: #fff;
+  background: var(--primary-color);
+  color: white;
   border: none;
   border-radius: 8px;
   padding: 10px 16px;
@@ -52,8 +53,9 @@
 }
 .formGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
 }
 .formGroup {
   display: flex;

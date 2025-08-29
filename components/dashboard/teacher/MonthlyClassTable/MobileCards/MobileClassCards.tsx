@@ -7,10 +7,12 @@ interface MobileClassCardsProps {
 
 const MobileClassCards = ({ classes }: MobileClassCardsProps) => {
   return (
-    <div className={styles.mobileCardsContainer}>
-      {classes.map((classItem: any) => (
-        <ClassCard key={classItem._id} classItem={classItem} />
-      ))}
+    <div className={styles.mobileView}>
+      <div className={styles.mobileCardsContainer}>
+        {classes.map((classItem: any) => (
+          <ClassCard key={classItem._id} classItem={classItem} />
+        ))}
+      </div>
     </div>
   );
 };

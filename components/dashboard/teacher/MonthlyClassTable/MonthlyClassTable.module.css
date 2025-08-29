@@ -115,7 +115,6 @@
 
 /* ==== ACTION BUTTONS STYLES ==== */
 .actionsCell {
-  min-width: 18rem;
   text-align: center;
 }
 
@@ -204,6 +203,10 @@
   margin-bottom: 2rem;
 }
 
+.table {
+  min-width: 100%;
+}
+
 .header {
   padding: 1.5rem;
   border-bottom: 1px solid var(--border-color);
@@ -254,10 +257,6 @@
   vertical-align: middle;
 }
 
-.studentCell {
-  min-width: 18rem;
-}
-
 .studentInfo {
   display: flex;
   align-items: center;
@@ -278,10 +277,6 @@
 
 /* Uses shared iconButton classes - no individual styles needed */
 
-.dateTimeCell {
-  min-width: 9rem;
-}
-
 .dateTimeContent {
   display: flex;
   flex-direction: column;
@@ -298,10 +293,6 @@
   padding: 0.25rem 0.5rem;
   border-radius: 0.75rem;
   font-size: 0.85rem;
-}
-
-.statusCell {
-  min-width: 9rem;
 }
 
 .statusBadge {
@@ -344,7 +335,6 @@
 
 /* ==== LINK CELL STYLES ==== */
 .linkCell {
-  min-width: 9rem;
   text-align: center;
 }
 
@@ -353,7 +343,6 @@
   gap: 0.5rem;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
 }
 
 .linkButton {
@@ -368,6 +357,7 @@
   font-size: 0.8rem;
   transition: all 0.3s ease;
   color: var(--text-color);
+  white-space: nowrap;
 }
 
 .openLinkBtn {
@@ -421,6 +411,7 @@
   gap: 0.375rem;
   align-items: center;
   flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .cardLinkBtn {
@@ -491,6 +482,9 @@
 .infoValue {
   font-size: 0.9rem;
   font-weight: 600;
+  word-wrap: break-word;
+  width: calc(100% - 100px);
+  text-align: left;
 }
 
 /* Group-related styles */
@@ -728,5 +722,24 @@
 
   .actionBtn {
     width: 100%;
+  }
+}
+
+/* ==== RESPONSIVE VIEW CONTROLS ==== */
+.desktopView {
+  display: block;
+}
+
+.mobileView {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktopView {
+    display: none;
+  }
+
+  .mobileView {
+    display: block;
   }
 }

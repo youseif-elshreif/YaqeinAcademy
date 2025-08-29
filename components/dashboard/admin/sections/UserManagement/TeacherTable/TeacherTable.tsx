@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FiUsers } from "react-icons/fi";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useTeachersContext } from "@/contexts/TeachersContext";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import SkeletonTable from "@/components/dashboard/admin/components/SkeletonTable";
 import SkeletonCards from "@/components/dashboard/admin/components/SkeletonCards";
@@ -10,11 +10,8 @@ import ClassTableRow from "./ClassTableRow";
 const TeacherTable: React.FC<{ searchTerm?: string }> = ({
   searchTerm = "",
 }) => {
-  const { teachers } = useAdminDashboardContext();
+  const { teachers, isLoading: loading } = useTeachersContext();
   const [combinedTeachers, setCombinedTeachers] = useState<any[]>([]);
-
-  // Use context-loaded data; consider loading while teachers is not yet set
-  const loading = teachers === null;
 
   // Combine teacher and user data when teachers data is available
   useEffect(() => {
@@ -53,10 +50,16 @@ const TeacherTable: React.FC<{ searchTerm?: string }> = ({
   const filtered = !normalized
     ? combinedTeachers
     : combinedTeachers.filter((t: any) => {
-        const name = (t.name || "").toLowerCase();
-        const email = (t.email || "").toLowerCase();
-        const phone = (t.phone || "").toLowerCase();
-        const link = (t.meetingLink || "").toLowerCase();
+        const name = (t.userId?.name || t.name || "").toLowerCase();
+        const email = (t.userId?.email || t.email || "").toLowerCase();
+        const phone = (t.userId?.phone || t.phone || "").toLowerCase();
+        // Check different possible locations for meetingLink
+        const link = (
+          t.meetingLink ||
+          t.teacherInfo?.meetingLink ||
+          t.userId?.meetingLink ||
+          ""
+        ).toLowerCase();
         return (
           name.includes(normalized) ||
           email.includes(normalized) ||

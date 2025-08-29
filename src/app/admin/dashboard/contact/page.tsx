@@ -2,23 +2,14 @@
 import React, {
   useEffect,
   useState,
+  useCallback,
   type ChangeEvent,
   type FormEvent,
 } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useContactContext, type ContactInfo } from "@/contexts/ContactContext";
 import styles from "./contact.module.css";
 import { FormField, ErrorDisplay } from "@/components/common/Modal";
-
-interface ContactInfo {
-  email: string;
-  phone: string[];
-  address: string;
-  whatsappNumber: string[];
-  telegramLink: string;
-  facebook: string;
-  linkedin: string;
-}
 
 export default function AdminContactPage() {
   const { token } = useAuth();
@@ -26,7 +17,7 @@ export default function AdminContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { getContactInfo, updateContactInfo } = useAdminDashboardContext();
+  const { getContactInfo, updateContactInfo } = useContactContext();
   const [contact, setContact] = useState<ContactInfo>({
     email: "",
     phone: [""],
@@ -49,6 +40,32 @@ export default function AdminContactPage() {
     return parts;
   };
 
+  // دالة منفصلة لجلب البيانات
+  const fetchContactData = useCallback(async () => {
+    if (!token) return;
+    try {
+      const raw = await getContactInfo();
+      const data: any = (raw && (raw as any).data) || raw || {};
+      const contactData: ContactInfo = {
+        email: data.email ?? "",
+        phone: Array.isArray(data.phone) ? data.phone : [],
+        address: data.address ?? "",
+        whatsappNumber: Array.isArray(data.whatsappNumber)
+          ? data.whatsappNumber
+          : [],
+        telegramLink: data.telegramLink ?? "",
+        facebook: data.facebook ?? "",
+        linkedin: data.linkedin ?? "",
+      };
+      setContact(contactData);
+      setPhoneInput(contactData.phone.join(", "));
+      setWhatsappInput(contactData.whatsappNumber.join(", "));
+      return contactData;
+    } catch (err: any) {
+      throw new Error(err?.message || "حدث خطأ أثناء تحميل معلومات التواصل");
+    }
+  }, [token, getContactInfo]);
+
   type ContactField =
     | "email"
     | "phone"
@@ -70,7 +87,7 @@ export default function AdminContactPage() {
     }
     if (field === "whatsappNumber") {
       setWhatsappInput(value);
-      setContact((prev) => ({ ...prev, whatsappNumber: parseNumbers(value) }));
+      setContact((prev) => ({ ...prev, whatsapp: parseNumbers(value) }));
       return;
     }
     setContact((prev) => ({ ...prev, [field]: value } as ContactInfo));
@@ -82,23 +99,7 @@ export default function AdminContactPage() {
       try {
         setIsLoading(true);
         setErrorMessage(null);
-        if (!token) return;
-        const raw = await getContactInfo(token);
-        const data: any = (raw && (raw as any).data) || raw || {};
-        const next: ContactInfo = {
-          email: data.email ?? "",
-          phone: Array.isArray(data.phone) ? data.phone : [],
-          address: data.address ?? "",
-          whatsappNumber: Array.isArray(data.whatsappNumber)
-            ? data.whatsappNumber
-            : [],
-          telegramLink: data.telegramLink ?? "",
-          facebook: data.facebook ?? "",
-          linkedin: data.linkedin ?? "",
-        };
-        setContact(next);
-        setPhoneInput(next.phone.join(", "));
-        setWhatsappInput(next.whatsappNumber.join(", "));
+        await fetchContactData();
       } catch (err: any) {
         setErrorMessage(err?.message || "حدث خطأ أثناء تحميل معلومات التواصل");
       } finally {
@@ -106,7 +107,7 @@ export default function AdminContactPage() {
       }
     };
     load();
-  }, [getContactInfo, token]);
+  }, [getContactInfo, token, fetchContactData]);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -123,8 +124,19 @@ export default function AdminContactPage() {
         facebook: contact.facebook || "",
         linkedin: contact.linkedin || "",
       };
-      await updateContactInfo(token, payload);
-      setContact(payload);
+      await updateContactInfo(payload);
+
+      // جلب البيانات المحدثة من السيرفر
+      try {
+        await fetchContactData();
+      } catch {
+        console.log("تم حفظ البيانات ولكن حدث خطأ في جلب البيانات المحدثة");
+        // لا نعرض خطأ للمستخدم لأن التحديث تم بنجاح
+        setContact(payload);
+        setPhoneInput(payload.phone.join(", "));
+        setWhatsappInput(payload.whatsappNumber.join(", "));
+      }
+
       setEditMode(false);
     } catch (err: any) {
       setErrorMessage(err?.message || "حدث خطأ أثناء حفظ البيانات");
@@ -183,7 +195,7 @@ export default function AdminContactPage() {
 
             <FormField
               label="واتساب (يمكن إضافة أكثر من رقم؛ افصل بينها بـ , )"
-              name="whatsappNumber"
+              name="whatsapp"
               value={whatsappInput}
               onChange={(e) => handleChange(e, "whatsappNumber")}
               disabled={!editMode || isSubmitting || isLoading}

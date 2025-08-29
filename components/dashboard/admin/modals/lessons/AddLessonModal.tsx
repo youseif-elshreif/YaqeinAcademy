@@ -8,12 +8,12 @@ import {
   FormField,
   ModalActions,
 } from "@/components/common/Modal";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useLessonsContext } from "@/contexts/LessonsContext";
 import { useAuth } from "@/contexts/AuthContext";
 
 const AddLessonModal: React.FC = () => {
   const { closeAddLessonModal, selectedGroupForLessons } = useAdminModal();
-  const { addLessonToGroup } = useAdminDashboardContext();
+  const { addLessonToGroup } = useLessonsContext();
   const { token } = useAuth();
 
   const [isClosing, setIsClosing] = useState(false);
@@ -52,7 +52,8 @@ const AddLessonModal: React.FC = () => {
       const scheduledAt = new Date(`${date}T${time}:00`).toISOString();
       await addLessonToGroup(token, selectedGroupForLessons.groupId, {
         scheduledAt,
-        meetingLink: formData.meetingLink || undefined,
+        subject: " ",
+        meetingLink: formData.meetingLink,
       });
       handleClose();
     } catch (error) {
@@ -112,7 +113,7 @@ const AddLessonModal: React.FC = () => {
             />
 
             <FormField
-              label="رابط الحصة (اختياري)"
+              label="رابط الحصة"
               name="meetingLink"
               type="url"
               value={formData.meetingLink}

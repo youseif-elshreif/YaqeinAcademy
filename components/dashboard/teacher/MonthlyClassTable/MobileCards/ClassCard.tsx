@@ -1,16 +1,29 @@
 import { FaExternalLinkAlt, FaCopy } from "react-icons/fa";
 import styles from "../MonthlyClassTable.module.css";
 import { formatDate, getStatusColor, getStatusText } from "../utils";
+import { useModal } from "@/contexts/ModalContext";
 
 interface ClassCardProps {
   classItem: any; // raw lesson from API
 }
 
 const ClassCard = ({ classItem }: ClassCardProps) => {
+  const { openCompleteModal, openStudentListModal } = useModal();
   const group = classItem?.groupId || {};
   const members = Array.isArray(group?.members) ? group.members : [];
   const meetingLink: string | undefined =
     classItem?.meetingLink || group?.meetingLink;
+
+  // Determine action state
+  const now = new Date();
+  const scheduledDate = new Date(classItem?.scheduledAt);
+  const isCompleted = classItem?.status === "completed";
+  const isCancelled = classItem?.status === "cancelled";
+  const isUpcoming = !isCompleted && !isCancelled && scheduledDate > now;
+
+  const handleViewReports = () => {
+    openStudentListModal(classItem);
+  };
 
   // Function to copy class link to clipboard
   const handleCopyLink = async (link: string) => {
@@ -113,7 +126,25 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
           </div>
         </div>
 
-        <div className={styles.cardActions}>—</div>
+        <div className={styles.cardActions}>
+          {isCompleted ? (
+            <button
+              className={`${styles.baseButton} ${styles.actionBtn} ${styles.viewBtn}`}
+              onClick={handleViewReports}
+            >
+              عرض التقارير
+            </button>
+          ) : isUpcoming ? (
+            <span className={styles.lightColor}>ميعاد الحصة لم يأتي بعد</span>
+          ) : (
+            <button
+              className={`${styles.baseButton} ${styles.actionBtn} ${styles.completeBtn}`}
+              onClick={() => openCompleteModal(classItem)}
+            >
+              إتمام الحصة
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

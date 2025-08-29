@@ -1,6 +1,6 @@
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import styles from "./UserActionsModal.module.css";
-import { FaEdit, FaTrash, FaCoins, FaListUl } from "react-icons/fa";
+import { FaEdit, FaTrash, FaCoins, FaListUl, FaLink } from "react-icons/fa";
 import {
   ModalContainer,
   ModalHeader,
@@ -15,6 +15,7 @@ const UserActionsModal: React.FC = () => {
     openEditUserModal,
     openDeleteUserModal,
     openAddCreditsModal,
+    openEditTeacherLinkModal,
   } = useAdminModal();
 
   if (!userActionsModalOpen || !selectedUserForActions) return null;
@@ -50,6 +51,16 @@ const UserActionsModal: React.FC = () => {
         userId: selectedUserForActions.id,
         name: selectedUserForActions.name,
       });
+    }, 300);
+  };
+
+  const handleEditTeacherLink = () => {
+    closeUserActionsModal();
+    // تأخير فتح المودال الجديد حتى ينتهي إغلاق المودال الحالي
+    setTimeout(() => {
+      const dataToPass =
+        selectedUserForActions.fullData || selectedUserForActions;
+      openEditTeacherLinkModal(dataToPass);
     }, 300);
   };
 
@@ -90,6 +101,13 @@ const UserActionsModal: React.FC = () => {
             icon={<FaEdit className={styles.btnIcon} />}
             onClick={handleEdit}
           />
+          {selectedUserForActions.userType === "teacher" && (
+            <ActionButton
+              label="تعديل رابط الحلقة"
+              icon={<FaLink className={styles.btnIcon} />}
+              onClick={handleEditTeacherLink}
+            />
+          )}
           {selectedUserForActions.userType === "student" && (
             <ActionButton
               label="إضافة حلقات مستحقة"

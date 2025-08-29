@@ -10,12 +10,12 @@ import {
   WarningPanel,
   ConfirmTextInput,
 } from "@/components/common/Modal";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useLessonsContext } from "@/contexts/LessonsContext";
 import { useAuth } from "@/contexts/AuthContext";
 
 const DeleteLessonModal: React.FC = () => {
   const { closeDeleteLessonModal, selectedLessonData } = useAdminModal();
-  const { deleteLesson } = useAdminDashboardContext();
+  const { deleteLesson } = useLessonsContext();
   const { token } = useAuth();
 
   const [isClosing, setIsClosing] = useState(false);

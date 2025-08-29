@@ -1,5 +1,4 @@
 "use Client";
-import api, { API_BASE_URL } from "@/utils/api";
 import {
   createContext,
   useCallback,
@@ -8,6 +7,8 @@ import {
   useState,
 } from "react";
 import { StudentDashboardContextType, UserStats, Lesson } from "@/utils/types";
+import { getUserLessons as getUserLessonsSvc } from "@/utils/services/lesson.service";
+import { getUserStats as getUserStatsSvc } from "@/utils/services/user.service";
 
 const StudentDashboardContext = createContext<
   StudentDashboardContextType | undefined
@@ -21,21 +22,9 @@ export const StudentDashboardProvider: React.FC<{
 
   const getUserLessons = useCallback(async () => {
     try {
-      if (typeof window === "undefined") {
-        throw new Error("Not running in browser environment");
-      }
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        throw new Error("No access token found");
-      }
-
-      const response = await api.get(`${API_BASE_URL}/api/user/my-lessons`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUserLessons(response.data.data);
-      return response.data.data;
+      const lessons = await getUserLessonsSvc();
+      setUserLessons(lessons);
+      return lessons;
     } catch (error) {
       console.error("Error fetching user lessons:", error);
       throw error;
@@ -44,23 +33,10 @@ export const StudentDashboardProvider: React.FC<{
 
   const getUserStats = useCallback(async () => {
     try {
-      if (typeof window === "undefined") {
-        throw new Error("Not running in browser environment");
-      }
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        throw new Error("No access token found");
-      }
-
-      const response = await api.get(`${API_BASE_URL}/api/user/user-stats`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      console.log("Fetched user stats:", response.data.data);
-      setUserStats(response.data.data);
-      return response.data.data;
+      const data = await getUserStatsSvc();
+      console.log("Fetched user stats:", data);
+      setUserStats(data);
+      return data;
     } catch (error) {
       console.error("Error fetching user stats:", error);
       throw error;

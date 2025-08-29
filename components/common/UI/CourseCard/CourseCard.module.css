@@ -65,6 +65,7 @@
   color: var(--text-color);
   width: 100%;
   margin-bottom: 10px;
+  white-space: nowrap;
 }
 
 .openLinkBtn {

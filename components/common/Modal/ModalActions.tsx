@@ -58,7 +58,7 @@ const ModalActions: React.FC<ModalActionsProps> = ({
           {action.loading ? (
             <>
               <FaSpinner className={baseStyles.spinner} />
-              جاري التحميل...
+              <span>جاري المعالجة...</span>
             </>
           ) : (
             <>

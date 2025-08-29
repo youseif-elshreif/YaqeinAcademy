@@ -1,26 +1,24 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { withAdminProtection } from "@/components/auth/withRoleProtection";
+import EnhancedLoader from "@/components/common/UI/EnhancedLoader";
 
 const AdminDashboard: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace("/admin/dashboard/overview");
+    router.replace("/admin/dashboard/userManagement");
   }, [router]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-      }}
-    >
-      <div>جاري التحويل...</div>
-    </div>
+    <EnhancedLoader
+      type="overlay"
+      text="جاري التحويل إلى لوحة الإدارة..."
+      size="large"
+      color="white"
+    />
   );
 };
 
-export default AdminDashboard;
+export default withAdminProtection(AdminDashboard);

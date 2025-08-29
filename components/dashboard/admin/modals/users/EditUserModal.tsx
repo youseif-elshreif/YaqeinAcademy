@@ -4,8 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import { UserFormData, UserType } from "@/utils/types";
 import { CheckboxField } from "@/components/auth";
-import CountrySelect from "@/components/auth/CountrySelect";
-import { isValidPhoneNumber, CountryCode } from "libphonenumber-js";
 import { FaSave, FaEdit } from "react-icons/fa";
 import {
   ModalContainer,
@@ -63,42 +61,39 @@ const EditUserModal = () => {
     publicCredits: 0,
   });
 
-  const [countryCode, setCountryCode] = useState<CountryCode | "">("");
   const [isClosing, setIsClosing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasQuranMemorization, setHasQuranMemorization] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
   const [serverError, setServerError] = useState<string>("");
 
   // Populate form when modal opens
   useEffect(() => {
     if (editUserModalOpen && selectedUserData) {
+      // Handle different data structures for teachers vs students/admins
+      const userData = selectedUserData.userId || selectedUserData; // Teachers have nested userId object
+
       setFormData({
-        name: selectedUserData.name || "",
-        email: selectedUserData.email || "",
+        name: userData.name || "",
+        email: userData.email || "",
         password: "",
-        phone: selectedUserData.phone || selectedUserData.phoneNumber || "",
-        phoneNumber:
-          selectedUserData.phoneNumber || selectedUserData.phone || "",
-        country: selectedUserData.country || "",
+        phone: userData.phone || userData.phoneNumber || "",
+        phoneNumber: userData.phoneNumber || userData.phone || "",
+        country: userData.country || "",
         userType: currentUserType,
-        age: selectedUserData.age || null,
-        hasQuranMemorization: selectedUserData.hasQuranMemorization || false,
-        numOfPartsofQuran: selectedUserData.numOfPartsofQuran || 0,
-        quranLevel: selectedUserData.quranLevel || "",
-        meetingLink: selectedUserData.meetingLink || "",
-        quranMemorized: selectedUserData.quranMemorized || "",
-        subject: selectedUserData.subject || "",
-        bio: selectedUserData.bio || "",
-        address: selectedUserData.address || "",
-        privateCredits: selectedUserData.privateCredits || 0,
-        publicCredits: selectedUserData.publicCredits || 0,
+        age: userData.age || null,
+        hasQuranMemorization: userData.hasQuranMemorization || false,
+        numOfPartsofQuran: userData.numOfPartsofQuran || 0,
+        quranLevel: userData.quranLevel || "",
+        meetingLink: selectedUserData.meetingLink || userData.meetingLink || "", // meetingLink might be at root level for teachers
+        quranMemorized: userData.quranMemorized || "",
+        subject: selectedUserData.subject || userData.subject || "",
+        bio: selectedUserData.bio || userData.bio || "",
+        address: userData.address || "",
+        privateCredits: userData.privateCredits || 0,
+        publicCredits: userData.publicCredits || 0,
       });
-      setHasQuranMemorization(selectedUserData.hasQuranMemorization || false);
-      if (selectedUserData.countryCode) {
-        setCountryCode(selectedUserData.countryCode as CountryCode);
-      }
+      setHasQuranMemorization(userData.hasQuranMemorization || false);
     }
   }, [editUserModalOpen, selectedUserData, currentUserType]);
 
@@ -109,7 +104,6 @@ const EditUserModal = () => {
       setIsClosing(false);
       setFieldErrors({});
       setServerError("");
-      setShowPassword(false);
     }, 300);
   };
 
@@ -131,10 +125,6 @@ const EditUserModal = () => {
         return "";
       case "phone":
         if (!value.trim()) return "رقم الهاتف مطلوب";
-        if (!countryCode) return "يرجى اختيار البلد أولاً";
-        if (!isValidPhoneNumber(value, countryCode)) {
-          return "رقم الهاتف غير صحيح لهذا البلد";
-        }
         return "";
       case "country":
         if (!value.trim()) return "البلد مطلوب";
@@ -148,16 +138,6 @@ const EditUserModal = () => {
           }
         }
         return "";
-      case "meetingLink":
-        if (currentUserType === "teacher" && value) {
-          try {
-            new URL(value);
-            return "";
-          } catch {
-            return "رابط الاجتماع غير صحيح";
-          }
-        }
-        return "";
       default:
         return "";
     }
@@ -168,18 +148,8 @@ const EditUserModal = () => {
 
     errors.name = validateField("name", formData.name);
     errors.email = validateField("email", formData.email);
-    if (formData.password) {
-      errors.password = validateField("password", formData.password);
-    }
     errors.phone = validateField("phone", formData.phone || "");
-    errors.country = validateField("country", formData.country);
 
-    if (currentUserType === "teacher") {
-      errors.meetingLink = validateField(
-        "meetingLink",
-        formData.meetingLink || ""
-      );
-    }
     if (currentUserType === "student") {
       errors.age = validateField("age", formData.age?.toString() || "");
     }
@@ -220,22 +190,6 @@ const EditUserModal = () => {
     }
   };
 
-  const handleCountryChange = (
-    selectedCountry: string,
-    selectedCountryCode: CountryCode
-  ) => {
-    setFormData((prev) => ({ ...prev, country: selectedCountry }));
-    setCountryCode(selectedCountryCode);
-
-    if (fieldErrors.country) {
-      setFieldErrors((prev) => {
-        const e = { ...prev };
-        delete e.country;
-        return e;
-      });
-    }
-  };
-
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
     setHasQuranMemorization(checked);
@@ -253,11 +207,19 @@ const EditUserModal = () => {
     e.preventDefault();
     setServerError("");
 
-    if (!selectedUserData?.id) {
+    // Check for user ID - handle different data structures
+    // For teachers: could be selectedUserData.userId._id or selectedUserData._id
+    // For students/admins: selectedUserData._id or selectedUserData.id
+    const userId =
+      selectedUserData?.userId?._id ||
+      selectedUserData?.userId?.id ||
+      selectedUserData?.id ||
+      selectedUserData?._id;
+
+    if (!userId) {
       setServerError("معرف المستخدم مفقود");
       return;
     }
-
     if (!validateForm()) return;
 
     setIsSubmitting(true);
@@ -266,19 +228,10 @@ const EditUserModal = () => {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        country: formData.country,
       };
-      if (formData.password) payload.password = formData.password;
 
-      if (currentUserType === "teacher") {
-        payload.meetingLink = formData.meetingLink;
-        payload.subject = formData.subject;
-        payload.bio = formData.bio;
-      }
       if (currentUserType === "student") {
         payload.age = formData.age;
-        payload.privateCredits = formData.privateCredits;
-        payload.publicCredits = formData.publicCredits;
         payload.hasQuranMemorization = hasQuranMemorization;
         if (hasQuranMemorization) {
           payload.quranMemorized = formData.quranMemorized;
@@ -286,7 +239,8 @@ const EditUserModal = () => {
         }
       }
 
-      await updateUser(selectedUserData.id, payload, currentUserType);
+      console.log("Final payload:", payload);
+      await updateUser(userId, payload, currentUserType);
       handleClose();
     } catch (err: any) {
       const msg =
@@ -374,30 +328,6 @@ const EditUserModal = () => {
               />
 
               <FormField
-                label="كلمة المرور الجديدة (اختياري)"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                error={fieldErrors.password}
-                disabled={isSubmitting}
-                placeholder="اتركه فارغاً إذا لم ترد تغييره"
-                showPasswordToggle
-                showPassword={showPassword}
-                onTogglePassword={() => setShowPassword(!showPassword)}
-              />
-
-              <div className={baseStyles.inputGroup}>
-                <label className={baseStyles.label}>البلد</label>
-                <CountrySelect onChange={handleCountryChange} />
-                {fieldErrors.country && (
-                  <div className={baseStyles.fieldError}>
-                    {fieldErrors.country}
-                  </div>
-                )}
-              </div>
-
-              <FormField
                 label="رقم الهاتف"
                 name="phone"
                 type="tel"
@@ -405,50 +335,11 @@ const EditUserModal = () => {
                 onChange={handleInputChange}
                 error={fieldErrors.phone}
                 disabled={isSubmitting}
-                placeholder={
-                  countryCode
-                    ? `مثال للرقم في ${formData.country}`
-                    : "اختر البلد أولاً"
-                }
+                placeholder="أدخل رقم الهاتف"
                 required
               />
 
-              {/* Teacher Specific Fields */}
-              {currentUserType === "teacher" && (
-                <>
-                  <FormField
-                    label="رابط الاجتماع"
-                    name="meetingLink"
-                    type="url"
-                    value={formData.meetingLink}
-                    onChange={handleInputChange}
-                    error={fieldErrors.meetingLink}
-                    disabled={isSubmitting}
-                    required
-                  />
-
-                  <FormField
-                    label="التخصص"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    disabled={isSubmitting}
-                    placeholder="مثال: تحفيظ القرآن، التجويد..."
-                  />
-
-                  <FormField
-                    label="نبذة عن المدرس"
-                    name="bio"
-                    type="textarea"
-                    value={formData.bio}
-                    onChange={handleInputChange}
-                    disabled={isSubmitting}
-                    placeholder="نبذة مختصرة عن المدرس وخبراته..."
-                    rows={3}
-                    fullWidth
-                  />
-                </>
-              )}
+              {/* Teacher Specific Fields - meetingLink moved to separate modal */}
 
               {/* Student Specific Fields */}
               {currentUserType === "student" && (
@@ -465,28 +356,6 @@ const EditUserModal = () => {
                     min="5"
                     max="100"
                     required
-                  />
-
-                  <FormField
-                    label="الدروس الخاصة"
-                    name="privateCredits"
-                    type="number"
-                    value={formData.privateCredits || 0}
-                    onChange={handleInputChange}
-                    disabled={isSubmitting}
-                    placeholder="عدد الدروس الخاصة المتاحة"
-                    min="0"
-                  />
-
-                  <FormField
-                    label="الدروس العامة"
-                    name="publicCredits"
-                    type="number"
-                    value={formData.publicCredits || 0}
-                    onChange={handleInputChange}
-                    disabled={isSubmitting}
-                    placeholder="عدد الدروس العامة المتاحة"
-                    min="0"
                   />
 
                   {/* Checkbox for Quran Memorization */}

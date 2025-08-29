@@ -1,7 +1,6 @@
 import { FaExternalLinkAlt, FaCopy, FaCog } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
-import { CombinedTeacherData } from "@/utils/types";
 
 interface ClassCardProps {
   teacher: any;
@@ -10,9 +9,25 @@ interface ClassCardProps {
 const ClassCard = ({ teacher }: ClassCardProps) => {
   const { openUserActionsModal } = useAdminModal();
 
+  // Debug: Log teacher structure to understand the data
+  console.log("=== Teacher Data Structure (Mobile) ===", teacher);
+
+  // Try to find meetingLink in different possible locations
+  const meetingLink =
+    teacher.meetingLink ||
+    teacher.teacherInfo?.meetingLink ||
+    teacher.userId?.meetingLink ||
+    "";
+
+  console.log("=== Meeting Link Found (Mobile) ===", meetingLink);
+
   // Function to copy class link to clipboard
   const handleCopyLink = async (link: string) => {
     try {
+      if (!link) {
+        console.warn("لا يوجد رابط للنسخ");
+        return;
+      }
       await navigator.clipboard.writeText(link);
       console.log("تم نسخ الرابط بنجاح");
     } catch (err) {
@@ -22,6 +37,10 @@ const ClassCard = ({ teacher }: ClassCardProps) => {
 
   // Function to open link in new tab
   const handleOpenLink = (link: string) => {
+    if (!link) {
+      console.warn("لا يوجد رابط للفتح");
+      return;
+    }
     window.open(link, "_blank", "noopener,noreferrer");
   };
 
@@ -78,16 +97,18 @@ const ClassCard = ({ teacher }: ClassCardProps) => {
         <span className={styles.cardLinkContainer}>
           <button
             className={`${styles.linkButton} ${styles.openLinkBtn}`}
-            onClick={() => handleOpenLink(teacher.teacherInfo.meetingLink)}
+            onClick={() => handleOpenLink(meetingLink)}
             title="فتح رابط الحلقة"
+            disabled={!meetingLink}
           >
             <FaExternalLinkAlt />
             <span>دخول الحلقة</span>
           </button>
           <button
             className={`${styles.linkButton} ${styles.copyLinkBtn}`}
-            onClick={() => handleCopyLink(teacher.teacherInfo.meetingLink)}
+            onClick={() => handleCopyLink(meetingLink)}
             title="نسخ رابط الحلقة"
+            disabled={!meetingLink}
           >
             <FaCopy />
           </button>

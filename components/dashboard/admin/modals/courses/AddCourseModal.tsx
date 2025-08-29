@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useCoursesContext } from "@/contexts/CoursesContext";
 import { getCourseById } from "@/data/mockCourses";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import { FaSave, FaBook } from "react-icons/fa";
@@ -31,8 +31,7 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
   editCourseId,
 }) => {
   const { closeAddCourseModal, closeEditCourseModal } = useAdminModal();
-  const { getCourseByIdAPI, createCourse, updateCourse } =
-    useAdminDashboardContext();
+  const { getCourseByIdAPI, createCourse, updateCourse } = useCoursesContext();
 
   const [formData, setFormData] = useState<CourseFormData>({
     _id: "",
@@ -297,7 +296,7 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
     <ModalContainer
       isOpen={true}
       isClosing={isClosing}
-      variant={isEditMode ? "edit" : "add"}
+      variant="add"
       size="large"
     >
       <ModalHeader
@@ -305,7 +304,7 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
         icon={<FaBook />}
         onClose={handleClose}
         disabled={isSubmitting}
-        variant={isEditMode ? "edit" : "add"}
+        variant="add"
       />
 
       <div className={baseStyles.modalBody}>

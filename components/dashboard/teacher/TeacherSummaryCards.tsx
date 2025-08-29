@@ -41,13 +41,6 @@ const TeacherSummaryCards = ({ classes }: TeacherSummaryCardsProps) => {
       color: "warning",
     },
     {
-      id: 4,
-      title: "سعر الحلقة",
-      value: `500 جنية`,
-      icon: FaCoins,
-      color: "info",
-    },
-    {
       id: 5,
       title: "الحلقات الملغية",
       value: classes.filter((cls) => cls.status === "cancelled").length,
@@ -55,14 +48,11 @@ const TeacherSummaryCards = ({ classes }: TeacherSummaryCardsProps) => {
       color: "danger",
     },
     {
-      id: 6,
-      title: "إجمالي الأرباح",
-      value: `${classes.reduce(
-        (total, cls) => total + (cls.status === "completed" ? 500 : 0),
-        0
-      )} جنية`,
-      icon: FaMoneyBillWave,
-      color: "secondary",
+      id: 4,
+      title: "سعر الحلقة",
+      value: `500 جنية`,
+      icon: FaCoins,
+      color: "info",
     },
   ];
 

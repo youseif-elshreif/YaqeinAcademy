@@ -1,4 +1,4 @@
-import { FaCog } from "react-icons/fa";
+import { FaCog, FaListUl } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 
@@ -7,7 +7,7 @@ interface ClassTableRowProps {
 }
 
 const ClassTableRow = ({ studentitem }: ClassTableRowProps) => {
-  const { openUserActionsModal } = useAdminModal();
+  const { openUserActionsModal, openStudentReportsModal } = useAdminModal();
 
   const handleActionsClick = () => {
     openUserActionsModal({
@@ -72,14 +72,32 @@ const ClassTableRow = ({ studentitem }: ClassTableRowProps) => {
           {formatDate(studentitem.createdAt)}
         </span>
       </td>
-      <td className={styles.linkContainer}>
-        <button
-          onClick={handleActionsClick}
-          className={`${styles.linkButton} ${styles.openLinkBtn}`}
-        >
-          <FaCog />
-          <span className={styles.iconButtonText}>الإجراءات</span>
-        </button>
+      <td>
+        <div className={styles.linkContainer}>
+          <button
+            onClick={() =>
+              openStudentReportsModal({
+                id: studentitem._id,
+                name: studentitem.name,
+              })
+            }
+            className={`${styles.linkButton} ${styles.openLinkBtn}`}
+          >
+            <FaListUl />
+            <span className={styles.iconButtonText}>عرض التقارير</span>
+          </button>
+        </div>
+      </td>
+      <td>
+        <div className={styles.linkContainer}>
+          <button
+            onClick={handleActionsClick}
+            className={`${styles.linkButton} ${styles.openLinkBtn}`}
+          >
+            <FaCog />
+            <span className={styles.iconButtonText}>الإجراءات</span>
+          </button>
+        </div>
       </td>
     </tr>
   );

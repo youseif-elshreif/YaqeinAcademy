@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import AddUserModal from "./users/AddUserModal";
 import EditUserModal from "./users/EditUserModal";
+import EditTeacherLinkModal from "./users/EditTeacherLinkModal";
 import AddCourseModal from "./courses/AddCourseModal";
 import DeleteCourseModal from "./courses/DeleteCourseModal";
 import AddGroupModal from "./groups/AddGroupModal";
@@ -17,10 +18,12 @@ import DeleteLessonModal from "./lessons/DeleteLessonModal";
 import UserActionsModal from "./users/UserActionsModal";
 import DeleteUserModal from "./users/DeleteUserModal";
 import AddCreditsModal from "./AddCreditsModal";
-import { useAdminDashboardContext } from "@/contexts/AdminDashboardContext";
+import { useCoursesContext } from "@/contexts/CoursesContext";
+import StudentListModal from "@/components/dashboard/teacher/StudentListModal";
+import StudentReportsModal from "@/components/dashboard/teacher/StudentReportsModal";
 
 const AdminModalsContainer: React.FC = () => {
-  const { courses } = useAdminDashboardContext();
+  const { courses } = useCoursesContext();
   const {
     addUserModalOpen,
     addCourseModalOpen,
@@ -40,7 +43,12 @@ const AdminModalsContainer: React.FC = () => {
     editUserModalOpen,
     deleteUserModalOpen,
     addCreditsModalOpen,
+    studentListModalOpen,
+    studentReportsModalOpen,
+    editTeacherLinkModalOpen,
     selectedCourseId,
+    selectedLessonForStudents,
+    selectedStudentForReports,
     selectedGroupData,
     selectedGroupActionsData,
     selectedGroupForDeletion,
@@ -56,6 +64,9 @@ const AdminModalsContainer: React.FC = () => {
     openAddMembersModal,
     openEditGroupModal,
     handleDeleteGroup,
+    closeStudentListModal,
+    closeStudentReportsModal,
+    openStudentReportsModal,
   } = useAdminModal();
 
   useEffect(() => {
@@ -76,7 +87,9 @@ const AdminModalsContainer: React.FC = () => {
       userActionsModalOpen ||
       editUserModalOpen ||
       deleteUserModalOpen ||
-      addCreditsModalOpen
+      addCreditsModalOpen ||
+      studentListModalOpen ||
+      editTeacherLinkModalOpen
     ) {
       document.documentElement.style.overflowY = "hidden"; // Disable scrolling
     }
@@ -101,6 +114,8 @@ const AdminModalsContainer: React.FC = () => {
     editUserModalOpen,
     deleteUserModalOpen,
     addCreditsModalOpen,
+    studentListModalOpen,
+    editTeacherLinkModalOpen,
   ]);
 
   // Get selected course name for delete modal
@@ -248,6 +263,27 @@ const AdminModalsContainer: React.FC = () => {
 
       {/* Add Credits Modal */}
       {addCreditsModalOpen && <AddCreditsModal />}
+
+      {/* Student List Modal (shared) */}
+      {studentListModalOpen && selectedLessonForStudents && (
+        <StudentListModal
+          isOpen={studentListModalOpen}
+          onClose={closeStudentListModal}
+          lesson={selectedLessonForStudents}
+          onOpenStudentReports={(s) => openStudentReportsModal(s)}
+        />
+      )}
+
+      {studentReportsModalOpen && selectedStudentForReports && (
+        <StudentReportsModal
+          isOpen={studentReportsModalOpen}
+          onClose={closeStudentReportsModal}
+          student={selectedStudentForReports}
+        />
+      )}
+
+      {/* Edit Teacher Link Modal */}
+      {editTeacherLinkModalOpen && <EditTeacherLinkModal />}
     </>
   );
 };

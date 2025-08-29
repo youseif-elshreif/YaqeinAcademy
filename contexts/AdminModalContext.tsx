@@ -6,7 +6,10 @@ import {
   AdminModalContextType,
   AdminModalProviderProps,
 } from "@/utils/types";
-import { useAdminDashboardContext } from "./AdminDashboardContext";
+import { useTeachersContext } from "./TeachersContext";
+import { useStudentsContext } from "./StudentsContext";
+import { useAdminStatsContext } from "./AdminStatsContext";
+import { useGroupsContext } from "./GroupsContext";
 import { useAuth } from "./AuthContext";
 
 const AdminModalContext = createContext<AdminModalContextType | undefined>(
@@ -16,19 +19,18 @@ const AdminModalContext = createContext<AdminModalContextType | undefined>(
 export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   children,
 }) => {
+  const { createTeacher, getTeachers, updateTeacherMeetingLink } =
+    useTeachersContext();
   const {
-    createTeacher,
     createStudent,
-    createAdmin,
-    deleteGroup,
-    getGroups,
     getStudents,
-    getTeachers,
     addCreditsToStudent: addCreditsAPI,
-    updateTeacher,
     updateStudent,
     updateMember,
-  } = useAdminDashboardContext();
+  } = useStudentsContext();
+  const { createAdmin, getAdmins } = useAdminStatsContext();
+  const { deleteGroup, getGroups } = useGroupsContext();
+
   const { token } = useAuth();
 
   // Modal states
@@ -53,6 +55,10 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   const [editUserModalOpen, setEditUserModalOpen] = useState(false);
   const [deleteUserModalOpen, setDeleteUserModalOpen] = useState(false);
   const [addCreditsModalOpen, setAddCreditsModalOpen] = useState(false);
+  const [studentListModalOpen, setStudentListModalOpen] = useState(false);
+  const [studentReportsModalOpen, setStudentReportsModalOpen] = useState(false);
+  const [editTeacherLinkModalOpen, setEditTeacherLinkModalOpen] =
+    useState(false);
 
   // Selected data states
   const [selectedUserType, setSelectedUserType] = useState<UserType | null>(
@@ -106,9 +112,18 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   } | null>(null);
 
   const [selectedUserData, setSelectedUserData] = useState<any>(null);
+  const [selectedTeacherForLink, setSelectedTeacherForLink] =
+    useState<any>(null);
   const [selectedStudentForCredits, setSelectedStudentForCredits] = useState<{
     userId: string;
     name: string;
+  } | null>(null);
+  const [selectedLessonForStudents, setSelectedLessonForStudents] = useState<
+    any | null
+  >(null);
+  const [selectedStudentForReports, setSelectedStudentForReports] = useState<{
+    id: string;
+    name?: string;
   } | null>(null);
 
   // Open modal actions
@@ -296,6 +311,16 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     setSelectedUserData(null);
   };
 
+  const openEditTeacherLinkModal = (teacherData: any) => {
+    setSelectedTeacherForLink(teacherData);
+    setEditTeacherLinkModalOpen(true);
+  };
+
+  const closeEditTeacherLinkModal = () => {
+    setEditTeacherLinkModalOpen(false);
+    setSelectedTeacherForLink(null);
+  };
+
   const openDeleteUserModal = (userData: {
     id: string;
     name: string;
@@ -316,6 +341,17 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     setSelectedUserType(null);
   };
 
+  // Open Student List Modal (shared with teacher modal component)
+  const openStudentListModal = (lesson: any) => {
+    setSelectedLessonForStudents(lesson);
+    setStudentListModalOpen(true);
+  };
+
+  const openStudentReportsModal = (student: { id: string; name?: string }) => {
+    setSelectedStudentForReports(student);
+    setStudentReportsModalOpen(true);
+  };
+
   const closeDeleteUserModal = () => {
     setDeleteUserModalOpen(false);
     setSelectedUserForActions(null);
@@ -324,6 +360,16 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   const closeAddCreditsModal = () => {
     setAddCreditsModalOpen(false);
     setSelectedStudentForCredits(null);
+  };
+
+  const closeStudentListModal = () => {
+    setStudentListModalOpen(false);
+    setSelectedLessonForStudents(null);
+  };
+
+  const closeStudentReportsModal = () => {
+    setStudentReportsModalOpen(false);
+    setSelectedStudentForReports(null);
   };
 
   // User type selection
@@ -391,7 +437,17 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
       console.log("✅ User created successfully:", result);
 
       // Refresh appropriate user list based on user type
-      if (token) {
+      if (userType === "admin") {
+        if (!token) {
+          console.warn("No authentication token available to refresh admins");
+        } else {
+          try {
+            await getAdmins(token);
+          } catch (e) {
+            console.error("Failed to refresh admins after creation", e);
+          }
+        }
+      } else if (token) {
         if (userType === "student") {
           await getStudents(token);
         } else if (userType === "teacher") {
@@ -448,7 +504,8 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
           break;
 
         case "teacher":
-          result = await updateTeacher(token, userId, userData);
+          // Use updateMember for teacher users as well
+          result = await updateMember(token, userId, userData);
           break;
 
         case "student":
@@ -466,11 +523,44 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
         await getStudents(token);
       } else if (userType === "teacher") {
         await getTeachers(token);
+      } else {
+        await getAdmins(token);
       }
 
       return result;
     } catch (error) {
       console.error("❌ Error updating user:", error);
+      throw error;
+    }
+  };
+
+  // Update teacher meeting link only
+  const updateTeacherMeetingLinkOnly = async (
+    teacherId: string,
+    meetingLink: string
+  ) => {
+    try {
+      console.log("=== UPDATING TEACHER MEETING LINK ===");
+      console.log("Teacher ID:", teacherId);
+      console.log("Meeting Link:", meetingLink);
+
+      if (!token) {
+        throw new Error("No authentication token available");
+      }
+
+      const result = await updateTeacherMeetingLink(
+        token,
+        teacherId,
+        meetingLink
+      );
+      console.log("✅ Teacher meeting link updated successfully:", result);
+
+      // Refresh teachers data after update
+      await getTeachers(token);
+
+      return result;
+    } catch (error) {
+      console.error("❌ Error updating teacher meeting link:", error);
       throw error;
     }
   };
@@ -523,7 +613,8 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
         privateAmount,
         publicAmount
       );
-      console.log("✅ Credits added successfully:", result);
+
+      getStudents(token);
 
       // Close modal after successful addition
       closeAddCreditsModal();
@@ -575,6 +666,9 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     editUserModalOpen,
     deleteUserModalOpen,
     addCreditsModalOpen,
+    studentListModalOpen,
+    studentReportsModalOpen,
+    editTeacherLinkModalOpen,
 
     // Selected data
     selectedUserType,
@@ -589,6 +683,9 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     selectedUserForActions,
     selectedUserData,
     selectedStudentForCredits,
+    selectedLessonForStudents,
+    selectedStudentForReports,
+    selectedTeacherForLink,
 
     // Modal actions
     openAddUserModal,
@@ -609,6 +706,8 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     openEditUserModal,
     openDeleteUserModal,
     openAddCreditsModal,
+    openStudentListModal,
+    openStudentReportsModal,
 
     // Close actions
     closeAddUserModal,
@@ -629,6 +728,8 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     closeEditUserModal,
     closeDeleteUserModal,
     closeAddCreditsModal,
+    closeStudentListModal,
+    closeStudentReportsModal,
 
     // User type selection
     setUserType,
@@ -636,9 +737,12 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     // Save actions
     saveNewUser,
     updateUser,
+    updateTeacherMeetingLinkOnly,
     saveNewGroup,
     handleDeleteGroup,
     addCreditsToStudent,
+    openEditTeacherLinkModal,
+    closeEditTeacherLinkModal,
   };
 
   return (

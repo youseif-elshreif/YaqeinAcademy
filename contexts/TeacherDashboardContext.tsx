@@ -6,7 +6,12 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import api, { API_BASE_URL } from "@/utils/api";
+// api instance is handled inside services
+import {
+  getTeacherLessons,
+  completeLesson as completeLessonSvc,
+} from "@/utils/services/lesson.service";
+import { postLessonReport } from "@/utils/services/report.service";
 import { TeacherDashboardContextType } from "@/utils/types";
 
 const TeacherDashboardContext = createContext<
@@ -18,21 +23,9 @@ export const TeacherDashboardProvider: React.FC<{
 }> = ({ children }) => {
   const [teacherLessons, setTeacherLessons] = useState<any[]>([]);
 
-  const getMyLessons = useCallback(async (token: string) => {
+  const getMyLessons = useCallback(async () => {
     try {
-      if (typeof window === "undefined") {
-        throw new Error("Not running in browser environment");
-      }
-
-      const response = await api.get(`${API_BASE_URL}/api/teacher/my-lessons`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      // API is expected to return { data: [...] }
-      const data = Array.isArray((response as any).data?.data)
-        ? (response as any).data.data
-        : Array.isArray(response.data)
-        ? (response as any).data
-        : [];
+      const data = await getTeacherLessons();
       setTeacherLessons(data);
       return data;
     } catch (error) {
@@ -42,7 +35,32 @@ export const TeacherDashboardProvider: React.FC<{
   }, []);
 
   const value = useMemo(
-    () => ({ teacherLessons, getMyLessons }),
+    () => ({
+      teacherLessons,
+      getMyLessons,
+      reportLesson: async (lessonId: string, payload: any) => {
+        return postLessonReport(lessonId, payload);
+      },
+      completeLesson: async (lessonId: string) => {
+        return completeLessonSvc(lessonId);
+      },
+      reportMultipleAndComplete: async (
+        lessonId: string,
+        reports: Array<{
+          studentId: string;
+          attended: boolean;
+          wantedForNextLesson: { new: string[]; old: string[] };
+          newMemorized: { new: string[]; old: string[] };
+          notes: string;
+          rating: number;
+        }>
+      ) => {
+        for (const r of reports) {
+          await postLessonReport(lessonId, r as any);
+        }
+        await completeLessonSvc(lessonId);
+      },
+    }),
     [teacherLessons, getMyLessons]
   );
 
