@@ -2,7 +2,12 @@
 import { useEffect, useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import styles from "./LessonsModal.module.css";
-import { FaCalendarPlus, FaCalendarCheck, FaCalendarDay } from "react-icons/fa";
+import {
+  FaCalendarPlus,
+  FaCalendarCheck,
+  FaCalendarDay,
+  FaCalendarWeek,
+} from "react-icons/fa";
 import {
   ModalContainer,
   ModalHeader,
@@ -12,6 +17,7 @@ import LessonCard, { UILessonCard } from "./components/LessonCard";
 import { useGroupsContext } from "@/contexts/GroupsContext";
 import { useLessonsContext } from "@/contexts/LessonsContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { createLessonSchedule } from "@/utils/date";
 
 interface LessonsModalProps {
   groupId: string;
@@ -39,9 +45,12 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lessons, setLessons] = useState<UILesson[]>([]);
+  const [groupData, setGroupData] = useState<any>(null);
+  const [isAddingMonthLessons, setIsAddingMonthLessons] = useState(false);
+  const [monthLessonsInfo, setMonthLessonsInfo] = useState<string>("");
 
   const { getGroupById } = useGroupsContext();
-  const { lessonsRefreshKey } = useLessonsContext();
+  const { lessonsRefreshKey, addLessonToGroup } = useLessonsContext();
   const { token } = useAuth();
 
   // Fetch group lessons when modal opens
@@ -53,6 +62,10 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
         setError(null);
         if (!token || !getGroupById) throw new Error("no token");
         const data = await getGroupById(token, groupId);
+
+        // Store group data for schedule generation
+        setGroupData(data?.group);
+
         const apiLessons = data?.group?.lessons ?? [];
         const mapped: UILesson[] = apiLessons.map((l) => {
           const d = new Date(l.scheduledAt);
@@ -90,6 +103,68 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
     }, 300);
   };
 
+  // Function to add remaining lessons for the month
+  const handleAddMonthLessons = async () => {
+    if (!token || !groupData || !addLessonToGroup) return;
+
+    try {
+      setIsAddingMonthLessons(true);
+      setMonthLessonsInfo("");
+
+      // Extract weekdays and times from group data
+      const weekdays: string[] = [];
+      const times: string[] = [];
+
+      if (groupData.usualDate?.firstDay && groupData.usualDate?.firstDayTime) {
+        weekdays.push(groupData.usualDate.firstDay);
+        times.push(groupData.usualDate.firstDayTime);
+      }
+      if (
+        groupData.usualDate?.secondDay &&
+        groupData.usualDate?.secondDayTime
+      ) {
+        weekdays.push(groupData.usualDate.secondDay);
+        times.push(groupData.usualDate.secondDayTime);
+      }
+      if (groupData.usualDate?.thirdDay && groupData.usualDate?.thirdDayTime) {
+        weekdays.push(groupData.usualDate.thirdDay);
+        times.push(groupData.usualDate.thirdDayTime);
+      }
+
+      if (weekdays.length === 0) {
+        setError("لم يتم العثور على جدول زمني للمجموعة");
+        return;
+      }
+
+      // Generate lesson schedule using the date utility
+      const schedule = createLessonSchedule(
+        weekdays,
+        times,
+        groupData.meetingLink || ""
+      );
+
+      if (schedule.length === 0) {
+        setMonthLessonsInfo("لا يمكن إضافة حصص جديدة لهذا الشهر.");
+        setTimeout(() => {
+          setMonthLessonsInfo("");
+        }, 3000);
+        return;
+      }
+
+      // Add each lesson to the group
+      for (const lesson of schedule) {
+        await addLessonToGroup(token, groupId, lesson);
+      }
+      setMonthLessonsInfo(`تمت إضافة ${schedule.length} حصة بنجاح.`);
+      // The useEffect will automatically refresh the lessons list due to lessonsRefreshKey
+    } catch (error) {
+      console.error("❌ Error adding month lessons:", error);
+      setError("فشل في إضافة حصص الشهر");
+    } finally {
+      setIsAddingMonthLessons(false);
+    }
+  };
+
   // Formatting handled within LessonCard
 
   return (
@@ -109,7 +184,31 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
             <FaCalendarPlus />
             إضافة حصة جديدة
           </button>
+
+          <button
+            onClick={handleAddMonthLessons}
+            disabled={isAddingMonthLessons || loading || !groupData}
+            className={`${styles.actionBtn} ${styles.monthBtn}`}
+            title="إضافة جميع الحصص المتبقية في الشهر بناءً على جدول المجموعة"
+          >
+            <FaCalendarWeek />
+            {isAddingMonthLessons ? "جاري الإضافة..." : "إضافة حصص الشهر"}
+          </button>
         </div>
+
+        {/* رسالة عند إضافة حصص الشهر */}
+        {monthLessonsInfo && (
+          <div
+            style={{
+              textAlign: "center",
+              color: "#e53e3e",
+              marginBottom: "1rem",
+              fontWeight: 500,
+            }}
+          >
+            {monthLessonsInfo}
+          </div>
+        )}
 
         <div className={styles.lessonsContainer}>
           {loading ? (

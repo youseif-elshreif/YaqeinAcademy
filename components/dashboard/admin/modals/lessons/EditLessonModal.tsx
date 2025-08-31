@@ -21,7 +21,7 @@ const EditLessonModal: React.FC = () => {
   const [formData, setFormData] = useState({
     time: "",
     date: "",
-    subject: " ",
+    subject: "string",
     meetingLink: "",
   });
 

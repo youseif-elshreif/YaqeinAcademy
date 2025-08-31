@@ -19,9 +19,9 @@ import SearchFilter from "@/components/common/UI/SearchFilter";
 
 const UserManagement: React.FC = () => {
   const { openAddUserModal } = useAdminModal();
-  const { stats } = useAdminStatsContext();
-  const { getTeachers } = useTeachersContext();
-  const { getStudents } = useStudentsContext();
+  const { admins, getAdmins } = useAdminStatsContext();
+  const { teachers, getTeachers } = useTeachersContext();
+  const { students, getStudents } = useStudentsContext();
   const { token } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("students");
@@ -38,10 +38,12 @@ const UserManagement: React.FC = () => {
   useEffect(() => {
     if (!token) return;
     // Fire-and-forget parallel fetches to hydrate context
-    Promise.allSettled([getTeachers?.(token), getStudents?.(token)]).catch(
-      () => {}
-    );
-  }, [token, getTeachers, getStudents]);
+    Promise.allSettled([
+      getTeachers?.(token),
+      getStudents?.(token),
+      getAdmins?.(token),
+    ]).catch(() => {});
+  }, [token, getTeachers, getStudents, getAdmins]);
 
   const getTabContent = () => {
     switch (activeTab) {
@@ -89,19 +91,19 @@ const UserManagement: React.FC = () => {
       <div className={styles.statsGrid}>
         <StatCard
           icon={FiUserCheck}
-          value={stats.totalStudents}
+          value={students?.length || 0}
           label="إجمالي الطلاب"
         />
 
         <StatCard
           icon={FiUsers}
-          value={stats.totalTeachers}
+          value={teachers?.length || 0}
           label="إجمالي المدرسين"
         />
 
         <StatCard
           icon={FiShield}
-          value={stats.totalAdmins ?? 0}
+          value={admins?.length || 0}
           label="إجمالي الإداريين"
         />
       </div>

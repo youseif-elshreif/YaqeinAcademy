@@ -54,11 +54,6 @@ const AdminCard: React.FC<AdminCardProps> = ({ admin }) => {
           </div>
 
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>الدولة:</span>
-            <span className={styles.infoValue}>{admin.country || "-"}</span>
-          </div>
-
-          <div className={styles.infoItem}>
             <span className={styles.infoLabel}>تاريخ الإنشاء:</span>
             <span className={styles.infoValue}>
               {formatDate(admin.createdAt)}

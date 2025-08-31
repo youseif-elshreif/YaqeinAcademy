@@ -8,15 +8,7 @@ import {
 } from "react";
 import * as adminSvc from "@/utils/services/admin.service";
 
-type AdminStats = {
-  totalTeachers: number;
-  totalStudents: number;
-  totalUsers: number;
-  totalAdmins?: number;
-};
-
 type AdminStatsContextType = {
-  stats: AdminStats;
   admins: any[];
   isLoading: boolean;
   error: string | null;
@@ -28,7 +20,6 @@ type AdminStatsContextType = {
     memberData: any
   ) => Promise<any>;
   deleteMember: (token: string, memberId: string) => Promise<any>;
-  updateStats: (newStats: Partial<AdminStats>) => void;
   refreshAdmins: (token: string) => Promise<void>;
 };
 
@@ -51,11 +42,6 @@ type AdminStatsProviderProps = {
 };
 
 export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
-  const [stats, setStats] = useState<AdminStats>({
-    totalTeachers: 0,
-    totalStudents: 0,
-    totalUsers: 0,
-  });
   const [admins, setAdmins] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -67,7 +53,6 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
       void token; // mark param as used to satisfy TS unused var check
       const list: any[] = await adminSvc.getAdmins();
       setAdmins(list);
-      setStats((prev) => ({ ...prev, totalAdmins: list.length }));
       return list;
     } catch (error) {
       console.error("Error fetching admins:", error);
@@ -137,10 +122,6 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
     [getAdmins]
   );
 
-  const updateStats = useCallback((newStats: Partial<AdminStats>) => {
-    setStats((prev) => ({ ...prev, ...newStats }));
-  }, []);
-
   const refreshAdmins = useCallback(
     async (token: string) => {
       await getAdmins(token);
@@ -149,7 +130,6 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
   );
 
   const contextValue: AdminStatsContextType = {
-    stats,
     admins,
     isLoading,
     error,
@@ -157,7 +137,6 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
     createAdmin,
     updateMember,
     deleteMember,
-    updateStats,
     refreshAdmins,
   };
 

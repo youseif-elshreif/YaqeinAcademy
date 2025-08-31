@@ -4,7 +4,8 @@ import styles from "../LessonsModal.module.css";
 import {
   FaClock,
   FaCalendarDay,
-  FaLink,
+  FaExternalLinkAlt,
+  FaCopy,
   FaEdit,
   FaTrash,
 } from "react-icons/fa";
@@ -39,6 +40,21 @@ const LessonCard: React.FC<LessonCardProps> = ({
     return `${displayHour}:${minutes} ${period}`;
   };
 
+  const handleCopyLink = async (link: string) => {
+    try {
+      await navigator.clipboard.writeText(link);
+      // You can add a toast notification here
+      console.log("تم نسخ الرابط بنجاح");
+    } catch (err) {
+      console.error("فشل في نسخ الرابط:", err);
+    }
+  };
+
+  // Function to open link in new tab
+  const handleOpenLink = (link: string) => {
+    window.open(link, "_blank", "noopener,noreferrer");
+  };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("ar-EG", {
@@ -63,17 +79,23 @@ const LessonCard: React.FC<LessonCardProps> = ({
               {formatDate(lesson.date)}
             </span>
             {lesson.meetingLink ? (
-              <span className={styles.lessonDate}>
-                <FaLink className={styles.detailIcon} />
-                <a
-                  href={lesson.meetingLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.meetingLink}
+              <div className={styles.linkContainer}>
+                <button
+                  className={`${styles.linkButton} ${styles.openLinkBtn}`}
+                  title="فتح رابط الحلقة"
+                  onClick={() => handleOpenLink(lesson.meetingLink)}
                 >
-                  رابط الحصة
-                </a>
-              </span>
+                  <FaExternalLinkAlt />
+                  <span>دخول الحلقة</span>
+                </button>
+                <button
+                  className={`${styles.linkButton} ${styles.copyLinkBtn}`}
+                  title="نسخ رابط الحلقة"
+                  onClick={() => handleCopyLink(lesson.meetingLink)}
+                >
+                  <FaCopy />
+                </button>
+              </div>
             ) : null}
           </div>
         </div>

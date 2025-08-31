@@ -82,7 +82,7 @@ export const addLessonToGroup = (
   data: { scheduledAt: string; subject?: string; meetingLink: string }
 ) => api.post(`/api/lesson/group/${groupId}`, data).then((r) => r.data);
 export const updateLesson = (lessonId: string, data: any) =>
-  api.patch(`/api/lesson/${lessonId}`, data).then((r) => r.data);
+  api.put(`/api/lesson/${lessonId}`, data).then((r) => r.data);
 export const deleteLesson = (lessonId: string) =>
   api.delete(`/api/lesson/${lessonId}`).then((r) => r.data);
 

@@ -1,7 +1,5 @@
 "use client";
-import { useEffect } from "react";
 import { FiUsers } from "react-icons/fi";
-import { useAuth } from "@/contexts/AuthContext";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import ClassTableRow from "./ClassTableRow";
 import MobileClassCards from "./Mobile/MobileClassCards";
@@ -12,29 +10,12 @@ import SkeletonCards from "@/components/dashboard/admin/components/SkeletonCards
 const StudentTable: React.FC<{ searchTerm?: string }> = ({
   searchTerm = "",
 }) => {
-  const { token } = useAuth();
-  const {
-    students,
-    getStudents,
-    isLoading: loading,
-    error,
-  } = useStudentsContext();
+  const { students, isLoading, error } = useStudentsContext();
 
-  useEffect(() => {
-    const fetchStudents = async () => {
-      if (!token) return;
+  // Show loading if context is loading OR if we don't have data yet
+  const shouldShowLoading = isLoading || (students.length === 0 && !error);
 
-      try {
-        await getStudents(token);
-      } catch (err) {
-        console.error("Error fetching students:", err);
-      }
-    };
-
-    fetchStudents();
-  }, [token, getStudents]);
-
-  if (loading) {
+  if (shouldShowLoading) {
     return (
       <>
         {/* Desktop Skeleton */}

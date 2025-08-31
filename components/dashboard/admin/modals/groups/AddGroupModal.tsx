@@ -88,7 +88,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       const teachersData = await getTeachers(token);
 
       // Create teachers list with combined data
-      const combinedTeachers = teachersData.teachers
+      const combinedTeachers = teachersData
         .filter(
           (teacher: any) => teacher.userId && typeof teacher.userId === "object"
         )

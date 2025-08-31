@@ -7,14 +7,14 @@ import {
   useCallback,
 } from "react";
 import * as adminSvc from "@/utils/services/admin.service";
-import { TeachersResponse } from "@/utils/types";
+import { Teacher } from "@/utils/types";
 
 type TeachersContextType = {
-  teachers: TeachersResponse | null;
+  teachers: Teacher[] | null;
   isLoading: boolean;
   error: string | null;
   // CRUD operations
-  getTeachers: (token: string) => Promise<TeachersResponse>;
+  getTeachers: (token: string) => Promise<Teacher[]>;
   createTeacher: (token: string, teacherData: any) => Promise<any>;
   updateTeacher: (
     token: string,
@@ -52,20 +52,20 @@ type TeachersProviderProps = {
 };
 
 export const TeachersProvider = ({ children }: TeachersProviderProps) => {
-  const [teachers, setTeachers] = useState<TeachersResponse | null>(null);
+  const [teachers, setTeachers] = useState<null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const getTeachers = useCallback(
-    async (token: string): Promise<TeachersResponse> => {
+    async (token: string): Promise<Teacher[]> => {
       try {
         setIsLoading(true);
         setError(null);
         void token; // mark as used
         const data = await adminSvc.getTeachers();
         console.log("Fetched teachers:", data);
-        setTeachers(data);
-        return data;
+        setTeachers(data.teachers);
+        return data.teachers;
       } catch (error) {
         console.error("Error fetching teachers:", error);
         setError("فشل في جلب بيانات المعلمين");

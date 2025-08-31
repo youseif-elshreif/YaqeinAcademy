@@ -41,12 +41,12 @@ const GroupCompleteClassModal = ({
 }: GroupCompleteClassModalProps) => {
   const { reportLesson } = useTeacherDashboard();
   const { getLessonById } = useLessonsContext();
-  
+
   // Lesson data state
   const [lessonData, setLessonData] = useState<any>(null);
   const [isLoadingLesson, setIsLoadingLesson] = useState(true);
   const [lessonError, setLessonError] = useState<string>("");
-  
+
   // Modal states
   const [isClosing, setIsClosing] = useState(false);
   const [currentStudentIndex, setCurrentStudentIndex] = useState<number | null>(
@@ -83,10 +83,11 @@ const GroupCompleteClassModal = ({
   }, [lessonId, getLessonById]);
 
   // Extract students from lesson data
-  const students: Student[] = lessonData?.groupId?.members?.map((member: any) => ({
-    id: member._id,
-    name: member.name,
-  })) || [];
+  const students: Student[] =
+    lessonData?.groupId?.members?.map((member: any) => ({
+      id: member._id,
+      name: member.name,
+    })) || [];
 
   const groupName = lessonData?.groupId?.name || "";
   const scheduledAt = lessonData?.scheduledAt || "";
@@ -194,8 +195,8 @@ const GroupCompleteClassModal = ({
           ) : lessonError ? (
             <div className={styles.errorContainer}>
               <p className={styles.errorMessage}>{lessonError}</p>
-              <button 
-                onClick={() => window.location.reload()} 
+              <button
+                onClick={() => window.location.reload()}
                 className={styles.retryButton}
               >
                 إعادة المحاولة
@@ -208,14 +209,15 @@ const GroupCompleteClassModal = ({
                 <div className={styles.classDetails}>
                   <p>
                     <strong>الموعد:</strong>{" "}
-                    {scheduledAt && new Date(scheduledAt).toLocaleString("ar-EG", {
-                      year: "numeric",
-                      month: "2-digit",
-                      day: "2-digit",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: true,
-                    })}
+                    {scheduledAt &&
+                      new Date(scheduledAt).toLocaleString("ar-EG", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      })}
                   </p>
                 </div>
               </div>
@@ -230,20 +232,26 @@ const GroupCompleteClassModal = ({
                     <div
                       key={student.id}
                       className={`${styles.studentCard} ${
-                        completedStudents.has(student.id) ? styles.completed : ""
+                        completedStudents.has(student.id)
+                          ? styles.completed
+                          : ""
                       }`}
                       onClick={() => handleStudentClick(index)}
                     >
                       <div className={styles.studentInfo}>
                         <FaUser className={styles.studentIcon} />
-                        <span className={styles.studentName}>{student.name}</span>
+                        <span className={styles.studentName}>
+                          {student.name}
+                        </span>
                       </div>
 
                       <div className={styles.statusIndicator}>
                         {completedStudents.has(student.id) ? (
                           <FaCheck className={styles.checkIcon} />
                         ) : (
-                          <span className={styles.pendingText}>انقر للإكمال</span>
+                          <span className={styles.pendingText}>
+                            انقر للإكمال
+                          </span>
                         )}
                       </div>
                     </div>
@@ -256,7 +264,9 @@ const GroupCompleteClassModal = ({
                   <div
                     className={styles.progressFill}
                     style={{
-                      width: `${(completedStudents.size / students.length) * 100}%`,
+                      width: `${
+                        (completedStudents.size / students.length) * 100
+                      }%`,
                     }}
                   />
                 </div>

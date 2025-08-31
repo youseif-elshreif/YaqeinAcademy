@@ -1,42 +1,24 @@
 "use client";
-import { useEffect, useState } from "react";
 import { useAdminStatsContext } from "@/contexts/AdminStatsContext";
-import { useAuth } from "@/contexts/AuthContext";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import SkeletonTable from "@/components/dashboard/admin/components/SkeletonTable";
 import SkeletonCards from "@/components/dashboard/admin/components/SkeletonCards";
 import { FiUsers } from "react-icons/fi";
+import { FaCog } from "react-icons/fa";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import MobileAdminCards from "./Mobile/MobileAdminCards";
 
 const AdminsTable: React.FC<{ searchTerm?: string }> = ({
   searchTerm = "",
 }) => {
-  const { token } = useAuth();
-  const { admins = [], getAdmins } = useAdminStatsContext();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchAdmins = async () => {
-      if (!token || !getAdmins) return;
-      try {
-        setLoading(true);
-        setError(null);
-        await getAdmins(token);
-      } catch (err) {
-        console.error("Error fetching admins:", err);
-        setError("فشل في جلب بيانات الإداريين");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchAdmins();
-  }, [token, getAdmins]);
+  const { admins = [], isLoading, error } = useAdminStatsContext();
 
   const { openUserActionsModal } = useAdminModal();
 
-  if (loading) {
+  // Show loading if context is loading OR if we don't have data yet
+  const shouldShowLoading = isLoading || (admins.length === 0 && !error);
+
+  if (shouldShowLoading) {
     return (
       <>
         <div className={styles.desktopView}>
@@ -118,7 +100,6 @@ const AdminsTable: React.FC<{ searchTerm?: string }> = ({
                     <th className={styles.firstCell}>الاسم</th>
                     <th>البريد الإلكتروني</th>
                     <th>رقم الهاتف</th>
-                    <th>الدولة</th>
                     <th>تاريخ الإنشاء</th>
                     <th>الإجراءات</th>
                   </tr>
@@ -158,6 +139,7 @@ const AdminsTable: React.FC<{ searchTerm?: string }> = ({
                           className={`${styles.linkButton} ${styles.openLinkBtn}`}
                           title="إجراءات المسؤول"
                         >
+                          <FaCog />
                           <span className={styles.iconButtonText}>
                             الإجراءات
                           </span>

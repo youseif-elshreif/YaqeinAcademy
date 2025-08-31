@@ -21,7 +21,7 @@ type LessonsContextType = {
   updateLesson: (
     token: string,
     lessonId: string,
-    data: { scheduledAt?: string; subject?: string; meetingLink?: string }
+    data: { scheduledAt?: string; subject: string; meetingLink?: string }
   ) => Promise<any>;
   deleteLesson: (token: string, lessonId: string) => Promise<any>;
   getLessonById: (lessonId: string) => Promise<any>;
@@ -77,7 +77,7 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
     async (
       token: string,
       lessonId: string,
-      data: { scheduledAt?: string; subject?: string; meetingLink?: string }
+      data: { scheduledAt: string; subject: string; meetingLink?: string }
     ) => {
       try {
         setIsLoading(true);

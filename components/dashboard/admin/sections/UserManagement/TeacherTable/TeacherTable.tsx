@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { FiUsers } from "react-icons/fi";
 import { useTeachersContext } from "@/contexts/TeachersContext";
 import styles from "@/components/dashboard/admin/styles.module.css";
@@ -10,22 +9,12 @@ import ClassTableRow from "./ClassTableRow";
 const TeacherTable: React.FC<{ searchTerm?: string }> = ({
   searchTerm = "",
 }) => {
-  const { teachers, isLoading: loading } = useTeachersContext();
-  const [combinedTeachers, setCombinedTeachers] = useState<any[]>([]);
+  const { teachers, isLoading } = useTeachersContext();
 
-  // Combine teacher and user data when teachers data is available
-  useEffect(() => {
-    if (teachers && teachers.teachers) {
-      console.log(teachers.teachers);
-      const combined = teachers.teachers;
+  // Show loading if context is loading OR if we don't have data yet
+  const shouldShowLoading = isLoading || !teachers;
 
-      setCombinedTeachers(combined);
-    } else {
-      setCombinedTeachers([]);
-    }
-  }, [teachers]);
-
-  if (loading) {
+  if (shouldShowLoading) {
     return (
       <>
         {/* Desktop Skeleton */}
@@ -48,8 +37,8 @@ const TeacherTable: React.FC<{ searchTerm?: string }> = ({
 
   const normalized = searchTerm.trim().toLowerCase();
   const filtered = !normalized
-    ? combinedTeachers
-    : combinedTeachers.filter((t: any) => {
+    ? teachers
+    : teachers.filter((t: any) => {
         const name = (t.userId?.name || t.name || "").toLowerCase();
         const email = (t.userId?.email || t.email || "").toLowerCase();
         const phone = (t.userId?.phone || t.phone || "").toLowerCase();

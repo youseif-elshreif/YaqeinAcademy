@@ -1,6 +1,7 @@
 "use client";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
+import { FaCog } from "react-icons/fa";
 
 interface Props {
   admin: any;
@@ -27,7 +28,6 @@ const ClassTableRow = ({ admin }: Props) => {
       </td>
       <td>{admin.email}</td>
       <td>{admin.phone}</td>
-      <td>{admin.country || "-"}</td>
       <td>
         {admin.createdAt
           ? new Date(admin.createdAt).toLocaleDateString("ar-EG")
@@ -39,6 +39,7 @@ const ClassTableRow = ({ admin }: Props) => {
           className={`${styles.linkButton} ${styles.openLinkBtn}`}
           title="إجراءات المسؤول"
         >
+          <FaCog />
           <span className={styles.iconButtonText}>الإجراءات</span>
         </button>
       </td>
