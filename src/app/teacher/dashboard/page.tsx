@@ -17,42 +17,6 @@ import {
   useTeacherDashboard,
 } from "@/contexts/TeacherDashboardContext";
 
-// /**
-//  * Utility function to get all dates in a specific month/year that fall on a given Arabic day
-//  * @param arabicDay - Arabic day name (e.g., "الاثنين", "الأربعاء", etc.)
-//  * @param month - Month (1-12)
-//  * @param year - Year (e.g., 2025)
-//  * @returns Array of dates in "YYYY-MM-DD" format
-//  */
-
-// API-backed dashboard: we no longer generate classes locally
-
-// /**
-//  * Helper function to get Arabic day name from a date string
-//  * @param dateString - Date in "YYYY-MM-DD" format
-//  * @returns Arabic day name
-//  */
-
-// Keep minimal helpers if needed later
-
-// /**
-//  * Generate a class meeting link based on group name and date
-//  * @param groupName - Name of the group
-//  * @param date - Date of the class
-//  * @param time - Time of the class
-//  * @returns Meeting link URL
-//  */
-// Meeting link now comes from backend
-
-// /**
-//  * Generate monthly classes based on group schedule
-//  * @param groupSchedules - Array of group schedules with days and times
-//  * @param month - Month (1-12)
-//  * @param year - Year (e.g., 2025)
-//  * @returns Array of ClassData for the entire month
-//  */
-// No local generation; we'll map from API to ClassData
-
 const TeacherDashboardContent = () => {
   const { user } = useAuth();
   const { getMyLessons } = useTeacherDashboard();

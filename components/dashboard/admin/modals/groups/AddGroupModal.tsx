@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import { useGroupsContext } from "@/contexts/GroupsContext";
 import { useTeachersContext } from "@/contexts/TeachersContext";
+import { useLessonsContext } from "@/contexts/LessonsContext";
+import { createLessonSchedule } from "@/utils/date";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import styles from "./AddGroupModal.module.css";
 import {
@@ -57,6 +59,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
     useAdminModal();
   const { createGroup, updateGroup, getGroups } = useGroupsContext();
   const { getTeachers } = useTeachersContext();
+  const { addLessonToGroup } = useLessonsContext();
 
   const [formData, setFormData] = useState<GroupFormData>({
     name: "",
@@ -303,6 +306,41 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
     return Object.keys(newErrors).length === 0;
   };
 
+  // Function to create lessons for the group
+  const createGroupLessons = async (
+    groupId: string,
+    meetingLink: string,
+    weekdays: string[],
+    times: string[],
+    token: string
+  ) => {
+    try {
+      console.log("🔄 Creating lessons for group:", {
+        groupId,
+        weekdays,
+        times,
+      });
+
+      // Generate lesson schedule using the date utility
+      const schedule = createLessonSchedule(weekdays, times, meetingLink);
+
+      console.log("📅 Generated schedule:", schedule);
+
+      // Add each lesson to the group
+      for (const lesson of schedule) {
+        console.log("➕ Adding lesson:", lesson.scheduledAt);
+        await addLessonToGroup(token, groupId, lesson);
+      }
+
+      console.log(
+        `✅ Successfully created ${schedule.length} lessons for group ${groupId}`
+      );
+    } catch (error) {
+      console.error("❌ Error creating group lessons:", error);
+      // Don't throw error - group creation was successful, lesson creation is secondary
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -373,11 +411,26 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       // Refresh groups data after successful operation
       await getGroups(token);
 
-      // Close current modal
-      handleClose();
-
-      // For new groups, open members modal
+      // For new groups, create lessons and open members modal
       if (!isEditMode) {
+        // Create lessons for the new group
+        if (weekdays.length > 0 && times.length > 0) {
+          console.log("🔄 إنشاء الحصص للمجموعة الجديدة...");
+          await createGroupLessons(
+            response._id,
+            formData.meetingLink,
+            weekdays,
+            times,
+            token
+          );
+        } else {
+          console.log("⚠️ لم يتم تحديد مواعيد للمجموعة - لن يتم إنشاء حصص");
+        }
+
+        // Close current modal
+        handleClose();
+
+        // Open members modal
         setTimeout(() => {
           openAddMembersModal({
             id: response._id,
@@ -385,6 +438,9 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
             type: response.type,
           });
         }, 400);
+      } else {
+        // Just close modal for edit mode
+        handleClose();
       }
     } catch (error: any) {
       console.error(

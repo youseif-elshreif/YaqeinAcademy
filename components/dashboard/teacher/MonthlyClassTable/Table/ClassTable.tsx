@@ -13,7 +13,7 @@ const ClassTable = ({ classes }: ClassTableProps) => {
         <table className={styles.classTable}>
           <thead>
             <tr>
-              <th>الطالب / الحلقة</th>
+              <th>الحلقة</th>
               <th>التاريخ والوقت</th>
               <th>الحالة</th>
               <th>رابط الحلقة</th>

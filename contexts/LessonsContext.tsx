@@ -7,6 +7,7 @@ import {
   useCallback,
 } from "react";
 import * as adminSvc from "@/utils/services/admin.service";
+import * as lessonSvc from "@/utils/services/lesson.service";
 
 type LessonsContextType = {
   lessonsRefreshKey: number;
@@ -23,6 +24,7 @@ type LessonsContextType = {
     data: { scheduledAt?: string; subject?: string; meetingLink?: string }
   ) => Promise<any>;
   deleteLesson: (token: string, lessonId: string) => Promise<any>;
+  getLessonById: (lessonId: string) => Promise<any>;
   triggerLessonsRefresh: () => void;
 };
 
@@ -116,6 +118,22 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
     }
   }, []);
 
+  const getLessonById = useCallback(async (lessonId: string) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const data = await lessonSvc.getLessonById(lessonId);
+      console.log("Fetched lesson by ID:", data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching lesson by ID:", error);
+      setError("فشل في جلب بيانات الدرس");
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   const triggerLessonsRefresh = useCallback(() => {
     setLessonsRefreshKey((k) => k + 1);
   }, []);
@@ -127,6 +145,7 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
     addLessonToGroup,
     updateLesson,
     deleteLesson,
+    getLessonById,
     triggerLessonsRefresh,
   };
 

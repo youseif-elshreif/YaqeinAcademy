@@ -23,7 +23,7 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
   };
 
   const group = classItem?.groupId || {};
-  const members = Array.isArray(group?.members) ? group.members : [];
+  const memberCount = group.memberCount || 0;
   const scheduledAt: string = classItem?.scheduledAt;
   const meetingLink: string | undefined =
     classItem?.meetingLink || group?.meetingLink;
@@ -55,17 +55,9 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
               <span className={`${styles.groupName} ${styles.primaryColor}`}>
                 {group?.name || "حلقة"}
                 <span className={styles.groupIndicator}>
-                  ({members.length} طلاب)
+                  ({memberCount} طلاب)
                 </span>
               </span>
-            </div>
-            <div className={styles.groupMembersTooltip}>
-              {members.map((m: any, index: number) => (
-                <span key={m?._id || index} className={styles.groupMemberName}>
-                  {m?.name}
-                  {index < members.length - 1 && ", "}
-                </span>
-              ))}
             </div>
           </div>
         </div>
@@ -126,22 +118,32 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
       {/* الإجراءات */}
       <td className={styles.actionsCell}>
         <div className={styles.actionButtons}>
-          {isCompleted ? (
-            <button
-              className={`${styles.baseButton} ${styles.actionBtn} ${styles.viewBtn}`}
-              onClick={handleViewReports}
-            >
-              عرض التقارير
-            </button>
-          ) : isUpcoming ? (
-            <span className={styles.lightColor}>ميعاد الحصة لم يأتي بعد</span>
+          {memberCount > 0 ? (
+            <>
+              {isCompleted ? (
+                <button
+                  className={`${styles.baseButton} ${styles.actionBtn} ${styles.viewBtn}`}
+                  onClick={handleViewReports}
+                >
+                  عرض التقارير
+                </button>
+              ) : isUpcoming ? (
+                <span className={styles.lightColor}>
+                  ميعاد الحصة لم يأتي بعد
+                </span>
+              ) : (
+                <button
+                  className={`${styles.baseButton} ${styles.actionBtn} ${styles.completeBtn}`}
+                  onClick={() => openCompleteModal(classItem)}
+                >
+                  إتمام الحصة
+                </button>
+              )}
+            </>
           ) : (
-            <button
-              className={`${styles.baseButton} ${styles.actionBtn} ${styles.completeBtn}`}
-              onClick={() => openCompleteModal(classItem)}
-            >
-              إتمام الحصة
-            </button>
+            <span className={styles.lightColor}>
+              لا يوجد طلاب في هذه الحلقة
+            </span>
           )}
         </div>
       </td>

@@ -4,6 +4,7 @@ import ClassTable from "./Table/ClassTable";
 import MobileClassCards from "./MobileCards/MobileClassCards";
 import SkeletonTable from "@/components/common/UI/Skeleton/SkeletonTable";
 import SkeletonCards from "@/components/common/UI/Skeleton/SkeletonCards";
+import { FiUsers } from "react-icons/fi";
 // Using raw lesson items from API
 
 interface MonthlyClassTableProps {
@@ -24,7 +25,7 @@ const MonthlyClassTable = ({
 
   if (loading) {
     return (
-      <div className={styles.tableContainer}>
+      <div className={styles.tableContainer} style={{ paddingTop: "2rem" }}>
         <div className={styles.header}>
           <h2 className={styles.title}>حصص الشهر الحالي</h2>
           <p className={styles.subtitle}>إدارة الحلقات والمتابعة مع الطلاب</p>
@@ -44,18 +45,34 @@ const MonthlyClassTable = ({
   }
 
   return (
-    <div className={styles.tableContainer}>
-      <div className={styles.header}>
-        <h2 className={styles.title}>حصص الشهر الحالي</h2>
-        <p className={styles.subtitle}>إدارة الحلقات والمتابعة مع الطلاب</p>
-      </div>
+    <>
+      {initialClasses.length === 0 ? (
+        <div
+          style={{
+            textAlign: "center",
+            padding: "2rem",
+            color: "var(--text-light)",
+          }}
+        >
+          <FiUsers size={48} style={{ marginBottom: "1rem", opacity: 0.5 }} />
+          <h3>لا توجد حلقات</h3>
+          <p>لم يتم العثور على أي حلقات مطابقة للبحث</p>
+        </div>
+      ) : (
+        <div className={styles.tableContainer}>
+          <div className={styles.header}>
+            <h2 className={styles.title}>حصص الشهر الحالي</h2>
+            <p className={styles.subtitle}>إدارة الحلقات والمتابعة مع الطلاب</p>
+          </div>
 
-      {/* Desktop Table View */}
-      <ClassTable classes={classes} />
+          {/* Desktop Table View */}
+          <ClassTable classes={classes} />
 
-      {/* Mobile Cards View */}
-      <MobileClassCards classes={classes} />
-    </div>
+          {/* Mobile Cards View */}
+          <MobileClassCards classes={classes} />
+        </div>
+      )}
+    </>
   );
 };
 

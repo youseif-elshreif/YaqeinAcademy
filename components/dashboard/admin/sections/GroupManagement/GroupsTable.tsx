@@ -265,28 +265,6 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                             className={`${styles.studentName} ${styles.darkColor} ${styles.tooltipContainer}`}
                           >
                             {group.name}
-                            <div className={styles.groupMembersTooltip}>
-                              {group.members.length > 0 ? (
-                                group.members.map((student, index) => (
-                                  <span
-                                    key={student._id}
-                                    className={`${styles.groupMemberName} ${styles.clickableText} ${styles.primaryColor}`}
-                                  >
-                                    <div>
-                                      <span style={{ display: "block" }}>
-                                        {student.name}
-                                      </span>
-                                      <span style={{ display: "block" }}>
-                                        {student._id}
-                                      </span>
-                                    </div>
-                                    {index < group.members.length - 1 && ", "}
-                                  </span>
-                                ))
-                              ) : (
-                                <span>لا يوجد اعضاء حاليا</span>
-                              )}
-                            </div>
                           </div>
                         </td>
                         <td className={styles.groupCell}>
@@ -349,7 +327,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                             <FiCalendar style={{ marginLeft: "0.5rem" }} />
                             {nextLesson
                               ? formatDate(nextLesson.scheduledAt)
-                              : "لا يوجد حصص قادمة"}
+                              : "لا يوجد حصص قادمة هذا الشهر"}
                           </span>
                         </td>
                         <td className={styles.linkContainer}>

@@ -271,6 +271,10 @@
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
 }
+
+.fullBtn {
+  width: 100%;
+}
 .secondaryButton:hover {
   background: var(--secondary-color);
   color: #fff;

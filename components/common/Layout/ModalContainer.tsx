@@ -92,16 +92,6 @@ const ModalContainer: React.FC = () => {
       {groupCompleteModalOpen && selectedLesson && (
         <GroupCompleteClassModal
           lessonId={selectedLesson._id}
-          groupName={selectedLesson.groupId?.name}
-          scheduledAt={selectedLesson.scheduledAt}
-          students={
-            Array.isArray(selectedLesson.groupId?.members)
-              ? selectedLesson.groupId.members.map((m: any) => ({
-                  id: m?._id,
-                  name: m?.name,
-                }))
-              : []
-          }
           onClose={closeGroupCompleteModal}
         />
       )}

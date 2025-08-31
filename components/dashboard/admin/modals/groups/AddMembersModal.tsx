@@ -255,68 +255,68 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
                   : "يمكنك إضافة عدة طلاب للحلقة العامة"}
               </p>
             </div>
-
-            <div className={styles.membersInputs}>
-              {memberInputs.map((input, index) => (
-                <div key={input.id} className={baseStyles.inputGroup}>
-                  <div className={styles.inputWrapper}>
-                    <label className={baseStyles.label}>
-                      اختيار الطالب {index + 1}:
-                    </label>
-                    <select
-                      value={input.memberId}
-                      onChange={(e) =>
-                        handleInputChange(input.id, e.target.value)
-                      }
-                      className={`${baseStyles.select} ${
-                        fieldErrors[input.id] ? baseStyles.inputError : ""
-                      }`}
-                      disabled={isSubmitting || loadingStudents}
-                    >
-                      <option value="">
-                        {loadingStudents
-                          ? "جاري تحميل الطلاب..."
-                          : "اختر الطالب"}
-                      </option>
-                      {students.map((student) => (
-                        <option key={student.id} value={student.id}>
-                          {student.name}
+            <div>
+              <div className={styles.membersInputs}>
+                {memberInputs.map((input, index) => (
+                  <div key={input.id} className={baseStyles.inputGroup}>
+                    <div className={styles.inputWrapper}>
+                      <label className={baseStyles.label}>
+                        اختيار الطالب {index + 1}:
+                      </label>
+                      <select
+                        value={input.memberId}
+                        onChange={(e) =>
+                          handleInputChange(input.id, e.target.value)
+                        }
+                        className={`${baseStyles.select} ${
+                          fieldErrors[input.id] ? baseStyles.inputError : ""
+                        }`}
+                        disabled={isSubmitting || loadingStudents}
+                      >
+                        <option value="">
+                          {loadingStudents
+                            ? "جاري تحميل الطلاب..."
+                            : "اختر الطالب"}
                         </option>
-                      ))}
-                    </select>
-                    {fieldErrors[input.id] && (
-                      <span className={baseStyles.errorText}>
-                        {fieldErrors[input.id]}
-                      </span>
+                        {students.map((student) => (
+                          <option key={student.id} value={student.id}>
+                            {student.name}
+                          </option>
+                        ))}
+                      </select>
+                      {fieldErrors[input.id] && (
+                        <span className={baseStyles.errorText}>
+                          {fieldErrors[input.id]}
+                        </span>
+                      )}
+                    </div>
+
+                    {memberInputs.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeMemberInput(input.id)}
+                        className={baseStyles.deleteButton}
+                        disabled={isSubmitting}
+                      >
+                        <FaMinus />
+                      </button>
                     )}
                   </div>
-
-                  {memberInputs.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeMemberInput(input.id)}
-                      className={styles.removeBtn}
-                      disabled={isSubmitting}
-                    >
-                      <FaMinus />
-                    </button>
-                  )}
-                </div>
-              ))}
+                ))}
+              </div>
+              {groupType === "public" && (
+                <button
+                  type="button"
+                  onClick={addMemberInput}
+                  className={`${baseStyles.fullBtn} ${baseStyles.secondaryButton}`}
+                  disabled={isSubmitting}
+                >
+                  <FaPlus />
+                  إضافة طالب آخر
+                </button>
+              )}
             </div>
           </div>
-
-          {groupType === "public" && (
-            <button
-              type="button"
-              onClick={addMemberInput}
-              className={styles.addBtn}
-              disabled={isSubmitting}
-            >
-              <FaPlus />
-              إضافة طالب آخر
-            </button>
-          )}
 
           <ModalActions actions={actions} alignment="right" />
         </form>

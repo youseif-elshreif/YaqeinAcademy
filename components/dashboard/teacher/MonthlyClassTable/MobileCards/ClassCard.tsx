@@ -127,22 +127,32 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
         </div>
 
         <div className={styles.cardActions}>
-          {isCompleted ? (
-            <button
-              className={`${styles.baseButton} ${styles.actionBtn} ${styles.viewBtn}`}
-              onClick={handleViewReports}
-            >
-              عرض التقارير
-            </button>
-          ) : isUpcoming ? (
-            <span className={styles.lightColor}>ميعاد الحصة لم يأتي بعد</span>
+          {members.length > 0 ? (
+            <>
+              {isCompleted ? (
+                <button
+                  className={`${styles.baseButton} ${styles.actionBtn} ${styles.viewBtn}`}
+                  onClick={handleViewReports}
+                >
+                  عرض التقارير
+                </button>
+              ) : isUpcoming ? (
+                <span className={styles.lightColor}>
+                  ميعاد الحصة لم يأتي بعد
+                </span>
+              ) : (
+                <button
+                  className={`${styles.baseButton} ${styles.actionBtn} ${styles.completeBtn}`}
+                  onClick={() => openCompleteModal(classItem)}
+                >
+                  إتمام الحصة
+                </button>
+              )}
+            </>
           ) : (
-            <button
-              className={`${styles.baseButton} ${styles.actionBtn} ${styles.completeBtn}`}
-              onClick={() => openCompleteModal(classItem)}
-            >
-              إتمام الحصة
-            </button>
+            <span className={styles.lightColor}>
+              لا يوجد طلاب في هذه الحلقة
+            </span>
           )}
         </div>
       </div>

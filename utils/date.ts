@@ -1,12 +1,13 @@
-// Helper function to get all dates in current month for a specific day
+// Helper function to get remaining dates in current month for a specific day (from today onwards)
 export const getDatesForDayInCurrentMonth = (dayName: string): Date[] => {
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth();
+  const todayDate = today.getDate();
 
   const dates: Date[] = [];
 
-  for (let day = 1; day <= 31; day++) {
+  for (let day = todayDate; day <= 31; day++) {
     const date = new Date(year, month, day);
     if (date.getMonth() !== month) break;
 

@@ -92,6 +92,39 @@
   margin: 0;
 }
 
+.btnPrimary {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Cairo", sans-serif;
+}
+
+.btnPrimary:hover {
+  background: var(--secondary-color);
+}
+
+.btnSecondary {
+  background: var(--secondary-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Cairo", sans-serif;
+  margin-right: 0.5rem;
+}
+
+.btnSecondary:hover {
+  background: var(--primary-color);
+}
+
 .closeBtn {
   background: none;
   border: none;
