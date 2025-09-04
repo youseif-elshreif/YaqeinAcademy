@@ -25,6 +25,7 @@ type LessonsContextType = {
   ) => Promise<any>;
   deleteLesson: (token: string, lessonId: string) => Promise<any>;
   getLessonById: (lessonId: string) => Promise<any>;
+  completeLesson: (lessonId: string) => Promise<any>;
   triggerLessonsRefresh: () => void;
 };
 
@@ -134,6 +135,27 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
     }
   }, []);
 
+  const completeLesson = useCallback(async (lessonId: string) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      console.log("Completing lesson:", lessonId);
+      console.log("success");
+      const data = await lessonSvc.completeLesson(lessonId);
+      console.log("successsuccesssuccess");
+      console.log("Completed lesson:", data);
+      // Trigger refresh
+      setLessonsRefreshKey((k) => k + 1);
+      return data;
+    } catch (error) {
+      console.error("Error completing lesson:", error);
+      setError("فشل في إتمام الدرس");
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   const triggerLessonsRefresh = useCallback(() => {
     setLessonsRefreshKey((k) => k + 1);
   }, []);
@@ -146,6 +168,7 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
     updateLesson,
     deleteLesson,
     getLessonById,
+    completeLesson,
     triggerLessonsRefresh,
   };
 

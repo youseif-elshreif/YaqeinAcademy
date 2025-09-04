@@ -285,9 +285,9 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                           <div
                             className={`${styles.studentName} ${styles.darkColor} ${styles.tooltipContainer}`}
                           >
-                            {group.teacherId._id
-                              ? group.teacherId._id
-                              : "لا يوجد معلم"}
+                            {/* {group.teacherId._id
+                              ? group.teacherId._id */}
+                            لا يوجد معلم
                           </div>
                         </td>
                         <td className={styles.groupCell}>
@@ -371,7 +371,9 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                               }}
                               className={`${styles.linkButton} ${styles.openLinkBtn}`}
                               title="عرض التقارير"
-                              disabled={!reportableLesson}
+                              disabled={
+                                !reportableLesson || group.members.length === 0
+                              }
                             >
                               <FaListUl />
                               <span className={styles.iconButtonText}>

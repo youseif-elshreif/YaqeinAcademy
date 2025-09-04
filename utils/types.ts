@@ -630,7 +630,7 @@ export interface AdminDashboardContextType {
   groups: any[]; // ✅ إضافة البيانات
   teachers: TeachersResponse | null;
   students: any[]; // ✅ بيانات الطلاب
-  courses: any[]; 
+  courses: any[];
   stats: AdminDashboardStats;
   admins?: any[];
   // Lessons refresh key to allow listeners to refetch when lessons change
@@ -766,7 +766,6 @@ export interface TeacherDashboardContextType {
       content?: string; // backend expects a content field; we'll send a single space
     }
   ) => Promise<any>;
-  completeLesson: (lessonId: string) => Promise<any>;
   reportMultipleAndComplete: (
     lessonId: string,
     reports: Array<{

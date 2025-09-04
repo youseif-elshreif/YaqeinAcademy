@@ -49,7 +49,6 @@ const EditUserModal = () => {
     country: "",
     userType: "student",
     age: null,
-    hasQuranMemorization: false,
     numOfPartsofQuran: 0,
     quranLevel: "",
     meetingLink: "",
@@ -82,7 +81,6 @@ const EditUserModal = () => {
         country: userData.country || "",
         userType: currentUserType,
         age: userData.age || null,
-        hasQuranMemorization: userData.hasQuranMemorization || false,
         numOfPartsofQuran: userData.numOfPartsofQuran || 0,
         quranLevel: userData.quranLevel || "",
         meetingLink: selectedUserData.meetingLink || userData.meetingLink || "", // meetingLink might be at root level for teachers

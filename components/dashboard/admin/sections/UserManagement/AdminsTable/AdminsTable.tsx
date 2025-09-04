@@ -118,7 +118,6 @@ const AdminsTable: React.FC<{ searchTerm?: string }> = ({
                       </td>
                       <td>{admin.email}</td>
                       <td>{admin.phone}</td>
-                      <td>{admin.country || "-"}</td>
                       <td>
                         {admin.createdAt
                           ? new Date(admin.createdAt).toLocaleDateString(
@@ -136,6 +135,7 @@ const AdminsTable: React.FC<{ searchTerm?: string }> = ({
                               fullData: admin,
                             })
                           }
+                          style={{ margin: "auto" }}
                           className={`${styles.linkButton} ${styles.openLinkBtn}`}
                           title="إجراءات المسؤول"
                         >

@@ -1,4 +1,4 @@
-import { FaExternalLinkAlt, FaCopy } from "react-icons/fa";
+import { FaExternalLinkAlt, FaCopy, FaUsers } from "react-icons/fa";
 import styles from "../MonthlyClassTable.module.css";
 import { formatDate, getStatusColor, getStatusText } from "../utils";
 import { useModal } from "@/contexts/ModalContext";
@@ -10,7 +10,7 @@ interface ClassCardProps {
 const ClassCard = ({ classItem }: ClassCardProps) => {
   const { openCompleteModal, openStudentListModal } = useModal();
   const group = classItem?.groupId || {};
-  const members = Array.isArray(group?.members) ? group.members : [];
+  const memberCount = group.memberCount || 0;
   const meetingLink: string | undefined =
     classItem?.meetingLink || group?.meetingLink;
 
@@ -40,19 +40,27 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
     window.open(link, "_blank", "noopener,noreferrer");
   };
 
-  // Link editing handled inline via button
-
   return (
     <div key={classItem._id} className={styles.classCard}>
       <div className={styles.cardHeader}>
         <div className={styles.studentInfo}>
           <div className={styles.groupContainer}>
-            <h3 className={styles.cardStudentName}>
-              {group?.name}
-              <span className={styles.groupIndicator}>
-                ({members.length} طلاب)
+            <div className={styles.groupBadge}>
+              <FaUsers />
+              <span>
+                {group?.type == "private" ? "حلقة خاصة" : "حلقة عامة"}
               </span>
-            </h3>
+            </div>
+            <div className={styles.groupNameContainer}>
+              <h3
+                className={`${styles.cardStudentName} ${styles.primaryColor}`}
+              >
+                {group?.name || "حلقة"}
+                <span className={styles.groupIndicator}>
+                  ({memberCount} طلاب)
+                </span>
+              </h3>
+            </div>
           </div>
         </div>
         <span
@@ -113,21 +121,8 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
           </div>
         </div>
 
-        {/* Group members list - always show members list (even if single) */}
-        <div className={styles.groupMembers}>
-          <span className={styles.membersLabel}>أعضاء الحلقة:</span>
-          <div className={styles.membersList}>
-            {members.map((m: any, index: number) => (
-              <span key={m?._id || index} className={`${styles.memberName}`}>
-                {m?.name}
-                {index < members.length - 1 && ", "}
-              </span>
-            ))}
-          </div>
-        </div>
-
         <div className={styles.cardActions}>
-          {members.length > 0 ? (
+          {memberCount > 0 ? (
             <>
               {isCompleted ? (
                 <button

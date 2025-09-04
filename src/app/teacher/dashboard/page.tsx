@@ -34,6 +34,7 @@ const TeacherDashboardContent = () => {
         const token = localStorage.getItem("accessToken");
         if (!token) return;
         const lessons = await getMyLessons(token);
+        console.log("Fetched lessons:", lessons); 
         if (!mounted) return;
         // Sort by scheduledAt ascending
         const sorted = (lessons || []).slice().sort((a: any, b: any) => {

@@ -250,7 +250,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       try {
         await authSvc.register(regData);
 
-        router.push("/email-confirmation");
+        router.push("/");
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.message ||

@@ -40,7 +40,7 @@ const GroupCompleteClassModal = ({
   onClose,
 }: GroupCompleteClassModalProps) => {
   const { reportLesson } = useTeacherDashboard();
-  const { getLessonById } = useLessonsContext();
+  const { getLessonById, completeLesson } = useLessonsContext();
 
   // Lesson data state
   const [lessonData, setLessonData] = useState<any>(null);
@@ -145,7 +145,8 @@ const GroupCompleteClassModal = ({
         } as any;
         await reportLesson(lessonId, payload);
       }
-      // await completeLesson(lessonId);
+      await completeLesson(lessonId);
+      console.log("✅ Successfully saved group completion");
       handleClose();
     } catch (error) {
       console.error("❌ Error saving group completion:", error);
@@ -197,7 +198,7 @@ const GroupCompleteClassModal = ({
               <p className={styles.errorMessage}>{lessonError}</p>
               <button
                 onClick={() => window.location.reload()}
-                className={styles.retryButton}
+                className={styles.primaryButton}
               >
                 إعادة المحاولة
               </button>
@@ -221,58 +222,63 @@ const GroupCompleteClassModal = ({
                   </p>
                 </div>
               </div>
+              <div
+                style={{
+                  padding: "10px",
+                }}
+              >
+                <div className={styles.studentsSection}>
+                  <h4 className={styles.sectionTitle}>
+                    الطلاب ({completedStudents.size}/{students.length})
+                  </h4>
 
-              <div className={styles.studentsSection}>
-                <h4 className={styles.sectionTitle}>
-                  الطلاب ({completedStudents.size}/{students.length})
-                </h4>
-
-                <div className={styles.studentsList}>
-                  {students.map((student, index) => (
-                    <div
-                      key={student.id}
-                      className={`${styles.studentCard} ${
-                        completedStudents.has(student.id)
-                          ? styles.completed
-                          : ""
-                      }`}
-                      onClick={() => handleStudentClick(index)}
-                    >
-                      <div className={styles.studentInfo}>
-                        <FaUser className={styles.studentIcon} />
-                        <span className={styles.studentName}>
-                          {student.name}
-                        </span>
-                      </div>
-
-                      <div className={styles.statusIndicator}>
-                        {completedStudents.has(student.id) ? (
-                          <FaCheck className={styles.checkIcon} />
-                        ) : (
-                          <span className={styles.pendingText}>
-                            انقر للإكمال
+                  <div className={styles.studentsList}>
+                    {students.map((student, index) => (
+                      <div
+                        key={student.id}
+                        className={`${styles.studentCard} ${
+                          completedStudents.has(student.id)
+                            ? styles.completed
+                            : ""
+                        }`}
+                        onClick={() => handleStudentClick(index)}
+                      >
+                        <div className={styles.studentInfo}>
+                          <FaUser className={styles.studentIcon} />
+                          <span className={styles.studentName}>
+                            {student.name}
                           </span>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+                        </div>
 
-              <div className={styles.progressBar}>
-                <div className={styles.progressTrack}>
-                  <div
-                    className={styles.progressFill}
-                    style={{
-                      width: `${
-                        (completedStudents.size / students.length) * 100
-                      }%`,
-                    }}
-                  />
+                        <div className={styles.statusIndicator}>
+                          {completedStudents.has(student.id) ? (
+                            <FaCheck className={styles.checkIcon} />
+                          ) : (
+                            <span className={styles.pendingText}>
+                              انقر للإكمال
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <span className={styles.progressText}>
-                  تم إكمال {completedStudents.size} من {students.length} طلاب
-                </span>
+
+                <div className={styles.progressBar}>
+                  <div className={styles.progressTrack}>
+                    <div
+                      className={styles.progressFill}
+                      style={{
+                        width: `${
+                          (completedStudents.size / students.length) * 100
+                        }%`,
+                      }}
+                    />
+                  </div>
+                  <span className={styles.progressText}>
+                    تم إكمال {completedStudents.size} من {students.length} طلاب
+                  </span>
+                </div>
               </div>
             </>
           )}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import { useTeachersContext } from "@/contexts/TeachersContext";
 import { useStudentsContext } from "@/contexts/StudentsContext";
+import { useAdminStatsContext } from "@/contexts/AdminStatsContext";
 import { useAuth } from "@/contexts/AuthContext";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import { FaTrash } from "react-icons/fa";
@@ -17,7 +18,8 @@ const DeleteUserModal: React.FC = () => {
   const { deleteUserModalOpen, closeDeleteUserModal, selectedUserForActions } =
     useAdminModal();
   const { deleteTeacher } = useTeachersContext();
-  const { deleteMember } = useStudentsContext();
+  const { deleteMember: deleteStudentMember } = useStudentsContext();
+  const { deleteMember: deleteAdminMember } = useAdminStatsContext();
   const { token } = useAuth();
 
   const [confirmText, setConfirmText] = useState("");
@@ -61,11 +63,16 @@ const DeleteUserModal: React.FC = () => {
           selectedUserForActions.id;
         await deleteTeacher(token, teacherId);
         console.log("✅ Teacher deleted successfully");
+      } else if (selectedUserForActions.userType === "admin") {
+        // Use deleteAdminMember function for admins
+        const adminId = selectedUserForActions.id;
+        await deleteAdminMember(token, adminId);
+        console.log("✅ Admin deleted successfully");
       } else {
-        // Students/Admins deletion via admin member API
+        // Use deleteStudentMember function for students
         const studentId = selectedUserForActions.id;
-        await deleteMember(token, studentId);
-        console.log("✅ User deleted successfully");
+        await deleteStudentMember(token, studentId);
+        console.log("✅ Student deleted successfully");
       }
 
       handleClose();

@@ -7,6 +7,7 @@ import {
   ModalActions,
 } from "@/components/common/Modal";
 import { useTeacherDashboard } from "@/contexts/TeacherDashboardContext";
+import { useLessonsContext } from "@/contexts/LessonsContext";
 
 type BaseProps = {
   lessonId: string;
@@ -33,7 +34,8 @@ export type CompleteClassModalProps =
 
 export default function CompleteClassModal(props: CompleteClassModalProps) {
   const { lessonId, scheduledAt, student, groupName, onClose } = props;
-  const { reportLesson, completeLesson } = useTeacherDashboard();
+  const { reportLesson } = useTeacherDashboard();
+  const { completeLesson } = useLessonsContext();
   const [step, setStep] = useState(1);
   const [rate, setrate] = useState(3);
   const [isClosing, setIsClosing] = useState(false);

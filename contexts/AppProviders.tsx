@@ -7,6 +7,7 @@ import { CoursesProvider } from "./CoursesContext";
 import { GroupsProvider } from "./GroupsContext";
 import { LessonsProvider } from "./LessonsContext";
 import { AdminStatsProvider } from "./AdminStatsContext";
+import { ReportProvider } from "./ReportContext";
 
 interface AppProvidersProps {
   children: ReactNode;
@@ -24,7 +25,9 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
           <StudentsProvider>
             <CoursesProvider>
               <GroupsProvider>
-                <LessonsProvider>{children}</LessonsProvider>
+                <LessonsProvider>
+                  <ReportProvider>{children}</ReportProvider>
+                </LessonsProvider>
               </GroupsProvider>
             </CoursesProvider>
           </StudentsProvider>
@@ -42,6 +45,7 @@ export { useCoursesContext } from "./CoursesContext";
 export { useGroupsContext } from "./GroupsContext";
 export { useLessonsContext } from "./LessonsContext";
 export { useAdminStatsContext } from "./AdminStatsContext";
+export { useReportContext } from "./ReportContext";
 
 // إعادة تصدير الـ types المهمة
 export type { ContactInfo } from "./ContactContext";

@@ -68,13 +68,20 @@ const StudentListModal: React.FC<StudentListModalProps> = ({
         ) : (
           <ul className={styles.studentList}>
             {members.map((m: any) => (
-              <li key={m?._id} className={styles.studentItem}>
-                <div className={styles.studentName}>{m?.name}</div>
+              <li
+                key={m?._id}
+                className={styles.studentItem}
+                style={{ marginTop: "0.5rem" }}
+              >
+                <div className={styles.studentName}>{m?._id || m}</div>
                 <button
                   className={styles.viewBtn}
                   onClick={() => {
                     if (onOpenStudentReports) {
-                      onOpenStudentReports({ id: m?._id, name: m?.name });
+                      onOpenStudentReports({
+                        id: m?._id || m?.id || "",
+                        name: " m?.name",
+                      });
                     }
                   }}
                 >
