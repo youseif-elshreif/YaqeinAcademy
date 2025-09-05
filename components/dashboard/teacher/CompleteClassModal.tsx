@@ -8,6 +8,7 @@ import {
 } from "@/components/common/Modal";
 import { useTeacherDashboard } from "@/contexts/TeacherDashboardContext";
 import { useLessonsContext } from "@/contexts/LessonsContext";
+import Button from "@/components/common/Button";
 
 type BaseProps = {
   lessonId: string;
@@ -230,13 +231,15 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
               placeholder={`أدخل ${title} ${index + 1}`}
             />
             {fields.length > 1 && (
-              <button
+              <Button
                 type="button"
                 onClick={() => removeField(type, index)}
-                className={styles.removeBtn}
+                variant="danger"
+                size="small"
+                icon={<FaTimes />}
               >
-                <FaTimes />
-              </button>
+                حذف
+              </Button>
             )}
           </div>
           {error[type] && error[type].length > 0 && (
@@ -244,13 +247,14 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
           )}
         </div>
       ))}
-      <button
+      <Button
         type="button"
         onClick={() => addField(type)}
-        className={styles.addBtn}
+        variant="secondary"
+        icon={<FaPlus />}
       >
-        <FaPlus /> إضافة حقل جديد
-      </button>
+        إضافة حقل جديد
+      </Button>
     </div>
   );
 
@@ -369,20 +373,20 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>هل حضر الطالب؟</h4>
               <div className={styles.attendButtons}>
-                <button
+                <Button
                   type="button"
-                  className={styles.btnPrimary}
+                  variant="primary"
                   onClick={() => setAttended(true)}
                 >
                   نعم
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
-                  className={styles.btnSecondary}
+                  variant="secondary"
                   onClick={() => setAttended(false)}
                 >
                   لا
-                </button>
+                </Button>
               </div>
             </div>
           )}

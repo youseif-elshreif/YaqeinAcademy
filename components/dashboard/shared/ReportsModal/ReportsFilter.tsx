@@ -2,6 +2,7 @@
 import React from "react";
 import { FiCalendar, FiX, FiClock } from "react-icons/fi";
 import styles from "./ReportsModal.module.css";
+import Button from "../../../common/Button";
 
 interface ReportsFilterProps {
   selectedMonth: string;
@@ -86,26 +87,26 @@ const ReportsFilter: React.FC<ReportsFilterProps> = ({
           </select>
         </div>
 
-        <button
+        <Button
           onClick={onShowCurrentMonth}
-          className={`${styles.currentMonthBtn} ${
-            isCurrentMonthActive ? styles.currentMonthActive : ""
-          }`}
+          variant={isCurrentMonthActive ? "primary" : "outline-primary"}
+          size="small"
+          icon={<FiClock />}
           title="عرض تقارير هذا الشهر"
         >
-          <FiClock />
           هذا الشهر
-        </button>
+        </Button>
 
         {hasActiveFilter && (
-          <button
+          <Button
             onClick={onClearFilter}
-            className={styles.clearFilterBtn}
+            variant="outline-secondary"
+            size="small"
+            icon={<FiX />}
             title="مسح الفلتر"
           >
-            <FiX />
             مسح الفلتر
-          </button>
+          </Button>
         )}
 
         <div className={styles.resultsInfo}>

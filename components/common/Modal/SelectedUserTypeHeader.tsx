@@ -5,6 +5,7 @@ import {
   FaGraduationCap,
 } from "react-icons/fa";
 import { UserType } from "@/utils/types";
+import Button from "../Button";
 import baseStyles from "../../../styles/BaseModal.module.css";
 
 interface SelectedUserTypeHeaderProps {
@@ -54,17 +55,19 @@ const SelectedUserTypeHeader: React.FC<SelectedUserTypeHeaderProps> = ({
 
   return (
     <div className={baseStyles.selectedUserType}>
-      {getUserTypeIcon(userType)}
-      <span>{getActionText()}</span>
+      <div className={baseStyles.selectedUserType} style={{ padding: "0px" }}>
+        {getUserTypeIcon(userType)}
+        <span>{getActionText()}</span>
+      </div>
       {onChangeType && (
-        <button
+        <Button
           onClick={onChangeType}
-          className={baseStyles.changeTypeButton}
+          variant="outline-secondary"
+          size="small"
           disabled={disabled}
-          type="button"
         >
           تغيير النوع
-        </button>
+        </Button>
       )}
     </div>
   );

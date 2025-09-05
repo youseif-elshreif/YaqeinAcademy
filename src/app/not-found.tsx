@@ -1,6 +1,7 @@
 import Link from "next/link";
 import styles from "@/styles/ErrorPage.module.css";
 import { FaBook } from "react-icons/fa";
+import Button from "@/components/common/Button";
 
 export default function Custom404() {
   return (
@@ -14,11 +15,15 @@ export default function Custom404() {
               عذراً، الصفحة التي تبحث عنها غير موجودة أو تم نقلها إلى موقع آخر.
             </p>
             <div className={styles.errorActions}>
-              <Link href="/" className={styles.homeButton}>
-                العودة للصفحة الرئيسية
+              <Link href="/">
+                <Button variant="primary">
+                  العودة للصفحة الرئيسية
+                </Button>
               </Link>
-              <Link href="/courses" className={styles.coursesButton}>
-                تصفح الدورات
+              <Link href="/courses">
+                <Button variant="secondary">
+                  تصفح الدورات
+                </Button>
               </Link>
             </div>
           </div>

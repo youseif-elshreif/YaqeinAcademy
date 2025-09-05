@@ -4,6 +4,7 @@ import styles from "@/styles/EmailConfirmationPage.module.css";
 import { withGuestProtection } from "@/components/auth";
 import { FaEnvelope } from "react-icons/fa6";
 import { MdVerifiedUser } from "react-icons/md";
+import Button from "@/components/common/Button";
 
 const EmailConfirmationPage: React.FC = () => {
   return (
@@ -21,16 +22,19 @@ const EmailConfirmationPage: React.FC = () => {
           </p>
         </div>
         <div className={styles.buttonGroup}>
-          {/* <a
+          {/* <Button
+            as="a"
             href="https://mail.google.com"
             target="_blank"
             rel="noopener noreferrer"
-            className={styles.primaryButton}
+            variant="primary"
           >
             فتح البريد الإلكتروني
-          </a> */}
-          <Link className={styles.secondaryButton} href="/">
-            العودة للرئيسية
+          </Button> */}
+          <Link href="/">
+            <Button variant="secondary">
+              العودة للرئيسية
+            </Button>
           </Link>
         </div>
       </div>

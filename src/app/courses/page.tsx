@@ -37,6 +37,7 @@ const CoursesPage = () => {
     startDate: course.startAt
       ? new Date(course.startAt).toLocaleDateString("ar-EG")
       : "غير محدد",
+    duration: course.duration || "غير محدد", // Add duration field
     shortDescription:
       course.description.length > 100
         ? course.description.slice(0, 100) + "..."

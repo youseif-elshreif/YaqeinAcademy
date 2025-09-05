@@ -13,6 +13,7 @@ import {
   FaGlobe,
   FaClock,
 } from "react-icons/fa";
+import Button from "@/components/common/Button";
 
 export default function Home() {
   return (
@@ -40,8 +41,10 @@ export default function Home() {
               />
             </div>
             <p>انطلق في رحلة إيمانية مع أكاديمية يقين !</p>
-            <Link href="/register" className="btn btn-primary">
-              انضم الآن
+            <Link href="/register">
+              <Button variant="primary">
+                انضم الآن
+              </Button>
             </Link>
           </div>
         </section>
@@ -356,8 +359,10 @@ export default function Home() {
         <section className={styles.cta}>
           <div className={styles.ctaContainer}>
             <h2 className={styles.header2}>هل أنت مستعد للانضمام إلينا؟</h2>
-            <Link href="/register" className="btn btn-secondary">
-              انضم الآن
+            <Link href="/register">
+              <Button variant="secondary">
+                انضم الآن
+              </Button>
             </Link>
           </div>
         </section>

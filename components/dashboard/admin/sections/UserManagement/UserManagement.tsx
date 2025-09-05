@@ -15,6 +15,7 @@ import DashboardTabs from "@/components/dashboard/student/DashboardTabs";
 import { FiUsers, FiUserCheck, FiShield } from "react-icons/fi";
 import AdminsTable from "./AdminsTable";
 import SearchFilter from "@/components/common/UI/SearchFilter";
+import Button from "@/components/common/Button";
 // Types are now imported from the centralized types.ts file
 
 const UserManagement: React.FC = () => {
@@ -77,14 +78,20 @@ const UserManagement: React.FC = () => {
       <div className={userStyles.headerRow}>
         <h1 className={styles.pageTitle}>إدارة المستخدمين</h1>
         <div className={userStyles.headerActions}>
-          <button onClick={handleExportUsers} className={styles.btnSuccess}>
-            <FiDownload className={userStyles.iconMargin} />
+          <Button
+            variant="secondary"
+            icon={<FiDownload />}
+            onClick={handleExportUsers}
+          >
             تصدير البيانات
-          </button>
-          <button onClick={openAddUserModal} className={styles.btnPrimary}>
-            <FiPlus className={userStyles.iconMargin} />
+          </Button>
+          <Button
+            variant="primary"
+            icon={<FiPlus />}
+            onClick={openAddUserModal}
+          >
             إضافة مستخدم
-          </button>
+          </Button>
         </div>
       </div>
 

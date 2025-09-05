@@ -11,6 +11,7 @@ import {
   ErrorDisplay,
 } from "@/components/common/Modal";
 import { FaUserPlus, FaPlus, FaMinus, FaSave } from "react-icons/fa";
+import Button from "@/components/common/Button";
 
 interface AddMembersModalProps {
   groupId: string;
@@ -292,28 +293,31 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
                     </div>
 
                     {memberInputs.length > 1 && (
-                      <button
+                      <Button
                         type="button"
                         onClick={() => removeMemberInput(input.id)}
-                        className={baseStyles.deleteButton}
+                        variant="danger"
+                        size="small"
+                        icon={<FaMinus />}
                         disabled={isSubmitting}
                       >
-                        <FaMinus />
-                      </button>
+                        حذف
+                      </Button>
                     )}
                   </div>
                 ))}
               </div>
               {groupType === "public" && (
-                <button
+                <Button
                   type="button"
                   onClick={addMemberInput}
-                  className={`${baseStyles.fullBtn} ${baseStyles.secondaryButton}`}
+                  variant="secondary"
+                  fullWidth
+                  icon={<FaPlus />}
                   disabled={isSubmitting}
                 >
-                  <FaPlus />
                   إضافة طالب آخر
-                </button>
+                </Button>
               )}
             </div>
           </div>

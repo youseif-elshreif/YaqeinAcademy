@@ -1,6 +1,7 @@
 import { FaCog, FaListUl } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
+import Button from "@/components/common/Button";
 
 interface ClassCardProps {
   studentItem: any; // Student from API
@@ -95,30 +96,32 @@ const ClassCard = ({ studentItem }: ClassCardProps) => {
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>التقارير:</span>
             <span className={styles.cardLinkContainer}>
-              <button
+              <Button
                 onClick={() =>
                   openStudentReportsModal({
                     id: studentItem._id,
                     name: studentItem.name,
                   })
                 }
-                className={`${styles.linkButton} ${styles.openLinkBtn}`}
+                variant="primary"
+                size="small"
+                icon={<FaListUl />}
               >
-                <FaListUl />
-                <span className={styles.iconButtonText}>عرض التقارير</span>
-              </button>
+                عرض التقارير
+              </Button>
             </span>
           </div>
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>الإجراءات:</span>
             <span className={styles.cardLinkContainer}>
-              <button
+              <Button
                 onClick={handleActionsClick}
-                className={`${styles.linkButton} ${styles.openLinkBtn}`}
+                variant="primary"
+                size="small"
+                icon={<FaCog />}
               >
-                <FaCog />
-                <span className={styles.iconButtonText}>الإجراءات</span>
-              </button>
+                الإجراءات
+              </Button>
             </span>
           </div>
         </div>

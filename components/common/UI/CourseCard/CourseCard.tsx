@@ -3,30 +3,31 @@
 import styles from "./CourseCard.module.css";
 import { FaTag } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
+import Button from "../../Button";
 
 interface CourseCardProps {
   id?: string; // Changed from number to string
   title: string;
   startDate: string;
+  duration?: string;
   shortDescription: string;
   showBtn?: boolean;
   isAdminView?: boolean;
   onEdit?: () => void;
   onDelete?: () => void;
   telegramLink?: string;
-  duration?: string;
 }
 
 const CourseCard = ({
   title,
   startDate,
+  duration,
   shortDescription,
   showBtn,
   isAdminView = false,
   onEdit,
   onDelete,
   telegramLink,
-  duration,
 }: CourseCardProps) => {
   const handleEdit = () => {
     if (isAdminView && onEdit) {
@@ -65,34 +66,40 @@ const CourseCard = ({
           </div>
           <div className={styles.infoItem}>
             <span className={styles.label}>مدة الدورة:</span>
-            <span className={styles.value}>{duration}</span>
+            <span className={styles.value}>
+              {duration || "غير محدد"}
+            </span>
           </div>
         </div>
       </div>
 
       {showBtn && (
         <div className={styles.cardFooter}>
-          <button
-            className={`btn-primary ${styles.bookButton}`}
-            onClick={handleBookNow}
-          >
+          <Button variant="primary" fullWidth={true} onClick={handleBookNow}>
             احجز الآن
-          </button>
+          </Button>
         </div>
       )}
       {!showBtn && isAdminView && (
         <div className={styles.cardActions}>
-          <button
-            className={`${styles.linkButton} ${styles.openLinkBtn}`}
+          <Button
+            variant="primary"
+            size="small"
+            icon={<FaTag />}
+            fullWidth={true}
             onClick={handleEdit}
           >
-            <FaTag />
-            <span className={styles.iconButtonText}>تعديل</span>
-          </button>
-          <button className={styles.closeBtn} onClick={handleDelete}>
-            <MdDeleteOutline />
-            <span className={styles.iconButtonText}>حذف</span>
-          </button>
+            تعديل
+          </Button>
+          <Button
+            variant="danger"
+            size="small"
+            fullWidth={true}
+            icon={<MdDeleteOutline />}
+            onClick={handleDelete}
+          >
+            حذف
+          </Button>
         </div>
       )}
     </div>

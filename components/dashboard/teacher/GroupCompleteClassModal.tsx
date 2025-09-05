@@ -9,6 +9,7 @@ import {
   ModalHeader,
   ModalActions,
 } from "@/components/common/Modal";
+import Button from "@/components/common/Button";
 
 interface Student {
   id: string;
@@ -196,12 +197,12 @@ const GroupCompleteClassModal = ({
           ) : lessonError ? (
             <div className={styles.errorContainer}>
               <p className={styles.errorMessage}>{lessonError}</p>
-              <button
+              <Button
                 onClick={() => window.location.reload()}
-                className={styles.primaryButton}
+                variant="primary"
               >
                 إعادة المحاولة
-              </button>
+              </Button>
             </div>
           ) : (
             <>

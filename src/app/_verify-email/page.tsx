@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { BsCheckCircle, BsXCircle, BsClockHistory } from "react-icons/bs";
 import { useAuth } from "@/contexts/AuthContext";
 import EmailVerificationLoader from "@/components/common/UI/EmailVerificationLoader";
+import Button from "@/components/common/Button";
 import styles from "@/styles/VerifyEmailPage.module.css";
 
 const VerifyEmailPage: React.FC = () => {
@@ -44,18 +45,18 @@ const VerifyEmailPage: React.FC = () => {
         <>
           <BsCheckCircle className={`${styles.icon} ${styles.success}`} />
           <p className={styles.text}>تم التحقق من البريد الإلكتروني بنجاح!</p>
-          <button
-            className={styles.button}
+          <Button
+            variant="primary"
             onClick={() => router.push("/student/dashboard")}
           >
             الذهاب إلى لوحة التحكم
-          </button>
-          <button
-            className={styles.secondaryButton}
+          </Button>
+          <Button
+            variant="secondary"
             onClick={() => router.push("/")}
           >
             العودة إلى الصفحة الرئيسية
-          </button>
+          </Button>
         </>
       );
     }
@@ -66,9 +67,9 @@ const VerifyEmailPage: React.FC = () => {
         <p className={styles.text}>
           حدث خطأ أثناء التحقق من البريد الإلكتروني.
         </p>
-        <button className={styles.button} onClick={() => router.push("/")}>
+        <Button variant="primary" onClick={() => router.push("/")}>
           العودة إلى الصفحة الرئيسية
-        </button>
+        </Button>
       </>
     );
   };

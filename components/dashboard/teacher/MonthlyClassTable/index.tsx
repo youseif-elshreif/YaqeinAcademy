@@ -5,6 +5,7 @@ import MobileClassCards from "./MobileCards/MobileClassCards";
 import SkeletonTable from "@/components/common/UI/Skeleton/SkeletonTable";
 import SkeletonCards from "@/components/common/UI/Skeleton/SkeletonCards";
 import { FiUsers, FiFilter, FiCalendar, FiClock, FiX } from "react-icons/fi";
+import Button from "@/components/common/Button";
 // Using raw lesson items from API
 
 interface MonthlyClassTableProps {
@@ -252,28 +253,29 @@ const MonthlyClassTable = ({
                 </select>
               </div>
 
-              <button
+              <Button
                 onClick={showCurrentMonth}
-                className={`${styles.currentMonthBtn} ${
-                  isCurrentMonthActive ? styles.currentMonthActive : ""
-                }`}
-                title="عرض حصص هذا الشهر"
+                variant={isCurrentMonthActive ? "primary" : "outline-primary"}
+                size="small"
+                icon={<FiClock />}
+                title="عرض تقارير هذا الشهر"
               >
-                <FiClock />
                 هذا الشهر
-              </button>
+              </Button>
 
               {(dateFilter ||
                 monthFilter ||
                 yearFilter ||
                 statusFilter !== "all") && (
-                <button
+                <Button
                   onClick={clearFilters}
-                  className={styles.clearFiltersBtn}
+                  variant="outline-secondary"
+                  size="small"
+                  icon={<FiX />}
+                  title="مسح الفلتر"
                 >
-                  <FiX />
-                  مسح الفلاتر
-                </button>
+                  مسح الفلتر
+                </Button>
               )}
             </div>
 

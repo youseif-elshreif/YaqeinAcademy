@@ -1,0 +1,419 @@
+/* ==== BASE BUTTON STYLES ==== */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cairo", sans-serif;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  box-sizing: border-box;
+  white-space: nowrap;
+  outline: none;
+}
+
+.button:focus {
+  box-shadow: 0 0 0 3px rgba(99, 184, 177, 0.3);
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+/* ==== SIZES ==== */
+.small {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  gap: 0.25rem;
+  border-radius: 6px;
+}
+
+.medium {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  gap: 0.5rem;
+}
+
+.large {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  gap: 0.75rem;
+  border-radius: 10px;
+}
+
+/* ==== VARIANTS ==== */
+
+/* Primary */
+.primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.primary:hover:not(.disabled):not(.loading) {
+  background: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 61, 50, 0.3);
+}
+
+.primary:active:not(.disabled):not(.loading) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(30, 61, 50, 0.3);
+}
+
+/* Secondary */
+.secondary {
+  background: var(--secondary-color);
+  color: white;
+}
+
+.secondary:hover:not(.disabled):not(.loading) {
+  background: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 184, 177, 0.3);
+}
+
+.secondary:active:not(.disabled):not(.loading) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(99, 184, 177, 0.3);
+}
+
+/* Success */
+.success {
+  background: var(--success-color);
+  color: white;
+}
+
+.success:hover:not(.disabled):not(.loading) {
+  background: var(--success-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+}
+
+/* Warning */
+.warning {
+  background: var(--warning-color);
+  color: white;
+}
+
+.warning:hover:not(.disabled):not(.loading) {
+  background: var(--warning-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+}
+
+/* Danger */
+.danger {
+  background: var(--danger-color);
+  color: white;
+}
+
+.danger:hover:not(.disabled):not(.loading) {
+  background: var(--danger-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+/* Info */
+.info {
+  background: var(--info-color);
+  color: white;
+}
+
+.info:hover:not(.disabled):not(.loading) {
+  background: var(--info-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+/* Link */
+.link {
+  background: transparent;
+  color: var(--secondary-color);
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.link:hover:not(.disabled):not(.loading) {
+  background: rgba(99, 184, 177, 0.1);
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+/* ==== OUTLINE VARIANTS ==== */
+
+/* Outline Primary */
+.outline-primary {
+  background: transparent;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+}
+
+.outline-primary:hover:not(.disabled):not(.loading) {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Outline Secondary */
+.outline-secondary {
+  background: transparent;
+  color: var(--secondary-color);
+  border: 2px solid var(--secondary-color);
+}
+
+.outline-secondary:hover:not(.disabled):not(.loading) {
+  background: var(--secondary-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Outline Success */
+.outline-success {
+  background: transparent;
+  color: var(--success-color);
+  border: 2px solid var(--success-color);
+}
+
+.outline-success:hover:not(.disabled):not(.loading) {
+  background: var(--success-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Outline Warning */
+.outline-warning {
+  background: transparent;
+  color: var(--warning-color);
+  border: 2px solid var(--warning-color);
+}
+
+.outline-warning:hover:not(.disabled):not(.loading) {
+  background: var(--warning-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Outline Danger */
+.outline-danger {
+  background: transparent;
+  color: var(--danger-color);
+  border: 2px solid var(--danger-color);
+}
+
+.outline-danger:hover:not(.disabled):not(.loading) {
+  background: var(--danger-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* ==== STATES ==== */
+
+/* Disabled */
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Loading */
+.loading {
+  pointer-events: none;
+  position: relative;
+}
+
+.loading .content {
+  opacity: 0.7;
+}
+
+/* ==== ICONS ==== */
+.iconLeft {
+  display: flex;
+  align-items: center;
+}
+
+.iconRight {
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+}
+
+/* ==== SPINNER ==== */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width: 768px) {
+  .large {
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
+  }
+
+  .medium {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .small {
+    padding: 0.375rem 0.625rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .button {
+    min-height: 44px; /* Touch target */
+  }
+
+  .fullWidth {
+    width: 100%;
+  }
+}
+
+/* ==== SPECIAL BUTTON STYLES FOR DASHBOARD ==== */
+
+/* Action Buttons */
+.button.actionBtn {
+  min-width: 2.5rem;
+  font-size: 0.875rem;
+}
+
+.button.viewBtn {
+  background: var(--info-color);
+  color: white;
+}
+
+.button.viewBtn:hover:not(.disabled):not(.loading) {
+  background: var(--info-dark);
+}
+
+.button.completeBtn {
+  background: var(--success-color);
+  color: white;
+}
+
+.button.completeBtn:hover:not(.disabled):not(.loading) {
+  background: var(--success-dark);
+}
+
+.button.editBtn {
+  background: var(--warning-color);
+  color: white;
+}
+
+.button.editBtn:hover:not(.disabled):not(.loading) {
+  background: var(--warning-dark);
+}
+
+.button.deleteBtn {
+  background: var(--danger-color);
+  color: white;
+}
+
+.button.deleteBtn:hover:not(.disabled):not(.loading) {
+  background: var(--danger-dark);
+}
+
+.button.closeBtn {
+  background: #6b7280;
+  color: white;
+}
+
+.button.closeBtn:hover:not(.disabled):not(.loading) {
+  background: #4b5563;
+}
+
+/* Save Button */
+.button.saveBtn {
+  background: var(--success-color);
+  color: white;
+  min-width: 120px;
+}
+
+.button.saveBtn:hover:not(.disabled):not(.loading) {
+  background: var(--success-dark);
+}
+
+/* Filter Button */
+.button.filterBtn {
+  background: var(--separator-bg);
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
+}
+
+.button.filterBtn:hover:not(.disabled):not(.loading) {
+  background: var(--secondary-color);
+  color: white;
+  border-color: var(--secondary-color);
+}
+
+/* Clear Filters Button */
+.button.clearFiltersBtn {
+  background: var(--warning-color);
+  color: white;
+  font-size: 0.875rem;
+}
+
+.button.clearFiltersBtn:hover:not(.disabled):not(.loading) {
+  background: var(--warning-dark);
+}
+
+/* Current Month Button */
+.button.currentMonthBtn {
+  background: var(--separator-bg);
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
+  position: relative;
+}
+
+.button.currentMonthBtn:hover:not(.disabled):not(.loading) {
+  background: var(--secondary-color);
+  color: white;
+  border-color: var(--secondary-color);
+}
+
+.button.currentMonthBtn.active {
+  background: var(--success-color);
+  color: white;
+  border-color: var(--success-color);
+}
+
+.button.currentMonthBtn.active::after {
+  content: "✓";
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #10b981;
+  color: white;
+  font-size: 0.6rem;
+  font-weight: bold;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

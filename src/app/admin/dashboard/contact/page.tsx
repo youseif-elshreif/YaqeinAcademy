@@ -10,6 +10,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useContactContext, type ContactInfo } from "@/contexts/ContactContext";
 import styles from "./contact.module.css";
 import { FormField, ErrorDisplay } from "@/components/common/Modal";
+import Button from "@/components/common/Button";
 
 export default function AdminContactPage() {
   const { token } = useAuth();
@@ -151,23 +152,23 @@ export default function AdminContactPage() {
         <h2 className={styles.profileTitle}>معلومات التواصل</h2>
         <div>
           {!editMode ? (
-            <button
+            <Button
               type="button"
-              className={styles.saveButton}
+              variant="primary"
               onClick={() => setEditMode(true)}
               disabled={isLoading}
             >
               تعديل
-            </button>
+            </Button>
           ) : (
-            <button
+            <Button
               type="button"
-              className={styles.saveButton}
+              variant="secondary"
               onClick={() => setEditMode(false)}
               disabled={isSubmitting}
             >
               إلغاء
-            </button>
+            </Button>
           )}
         </div>
       </div>
@@ -241,20 +242,14 @@ export default function AdminContactPage() {
           </div>
 
           {editMode && !isLoading && (
-            <button
+            <Button
               type="submit"
-              className={styles.saveButton}
+              variant="primary"
               disabled={isSubmitting}
+              loading={isSubmitting}
             >
-              {isSubmitting ? (
-                <>
-                  <span className={styles.spinner}></span>
-                  جاري الحفظ...
-                </>
-              ) : (
-                "حفظ التغييرات"
-              )}
-            </button>
+              حفظ التغييرات
+            </Button>
           )}
         </form>
       </div>

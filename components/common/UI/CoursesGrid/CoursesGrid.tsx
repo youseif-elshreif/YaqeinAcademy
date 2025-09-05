@@ -6,9 +6,9 @@ interface Course {
   id: string;
   title: string;
   startDate: string;
+  duration?: string;
   shortDescription: string;
   telegramLink?: string;
-  duration?: string;
 }
 
 interface CoursesGridProps {
@@ -34,6 +34,7 @@ const CoursesGrid = ({
               id={course.id}
               title={course.title}
               startDate={course.startDate}
+              duration={course.duration}
               shortDescription={course.shortDescription}
               showBtn={showBtn}
             />

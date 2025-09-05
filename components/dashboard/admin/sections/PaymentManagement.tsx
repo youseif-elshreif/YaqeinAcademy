@@ -12,6 +12,7 @@ import EnhancedLoader from "@/components/common/UI/EnhancedLoader";
 import api from "@/utils/api";
 import styles from "@/styles/AdminDashboard.module.css";
 import { Payment, PaymentHistory } from "@/utils/types";
+import Button from "@/components/common/Button";
 
 const PaymentManagement: React.FC = () => {
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -346,30 +347,36 @@ const PaymentManagement: React.FC = () => {
                 </td>
                 <td>
                   <div className={styles.actionButtons}>
-                    <button
+                    <Button
                       onClick={() => handleEditPayment(payment)}
-                      className={`${styles.actionBtn} ${styles.editBtn}`}
+                      variant="primary"
+                      size="small"
+                      icon={<FiEdit />}
                       title="تعديل الدفعة"
                     >
-                      <FiEdit />
-                    </button>
-                    <button
+                      تعديل
+                    </Button>
+                    <Button
                       onClick={() => handleViewHistory(payment.studentId)}
-                      className={`${styles.actionBtn} ${styles.viewBtn}`}
+                      variant="primary"
+                      size="small"
+                      icon={<FiEye />}
                       title="عرض تاريخ المدفوعات"
                     >
-                      <FiEye />
-                    </button>
+                      التاريخ
+                    </Button>
                     {payment.status === "unpaid" && (
-                      <button
+                      <Button
                         onClick={() =>
                           handlePaymentStatusUpdate(payment.id, "paid")
                         }
-                        className={`${styles.actionBtn} ${styles.confirmBtn}`}
+                        variant="primary"
+                        size="small"
+                        icon={<FiCheck />}
                         title="تأكيد الدفع"
                       >
-                        <FiCheck />
-                      </button>
+                        تأكيد
+                      </Button>
                     )}
                   </div>
                 </td>
@@ -387,12 +394,14 @@ const PaymentManagement: React.FC = () => {
               <h2 className={styles.modalTitle}>
                 تعديل دفعة {selectedPayment.studentName}
               </h2>
-              <button
-                className={styles.closeBtn}
+              <Button
                 onClick={() => setShowPaymentModal(false)}
+                variant="link"
+                size="small"
+                icon={<FiX />}
               >
-                <FiX />
-              </button>
+                إغلاق
+              </Button>
             </div>
 
             <div className={styles.modalBody}>
@@ -459,19 +468,16 @@ const PaymentManagement: React.FC = () => {
                 </div>
 
                 <div className={styles.modalActions}>
-                  <button
+                  <Button
                     type="button"
                     onClick={() => setShowPaymentModal(false)}
-                    className={`${styles.btn} ${styles.btnSecondary}`}
+                    variant="secondary"
                   >
                     إلغاء
-                  </button>
-                  <button
-                    type="submit"
-                    className={`${styles.btn} ${styles.btnPrimary}`}
-                  >
+                  </Button>
+                  <Button type="submit" variant="primary">
                     حفظ
-                  </button>
+                  </Button>
                 </div>
               </form>
             </div>
@@ -485,12 +491,14 @@ const PaymentManagement: React.FC = () => {
           <div className={styles.modal}>
             <div className={styles.modalHeader}>
               <h2 className={styles.modalTitle}>تاريخ المدفوعات</h2>
-              <button
-                className={styles.closeBtn}
+              <Button
                 onClick={() => setShowHistoryModal(false)}
+                variant="link"
+                size="small"
+                icon={<FiX />}
               >
-                <FiX />
-              </button>
+                إغلاق
+              </Button>
             </div>
 
             <div className={styles.modalBody}>
@@ -522,12 +530,12 @@ const PaymentManagement: React.FC = () => {
               </div>
 
               <div className={styles.modalActions}>
-                <button
+                <Button
                   onClick={() => setShowHistoryModal(false)}
-                  className={`${styles.btn} ${styles.btnPrimary}`}
+                  variant="primary"
                 >
                   إغلاق
-                </button>
+                </Button>
               </div>
             </div>
           </div>

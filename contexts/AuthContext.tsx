@@ -248,8 +248,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       dispatch({ type: "LOGIN_START" });
       console.log(regData);
       try {
-        await authSvc.register(regData);
-
+        const data = await authSvc.register(regData);
+        if (data.accessToken) {
+          localStorage.setItem("accessToken", data.accessToken);
+          await getUserData(true);
+        }
         router.push("/");
       } catch (error: any) {
         const errorMessage =

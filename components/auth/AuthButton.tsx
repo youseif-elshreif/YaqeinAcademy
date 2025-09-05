@@ -1,4 +1,4 @@
-import styles from "./AuthButton.module.css";
+import Button from "../common/Button";
 
 interface AuthButtonProps {
   type?: "button" | "submit" | "reset";
@@ -24,23 +24,17 @@ const AuthButton: React.FC<AuthButtonProps> = ({
   className = "",
 }) => {
   return (
-    <button
+    <Button
       type={type}
       onClick={onClick}
-      disabled={disabled || loading}
-      className={`${styles.button} ${styles[variant]} ${
-        fullWidth ? styles.fullWidth : ""
-      } ${loading ? styles.loading : ""} ${className}`}
+      disabled={disabled}
+      loading={loading}
+      variant={variant}
+      fullWidth={fullWidth}
+      className={className}
     >
-      {loading ? (
-        <>
-          <span className={styles.spinner}></span>
-          {loadingText || children}
-        </>
-      ) : (
-        children
-      )}
-    </button>
+      {loading && loadingText ? loadingText : children}
+    </Button>
   );
 };
 

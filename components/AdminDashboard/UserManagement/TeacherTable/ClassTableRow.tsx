@@ -1,6 +1,8 @@
-import { FaExternalLinkAlt, FaCopy, FaCog } from "react-icons/fa";
+import { FaCog } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
+import MeetingLinkActions from "@/components/common/MeetingLinkActions";
+import Button from "@/components/common/Button";
 
 interface ClassTableRowProps {
   teacher: any;
@@ -8,22 +10,6 @@ interface ClassTableRowProps {
 
 const ClassTableRow = ({ teacher }: ClassTableRowProps) => {
   const { openUserActionsModal } = useAdminModal();
-
-  // Function to copy class link to clipboard
-  const handleCopyLink = async (link: string) => {
-    try {
-      await navigator.clipboard.writeText(link);
-      // You can add a toast notification here
-      console.log("تم نسخ الرابط بنجاح");
-    } catch (err) {
-      console.error("فشل في نسخ الرابط:", err);
-    }
-  };
-
-  // Function to open link in new tab
-  const handleOpenLink = (link: string) => {
-    window.open(link, "_blank", "noopener,noreferrer");
-  };
 
   const handleActionsClick = () => {
     openUserActionsModal({
@@ -95,32 +81,17 @@ const ClassTableRow = ({ teacher }: ClassTableRowProps) => {
         </span>
       </td>
       <td className={styles.linkContainer}>
-        <button
+        <Button
           onClick={handleActionsClick}
-          className={`${styles.linkButton} ${styles.openLinkBtn}`}
+          variant="primary"
+          size="small"
+          icon={<FaCog />}
         >
-          <FaCog />
-          <span className={styles.iconButtonText}>الإجراءات</span>
-        </button>
+          الإجراءات
+        </Button>
       </td>
       <td className={styles.linkCell}>
-        <div className={styles.linkContainer}>
-          <button
-            className={`${styles.linkButton} ${styles.openLinkBtn}`}
-            title="فتح رابط الحلقة"
-            onClick={() => handleOpenLink(teacher.meetingLink)}
-          >
-            <FaExternalLinkAlt />
-            <span>دخول الحلقة</span>
-          </button>
-          <button
-            className={`${styles.linkButton} ${styles.copyLinkBtn}`}
-            title="نسخ رابط الحلقة"
-            onClick={() => handleCopyLink(teacher.meetingLink)}
-          >
-            <FaCopy />
-          </button>
-        </div>
+        <MeetingLinkActions meetingLink={teacher.meetingLink} styles={styles} />
       </td>
 
       <td className={styles.groupCell}>

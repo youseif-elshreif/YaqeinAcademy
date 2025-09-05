@@ -2,6 +2,7 @@ import { FaCog } from "react-icons/fa";
 import styles from "../../styles.module.css";
 import { StudentItemProps as ClassTableRowProps } from "../../../../utils/types";
 import { useAdminModal } from "@/contexts/AdminModalContext";
+import Button from "@/components/common/Button";
 
 const ClassTableRow = ({ studentitem }: ClassTableRowProps) => {
   const { openUserActionsModal } = useAdminModal();
@@ -75,13 +76,14 @@ const ClassTableRow = ({ studentitem }: ClassTableRowProps) => {
         </span>
       </td>
       <td className={styles.linkContainer}>
-        <button
+        <Button
           onClick={handleActionsClick}
-          className={`${styles.linkButton} ${styles.openLinkBtn}`}
+          variant="primary"
+          size="small"
+          icon={<FaCog />}
         >
-          <FaCog />
-          <span className={styles.iconButtonText}>الإجراءات</span>
-        </button>
+          الإجراءات
+        </Button>
       </td>
       <td className={styles.groupCell}>
         {studentitem.rate ? (

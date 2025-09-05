@@ -1,11 +1,11 @@
 import React from "react";
-import { FaSpinner } from "react-icons/fa";
+import Button from "../Button";
 import baseStyles from "../../../styles/BaseModal.module.css";
 
 interface ActionButton {
   label: string;
   onClick: () => void;
-  variant?: "primary" | "secondary" | "danger";
+  variant?: "primary" | "secondary" | "danger" | "success" | "warning" | "info";
   disabled?: boolean;
   loading?: boolean;
   icon?: React.ReactNode;
@@ -21,17 +21,6 @@ const ModalActions: React.FC<ModalActionsProps> = ({
   actions,
   alignment = "space-between",
 }) => {
-  const getButtonClass = (variant: string = "primary") => {
-    switch (variant) {
-      case "secondary":
-        return baseStyles.cancelButton;
-      case "danger":
-        return baseStyles.dangerButton;
-      default:
-        return baseStyles.submitButton;
-    }
-  };
-
   const getAlignmentClass = () => {
     switch (alignment) {
       case "left":
@@ -48,25 +37,17 @@ const ModalActions: React.FC<ModalActionsProps> = ({
   return (
     <div className={`${baseStyles.formActions} ${getAlignmentClass()}`}>
       {actions.map((action, index) => (
-        <button
+        <Button
           key={index}
           type={action.type || "button"}
           onClick={action.onClick}
-          className={getButtonClass(action.variant)}
-          disabled={action.disabled || action.loading}
+          variant={action.variant || "primary"}
+          disabled={action.disabled}
+          loading={action.loading}
+          icon={action.icon}
         >
-          {action.loading ? (
-            <>
-              <FaSpinner className={baseStyles.spinner} />
-              <span>جاري المعالجة...</span>
-            </>
-          ) : (
-            <>
-              {action.icon && action.icon}
-              {action.label}
-            </>
-          )}
-        </button>
+          {action.label}
+        </Button>
       ))}
     </div>
   );

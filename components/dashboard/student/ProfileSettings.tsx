@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import styles from "./ProfileSettings.module.css";
 import { FormField, ErrorDisplay } from "@/components/common/Modal";
+import Button from "../../common/Button";
 
 interface User {
   email: string;
@@ -70,22 +71,14 @@ const ProfileSettings = ({ studentData }: StudentDataProps) => {
     <div className={styles.profileContainer}>
       <div className={styles.profileEditeHeader}>
         <h3 className={styles.profileTitle}>الملف الشخصي</h3>
-        <button
-          className={styles.saveButton}
+        <Button
           onClick={handleEditBtn}
           disabled={isSubmitting}
+          loading={isSubmitting}
+          variant={editState ? "secondary" : "primary"}
         >
-          {isSubmitting ? (
-            <>
-              <span className={styles.spinner}></span>
-              جاري الحفظ
-            </>
-          ) : editState ? (
-            "إلغاء التعديل"
-          ) : (
-            "تعديل الملف الشخصي"
-          )}
-        </button>
+          {editState ? "إلغاء التعديل" : "تعديل الملف الشخصي"}
+        </Button>
       </div>
 
       <div className={styles.profileCard}>
@@ -123,21 +116,15 @@ const ProfileSettings = ({ studentData }: StudentDataProps) => {
               required
             />
             {editState && (
-              <button
+              <Button
                 type="submit"
                 onClick={handleSaveChanges}
-                className={styles.saveButton}
                 disabled={isSubmitting}
+                loading={isSubmitting}
+                variant="primary"
               >
-                {isSubmitting ? (
-                  <>
-                    <span className={styles.spinner}></span>
-                    جاري الحفظ...
-                  </>
-                ) : (
-                  "حفظ التغييرات"
-                )}
-              </button>
+                حفظ التغييرات
+              </Button>
             )}
           </div>
         </form>

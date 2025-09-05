@@ -2,6 +2,7 @@
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import { FaCog } from "react-icons/fa";
+import Button from "@/components/common/Button";
 
 interface Props {
   admin: any;
@@ -34,14 +35,15 @@ const ClassTableRow = ({ admin }: Props) => {
           : "-"}
       </td>
       <td>
-        <button
+        <Button
           onClick={handleActionsClick}
-          className={`${styles.linkButton} ${styles.openLinkBtn}`}
+          variant="primary"
+          size="small"
+          icon={<FaCog />}
           title="إجراءات المسؤول"
         >
-          <FaCog />
-          <span className={styles.iconButtonText}>الإجراءات</span>
-        </button>
+          الإجراءات
+        </Button>
       </td>
     </tr>
   );

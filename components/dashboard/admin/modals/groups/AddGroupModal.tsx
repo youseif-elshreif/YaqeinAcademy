@@ -21,6 +21,7 @@ import {
   FaPlus,
   FaMinus,
 } from "react-icons/fa";
+import Button from "@/components/common/Button";
 
 interface TimeSlot {
   day: string;
@@ -518,9 +519,47 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
 
       <div className={baseStyles.modalBody}>
         {isLoading ? (
-          <div className={styles.loadingContainer}>
-            <div className={styles.loadingSpinner}></div>
-            <p>جاري تحميل بيانات الحلقة...</p>
+          <div className={styles.form}>
+            <div className={baseStyles.formGrid}>
+              {/* Skeleton for form fields */}
+              <div className={baseStyles.inputGroup}>
+                <div className={styles.skeletonLabel}></div>
+                <div className={styles.skeletonInput}></div>
+              </div>
+              
+              <div className={baseStyles.inputGroup}>
+                <div className={styles.skeletonLabel}></div>
+                <div className={styles.skeletonInput}></div>
+              </div>
+              
+              <div className={baseStyles.inputGroup}>
+                <div className={styles.skeletonLabel}></div>
+                <div className={styles.skeletonInput}></div>
+              </div>
+              
+              <div className={baseStyles.inputGroup}>
+                <div className={styles.skeletonLabel}></div>
+                <div className={styles.skeletonInput}></div>
+              </div>
+              
+              <div className={baseStyles.inputGroup} style={{ gridColumn: "1 / -1" }}>
+                <div className={styles.skeletonLabel}></div>
+                <div className={styles.skeletonTextarea}></div>
+              </div>
+              
+              <div className={baseStyles.inputGroup} style={{ gridColumn: "1 / -1" }}>
+                <div className={styles.skeletonLabel}></div>
+                <div className={baseStyles.timeSlotRow}>
+                  <div className={styles.skeletonSelect}></div>
+                  <div className={styles.skeletonSelect}></div>
+                </div>
+                <div className={styles.skeletonButton}></div>
+              </div>
+            </div>
+            
+            <div className={styles.loadingMessage}>
+              <div className={styles.loadingSpinner}></div>
+            </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className={styles.form}>
@@ -618,14 +657,16 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                     />
 
                     {index > 0 && (
-                      <button
+                      <Button
                         type="button"
                         onClick={() => removeTimeSlot(index)}
-                        className={baseStyles.deleteButton}
+                        variant="danger"
+                        size="small"
+                        icon={<FaMinus />}
                         disabled={isSubmitting}
                       >
-                        <FaMinus />
-                      </button>
+                        حذف
+                      </Button>
                     )}
                   </div>
                 ))}
@@ -637,14 +678,15 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                 )}
 
                 {formData.timeSlots.length < 3 && (
-                  <button
+                  <Button
                     type="button"
                     onClick={addTimeSlot}
-                    className={baseStyles.secondaryButton}
+                    variant="secondary"
+                    icon={<FaPlus />}
                     disabled={isSubmitting}
                   >
-                    <FaPlus /> إضافة موعد آخر
-                  </button>
+                    إضافة موعد آخر
+                  </Button>
                 )}
               </div>
             </div>

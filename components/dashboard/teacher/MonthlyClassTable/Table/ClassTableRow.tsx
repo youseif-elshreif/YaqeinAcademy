@@ -1,7 +1,9 @@
-import { FaUsers, FaExternalLinkAlt, FaCopy } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
 import styles from "../MonthlyClassTable.module.css";
 import { formatDate, getStatusColor, getStatusText } from "../utils";
 import { useModal } from "@/contexts/ModalContext";
+import MeetingLinkActions from "@/components/common/MeetingLinkActions";
+import Button from "@/components/common/Button";
 
 interface ClassTableRowProps {
   classItem: any; // raw lesson from API
@@ -9,18 +11,6 @@ interface ClassTableRowProps {
 
 const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
   const { openCompleteModal, openStudentListModal } = useModal();
-
-  const handleCopyLink = async (link: string) => {
-    try {
-      await navigator.clipboard.writeText(link);
-    } catch (err) {
-      console.error("فشل في نسخ الرابط:", err);
-    }
-  };
-
-  const handleOpenLink = (link: string) => {
-    window.open(link, "_blank", "noopener,noreferrer");
-  };
 
   const group = classItem?.groupId || {};
   const memberCount = group.memberCount || 0;
@@ -90,29 +80,7 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
 
       {/* رابط الحلقة */}
       <td className={styles.linkCell}>
-        <div className={styles.linkContainer}>
-          {meetingLink ? (
-            <>
-              <button
-                className={`${styles.linkButton} ${styles.openLinkBtn}`}
-                onClick={() => handleOpenLink(meetingLink)}
-                title="فتح رابط الحلقة"
-              >
-                <FaExternalLinkAlt />
-                <span>دخول الحلقة</span>
-              </button>
-              <button
-                className={`${styles.linkButton} ${styles.copyLinkBtn}`}
-                onClick={() => handleCopyLink(meetingLink)}
-                title="نسخ رابط الحلقة"
-              >
-                <FaCopy />
-              </button>
-            </>
-          ) : (
-            <span className={styles.lightColor}>—</span>
-          )}
-        </div>
+        <MeetingLinkActions meetingLink={meetingLink} styles={styles} />
       </td>
 
       {/* الإجراءات */}
@@ -121,23 +89,25 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
           {memberCount > 0 ? (
             <>
               {isCompleted ? (
-                <button
-                  className={`${styles.baseButton} ${styles.actionBtn} ${styles.viewBtn}`}
+                <Button
+                  variant="primary"
+                  size="small"
                   onClick={handleViewReports}
                 >
                   عرض التقارير
-                </button>
+                </Button>
               ) : isUpcoming ? (
                 <span className={styles.lightColor}>
                   ميعاد الحصة لم يأتي بعد
                 </span>
               ) : (
-                <button
-                  className={`${styles.baseButton} ${styles.actionBtn} ${styles.completeBtn}`}
+                <Button
+                  variant="primary"
+                  size="small"
                   onClick={() => openCompleteModal(classItem)}
                 >
                   إتمام الحصة
-                </button>
+                </Button>
               )}
             </>
           ) : (

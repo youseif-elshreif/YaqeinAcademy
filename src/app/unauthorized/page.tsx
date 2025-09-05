@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "@/styles/ErrorPage.module.css";
 import { FaLock } from "react-icons/fa";
+import Button from "@/components/common/Button";
 
 export default function Unauthorized() {
   const router = useRouter();
@@ -23,12 +24,14 @@ export default function Unauthorized() {
               أولاً أو التأكد من صلاحياتك.
             </p>
             <div className={styles.errorActions}>
-              <Link href="/login" className={styles.homeButton}>
-                تسجيل الدخول
+              <Link href="/login">
+                <Button variant="primary">
+                  تسجيل الدخول
+                </Button>
               </Link>
-              <button onClick={handleGoBack} className={styles.coursesButton}>
+              <Button onClick={handleGoBack} variant="secondary">
                 العودة للخلف
-              </button>
+              </Button>
             </div>
           </div>
           <div className={styles.errorIllustration}>

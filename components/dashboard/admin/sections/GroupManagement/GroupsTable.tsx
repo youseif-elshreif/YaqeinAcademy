@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { FiEdit, FiCalendar, FiUsers } from "react-icons/fi";
 import { FaListUl } from "react-icons/fa";
-import { FaExternalLinkAlt, FaCopy } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useGroupsContext } from "@/contexts/GroupsContext";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import MobileGroupCards from "./Mobile/MobileGroupCards";
 import SkeletonTable from "@/components/dashboard/admin/components/SkeletonTable";
 import SkeletonCards from "@/components/dashboard/admin/components/SkeletonCards";
+import MeetingLinkActions from "@/components/common/MeetingLinkActions";
+import Button from "@/components/common/Button";
 
 interface ApiGroup {
   _id: string;
@@ -72,23 +73,6 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
 
     fetchGroups();
   }, [getGroups]);
-
-  // Function to copy class link to clipboard
-  const handleCopyLink = async (link: string) => {
-    try {
-      await navigator.clipboard.writeText(link);
-      alert("تم نسخ الرابط بنجاح");
-      console.log("تم نسخ الرابط بنجاح");
-    } catch (err) {
-      console.error("فشل في نسخ الرابط:", err);
-      alert("فشل في نسخ الرابط");
-    }
-  };
-
-  // Function to open link in new tab
-  const handleOpenLink = (link: string) => {
-    window.open(link, "_blank", "noopener,noreferrer");
-  };
 
   // Note: edit link handled via group actions modal
 
@@ -299,19 +283,20 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                           </span>
                         </td>
                         <td className={styles.groupCell}>
-                          <button
-                            className={`${styles.linkButton} ${styles.openLinkBtn}`}
+                          <Button
                             onClick={() =>
                               openLessonsModal({
                                 groupId: group._id,
                                 groupName: group.name,
                               })
                             }
+                            variant="primary"
+                            size="small"
+                            icon={<FiCalendar />}
                             title="عرض الحلقات"
                           >
-                            <FiCalendar />
-                            <span>عرض الحلقات</span>
-                          </button>
+                            عرض الحلقات
+                          </Button>
                         </td>
                         <td className={styles.groupCell}>
                           <span
@@ -331,27 +316,16 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                           </span>
                         </td>
                         <td className={styles.linkContainer}>
-                          <div className={styles.linkContainer}>
-                            <button
-                              className={`${styles.linkButton} ${styles.openLinkBtn}`}
-                              onClick={() => handleOpenLink(group.meetingLink)}
-                              title="فتح رابط الحلقة"
-                            >
-                              <FaExternalLinkAlt />
-                              <span>دخول الحلقة</span>
-                            </button>
-                            <button
-                              className={`${styles.linkButton} ${styles.copyLinkBtn}`}
-                              onClick={() => handleCopyLink(group.meetingLink)}
-                              title="نسخ رابط الحلقة"
-                            >
-                              <FaCopy />
-                            </button>
-                          </div>
+                          <MeetingLinkActions
+                            meetingLink={group.meetingLink}
+                            styles={styles}
+                            onCopySuccess={() => alert("تم نسخ الرابط بنجاح")}
+                            onCopyError={() => alert("فشل في نسخ الرابط")}
+                          />
                         </td>
                         <td>
                           <div className={styles.linkContainer}>
-                            <button
+                            <Button
                               onClick={() => {
                                 if (!reportableLesson) return;
                                 // Construct a raw-like lesson with groupId shape for StudentListModal
@@ -369,36 +343,34 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                                 };
                                 openStudentListModal(lessonForModal);
                               }}
-                              className={`${styles.linkButton} ${styles.openLinkBtn}`}
+                              variant="primary"
+                              size="small"
+                              icon={<FaListUl />}
                               title="عرض التقارير"
                               disabled={
                                 !reportableLesson || group.members.length === 0
                               }
                             >
-                              <FaListUl />
-                              <span className={styles.iconButtonText}>
-                                عرض التقارير
-                              </span>
-                            </button>
+                              عرض التقارير
+                            </Button>
                           </div>
                         </td>
                         <td>
                           <div className={styles.actionsContainer}>
-                            <button
+                            <Button
                               onClick={() =>
                                 openGroupActionsModal({
                                   id: group._id,
                                   name: group.name,
                                 })
                               }
-                              className={`${styles.linkButton} ${styles.openLinkBtn}`}
+                              variant="primary"
+                              size="small"
+                              icon={<FiEdit />}
                               title="المزيد من الإجراءات"
                             >
-                              <FiEdit />
-                              <span className={styles.iconButtonText}>
-                                إجراءات
-                              </span>
-                            </button>
+                              إجراءات
+                            </Button>
                           </div>
                         </td>
                       </tr>

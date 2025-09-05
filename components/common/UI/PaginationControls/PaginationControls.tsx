@@ -1,4 +1,5 @@
 import styles from "./PaginationControls.module.css";
+import Button from "../../Button";
 
 interface PaginationControlsProps {
   currentPage: number;
@@ -37,27 +38,27 @@ const PaginationControls = ({
       <div className="container">
         <div className={styles.paginationContent}>
           {/* Previous button */}
-          <button
-            className={`${styles.pageButton} ${styles.navButton} ${
-              currentPage === 1 ? styles.disabled : ""
-            }`}
+          <Button
+            variant={currentPage === 1 ? "outline-secondary" : "secondary"}
             onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
+            size="small"
           >
             السابق
-          </button>
+          </Button>
 
           {/* Page numbers */}
           <div className={styles.pageNumbers}>
             {/* First page */}
             {getVisiblePages()[0] > 1 && (
               <>
-                <button
-                  className={styles.pageButton}
+                <Button
+                  variant="outline-primary"
+                  size="small"
                   onClick={() => onPageChange(1)}
                 >
                   1
-                </button>
+                </Button>
                 {getVisiblePages()[0] > 2 && (
                   <span className={styles.ellipsis}>...</span>
                 )}
@@ -66,15 +67,14 @@ const PaginationControls = ({
 
             {/* Visible pages */}
             {getVisiblePages().map((page) => (
-              <button
+              <Button
                 key={page}
-                className={`${styles.pageButton} ${
-                  page === currentPage ? styles.active : ""
-                }`}
+                variant={page === currentPage ? "primary" : "outline-primary"}
+                size="small"
                 onClick={() => onPageChange(page)}
               >
                 {page}
-              </button>
+              </Button>
             ))}
 
             {/* Last page */}
@@ -84,28 +84,28 @@ const PaginationControls = ({
                   totalPages - 1 && (
                   <span className={styles.ellipsis}>...</span>
                 )}
-                <button
-                  className={styles.pageButton}
+                <Button
+                  variant="outline-primary"
+                  size="small"
                   onClick={() => onPageChange(totalPages)}
                 >
                   {totalPages}
-                </button>
+                </Button>
               </>
             )}
           </div>
 
           {/* Next button */}
-          <button
-            className={`${styles.pageButton} ${styles.navButton} ${
-              currentPage === totalPages ? styles.disabled : ""
-            }`}
+          <Button
+            variant={currentPage === totalPages ? "outline-secondary" : "secondary"}
             onClick={() =>
               currentPage < totalPages && onPageChange(currentPage + 1)
             }
             disabled={currentPage === totalPages}
+            size="small"
           >
             التالي
-          </button>
+          </Button>
         </div>
 
         {/* Page info */}

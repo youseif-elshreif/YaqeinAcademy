@@ -1,7 +1,9 @@
-import { FaExternalLinkAlt, FaCopy, FaUsers } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
 import styles from "../MonthlyClassTable.module.css";
 import { formatDate, getStatusColor, getStatusText } from "../utils";
 import { useModal } from "@/contexts/ModalContext";
+import MeetingLinkActions from "@/components/common/MeetingLinkActions";
+import Button from "@/components/common/Button";
 
 interface ClassCardProps {
   classItem: any; // raw lesson from API
@@ -23,21 +25,6 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
 
   const handleViewReports = () => {
     openStudentListModal(classItem);
-  };
-
-  // Function to copy class link to clipboard
-  const handleCopyLink = async (link: string) => {
-    try {
-      await navigator.clipboard.writeText(link);
-      console.log("تم نسخ الرابط بنجاح");
-    } catch (err) {
-      console.error("فشل في نسخ الرابط:", err);
-    }
-  };
-
-  // Function to open link in new tab
-  const handleOpenLink = (link: string) => {
-    window.open(link, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -94,29 +81,13 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>رابط الحلقة:</span>
             <div className={styles.infoValue}>
-              <div className={styles.cardLinkContainer}>
-                {meetingLink ? (
-                  <>
-                    <button
-                      className={`${styles.linkButton} ${styles.openLinkBtn} ${styles.cardLinkBtn}`}
-                      onClick={() => handleOpenLink(meetingLink)}
-                      title="فتح رابط الحلقة"
-                    >
-                      <FaExternalLinkAlt />
-                      <span>دخول الحلقة</span>
-                    </button>
-                    <button
-                      className={`${styles.linkButton} ${styles.copyLinkBtn} ${styles.cardCopyBtn}`}
-                      onClick={() => handleCopyLink(meetingLink)}
-                      title="نسخ رابط الحلقة"
-                    >
-                      <FaCopy />
-                    </button>
-                  </>
-                ) : (
-                  <span className={styles.lightColor}>—</span>
-                )}
-              </div>
+              <MeetingLinkActions
+                meetingLink={meetingLink}
+                styles={styles}
+                containerClassName={styles.cardLinkContainer}
+                openButtonClassName={styles.cardLinkBtn}
+                copyButtonClassName={styles.cardCopyBtn}
+              />
             </div>
           </div>
         </div>
@@ -125,23 +96,25 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
           {memberCount > 0 ? (
             <>
               {isCompleted ? (
-                <button
-                  className={`${styles.baseButton} ${styles.actionBtn} ${styles.viewBtn}`}
+                <Button
                   onClick={handleViewReports}
+                  variant="primary"
+                  size="small"
                 >
                   عرض التقارير
-                </button>
+                </Button>
               ) : isUpcoming ? (
                 <span className={styles.lightColor}>
                   ميعاد الحصة لم يأتي بعد
                 </span>
               ) : (
-                <button
-                  className={`${styles.baseButton} ${styles.actionBtn} ${styles.completeBtn}`}
+                <Button
                   onClick={() => openCompleteModal(classItem)}
+                  variant="primary"
+                  size="small"
                 >
                   إتمام الحصة
-                </button>
+                </Button>
               )}
             </>
           ) : (

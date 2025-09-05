@@ -10,6 +10,7 @@ import DayFilter from "@/components/common/UI/DayFilter";
 import DashboardTabs from "@/components/dashboard/student/DashboardTabs";
 import { FiUsers } from "react-icons/fi";
 import { useGroupsContext } from "@/contexts/GroupsContext";
+import Button from "@/components/common/Button";
 
 const GroupManagement: React.FC = () => {
   const { groups } = useGroupsContext();
@@ -52,14 +53,16 @@ const GroupManagement: React.FC = () => {
       <div className={userStyles.headerRow}>
         <h1 className={styles.pageTitle}>إدارة الحلقات</h1>
         <div className={userStyles.headerActions}>
-          <button onClick={handleExportData} className={styles.btnSuccess}>
-            <FiDownload className={userStyles.iconMargin} />
+          <Button
+            onClick={handleExportData}
+            variant="secondary"
+            icon={<FiDownload />}
+          >
             تصدير البيانات
-          </button>
-          <button onClick={handleAddGroup} className={styles.btnPrimary}>
-            <FiPlus className={userStyles.iconMargin} />
+          </Button>
+          <Button onClick={handleAddGroup} variant="primary" icon={<FiPlus />}>
             إضافة حلقة جديدة
-          </button>
+          </Button>
         </div>
       </div>
 

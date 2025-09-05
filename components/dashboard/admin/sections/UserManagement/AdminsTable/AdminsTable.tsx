@@ -7,6 +7,7 @@ import { FiUsers } from "react-icons/fi";
 import { FaCog } from "react-icons/fa";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import MobileAdminCards from "./Mobile/MobileAdminCards";
+import Button from "@/components/common/Button";
 
 const AdminsTable: React.FC<{ searchTerm?: string }> = ({
   searchTerm = "",
@@ -44,12 +45,13 @@ const AdminsTable: React.FC<{ searchTerm?: string }> = ({
         </div>
         <div style={{ textAlign: "center", padding: "2rem", color: "red" }}>
           <p>{error}</p>
-          <button
+          <Button
             onClick={() => window.location.reload()}
-            style={{ marginTop: "1rem", padding: "0.5rem 1rem" }}
+            variant="danger"
+            size="medium"
           >
             إعادة المحاولة
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -126,7 +128,7 @@ const AdminsTable: React.FC<{ searchTerm?: string }> = ({
                           : "-"}
                       </td>
                       <td>
-                        <button
+                        <Button
                           onClick={() =>
                             openUserActionsModal({
                               id: admin._id || admin.id,
@@ -135,15 +137,13 @@ const AdminsTable: React.FC<{ searchTerm?: string }> = ({
                               fullData: admin,
                             })
                           }
-                          style={{ margin: "auto" }}
-                          className={`${styles.linkButton} ${styles.openLinkBtn}`}
+                          variant="primary"
+                          size="small"
+                          icon={<FaCog />}
                           title="إجراءات المسؤول"
                         >
-                          <FaCog />
-                          <span className={styles.iconButtonText}>
-                            الإجراءات
-                          </span>
-                        </button>
+                          الإجراءات
+                        </Button>
                       </td>
                     </tr>
                   ))}

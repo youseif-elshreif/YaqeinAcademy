@@ -2,6 +2,7 @@ import React from "react";
 import { FaCog } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
+import Button from "@/components/common/Button";
 
 interface AdminCardProps {
   admin: any; // Admin from API
@@ -63,14 +64,15 @@ const AdminCard: React.FC<AdminCardProps> = ({ admin }) => {
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>الإجراءات:</span>
             <span className={styles.cardLinkContainer}>
-              <button
+              <Button
                 onClick={handleActionsClick}
-                className={`${styles.linkButton} ${styles.openLinkBtn}`}
+                variant="primary"
+                size="small"
+                icon={<FaCog />}
                 title="إجراءات المسؤول"
               >
-                <FaCog />
-                <span className={styles.iconButtonText}>الإجراءات</span>
-              </button>
+                الإجراءات
+              </Button>
             </span>
           </div>
         </div>

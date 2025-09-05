@@ -1,7 +1,9 @@
 import { FiEdit, FiCalendar, FiUsers } from "react-icons/fi";
-import { FaListUl, FaExternalLinkAlt, FaCopy } from "react-icons/fa";
+import { FaListUl } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
+import MeetingLinkActions from "@/components/common/MeetingLinkActions";
+import Button from "@/components/common/Button";
 
 interface GroupCardProps {
   group: any; // Group from API
@@ -10,22 +12,6 @@ interface GroupCardProps {
 const GroupCard = ({ group }: GroupCardProps) => {
   const { openGroupActionsModal, openLessonsModal, openStudentListModal } =
     useAdminModal();
-
-  // Function to copy class link to clipboard
-  const handleCopyLink = async (link: string) => {
-    try {
-      await navigator.clipboard.writeText(link);
-      alert("تم نسخ الرابط بنجاح");
-    } catch (err) {
-      console.error("فشل في نسخ الرابط:", err);
-      alert("فشل في نسخ الرابط");
-    }
-  };
-
-  // Function to open link in new tab
-  const handleOpenLink = (link: string) => {
-    window.open(link, "_blank", "noopener,noreferrer");
-  };
 
   const formatSchedule = (usualDate: any) => {
     const days = [];
@@ -131,19 +117,20 @@ const GroupCard = ({ group }: GroupCardProps) => {
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>موعد الحلقات:</span>
             <span className={styles.cardLinkContainer}>
-              <button
-                className={`${styles.linkButton} ${styles.openLinkBtn}`}
+              <Button
                 onClick={() =>
                   openLessonsModal({
                     groupId: group._id,
                     groupName: group.name,
                   })
                 }
+                variant="primary"
+                size="small"
+                icon={<FiCalendar />}
                 title="عرض الحلقات"
               >
-                <FiCalendar />
-                <span>عرض الحلقات</span>
-              </button>
+                عرض الحلقات
+              </Button>
             </span>
           </div>
 
@@ -167,29 +154,19 @@ const GroupCard = ({ group }: GroupCardProps) => {
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>رابط الحلقة:</span>
             <span className={styles.cardLinkContainer}>
-              <button
-                className={`${styles.linkButton} ${styles.openLinkBtn}`}
-                onClick={() => handleOpenLink(group.meetingLink)}
-                title="فتح رابط الحلقة"
-              >
-                <FaExternalLinkAlt />
-                <span>دخول الحلقة</span>
-              </button>
-              <button
-                className={`${styles.linkButton} ${styles.copyLinkBtn}`}
-                onClick={() => handleCopyLink(group.meetingLink)}
-                title="نسخ رابط الحلقة"
-                style={{ marginInlineStart: "0.5rem" }}
-              >
-                <FaCopy />
-              </button>
+              <MeetingLinkActions
+                meetingLink={group.meetingLink}
+                styles={styles}
+                onCopySuccess={() => alert("تم نسخ الرابط بنجاح")}
+                onCopyError={() => alert("فشل في نسخ الرابط")}
+              />
             </span>
           </div>
 
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>التقارير:</span>
             <span className={styles.cardLinkContainer}>
-              <button
+              <Button
                 onClick={() => {
                   if (!reportableLesson) return;
                   // Construct a raw-like lesson with groupId shape for StudentListModal
@@ -207,32 +184,34 @@ const GroupCard = ({ group }: GroupCardProps) => {
                   };
                   openStudentListModal(lessonForModal);
                 }}
-                className={`${styles.linkButton} ${styles.openLinkBtn}`}
+                variant="primary"
+                size="small"
+                icon={<FaListUl />}
                 title="عرض التقارير"
                 disabled={!reportableLesson}
               >
-                <FaListUl />
-                <span>عرض التقارير</span>
-              </button>
+                عرض التقارير
+              </Button>
             </span>
           </div>
 
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>الإجراءات:</span>
             <span className={styles.cardLinkContainer}>
-              <button
+              <Button
                 onClick={() =>
                   openGroupActionsModal({
                     id: group._id,
                     name: group.name,
                   })
                 }
-                className={`${styles.linkButton} ${styles.openLinkBtn}`}
+                variant="primary"
+                size="small"
+                icon={<FiEdit />}
                 title="المزيد من الإجراءات"
               >
-                <FiEdit />
-                <span>إجراءات</span>
-              </button>
+                إجراءات
+              </Button>
             </span>
           </div>
         </div>

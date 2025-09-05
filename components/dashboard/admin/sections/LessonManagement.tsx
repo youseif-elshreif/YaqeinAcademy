@@ -6,6 +6,7 @@ import StatCard from "@/components/common/UI/StatCard";
 import EnhancedLoader from "@/components/common/UI/EnhancedLoader";
 import styles from "@/styles/AdminDashboard.module.css";
 import CoursesGrid from "@/components/common/UI/CoursesGrid/CoursesGrid";
+import Button from "@/components/common/Button";
 
 const LessonManagement: React.FC = () => {
   const { openAddCourseModal } = useAdminModal();
@@ -20,6 +21,7 @@ const LessonManagement: React.FC = () => {
       startDate: course.startAt
         ? new Date(course.startAt).toLocaleDateString("ar-EG")
         : "غير محدد",
+      duration: course.duration || "غير محدد", // Add duration field
       shortDescription:
         course.description.length > 100
           ? course.description.slice(0, 100) + "..."
@@ -54,13 +56,13 @@ const LessonManagement: React.FC = () => {
     <div className={styles.overviewContainer}>
       <div className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>إدارة الدورات</h1>
-        <button
+        <Button
+          variant="primary"
+          icon={<FiPlus />}
           onClick={openAddCourseModal}
-          className={`${styles.btn} ${styles.btnPrimary} ${styles.btnWithIcon}`}
         >
-          <FiPlus />
           إنشاء دورة جديدة
-        </button>
+        </Button>
       </div>
 
       {/* Stats Cards */}

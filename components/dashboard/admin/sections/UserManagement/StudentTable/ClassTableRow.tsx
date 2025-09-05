@@ -1,6 +1,7 @@
 import { FaCog, FaListUl } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
+import Button from "@/components/common/Button";
 
 interface ClassTableRowProps {
   studentitem: any; // Student from API
@@ -74,29 +75,31 @@ const ClassTableRow = ({ studentitem }: ClassTableRowProps) => {
       </td>
       <td>
         <div className={styles.linkContainer}>
-          <button
+          <Button
             onClick={() =>
               openStudentReportsModal({
                 id: studentitem._id,
                 name: studentitem.name,
               })
             }
-            className={`${styles.linkButton} ${styles.openLinkBtn}`}
+            variant="primary"
+            size="small"
+            icon={<FaListUl />}
           >
-            <FaListUl />
-            <span className={styles.iconButtonText}>عرض التقارير</span>
-          </button>
+            عرض التقارير
+          </Button>
         </div>
       </td>
       <td>
         <div className={styles.linkContainer}>
-          <button
+          <Button
             onClick={handleActionsClick}
-            className={`${styles.linkButton} ${styles.openLinkBtn}`}
+            variant="primary"
+            size="small"
+            icon={<FaCog />}
           >
-            <FaCog />
-            <span className={styles.iconButtonText}>الإجراءات</span>
-          </button>
+            الإجراءات
+          </Button>
         </div>
       </td>
     </tr>

@@ -46,6 +46,11 @@
   width: 100%;
 }
 
+.cardActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 .closeBtn:hover {
   background: var(--danger-dark);
 }

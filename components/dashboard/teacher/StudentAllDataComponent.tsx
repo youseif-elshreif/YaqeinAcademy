@@ -14,6 +14,7 @@ import {
   FaEye,
   FaStar,
 } from "react-icons/fa";
+import Button from "@/components/common/Button";
 
 interface StudentCompletedClassData {
   classId: number;
@@ -86,9 +87,14 @@ const StudentAllDataComponent: React.FC<StudentAllDataComponentProps> = ({
           <div className={styles.studentInfo}>
             <h2 className={styles.studentName}>{studentData.studentName}</h2>
           </div>
-          <button className={styles.closeBtn} onClick={handleClose}>
-            <FaTimes />
-          </button>
+          <Button
+            onClick={handleClose}
+            variant="secondary"
+            size="small"
+            icon={<FaTimes />}
+          >
+            إغلاق
+          </Button>
         </div>
 
         <div className={styles.content}>

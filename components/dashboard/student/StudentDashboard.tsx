@@ -13,9 +13,10 @@ import styles from "@/styles/StudentDashboard.module.css";
 import Head from "next/head";
 import { useAuth } from "@/contexts/AuthContext";
 import { useStudentDashboard } from "@/contexts/StudentDashboardContext";
-import { FaCopy, FaExternalLinkAlt } from "react-icons/fa";
 import { Lessons } from "./Lessons";
 import StudentMyReportsModal from "./StudentMyReportsModal";
+import MeetingLinkActions from "@/components/common/MeetingLinkActions";
+import Button from "@/components/common/Button";
 
 function StudentDashboard() {
   const { user } = useAuth();
@@ -108,20 +109,6 @@ function StudentDashboard() {
     }
   }, [userStats?.PrivitelessonCredits]);
 
-  // Function to open link in new tab
-  const handleOpenLink = (link: string) => {
-    window.open(link, "_blank", "noopener,noreferrer");
-  };
-
-  const handleCopyLink = async (link: string) => {
-    try {
-      await navigator.clipboard.writeText(link);
-      console.log("تم نسخ الرابط بنجاح");
-    } catch (err) {
-      console.error("فشل في نسخ الرابط:", err);
-    }
-  };
-
   // Render content based on active tab
   const renderTabContent = () => {
     switch (activeTab) {
@@ -176,12 +163,13 @@ function StudentDashboard() {
               </div>
             </div>
             <div style={{ marginTop: 8, textAlign: "end" }}>
-              <button
-                className={`${styles.linkButton} ${styles.openLinkBtn}`}
+              <Button
                 onClick={() => setMyReportsOpen(true)}
+                variant="primary"
+                size="small"
               >
                 عرض تقاريري
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -223,23 +211,10 @@ function StudentDashboard() {
                 {userStats && groupMeetingLink ? (
                   <div className={styles.whatDone}>
                     <span className={styles.linkText}>رابط الحلقة</span>
-                    <div className={styles.linkContainer}>
-                      <button
-                        className={`${styles.linkButton} ${styles.openLinkBtn}`}
-                        onClick={() => handleOpenLink(groupMeetingLink || "")}
-                        title="فتح رابط الحلقة"
-                      >
-                        <FaExternalLinkAlt />
-                        <span>دخول الحلقة</span>
-                      </button>
-                      <button
-                        className={`${styles.linkButton} ${styles.copyLinkBtn}`}
-                        onClick={() => handleCopyLink(groupMeetingLink || "")}
-                        title="نسخ رابط الحلقة"
-                      >
-                        <FaCopy />
-                      </button>
-                    </div>
+                    <MeetingLinkActions
+                      meetingLink={groupMeetingLink}
+                      styles={styles}
+                    />
                   </div>
                 ) : (
                   <p className={styles.studentName}>

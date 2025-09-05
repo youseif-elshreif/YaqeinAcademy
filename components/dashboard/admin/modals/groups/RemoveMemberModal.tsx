@@ -10,6 +10,7 @@ import {
   WarningPanel,
   ConfirmTextInput,
 } from "@/components/common/Modal";
+import Button from "@/components/common/Button";
 
 interface Member {
   _id: string;
@@ -207,12 +208,12 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
         ) : error ? (
           <div className={baseStyles.errorContainer}>
             <p className={baseStyles.errorMessage}>{error}</p>
-            <button
+            <Button
               onClick={fetchGroupMembers}
-              className={baseStyles.secondaryButton}
+              variant="secondary"
             >
               إعادة المحاولة
-            </button>
+            </Button>
           </div>
         ) : members.length === 0 ? (
           <div className={baseStyles.emptyContainer}>

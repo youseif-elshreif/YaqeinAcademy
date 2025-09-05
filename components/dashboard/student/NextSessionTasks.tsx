@@ -5,11 +5,10 @@ import {
   FaBook,
   FaRedoAlt,
   FaLightbulb,
-  FaExternalLinkAlt,
-  FaCopy,
 } from "react-icons/fa";
 import { useStudentDashboard } from "@/contexts/StudentDashboardContext";
 import { useEffect } from "react";
+import MeetingLinkActions from "@/components/common/MeetingLinkActions";
 
 const NextSessionTasks = () => {
   const { userStats, userLessons, getUserLessons } = useStudentDashboard();
@@ -50,21 +49,6 @@ const NextSessionTasks = () => {
         weekday: "long",
       }),
     };
-  };
-
-  // Function to copy class link to clipboard
-  const handleCopyLink = async (link: string) => {
-    try {
-      await navigator.clipboard.writeText(link);
-      console.log("تم نسخ الرابط بنجاح");
-    } catch (err) {
-      console.error("فشل في نسخ الرابط:", err);
-    }
-  };
-
-  // Function to open link in new tab
-  const handleOpenLink = (link: string) => {
-    window.open(link, "_blank", "noopener,noreferrer");
   };
 
   // Check if student has available credits
@@ -181,27 +165,11 @@ const NextSessionTasks = () => {
           </div>
           {userStats?.GroupMeetingLink && (
             <div className={styles.sessionLinkSection}>
-              <div className={styles.sessionLinkButtons}>
-                <button
-                  className={`${styles.linkButton} ${styles.openLinkBtn}`}
-                  onClick={() =>
-                    handleOpenLink(userStats?.GroupMeetingLink || "")
-                  }
-                  title="فتح رابط الحلقة"
-                >
-                  <FaExternalLinkAlt />
-                  <span>دخول الحلقة</span>
-                </button>
-                <button
-                  className={`${styles.linkButton} ${styles.copyLinkBtn}`}
-                  onClick={() =>
-                    handleCopyLink(userStats?.GroupMeetingLink || "")
-                  }
-                  title="نسخ رابط الحلقة"
-                >
-                  <FaCopy />
-                </button>
-              </div>
+              <MeetingLinkActions
+                meetingLink={userStats?.GroupMeetingLink}
+                styles={styles}
+                containerClassName={styles.sessionLinkButtons}
+              />
             </div>
           )}
         </div>

@@ -1,14 +1,9 @@
 "use client";
 import React from "react";
 import styles from "../LessonsModal.module.css";
-import {
-  FaClock,
-  FaCalendarDay,
-  FaExternalLinkAlt,
-  FaCopy,
-  FaEdit,
-  FaTrash,
-} from "react-icons/fa";
+import { FaClock, FaCalendarDay, FaEdit, FaTrash } from "react-icons/fa";
+import MeetingLinkActions from "@/components/common/MeetingLinkActions";
+import Button from "@/components/common/Button";
 
 export interface UILessonCard {
   id: string;
@@ -40,21 +35,6 @@ const LessonCard: React.FC<LessonCardProps> = ({
     return `${displayHour}:${minutes} ${period}`;
   };
 
-  const handleCopyLink = async (link: string) => {
-    try {
-      await navigator.clipboard.writeText(link);
-      // You can add a toast notification here
-      console.log("تم نسخ الرابط بنجاح");
-    } catch (err) {
-      console.error("فشل في نسخ الرابط:", err);
-    }
-  };
-
-  // Function to open link in new tab
-  const handleOpenLink = (link: string) => {
-    window.open(link, "_blank", "noopener,noreferrer");
-  };
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("ar-EG", {
@@ -79,23 +59,10 @@ const LessonCard: React.FC<LessonCardProps> = ({
               {formatDate(lesson.date)}
             </span>
             {lesson.meetingLink ? (
-              <div className={styles.linkContainer}>
-                <button
-                  className={`${styles.linkButton} ${styles.openLinkBtn}`}
-                  title="فتح رابط الحلقة"
-                  onClick={() => handleOpenLink(lesson.meetingLink)}
-                >
-                  <FaExternalLinkAlt />
-                  <span>دخول الحلقة</span>
-                </button>
-                <button
-                  className={`${styles.linkButton} ${styles.copyLinkBtn}`}
-                  title="نسخ رابط الحلقة"
-                  onClick={() => handleCopyLink(lesson.meetingLink)}
-                >
-                  <FaCopy />
-                </button>
-              </div>
+              <MeetingLinkActions
+                meetingLink={lesson.meetingLink}
+                styles={styles}
+              />
             ) : null}
           </div>
         </div>

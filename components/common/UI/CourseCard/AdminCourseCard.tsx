@@ -7,6 +7,7 @@ interface AdminCourseCardProps {
   id: string;
   title: string;
   startDate: string;
+  duration?: string;
   shortDescription: string;
   showBtn?: boolean;
 }
