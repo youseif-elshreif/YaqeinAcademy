@@ -1,0 +1,71 @@
+﻿import React from "react";
+import { FaExternalLinkAlt, FaCopy } from "react-icons/fa";
+import Button from "@/src/components/common/Button";
+import { MeetingLinkActionsProps } from "@/src/types";
+
+const MeetingLinkActions = ({
+  meetingLink,
+  styles,
+  containerClassName = "",
+  showLabels = true,
+  disabled = false,
+  onCopySuccess,
+  onCopyError,
+  onOpenLink,
+}: MeetingLinkActionsProps) => {
+  // Function to copy class link to clipboard
+  const handleCopyLink = async (link: string) => {
+    try {
+      await navigator.clipboard.writeText(link);
+      if (onCopySuccess) {
+        onCopySuccess();
+      }
+    } catch (err) {
+      if (onCopyError) {
+        onCopyError(err as Error);
+      }
+    }
+  };
+
+  // Function to open link in new tab
+  const handleOpenLink = (link: string) => {
+    window.open(link, "_blank", "noopener,noreferrer");
+    if (onOpenLink) {
+      onOpenLink(link);
+    }
+  };
+
+  if (!meetingLink && !disabled) {
+    return (
+      <div className={`${styles.linkContainer} ${containerClassName}`}>
+        <span className={styles.lightColor}>—</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`${styles.linkContainer} ${containerClassName}`}>
+      <Button
+        onClick={() => handleOpenLink(meetingLink!)}
+        variant="primary"
+        size="small"
+        icon={<FaExternalLinkAlt />}
+        title="فتح رابط الحلقة"
+        disabled={disabled || !meetingLink}
+      >
+        {showLabels ? "دخول الحلقة" : ""}
+      </Button>
+      <Button
+        onClick={() => handleCopyLink(meetingLink!)}
+        variant="secondary"
+        size="small"
+        title="نسخ رابط الحلقة"
+        disabled={disabled || !meetingLink}
+      >
+        <FaCopy />
+      </Button>
+    </div>
+  );
+};
+
+export default MeetingLinkActions;

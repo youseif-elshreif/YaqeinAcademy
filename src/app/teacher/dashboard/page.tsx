@@ -2,20 +2,20 @@
 
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import styles from "@/styles/TeacherDashboard.module.css";
-import TeacherSummaryCards from "@/components/dashboard/teacher/TeacherSummaryCards";
-import MonthlyClassTable from "@/components/dashboard/teacher/MonthlyClassTable/index";
-import DashboardTabs from "@/components/dashboard/student/DashboardTabs";
-import ProfileSettings from "@/components/dashboard/student/ProfileSettings";
-import { ModalProvider } from "@/contexts/ModalContext";
-import ModalContainer from "@/components/common/Layout/ModalContainer";
+import styles from "@/src/styles/TeacherDashboard.module.css";
+import TeacherSummaryCards from "@/src/components/dashboard/teacher/TeacherSummaryCards";
+import MonthlyClassTable from "@/src/components/dashboard/teacher/MonthlyClassTable/index";
+import DashboardTabs from "@/src/components/dashboard/student/DashboardTabs";
+import ProfileSettings from "@/src/components/dashboard/student/ProfileSettings";
+import { ModalProvider } from "@/src/contexts/ModalContext";
+import ModalContainer from "@/src/components/common/Layout/ModalContainer";
 // Use raw lessons shape from API; no local remapping
-import { useAuth } from "@/contexts/AuthContext";
-import { withTeacherProtection } from "@/components/auth/withRoleProtection";
+import { useAuth } from "@/src/contexts/AuthContext";
+import { withTeacherProtection } from "@/src/components/auth/withRoleProtection";
 import {
   TeacherDashboardProvider,
   useTeacherDashboard,
-} from "@/contexts/TeacherDashboardContext";
+} from "@/src/contexts/TeacherDashboardContext";
 
 const TeacherDashboardContent = () => {
   const { user } = useAuth();
@@ -45,7 +45,7 @@ const TeacherDashboardContent = () => {
               })
             : [];
         setClasses(sorted);
-      } catch (e) {
+      } catch {
       } finally {
         if (mounted) {
           setLoading(false);

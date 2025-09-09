@@ -6,11 +6,14 @@ import React, {
   type ChangeEvent,
   type FormEvent,
 } from "react";
-import { useAuth } from "@/contexts/AuthContext";
-import { useContactContext, type ContactInfo } from "@/contexts/ContactContext";
+import { useAuth } from "@/src/contexts/AuthContext";
+import {
+  useContactContext,
+  type ContactInfo,
+} from "@/src/contexts/ContactContext";
 import styles from "./contact.module.css";
-import { FormField, ErrorDisplay } from "@/components/common/Modal";
-import Button from "@/components/common/Button";
+import { FormField, ErrorDisplay } from "@/src/components/common/Modal";
+import Button from "@/src/components/common/Button";
 
 export default function AdminContactPage() {
   const { token } = useAuth();
@@ -130,7 +133,8 @@ export default function AdminContactPage() {
       // جلب البيانات المحدثة من السيرفر
       try {
         await fetchContactData();
-      } catch {// لا نعرض خطأ للمستخدم لأن التحديث تم بنجاح
+      } catch {
+        // لا نعرض خطأ للمستخدم لأن التحديث تم بنجاح
         setContact(payload);
         setPhoneInput(payload.phone.join(", "));
         setWhatsappInput(payload.whatsappNumber.join(", "));

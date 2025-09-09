@@ -9,12 +9,12 @@ import {
   CheckboxField,
   TextareaField,
   withGuestProtection,
-} from "@/components/auth";
+} from "@/src/components/auth";
 import styles from "./register.module.css";
-import { useAuth } from "@/contexts/AuthContext";
-import CountrySelect from "@/components/auth/CountrySelect";
+import { useAuth } from "@/src/contexts/AuthContext";
+import CountrySelect from "@/src/components/auth/CountrySelect";
 import { isValidPhoneNumber, CountryCode } from "libphonenumber-js";
-import { RegisterFormData, RegisterFormErrors } from "@/types";
+import { RegisterFormData, RegisterFormErrors } from "@/src/types";
 
 const RegisterPage = () => {
   const { register } = useAuth();

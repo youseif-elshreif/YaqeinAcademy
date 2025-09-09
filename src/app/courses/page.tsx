@@ -1,10 +1,10 @@
 ﻿"use client";
 
 import Head from "next/head";
-import HeroSection from "@/components/common/HeroSection/HeroSection";
-import CoursesGrid from "@/components/common/UI/CoursesGrid/CoursesGrid";
+import HeroSection from "@/src/components/common/HeroSection/HeroSection";
+import CoursesGrid from "@/src/components/common/UI/CoursesGrid/CoursesGrid";
 import { useEffect, useState } from "react";
-import api, { API_BASE_URL } from "@/utils/api";
+import api, { API_BASE_URL } from "@/src/utils/api";
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState<any[]>([]);
@@ -18,7 +18,8 @@ const CoursesPage = () => {
         // Try to fetch from API (without authentication for public access)
         const response = await api.get(`${API_BASE_URL}/api/course`);
         setCourses(response.data || []);
-      } catch (error) {// Fallback to empty array if API fails
+      } catch {
+        // Fallback to empty array if API fails
         setCourses([]);
       } finally {
         setIsLoading(false);

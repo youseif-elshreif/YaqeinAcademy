@@ -1,0 +1,74 @@
+import React from "react";
+import { FaCog } from "react-icons/fa";
+import styles from "@/src/components/dashboard/admin/styles.module.css";
+import { useAdminModal } from "@/src/contexts/AdminModalContext";
+import Button from "@/src/components/common/Button";
+import { AdminCardProps } from "@/src/types";
+
+const AdminCard: React.FC<AdminCardProps> = ({ admin }) => {
+  const { openUserActionsModal } = useAdminModal();
+
+  const handleActionsClick = () => {
+    openUserActionsModal({
+      id: admin._id,
+      name: admin.name,
+      userType: "admin",
+      fullData: admin,
+    });
+  };
+
+  const formatDate = (dateString: string) => {
+    if (!dateString) return "-";
+    return new Date(dateString).toLocaleDateString("ar-EG");
+  };
+
+  return (
+    <div key={admin._id} className={styles.classCard}>
+      <div className={styles.cardHeader}>
+        <div className={styles.studentInfo}>
+          <h3 className={`${styles.cardStudentName} ${styles.clickableText}`}>
+            {admin.name}
+          </h3>
+        </div>
+      </div>
+
+      <div className={styles.cardBody}>
+        <div className={styles.cardInfo}>
+          <div className={styles.infoItem}>
+            <span className={styles.infoLabel}>البريد الإلكتروني:</span>
+            <span className={styles.infoValue}>{admin.email}</span>
+          </div>
+
+          <div className={styles.infoItem}>
+            <span className={styles.infoLabel}>الدور:</span>
+            <span className={styles.infoValue}>{admin.role}</span>
+          </div>
+
+          <div className={styles.infoItem}>
+            <span className={styles.infoLabel}>تاريخ الإنشاء:</span>
+            <span className={styles.infoValue}>
+              {formatDate(admin.createdAt)}
+            </span>
+          </div>
+
+          <div className={styles.infoItem}>
+            <span className={styles.infoLabel}>الإجراءات:</span>
+            <span className={styles.cardLinkContainer}>
+              <Button
+                onClick={handleActionsClick}
+                variant="primary"
+                size="small"
+                icon={<FaCog />}
+                title="إجراءات المسؤول"
+              >
+                الإجراءات
+              </Button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AdminCard;

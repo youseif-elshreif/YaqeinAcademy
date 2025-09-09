@@ -9,10 +9,10 @@ import {
   ErrorMessage,
   CheckboxField,
   withGuestProtection,
-} from "@/components/auth";
+} from "@/src/components/auth";
 import styles from "./login.module.css";
-import { useAuth } from "@/contexts/AuthContext";
-import { LoginFormData, LoginFormErrors } from "@/types";
+import { useAuth } from "@/src/contexts/AuthContext";
+import { LoginFormData, LoginFormErrors } from "@/src/types";
 
 // Type definitions
 

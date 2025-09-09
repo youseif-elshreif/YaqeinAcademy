@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import styles from "@/styles/ErrorPage.module.css";
+import styles from "@/src/styles/ErrorPage.module.css";
 import { FaLock } from "react-icons/fa";
-import Button from "@/components/common/Button";
+import Button from "@/src/components/common/Button";
 
 export default function Unauthorized() {
   const router = useRouter();

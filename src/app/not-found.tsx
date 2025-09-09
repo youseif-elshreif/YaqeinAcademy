@@ -1,7 +1,7 @@
 import Link from "next/link";
-import styles from "@/styles/ErrorPage.module.css";
+import styles from "@/src/styles/ErrorPage.module.css";
 import { FaBook } from "react-icons/fa";
-import Button from "@/components/common/Button";
+import Button from "@/src/components/common/Button";
 
 export default function Custom404() {
   return (

@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BsCheckCircle, BsXCircle, BsClockHistory } from "react-icons/bs";
-import { useAuth } from "@/contexts/AuthContext";
-import EmailVerificationLoader from "@/components/common/UI/EmailVerificationLoader";
-import Button from "@/components/common/Button";
-import styles from "@/styles/VerifyEmailPage.module.css";
+import { useAuth } from "@/src/contexts/AuthContext";
+import EmailVerificationLoader from "@/src/components/common/UI/EmailVerificationLoader";
+import Button from "@/src/components/common/Button";
+import styles from "@/src/styles/VerifyEmailPage.module.css";
 
 const VerifyEmailPage: React.FC = () => {
   const { verifyEmail } = useAuth();
