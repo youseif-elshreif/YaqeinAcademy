@@ -1,34 +1,26 @@
-/* Add Group Modal Styles */
-
-/* Group modal specific styles */
-.modalBody {
+﻿.modalBody {
   max-height: calc(90vh - 120px);
   overflow-y: auto;
 }
-
 .form {
   display: flex;
   flex-direction: column;
 }
-
 .formGroup {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
-
 .formRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
-
 .groupTypeSelector {
   display: flex;
   gap: 1rem;
   margin-top: 0.5rem;
 }
-
 .groupTypeOption {
   flex: 1;
   padding: 1rem;
@@ -39,36 +31,30 @@
   transition: all 0.2s ease;
   text-align: center;
 }
-
 .groupTypeOption:hover {
   border-color: var(--primary-color);
   background: var(--primary-light);
 }
-
 .groupTypeOption.selected {
   border-color: var(--primary-color);
   background: var(--primary-color);
   color: white;
 }
-
 .groupTypeIcon {
   font-size: 2rem;
   margin-bottom: 0.5rem;
   display: block;
 }
-
 .groupTypeLabel {
   font-weight: 600;
   font-size: 0.95rem;
 }
-
 .membersSection {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
   background: var(--main-bg);
 }
-
 .sectionTitle {
   color: var(--text-dark);
   font-size: 1rem;
@@ -78,11 +64,9 @@
   align-items: center;
   gap: 0.5rem;
 }
-
 .searchInput {
   margin-bottom: 1rem;
 }
-
 .membersList {
   max-height: 200px;
   overflow-y: auto;
@@ -90,7 +74,6 @@
   border-radius: 6px;
   background: var(--base-bg);
 }
-
 .memberItem {
   display: flex;
   align-items: center;
@@ -99,58 +82,45 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
-
 .memberItem:last-child {
   border-bottom: none;
 }
-
 .memberItem:hover {
   background: var(--hover-bg);
 }
-
 .memberItem.selected {
   background: var(--primary-light);
 }
-
 .memberCheckbox {
   margin-left: 0.75rem;
 }
-
 .memberInfo {
   flex: 1;
 }
-
 .memberName {
   font-weight: 600;
   color: var(--text-dark);
   margin: 0 0 0.25rem 0;
 }
-
 .memberEmail {
   font-size: 0.9rem;
   color: var(--text-light);
   margin: 0;
 }
-
 .selectedMembersCount {
   color: var(--primary-color);
   font-size: 0.9rem;
   margin-top: 0.5rem;
   text-align: center;
 }
-
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .formRow {
     grid-template-columns: 1fr;
   }
-
   .groupTypeSelector {
     flex-direction: column;
   }
 }
-
-/* Skeleton Loading Styles */
 .skeletonLabel {
   height: 16px;
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
@@ -160,7 +130,6 @@
   margin-bottom: 8px;
   width: 120px;
 }
-
 .skeletonInput {
   height: 44px;
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
@@ -169,7 +138,6 @@
   border-radius: 8px;
   margin-bottom: 16px;
 }
-
 .skeletonTextarea {
   height: 80px;
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
@@ -178,7 +146,6 @@
   border-radius: 8px;
   margin-bottom: 16px;
 }
-
 .skeletonSelect {
   height: 44px;
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
@@ -187,7 +154,6 @@
   border-radius: 8px;
   flex: 1;
 }
-
 .skeletonButton {
   height: 36px;
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
@@ -197,7 +163,6 @@
   width: 140px;
   margin-top: 12px;
 }
-
 .loadingMessage {
   position: absolute;
   top: 50%;
@@ -213,7 +178,6 @@
   border-radius: 12px;
   backdrop-filter: blur(4px);
 }
-
 .loadingSpinner {
   width: 32px;
   height: 32px;
@@ -222,7 +186,6 @@
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
-
 @keyframes loading {
   0% {
     background-position: -200% 0;
@@ -231,7 +194,6 @@
     background-position: 200% 0;
   }
 }
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);

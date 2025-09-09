@@ -1,11 +1,5 @@
-﻿// ==================================================
-// Modal Types
-// ==================================================
-
-import { UserType } from "./auth.types";
-
+﻿import { UserType } from "./auth.types";
 export interface ModalContextType {
-  // Modal states
   isCompleteModalOpen: boolean;
   isStudentDataModalOpen: boolean;
   isGroupCompleteModalOpen: boolean;
@@ -18,8 +12,6 @@ export interface ModalContextType {
   addClassLinkModalOpen: boolean;
   studentListModalOpen: boolean;
   studentReportsModalOpen: boolean;
-
-  // Selected data
   selectedLessonForCompletion: any;
   selectedStudentForData: number | null;
   selectedClassForGroupCompletion: any;
@@ -31,8 +23,6 @@ export interface ModalContextType {
   selectedLessonForStudents: any;
   studentAllData: any;
   selectedGroupClass: any;
-
-  // Actions
   openCompleteModal: (lesson: any) => void;
   openStudentDataModal: (studentId: number) => void;
   openGroupCompleteModal: (classData: any) => void;
@@ -49,9 +39,7 @@ export interface ModalContextType {
   saveGroupCompletion: (completionData: any) => void;
   saveClassLink: (classLink: string, classId: number) => void;
 }
-
 export interface AdminModalContextType {
-  // Modal states
   addUserModalOpen: boolean;
   addCourseModalOpen: boolean;
   editCourseModalOpen: boolean;
@@ -73,8 +61,6 @@ export interface AdminModalContextType {
   studentListModalOpen: boolean;
   studentReportsModalOpen: boolean;
   editTeacherLinkModalOpen: boolean;
-
-  // Selected data
   selectedUserType: UserType | null;
   selectedCourseId: string | null;
   selectedGroupData: {
@@ -94,15 +80,11 @@ export interface AdminModalContextType {
   selectedLessonForStudents: any;
   selectedStudentForReports: any;
   selectedTeacherForLink: any;
-
-  // Actions
   addCreditsToStudent: (
     studentId: string,
     privateAmount: number,
     publicAmount?: number
   ) => Promise<any>;
-
-  // User modals
   openAddUserModal: (userType: UserType) => void;
   closeAddUserModal: () => void;
   openEditUserModal: (userData: any) => void;
@@ -113,24 +95,18 @@ export interface AdminModalContextType {
   closeDeleteUserModal: () => void;
   openEditTeacherLinkModal: (teacherData: any) => void;
   closeEditTeacherLinkModal: () => void;
-
-  // Credits modal
   openAddCreditsModal: (studentData: {
     id?: string;
     userId?: string;
     name: string;
   }) => void;
   closeAddCreditsModal: () => void;
-
-  // Course modals
   openAddCourseModal: () => void;
   closeAddCourseModal: () => void;
   openEditCourseModal: (courseId: string) => void;
   closeEditCourseModal: () => void;
   openDeleteCourseModal: (courseId: string) => void;
   closeDeleteCourseModal: () => void;
-
-  // Group modals
   openAddGroupModal: () => void;
   closeAddGroupModal: () => void;
   openEditGroupModal: (groupData: any) => void;
@@ -143,8 +119,6 @@ export interface AdminModalContextType {
   closeAddMembersModal: () => void;
   openRemoveMemberModal: (groupData: any) => void;
   closeRemoveMemberModal: () => void;
-
-  // Lesson modals
   openLessonsModal: (groupData: any) => void;
   closeLessonsModal: () => void;
   openAddLessonModal: () => void;
@@ -153,14 +127,10 @@ export interface AdminModalContextType {
   closeEditLessonModal: () => void;
   openDeleteLessonModal: (lessonData: any) => void;
   closeDeleteLessonModal: () => void;
-
-  // Student modals
   openStudentListModal: (lessonData: any) => void;
   closeStudentListModal: () => void;
   openStudentReportsModal: (studentData: any) => void;
   closeStudentReportsModal: () => void;
-
-  // Additional functions
   handleDeleteGroup: (groupId: string) => void;
   saveNewUser: (userData: any, userType?: any) => void;
   updateUser: (userId: string, userData: any, userType?: any) => void;
@@ -171,11 +141,9 @@ export interface AdminModalContextType {
   setUserType: (userType: UserType | null) => void;
   saveNewGroup: (groupData: any) => void;
 }
-
 export interface ModalProviderProps {
   children: React.ReactNode;
 }
-
 export interface AdminModalProviderProps {
   children: React.ReactNode;
 }

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React from "react";
 import styles from "../LessonsModal.module.css";
 import { FaClock, FaCalendarDay, FaEdit, FaTrash } from "react-icons/fa";

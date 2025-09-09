@@ -1,5 +1,4 @@
-/* Base Modal Styles - Inheriting from CompleteClassModal */
-.modalOverlay {
+﻿.modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -13,7 +12,6 @@
   padding: 1rem;
   animation: fadeIn 0.3s ease-out;
 }
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -22,7 +20,6 @@
     opacity: 1;
   }
 }
-
 @keyframes fadeOut {
   from {
     opacity: 1;
@@ -31,7 +28,6 @@
     opacity: 0;
   }
 }
-
 .modal {
   background: var(--base-bg);
   border-radius: 12px;
@@ -45,7 +41,6 @@
   animation: modalSlideIn 0.3s ease-out;
   transform-origin: center;
 }
-
 @keyframes modalSlideIn {
   from {
     opacity: 0;
@@ -56,7 +51,6 @@
     transform: scale(1) translateY(0);
   }
 }
-
 @keyframes modalSlideOut {
   from {
     opacity: 1;
@@ -67,15 +61,12 @@
     transform: scale(0.9) translateY(-20px);
   }
 }
-
 .fadeOut {
   animation: fadeOut 0.3s ease-in;
 }
-
 .modalSlideOut {
   animation: modalSlideOut 0.3s ease-in;
 }
-
 .modalHeader {
   display: flex;
   justify-content: space-between;
@@ -85,14 +76,12 @@
   background: var(--primary-color);
   color: white;
 }
-
 .modalTitle {
   color: white;
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
 }
-
 .closeBtn {
   background: none;
   border: none;
@@ -109,16 +98,13 @@
   align-items: center;
   justify-content: center;
 }
-
 .closeBtn:hover {
   background: rgba(255, 255, 255, 0.2);
   transform: scale(1.1);
 }
-
 .closeBtn:active {
   transform: scale(0.95);
 }
-
 .modalBody {
   overflow-y: auto;
   flex: 1;
@@ -126,15 +112,12 @@
   flex-direction: column;
   gap: 1.5rem;
 }
-
-/* Group Information */
 .groupInfo {
   background: var(--separator-bg);
   padding: 1.5rem;
   border-radius: 12px;
   border: 1px solid var(--border-color);
 }
-
 .groupName {
   color: var(--primary-color);
   font-size: 1.4rem;
@@ -142,14 +125,12 @@
   margin: 0 0 1rem 0;
   text-align: center;
 }
-
 .classDetails {
   display: flex;
   gap: 2rem;
   justify-content: center;
   flex-wrap: wrap;
 }
-
 .classDetails p {
   margin: 0;
   color: var(--text-dark);
@@ -159,12 +140,9 @@
   border-radius: 6px;
   border: 1px solid var(--border-color);
 }
-
-/* Students Section */
 .studentsSection {
   flex: 1;
 }
-
 .sectionTitle {
   color: var(--primary-color);
   font-size: 1.2rem;
@@ -172,14 +150,11 @@
   margin: 0 0 1rem 0;
   text-align: center;
 }
-
 .studentsList {
   display: grid;
   gap: 0.75rem;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
-
-/* Student Card */
 .studentCard {
   background: var(--base-bg);
   border: 2px solid var(--border-color);
@@ -193,55 +168,45 @@
   position: relative;
   overflow: hidden;
 }
-
 .studentCard:hover {
   border-color: var(--primary-color);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
 .studentCard.completed {
   background: linear-gradient(135deg, #e8f5e8 0%, #d4f5d4 100%);
   border-color: var(--success-color);
 }
-
 .studentCard.completed:hover {
   border-color: var(--success-color);
 }
-
 .studentInfo {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
-
 .studentIcon {
   color: var(--primary-color);
   font-size: 1.1rem;
 }
-
 .studentCard.completed .studentIcon {
   color: var(--success-color);
 }
-
 .studentName {
   color: var(--text-dark);
   font-weight: 600;
   font-size: 1rem;
 }
-
 .statusIndicator {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-
 .checkIcon {
   color: var(--success-color);
   font-size: 1.2rem;
   animation: checkAnimation 0.3s ease-in-out;
 }
-
 @keyframes checkAnimation {
   0% {
     transform: scale(0);
@@ -255,21 +220,17 @@
     opacity: 1;
   }
 }
-
 .pendingText {
   color: var(--text-light);
   font-size: 0.85rem;
   font-style: italic;
 }
-
-/* Progress Bar */
 .progressBar {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   margin-top: 1rem;
 }
-
 .progressTrack {
   width: 100%;
   height: 8px;
@@ -277,7 +238,6 @@
   border-radius: 4px;
   overflow: hidden;
 }
-
 .progressFill {
   height: 100%;
   background: linear-gradient(
@@ -288,15 +248,12 @@
   border-radius: 4px;
   transition: width 0.4s ease;
 }
-
 .progressText {
   text-align: center;
   color: var(--text-dark);
   font-weight: 500;
   font-size: 0.95rem;
 }
-
-/* Modal Footer */
 .modalFooter {
   display: flex;
   justify-content: flex-end;
@@ -305,7 +262,6 @@
   border-top: 1px solid var(--border-color);
   background: var(--separator-bg);
 }
-
 .cancelBtn {
   background: var(--base-bg);
   color: var(--text-dark);
@@ -317,11 +273,9 @@
   font-weight: 500;
   transition: all 0.3s ease;
 }
-
 .cancelBtn:hover {
   background: var(--border-color);
 }
-
 .submitBtn {
   background: var(--primary-color);
   color: white;
@@ -335,79 +289,62 @@
   position: relative;
   overflow: hidden;
 }
-
 .submitBtn:hover:not(:disabled) {
   background: var(--primary-color);
   opacity: 0.9;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(30, 61, 50, 0.3);
 }
-
 .submitBtn:disabled {
   background: var(--text-light);
   cursor: not-allowed;
   opacity: 0.6;
 }
-
-/* Responsive Design */
 @media (max-width: 768px) {
   .modalOverlay {
     padding: 0.5rem;
   }
-
   .modal {
     max-height: 95vh;
     max-width: 95%;
   }
-
   .modalHeader,
   .modalBody,
   .modalFooter {
     padding: 1rem;
   }
-
   .modalTitle {
     font-size: 1.25rem;
   }
-
   .studentsList {
     grid-template-columns: 1fr;
   }
-
   .classDetails {
     flex-direction: column;
     gap: 0.5rem;
   }
-
   .modalFooter {
     flex-direction: column;
   }
-
   .cancelBtn,
   .submitBtn {
     width: 100%;
   }
 }
-
 @media (max-width: 480px) {
   .groupInfo {
     padding: 1rem;
   }
-
   .studentCard {
     padding: 0.75rem;
   }
-
   .studentName {
     font-size: 0.9rem;
   }
-
   .pendingText {
     font-size: 0.8rem;
   }
 }
-
-/* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
   .modalOverlay,
   .modal,
@@ -419,15 +356,12 @@
     animation: none;
     transition: none;
   }
-
   .fadeIn,
   .modalSlideIn,
   .checkAnimation {
     animation: none;
   }
 }
-
-/* Loading and Error States */
 .loadingContainer {
   display: flex;
   flex-direction: column;
@@ -436,7 +370,6 @@
   padding: 3rem 2rem;
   text-align: center;
 }
-
 .loadingSpinner {
   width: 40px;
   height: 40px;
@@ -446,7 +379,6 @@
   animation: spin 1s linear infinite;
   margin-bottom: 1rem;
 }
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -455,13 +387,11 @@
     transform: rotate(360deg);
   }
 }
-
 .loadingContainer p {
   color: var(--text-muted);
   font-size: 0.95rem;
   margin: 0;
 }
-
 .errorContainer {
   display: flex;
   flex-direction: column;
@@ -470,14 +400,12 @@
   padding: 3rem 2rem;
   text-align: center;
 }
-
 .errorMessage {
   color: var(--error-color);
   font-size: 1rem;
   margin-bottom: 1.5rem;
   font-weight: 500;
 }
-
 .retryButton {
   background: var(--primary-color);
   color: white;
@@ -489,11 +417,9 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
-
 .retryButton:hover {
   background: var(--primary-hover);
 }
-
 .retryButton:active {
   transform: translateY(1px);
 }

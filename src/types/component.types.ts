@@ -1,53 +1,38 @@
-﻿// ==================================================
-// Component Props Types
-// ==================================================
-
-import { Student } from "./student.types";
+﻿import { Student } from "./student.types";
 import { Teacher } from "./teacher.types";
 import { Group } from "./group.types";
 import { ClassData } from "./lesson.types";
 import { BaseComponentProps } from "./base.types";
-
 export interface StudentListProps extends BaseComponentProps {
   Students: Student[];
 }
-
 export interface StudentItemProps extends BaseComponentProps {
   studentitem: Student;
 }
-
 export interface TeacherListProps extends BaseComponentProps {
   Teachers: Teacher[];
 }
-
 export interface TeacherItemProps extends BaseComponentProps {
   teacher: Teacher;
 }
-
 export interface GroupListProps extends BaseComponentProps {
   groups: Group[];
 }
-
 export interface UserManagementProps extends BaseComponentProps {
   studentData: Student[];
 }
-
 export interface ClassTableRowProps extends BaseComponentProps {
   teacher: Teacher;
 }
-
 export interface TeacherClassTableRowProps extends BaseComponentProps {
   teacher: Teacher;
 }
-
 export interface ClassCardProps extends BaseComponentProps {
   classData: ClassData;
 }
-
 export interface GroupCardProps extends BaseComponentProps {
   group: Group;
 }
-
 export type ButtonVariant =
   | "primary"
   | "secondary"
@@ -60,9 +45,7 @@ export type ButtonVariant =
   | "link"
   | "outline-primary"
   | "outline-secondary";
-
 export type ButtonSize = "small" | "sm" | "medium" | "md" | "large" | "lg";
-
 export interface ButtonProps extends BaseComponentProps {
   variant?: ButtonVariant;
   size?: ButtonSize;
@@ -79,15 +62,10 @@ export interface ButtonProps extends BaseComponentProps {
   title?: string;
   id?: string;
 }
-
-// Note: MeetingLinkActionsProps and ModalHeaderProps are defined in other specialized files
-// to avoid duplication. Import from modal-system.types.ts and ui.types.ts respectively.
-
 export interface MeetingLinkActionsProps {
   meetingLink: string;
   styles: any;
 }
-
 export interface ModalHeaderProps {
   title: string;
   onClose: () => void;
@@ -96,7 +74,6 @@ export interface ModalHeaderProps {
   disabled?: boolean;
   isOpen?: boolean;
 }
-
 export interface FormFieldProps {
   label: string;
   name: string;
@@ -126,7 +103,6 @@ export interface FormFieldProps {
   onTogglePassword?: () => void;
   fullWidth?: boolean;
 }
-
 export interface CourseCardProps {
   course: {
     id: string;
@@ -140,7 +116,6 @@ export interface CourseCardProps {
     image?: string;
   };
 }
-
 export interface PaginationControlsProps {
   currentPage: number;
   totalPages: number;

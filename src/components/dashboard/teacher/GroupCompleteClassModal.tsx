@@ -23,12 +23,10 @@ const GroupCompleteClassModal = ({
   const { reportLesson } = useTeacherDashboard();
   const { getLessonById, completeLesson } = useLessonsContext();
 
-  // Lesson data state
   const [lessonData, setLessonData] = useState<any>(null);
   const [isLoadingLesson, setIsLoadingLesson] = useState(true);
   const [lessonError, setLessonError] = useState<string>("");
 
-  // Modal states
   const [isClosing, setIsClosing] = useState(false);
   const [currentStudentIndex, setCurrentStudentIndex] = useState<number | null>(
     null
@@ -41,7 +39,6 @@ const GroupCompleteClassModal = ({
   >(new Map());
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Fetch lesson data on component mount
   useEffect(() => {
     const fetchLessonData = async () => {
       try {
@@ -50,7 +47,7 @@ const GroupCompleteClassModal = ({
         const data = await getLessonById(lessonId);
         setLessonData(data);
       } catch (error) {
-        setLessonError("فشل في جلب بيانات الحصة");
+        setLessonError("??? ?? ??? ?????? ?????");
       } finally {
         setIsLoadingLesson(false);
       }
@@ -61,11 +58,10 @@ const GroupCompleteClassModal = ({
     }
   }, [lessonId, getLessonById]);
 
-  // Extract students from lesson data
   const students: Student[] =
     lessonData?.groupId?.members?.map((member: any) => ({
       _id: member._id,
-      id: member._id, // تأكد من وجود id
+      id: member._id, // ???? ?? ???? id
       name: member.name,
     })) || [];
 
@@ -83,10 +79,8 @@ const GroupCompleteClassModal = ({
       new Map(prev).set(studentId, completionData)
     );
 
-    // Mark student as completed
     setCompletedStudents((prev) => new Set(prev).add(studentId));
 
-    // Close the individual modal
     setCurrentStudentIndex(null);
   };
 
@@ -105,7 +99,7 @@ const GroupCompleteClassModal = ({
     setIsSubmitting(true);
 
     try {
-      // Send reports for each student
+
       const entries = Array.from(studentCompletions.entries());
       for (const [studentId, completion] of entries) {
         const payload = {
@@ -127,7 +121,7 @@ const GroupCompleteClassModal = ({
       await completeLesson(lessonId);
       handleClose();
     } catch (error) {
-      // TODO: Show error message to user
+
     } finally {
       setIsSubmitting(false);
     }
@@ -137,17 +131,15 @@ const GroupCompleteClassModal = ({
   const currentStudent =
     currentStudentIndex !== null ? students[currentStudentIndex] : null;
 
-  // existing completion data not used in current UI
-
   const actions = [
     {
-      label: "إلغاء",
+      label: "?????",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isSubmitting,
     },
     {
-      label: allStudentsCompleted ? "إتمام الحصة" : "أكمل بيانات الطلاب",
+      label: allStudentsCompleted ? "????? ?????" : "???? ?????? ??????",
       onClick: handleSubmitAll,
       variant: "primary" as const,
       disabled: !allStudentsCompleted || isSubmitting,
@@ -159,7 +151,7 @@ const GroupCompleteClassModal = ({
     <>
       <ModalContainer isOpen={!isClosing} variant="add" onClose={handleClose}>
         <ModalHeader
-          title="إكمال حصة الحلقة"
+          title="????? ??? ??????"
           onClose={handleClose}
           disabled={isSubmitting || isLoadingLesson}
           variant="add"
@@ -168,7 +160,7 @@ const GroupCompleteClassModal = ({
           {isLoadingLesson ? (
             <div className={styles.loadingContainer}>
               <div className={styles.loadingSpinner}></div>
-              <p>جاري تحميل بيانات الحصة...</p>
+              <p>???? ????? ?????? ?????...</p>
             </div>
           ) : lessonError ? (
             <div className={styles.errorContainer}>
@@ -177,7 +169,7 @@ const GroupCompleteClassModal = ({
                 onClick={() => window.location.reload()}
                 variant="primary"
               >
-                إعادة المحاولة
+                ????? ????????
               </Button>
             </div>
           ) : (
@@ -186,7 +178,7 @@ const GroupCompleteClassModal = ({
                 <h3 className={styles.groupName}>{groupName}</h3>
                 <div className={styles.classDetails}>
                   <p>
-                    <strong>الموعد:</strong>{" "}
+                    <strong>??????:</strong>{" "}
                     {scheduledAt &&
                       new Date(scheduledAt).toLocaleString("ar-EG", {
                         year: "numeric",
@@ -206,7 +198,7 @@ const GroupCompleteClassModal = ({
               >
                 <div className={styles.studentsSection}>
                   <h4 className={styles.sectionTitle}>
-                    الطلاب ({completedStudents.size}/{students.length})
+                    ?????? ({completedStudents.size}/{students.length})
                   </h4>
 
                   <div className={styles.studentsList}>
@@ -232,7 +224,7 @@ const GroupCompleteClassModal = ({
                             <FaCheck className={styles.checkIcon} />
                           ) : (
                             <span className={styles.pendingText}>
-                              انقر للإكمال
+                              ???? ???????
                             </span>
                           )}
                         </div>
@@ -253,7 +245,7 @@ const GroupCompleteClassModal = ({
                     />
                   </div>
                   <span className={styles.progressText}>
-                    تم إكمال {completedStudents.size} من {students.length} طلاب
+                    ?? ????? {completedStudents.size} ?? {students.length} ????
                   </span>
                 </div>
               </div>
@@ -263,7 +255,7 @@ const GroupCompleteClassModal = ({
         <ModalActions actions={actions} alignment="right" />
       </ModalContainer>
 
-      {/* Individual Student Modal */}
+
       {currentStudentIndex !== null && currentStudent && (
         <CompleteClassModal
           mode="group"
@@ -271,7 +263,7 @@ const GroupCompleteClassModal = ({
           scheduledAt={scheduledAt}
           student={{ id: currentStudent._id, name: currentStudent.name }}
           groupName={groupName}
-          existingData={studentCompletions.get(currentStudent._id)} // تمرير البيانات المحفوظة للتعديل
+          existingData={studentCompletions.get(currentStudent._id)} // ????? ???????? ???????? ???????
           onSave={(data) => handleStudentCompletion({ ...data })}
           onClose={handleCloseStudentModal}
         />

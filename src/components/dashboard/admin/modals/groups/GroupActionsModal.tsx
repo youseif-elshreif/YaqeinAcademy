@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React from "react";
 import { FaEdit, FaTrash, FaUsers, FaUserMinus } from "react-icons/fa";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
@@ -29,7 +29,7 @@ const GroupActionsModal: React.FC<GroupActionsModalProps> = ({
   };
 
   const handleAddMember = () => {
-    // سنحتاج إلى الحصول على نوع الحلقة، لكن للآن سنستخدم "private" كافتراضي
+
     onAddMember(groupId, groupName, "private");
     onClose();
   };

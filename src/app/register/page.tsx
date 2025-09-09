@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import {
@@ -45,7 +45,6 @@ const RegisterPage = () => {
   ) => {
     const { name, value, type } = e.target;
 
-    // استخدام type guard للتحقق من وجود checked
     const checked = "checked" in e.target ? e.target.checked : false;
 
     setFormData((prev) => ({

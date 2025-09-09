@@ -1,14 +1,8 @@
-﻿// ==================================================
-// Dashboard Modal Types
-// ==================================================
-
-import { BaseModalProps } from "./base.types";
-
+﻿import { BaseModalProps } from "./base.types";
 export interface GroupCompleteClassModalProps extends BaseModalProps {
   lessonId: string;
   onSuccess?: () => void;
 }
-
 export interface CompletionData {
   rate: number;
   completed: {
@@ -21,23 +15,19 @@ export interface CompletionData {
   };
   notes: string;
 }
-
 export interface StudentReportsModalProps extends BaseModalProps {
   student: { id: string; name?: string } | null;
 }
-
 export interface StudentListModalProps extends BaseModalProps {
   lesson: any;
   onOpenStudentReports?: (student: any) => void;
 }
-
 export interface EditClassLinkModalProps extends BaseModalProps {
   classData: any;
   classInfo?: any;
   onSave: (link: string) => void;
   onSubmit?: (data: any) => void;
 }
-
 export interface ClassModalsProps {
   selectedLesson: any;
   selectedStudent: any;
@@ -58,24 +48,19 @@ export interface ClassModalsProps {
   onCloseStudentList: () => void;
   onCloseStudentReports: () => void;
 }
-
 export interface MonthlyClassTableProps {
   classes: any[];
 }
-
 export interface LessonLike {
   id: number;
   status: string;
 }
-
 export interface TeacherSummaryCardsProps {
   classes: LessonLike[];
 }
-
 export interface MobileClassCardsProps {
   classes: any[];
 }
-
 export interface ClassTableProps {
   classes: any[];
 }

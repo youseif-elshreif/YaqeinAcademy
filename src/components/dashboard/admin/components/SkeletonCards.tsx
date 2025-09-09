@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import styles from "@/src/components/dashboard/admin/styles.module.css";
 import skeletonStyles from "@/src/components/dashboard/admin/styles/SkeletonLoading.module.css";
 
@@ -18,7 +18,7 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
           key={index}
           className={`${styles.classCard} ${skeletonStyles.skeletonCard}`}
         >
-          {/* Header - مطابق للأصلي */}
+
           <div className={styles.cardHeader}>
             <div className={styles.studentInfo}>
               <div
@@ -28,10 +28,10 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
             </div>
           </div>
 
-          {/* Body - مطابق للأصلي */}
+
           <div className={styles.cardBody}>
             <div className={styles.cardInfo}>
-              {/* البريد الإلكتروني / الإيميل */}
+
               <div className={styles.infoItem}>
                 <div
                   className={`${skeletonStyles.skeletonText} ${skeletonStyles.skeletonTextShort}`}
@@ -43,7 +43,7 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
                 />
               </div>
 
-              {/* رقم الهاتف */}
+
               <div className={styles.infoItem}>
                 <div
                   className={`${skeletonStyles.skeletonText} ${skeletonStyles.skeletonTextShort}`}
@@ -57,7 +57,7 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
 
               {type === "student" ? (
                 <>
-                  {/* عدد الحلقات المستحقة */}
+
                   <div className={styles.infoItem}>
                     <div
                       className={`${skeletonStyles.skeletonText} ${skeletonStyles.skeletonTextMedium}`}
@@ -69,7 +69,7 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
                     />
                   </div>
 
-                  {/* العمر */}
+
                   <div className={styles.infoItem}>
                     <div
                       className={`${skeletonStyles.skeletonText} ${skeletonStyles.skeletonTextShort}`}
@@ -81,7 +81,7 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
                     />
                   </div>
 
-                  {/* الدولة */}
+
                   <div className={styles.infoItem}>
                     <div
                       className={`${skeletonStyles.skeletonText} ${skeletonStyles.skeletonTextShort}`}
@@ -93,7 +93,7 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
                     />
                   </div>
 
-                  {/* حفظ القرآن */}
+
                   <div className={styles.infoItem}>
                     <div
                       className={`${skeletonStyles.skeletonText} ${skeletonStyles.skeletonTextMedium}`}
@@ -105,7 +105,7 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
                     />
                   </div>
 
-                  {/* عدد الأجزاء */}
+
                   <div className={styles.infoItem}>
                     <div
                       className={`${skeletonStyles.skeletonText} ${skeletonStyles.skeletonTextMedium}`}
@@ -117,7 +117,7 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
                     />
                   </div>
 
-                  {/* تاريخ التسجيل */}
+
                   <div className={styles.infoItem}>
                     <div
                       className={`${skeletonStyles.skeletonText} ${skeletonStyles.skeletonTextMedium}`}
@@ -129,7 +129,7 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
                     />
                   </div>
 
-                  {/* الإجراءات */}
+
                   <div className={styles.infoItem}>
                     <div
                       className={`${skeletonStyles.skeletonText} ${skeletonStyles.skeletonTextShort}`}
@@ -149,7 +149,7 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
                 </>
               ) : (
                 <>
-                  {/* رصيد الحلقات */}
+
                   <div className={styles.infoItem}>
                     <div
                       className={`${skeletonStyles.skeletonText} ${skeletonStyles.skeletonTextMedium}`}
@@ -161,7 +161,7 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
                     />
                   </div>
 
-                  {/* تاريخ التسجيل */}
+
                   <div className={styles.infoItem}>
                     <div
                       className={`${skeletonStyles.skeletonText} ${skeletonStyles.skeletonTextMedium}`}
@@ -179,7 +179,7 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
 
           {type === "teacher" && (
             <>
-              {/* رابط الحلقة */}
+
               <div className={styles.infoItem}>
                 <div
                   className={`${skeletonStyles.skeletonText} ${skeletonStyles.skeletonTextMedium}`}
@@ -205,7 +205,7 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
                 </div>
               </div>
 
-              {/* الإجراءات */}
+
               <div className={styles.infoItem}>
                 <div
                   className={`${skeletonStyles.skeletonText} ${skeletonStyles.skeletonTextShort}`}
@@ -225,7 +225,7 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
             </>
           )}
 
-          {/* Actions - فقط للطلاب */}
+
           {type === "student" && (
             <div className={styles.cardActions}>
               <div className={styles.linkContainer}>

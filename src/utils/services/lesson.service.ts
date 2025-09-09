@@ -1,4 +1,4 @@
-import api from "@/src/utils/api";
+﻿import api from "@/src/utils/api";
 
 export const completeLesson = (lessonId: string) =>
   api.post(`/api/lesson/${lessonId}/complete`);

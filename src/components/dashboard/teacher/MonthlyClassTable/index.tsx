@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+﻿import { useState, useEffect, useMemo } from "react";
 import styles from "./MonthlyClassTable.module.css";
 import ClassTable from "./Table/ClassTable";
 import MobileClassCards from "./MobileCards/MobileClassCards";
@@ -7,7 +7,6 @@ import SkeletonCards from "@/src/components/common/UI/Skeleton/SkeletonCards";
 import { FiUsers, FiFilter, FiCalendar, FiClock, FiX } from "react-icons/fi";
 import Button from "@/src/components/common/Button";
 import { MonthlyClassTableProps } from "@/src/types";
-// Using raw lesson items from API
 
 const MonthlyClassTable = ({
   initialClasses,
@@ -21,23 +20,19 @@ const MonthlyClassTable = ({
   const [isCurrentMonthActive, setIsCurrentMonthActive] =
     useState<boolean>(true);
 
-  // Sync with external changes to initialClasses
   useEffect(() => {
     setClasses(initialClasses);
   }, [initialClasses]);
 
-  // تطبيق فلتر "هذا الشهر" تلقائياً عند تحميل المكون
   useEffect(() => {
     const now = new Date();
     setMonthFilter((now.getMonth() + 1).toString());
     setYearFilter(now.getFullYear().toString());
   }, []); // تشغيل مرة واحدة فقط عند التحميل
 
-  // Filter classes based on date, month, year and status
   const filteredClasses = useMemo(() => {
     let filtered = classes;
 
-    // Filter by specific date
     if (dateFilter) {
       const filterDate = new Date(dateFilter);
       filtered = filtered.filter((classItem) => {
@@ -51,7 +46,6 @@ const MonthlyClassTable = ({
       });
     }
 
-    // Filter by month
     if (monthFilter) {
       filtered = filtered.filter((classItem) => {
         if (!classItem.scheduledAt) return false;
@@ -60,7 +54,6 @@ const MonthlyClassTable = ({
       });
     }
 
-    // Filter by year
     if (yearFilter) {
       filtered = filtered.filter((classItem) => {
         if (!classItem.scheduledAt) return false;
@@ -69,7 +62,6 @@ const MonthlyClassTable = ({
       });
     }
 
-    // Filter by status
     if (statusFilter !== "all") {
       filtered = filtered.filter((classItem) => {
         if (statusFilter === "completed") {
@@ -88,19 +80,19 @@ const MonthlyClassTable = ({
 
   const handleDateFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDateFilter(e.target.value);
-    // إذا غير المستخدم التاريخ يدوياً، ألغي فلتر "هذا الشهر"
+
     setIsCurrentMonthActive(false);
   };
 
   const handleMonthFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setMonthFilter(e.target.value);
-    // إذا غير المستخدم الشهر يدوياً، ألغي فلتر "هذا الشهر"
+
     setIsCurrentMonthActive(false);
   };
 
   const handleYearFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setYearFilter(e.target.value);
-    // إذا غير المستخدم السنة يدوياً، ألغي فلتر "هذا الشهر"
+
     setIsCurrentMonthActive(false);
   };
 
@@ -108,7 +100,7 @@ const MonthlyClassTable = ({
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setStatusFilter(e.target.value);
-    // فلتر الحالة لا يؤثر على فلتر "هذا الشهر"
+
   };
 
   const clearFilters = () => {
@@ -135,12 +127,12 @@ const MonthlyClassTable = ({
           <p className={styles.subtitle}>إدارة الحلقات والمتابعة مع الطلاب</p>
         </div>
 
-        {/* Desktop Skeleton */}
+
         <div className={styles.desktopView}>
           <SkeletonTable rows={5} columns={5} className={styles.tableWrapper} />
         </div>
 
-        {/* Mobile Skeleton */}
+
         <div className={styles.mobileView}>
           <SkeletonCards cards={3} type="lesson" />
         </div>
@@ -169,7 +161,7 @@ const MonthlyClassTable = ({
             <p className={styles.subtitle}>إدارة الحلقات والمتابعة مع الطلاب</p>
           </div>
 
-          {/* Filters Section */}
+
           <div className={styles.filtersContainer}>
             <div className={styles.filtersRow}>
               <div className={styles.filterGroup}>
@@ -282,7 +274,7 @@ const MonthlyClassTable = ({
               )}
             </div>
 
-            {/* Results count */}
+
             <div className={styles.resultsInfo}>
               <FiClock className={styles.infoIcon} />
               <span>
@@ -291,10 +283,10 @@ const MonthlyClassTable = ({
             </div>
           </div>
 
-          {/* Desktop Table View */}
+
           <ClassTable classes={filteredClasses} />
 
-          {/* Mobile Cards View */}
+
           <MobileClassCards classes={filteredClasses} />
         </div>
       )}

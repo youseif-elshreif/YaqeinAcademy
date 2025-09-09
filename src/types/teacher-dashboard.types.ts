@@ -1,28 +1,20 @@
-﻿// ==================================================
-// Teacher Dashboard Types
-// ==================================================
-
-export interface LessonLike {
+﻿export interface LessonLike {
   status: string;
 }
-
 export interface TeacherSummaryCardsProps {
   classes: LessonLike[];
 }
-
 export interface StudentListModalProps {
   isOpen: boolean;
   onClose: () => void;
   lesson: any; // raw lesson with groupId.members
   onOpenStudentReports?: (student: { id: string; name?: string }) => void;
 }
-
 export interface StudentReportsModalProps {
   isOpen: boolean;
   onClose: () => void;
   student: { id: string; name?: string };
 }
-
 export interface EditClassLinkModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -36,13 +28,11 @@ export interface EditClassLinkModalProps {
     currentLink?: string;
   } | null;
 }
-
 export interface ClassModalsProps {
   onEdit: (lesson: any) => void;
   onDelete: (lesson: any) => void;
   onAddLink: (lesson: any) => void;
 }
-
 export interface StudentCompletedClassData {
   _id: string;
   lessonId: string;
@@ -55,7 +45,6 @@ export interface StudentCompletedClassData {
   submissionDate: string;
   createdAt: string;
   updatedAt: string;
-  // Additional fields for view component
   classId?: number;
   date?: string;
   time?: string;
@@ -70,37 +59,31 @@ export interface StudentCompletedClassData {
     review: string[];
   } | null;
 }
-
 export interface StudentAllData {
   _id: string;
   name: string;
   email: string;
   completedClasses: StudentCompletedClassData[];
 }
-
 export interface StudentAllDataComponentProps {
   studentData: StudentAllData;
 }
-
 export interface StudentViewData {
   studentId: number;
   studentName: string;
   nickname: string;
   classes: StudentCompletedClassData[];
 }
-
 export interface StudentAllDataComponentViewProps {
   studentData: StudentViewData | null;
   onClose: () => void;
   onViewClassDetails?: (classData: StudentCompletedClassData) => void;
 }
-
 export interface Student {
   _id: string;
   name: string;
   email: string;
 }
-
 export interface CompletionData {
   [studentId: string]: {
     attendance: boolean;
@@ -110,7 +93,6 @@ export interface CompletionData {
     notes: string;
   };
 }
-
 export interface GroupClassCompletionData {
   rate: number;
   completed: {
@@ -123,26 +105,21 @@ export interface GroupClassCompletionData {
   };
   notes: string;
 }
-
 export interface StudentCompletionDetails extends GroupClassCompletionData {
   attended: boolean;
 }
-
 export interface GroupCompleteClassModalProps {
   lessonId: string;
   onClose: () => void;
   onSuccess: () => void;
 }
-
 export interface MonthlyClassTableProps {
   initialClasses: any[];
   loading?: boolean;
 }
-
 export interface ClassTableProps {
   classes: any[];
 }
-
 export interface BaseProps {
   lessonId: string;
   scheduledAt: string;
@@ -151,7 +128,6 @@ export interface BaseProps {
   onClose: () => void;
   existingData?: GroupStudentCompletion;
 }
-
 export interface GroupStudentCompletion {
   rate: number;
   completed: { newMemorization: string[]; review: string[] };
@@ -159,28 +135,22 @@ export interface GroupStudentCompletion {
   notes: string;
   attended: boolean;
 }
-
 export type CompleteClassModalProps =
   | (BaseProps & { mode: "single"; onSave?: never })
   | (BaseProps & {
       mode: "group";
       onSave: (data: GroupStudentCompletion) => void;
     });
-
 export interface ClassTableRowProps {
   classItem: any; // raw lesson from API
 }
-
 export interface MobileClassCardsProps {
   classes: any[];
 }
-
 export interface ClassCardProps {
   classItem: any; // raw lesson from API
 }
-
 export interface ClassModalsProps {
-  // Complete modal props
   completeModalOpen: boolean;
   selectedClass: {
     id: number;
@@ -190,14 +160,10 @@ export interface ClassModalsProps {
   } | null;
   onSaveClassCompletion: (completionData: any) => void;
   onCloseCompleteModal: () => void;
-
-  // Group complete modal props
   groupCompleteModalOpen: boolean;
   selectedGroupClass: any;
   onSaveGroupCompletion: (completionData: any[]) => void;
   onCloseGroupCompleteModal: () => void;
-
-  // Student all data modal props
   studentAllDataModalOpen: boolean;
   studentAllData: any;
   onCloseStudentAllData: () => void;

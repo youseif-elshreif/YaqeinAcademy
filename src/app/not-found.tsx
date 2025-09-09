@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import styles from "@/src/styles/ErrorPage.module.css";
 import { FaBook } from "react-icons/fa";
 import Button from "@/src/components/common/Button";

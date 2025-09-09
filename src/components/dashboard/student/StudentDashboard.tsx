@@ -1,11 +1,11 @@
-﻿// components/StudentDashboard/StudentDashboard.tsx
+﻿
 
 "use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import DashboardTabs from "@/src/components/dashboard/student/DashboardTabs";
-// import ScheduleTable from "./ScheduleTable";
+
 import ProfileSettings from "@/src/components/dashboard/student/ProfileSettings";
 import NextSessionTasks from "@/src/components/dashboard/student/NextSessionTasks";
 import StudentSummaryCards from "@/src/components/dashboard/student/StudentSummaryCards";
@@ -24,7 +24,6 @@ function StudentDashboard() {
   const { getUserStats, userStats } = useStudentDashboard();
   const [myReportsOpen, setMyReportsOpen] = useState(false);
 
-  // Fetch student stats when the component mounts
   useEffect(() => {
     const fetchStats = async () => {
       try {
@@ -34,21 +33,19 @@ function StudentDashboard() {
     fetchStats();
   }, [getUserStats]);
 
-  // Debug logging
   useEffect(() => {
     if (userStats) {
     }
   }, [userStats]);
 
-  // Prepare student data from auth context and user stats
   const studentData = {
     id: user?._id || "",
-    name: user?.name || "الطالب",
+    name: user?.name || "??????",
     email: user?.email || "",
     phone: user?.phone || "",
     role: user?.role || "",
     age: user?.age || 0,
-    quranMemorized: user?.quranMemorized || "لا يوجد",
+    quranMemorized: user?.quranMemorized || "?? ????",
     numOfPartsofQuran: user?.numOfPartsofQuran || 0,
     isVerified: user?.isVerified || false,
     createdAt: user?.createdAt || "",
@@ -56,7 +53,7 @@ function StudentDashboard() {
 
     enrollmentDate: user?.createdAt
       ? new Date(user.createdAt).toLocaleDateString("ar-EG")
-      : "غير محدد",
+      : "??? ????",
     completedSessions: userStats?.completedLessons || 0,
     remainingSessions: userStats?.missedLessons || 0,
     attendedLessons: userStats?.attendedLessons || 0,
@@ -68,7 +65,6 @@ function StudentDashboard() {
     : "";
   const groupName = userStats?.GroupName ? String(userStats.GroupName) : "";
 
-  // Extract days and times from usualDate object
   const days = groupUsualDate
     ? [
         groupUsualDate.firstDay,
@@ -85,26 +81,23 @@ function StudentDashboard() {
       ].filter(Boolean)
     : [];
 
-  // Tabs configuration - filter based on available credits
   const tabs = [
-    // Only show lesson-related tabs if student has credits
+
     ...((userStats?.PrivitelessonCredits || 0) > 0
       ? [
-          { id: "next-session", label: "متطلب الحلقة القادمة" },
-          { id: "lessons", label: "الحلقات" },
+          { id: "next-session", label: "????? ?????? ???????" },
+          { id: "lessons", label: "???????" },
         ]
       : []),
-    { id: "profile", label: "الملف الشخصي" },
+    { id: "profile", label: "????? ??????" },
   ];
 
-  // Set default active tab based on available credits
   useEffect(() => {
     if ((userStats?.PrivitelessonCredits || 0) === 0) {
       setActiveTab("profile");
     }
   }, [userStats?.PrivitelessonCredits]);
 
-  // Render content based on active tab
   const renderTabContent = () => {
     switch (activeTab) {
       case "next-session":
@@ -122,13 +115,13 @@ function StudentDashboard() {
     <>
       {/* Page Head */}
       <Head>
-        <title>لوحة تحكم الطالب</title>
-        <meta name="description" content="تابع تقدمك الأكاديمي وإدارة دراستك" />
+        <title>???? ???? ??????</title>
+        <meta name="description" content="???? ????? ????????? ?????? ??????" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#ffffff" />
         <meta
           name="keywords"
-          content="طالب, لوحة تحكم, دراسة, جدول, دورات, مهام"
+          content="????, ???? ????, ?????, ????, ?????, ????"
         />
       </Head>
 
@@ -136,9 +129,9 @@ function StudentDashboard() {
         <div className={styles.dashboardContainer}>
           {/* Page Header */}
           <header className={styles.pageHeader}>
-            <h1 className={styles.pageTitle}>لوحة تحكم الطالب</h1>
+            <h1 className={styles.pageTitle}>???? ???? ??????</h1>
             <p className={styles.pageSubtitle}>
-              تابع تقدمك الأكاديمي وإدارة دراستك
+              ???? ????? ????????? ?????? ??????
             </p>
           </header>
 
@@ -147,7 +140,7 @@ function StudentDashboard() {
             <div className={styles.studentInfoContainer}>
               <Image
                 src={studentData.avatar}
-                alt="صورة الطالب"
+                alt="???? ??????"
                 className={styles.studentAvatar}
                 width={80}
                 height={80}
@@ -163,7 +156,7 @@ function StudentDashboard() {
                 variant="primary"
                 size="small"
               >
-                عرض تقاريري
+                ??? ???????
               </Button>
             </div>
           </div>
@@ -177,7 +170,7 @@ function StudentDashboard() {
                     className={styles.studentName}
                     style={{ marginBottom: "10px" }}
                   >
-                    الميعاد المعتاد للحصة
+                    ??????? ??????? ?????
                   </h2>{" "}
                   {userStats && (
                     <div className={styles.groupTimes}>
@@ -186,16 +179,16 @@ function StudentDashboard() {
                           <div key={index} className={styles.dateContent}>
                             <span className={styles.dateText}>{day}</span>
                             <span className={styles.timeText}>
-                              {times[index] || "—"}
+                              {times[index] || "�"}
                             </span>
                           </div>
                         ))
                       ) : (
                         <div className={styles.dateContent}>
                           <span className={styles.dateText}>
-                            {groupName || "حلقة غير محددة"}
+                            {groupName || "???? ??? ?????"}
                           </span>
-                          <span className={styles.timeText}>—</span>
+                          <span className={styles.timeText}>�</span>
                         </div>
                       )}
                     </div>
@@ -205,7 +198,7 @@ function StudentDashboard() {
               <div>
                 {userStats && groupMeetingLink ? (
                   <div className={styles.whatDone}>
-                    <span className={styles.linkText}>رابط الحلقة</span>
+                    <span className={styles.linkText}>???? ??????</span>
                     <MeetingLinkActions
                       meetingLink={groupMeetingLink}
                       styles={styles}
@@ -213,7 +206,7 @@ function StudentDashboard() {
                   </div>
                 ) : (
                   <p className={styles.studentName}>
-                    لا توجد حلقة حتى الأن برجاء التواصل مع الإدارة
+                    ?? ???? ???? ??? ???? ????? ??????? ?? ???????
                   </p>
                 )}
               </div>
@@ -229,10 +222,10 @@ function StudentDashboard() {
                       color: "var(--warning-color)",
                     }}
                   >
-                    ⚠️ عذراً، لا توجد حلقات مستحقة حالياً
+                    ?? ?????? ?? ???? ????? ?????? ??????
                   </h2>
                   <p className={styles.pageSubtitle}>
-                    يرجى التواصل مع الإدارة لتفعيل الحلقات
+                    ???? ??????? ?? ??????? ?????? ???????
                   </p>
                 </div>
               </div>
@@ -262,3 +255,4 @@ function StudentDashboard() {
 }
 
 export default StudentDashboard;
+

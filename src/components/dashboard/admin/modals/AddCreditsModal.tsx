@@ -26,7 +26,6 @@ const AddCreditsModal: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Reset form when modal opens/closes
   React.useEffect(() => {
     if (addCreditsModalOpen) {
       setFormData({ privateAmount: 0 });
@@ -41,7 +40,6 @@ const AddCreditsModal: React.FC = () => {
       [name]: parseInt(value) || 0,
     }));
 
-    // Clear error when user starts typing
     if (error) {
       setError(null);
     }
@@ -49,17 +47,17 @@ const AddCreditsModal: React.FC = () => {
 
   const validateForm = (): boolean => {
     if (formData.privateAmount < 0) {
-      setError("عدد الدروس لا يمكن أن يكون سالباً");
+      setError("??? ?????? ?? ???? ?? ???? ??????");
       return false;
     }
 
     if (formData.privateAmount === 0) {
-      setError("يجب إضافة عدد دروس أكبر من صفر");
+      setError("??? ????? ??? ???? ???? ?? ???");
       return false;
     }
 
     if (formData.privateAmount > 31) {
-      setError("عدد الدروس لا يمكن أن يتجاوز 31");
+      setError("??? ?????? ?? ???? ?? ?????? 31");
       return false;
     }
 
@@ -70,7 +68,7 @@ const AddCreditsModal: React.FC = () => {
     e.preventDefault();
 
     if (!selectedStudentForCredits) {
-      setError("لا يوجد طالب محدد");
+      setError("?? ???? ???? ????");
       return;
     }
 
@@ -85,11 +83,11 @@ const AddCreditsModal: React.FC = () => {
       await addCreditsToStudent(
         selectedStudentForCredits.userId,
         formData.privateAmount,
-        0 // publicAmount دائماً 0
+        0 // publicAmount ?????? 0
       ); // Close modal on success
       closeAddCreditsModal();
     } catch {
-      setError("حدث خطأ أثناء إضافة الدروس");
+      setError("??? ??? ????? ????? ??????");
     } finally {
       setIsSubmitting(false);
     }
@@ -99,13 +97,13 @@ const AddCreditsModal: React.FC = () => {
 
   const actions = [
     {
-      label: "إلغاء",
+      label: "?????",
       onClick: closeAddCreditsModal,
       variant: "secondary" as const,
       disabled: isSubmitting,
     },
     {
-      label: isSubmitting ? "جاري الإضافة..." : "إضافة الدروس",
+      label: isSubmitting ? "???? ???????..." : "????? ??????",
       onClick: () => {},
       variant: "primary" as const,
       disabled: isSubmitting || formData.privateAmount <= 0,
@@ -116,7 +114,7 @@ const AddCreditsModal: React.FC = () => {
   return (
     <ModalContainer isOpen={true} onClose={closeAddCreditsModal}>
       <ModalHeader
-        title="إضافة حلقات مستحقة"
+        title="????? ????? ??????"
         onClose={closeAddCreditsModal}
         isOpen={true}
       />
@@ -124,7 +122,7 @@ const AddCreditsModal: React.FC = () => {
         {selectedStudentForCredits && (
           <div className={styles.studentInfo}>
             <p>
-              <strong>الطالب:</strong> {selectedStudentForCredits.name}
+              <strong>??????:</strong> {selectedStudentForCredits.name}
             </p>
           </div>
         )}
@@ -132,7 +130,7 @@ const AddCreditsModal: React.FC = () => {
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGrid}>
             <FormField
-              label="عدد الدروس الخصوصية"
+              label="??? ?????? ????????"
               name="privateAmount"
               type="number"
               value={formData.privateAmount}
@@ -140,7 +138,7 @@ const AddCreditsModal: React.FC = () => {
               min={1}
               max={100}
               disabled={isSubmitting}
-              placeholder="أدخل عدد الدروس"
+              placeholder="???? ??? ??????"
             />
           </div>
           <ErrorDisplay message={error || undefined} />

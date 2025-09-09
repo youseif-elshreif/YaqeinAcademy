@@ -34,9 +34,8 @@ export default function AdminContactPage() {
   const [phoneInput, setPhoneInput] = useState<string>("");
   const [whatsappInput, setWhatsappInput] = useState<string>("");
 
-  // Helper to parse numbers with multiple delimiters: , ، - _
   const parseNumbers = (value: string): string[] => {
-    // Arabic comma U+060C included
+
     const parts = value
       .split(",")
       .map((s) => s.trim())
@@ -44,7 +43,6 @@ export default function AdminContactPage() {
     return parts;
   };
 
-  // دالة منفصلة لجلب البيانات
   const fetchContactData = useCallback(async () => {
     if (!token) return;
     try {
@@ -66,7 +64,7 @@ export default function AdminContactPage() {
       setWhatsappInput(contactData.whatsappNumber.join(", "));
       return contactData;
     } catch (err: any) {
-      throw new Error(err?.message || "حدث خطأ أثناء تحميل معلومات التواصل");
+      throw new Error(err?.message || "??? ??? ????? ????? ??????? ???????");
     }
   }, [token, getContactInfo]);
 
@@ -97,7 +95,6 @@ export default function AdminContactPage() {
     setContact((prev) => ({ ...prev, [field]: value } as ContactInfo));
   };
 
-  // Fetch current contact info
   useEffect(() => {
     const load = async () => {
       try {
@@ -105,7 +102,7 @@ export default function AdminContactPage() {
         setErrorMessage(null);
         await fetchContactData();
       } catch (err: any) {
-        setErrorMessage(err?.message || "حدث خطأ أثناء تحميل معلومات التواصل");
+        setErrorMessage(err?.message || "??? ??? ????? ????? ??????? ???????");
       } finally {
         setIsLoading(false);
       }
@@ -130,11 +127,10 @@ export default function AdminContactPage() {
       };
       await updateContactInfo(payload);
 
-      // جلب البيانات المحدثة من السيرفر
       try {
         await fetchContactData();
       } catch {
-        // لا نعرض خطأ للمستخدم لأن التحديث تم بنجاح
+
         setContact(payload);
         setPhoneInput(payload.phone.join(", "));
         setWhatsappInput(payload.whatsappNumber.join(", "));
@@ -142,7 +138,7 @@ export default function AdminContactPage() {
 
       setEditMode(false);
     } catch (err: any) {
-      setErrorMessage(err?.message || "حدث خطأ أثناء حفظ البيانات");
+      setErrorMessage(err?.message || "??? ??? ????? ??? ????????");
     } finally {
       setIsSubmitting(false);
     }
@@ -151,7 +147,7 @@ export default function AdminContactPage() {
   return (
     <div className={styles.profileContainer}>
       <div className={styles.profileEditeHeader}>
-        <h2 className={styles.profileTitle}>معلومات التواصل</h2>
+        <h2 className={styles.profileTitle}>??????? ???????</h2>
         <div>
           {!editMode ? (
             <Button
@@ -160,7 +156,7 @@ export default function AdminContactPage() {
               onClick={() => setEditMode(true)}
               disabled={isLoading}
             >
-              تعديل
+              ?????
             </Button>
           ) : (
             <Button
@@ -169,7 +165,7 @@ export default function AdminContactPage() {
               onClick={() => setEditMode(false)}
               disabled={isSubmitting}
             >
-              إلغاء
+              ?????
             </Button>
           )}
         </div>
@@ -180,7 +176,7 @@ export default function AdminContactPage() {
         <form onSubmit={onSubmit}>
           <div className={styles.formGrid}>
             <FormField
-              label="البريد الإلكتروني"
+              label="?????? ??????????"
               name="email"
               type="email"
               value={contact.email}
@@ -189,7 +185,7 @@ export default function AdminContactPage() {
             />
 
             <FormField
-              label="أرقام الهاتف (افصل بينها بـ , )"
+              label="????? ?????? (???? ????? ?? , )"
               name="phone"
               value={phoneInput}
               onChange={(e) => handleChange(e, "phone")}
@@ -197,7 +193,7 @@ export default function AdminContactPage() {
             />
 
             <FormField
-              label="واتساب (يمكن إضافة أكثر من رقم؛ افصل بينها بـ , )"
+              label="?????? (???? ????? ???? ?? ???? ???? ????? ?? , )"
               name="whatsapp"
               value={whatsappInput}
               onChange={(e) => handleChange(e, "whatsappNumber")}
@@ -205,7 +201,7 @@ export default function AdminContactPage() {
             />
 
             <FormField
-              label="رابط تليجرام"
+              label="???? ???????"
               name="telegramLink"
               type="url"
               value={contact.telegramLink}
@@ -214,7 +210,7 @@ export default function AdminContactPage() {
             />
 
             <FormField
-              label="فيسبوك"
+              label="??????"
               name="facebook"
               type="url"
               value={contact.facebook}
@@ -223,7 +219,7 @@ export default function AdminContactPage() {
             />
 
             <FormField
-              label="لينكدإن"
+              label="???????"
               name="linkedin"
               type="url"
               value={contact.linkedin}
@@ -232,7 +228,7 @@ export default function AdminContactPage() {
             />
 
             <FormField
-              label="العنوان"
+              label="???????"
               name="address"
               type="textarea"
               value={contact.address || ""}
@@ -250,7 +246,7 @@ export default function AdminContactPage() {
               disabled={isSubmitting}
               loading={isSubmitting}
             >
-              حفظ التغييرات
+              ??? ?????????
             </Button>
           )}
         </form>

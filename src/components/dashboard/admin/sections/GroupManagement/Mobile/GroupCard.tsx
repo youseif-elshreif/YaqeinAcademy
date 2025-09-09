@@ -1,4 +1,4 @@
-import { FiEdit, FiCalendar, FiUsers } from "react-icons/fi";
+﻿import { FiEdit, FiCalendar, FiUsers } from "react-icons/fi";
 import { FaListUl } from "react-icons/fa";
 import styles from "@/src/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/src/contexts/AdminModalContext";
@@ -42,7 +42,6 @@ const GroupCard = ({ group }: GroupCardProps) => {
     return upcomingLessons.length > 0 ? upcomingLessons[0] : null;
   };
 
-  // Pick the lesson to show reports for: prefer last completed; fallback to most recent past; else null
   const getLatestReportableLesson = (group: any) => {
     const lessons = group.lessons || [];
     const completed = lessons
@@ -164,7 +163,7 @@ const GroupCard = ({ group }: GroupCardProps) => {
               <Button
                 onClick={() => {
                   if (!reportableLesson) return;
-                  // Construct a raw-like lesson with groupId shape for StudentListModal
+
                   const lessonForModal: any = {
                     _id: reportableLesson._id,
                     scheduledAt: reportableLesson.scheduledAt,

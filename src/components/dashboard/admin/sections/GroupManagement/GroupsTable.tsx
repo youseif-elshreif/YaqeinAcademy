@@ -59,13 +59,13 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
       try {
         const token = localStorage.getItem("accessToken");
         if (!token) {
-          setError("لا يوجد رمز مصادقة. يرجى تسجيل الدخول مرة أخرى");
+          setError("?? ???? ??? ??????. ???? ????? ?????? ??? ????");
           return;
         }
 
         await getGroups(token);
       } catch {
-        setError("حدث خطأ أثناء جلب البيانات");
+        setError("??? ??? ????? ??? ????????");
       } finally {
         setLoading(false);
       }
@@ -73,8 +73,6 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
 
     fetchGroups();
   }, [getGroups]);
-
-  // Note: edit link handled via group actions modal
 
   const formatSchedule = (usualDate: ApiGroup["usualDate"]) => {
     const days = [];
@@ -105,7 +103,6 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
     return upcomingLessons.length > 0 ? upcomingLessons[0] : null;
   };
 
-  // Pick the lesson to show reports for: prefer last completed; fallback to most recent past; else null
   const getLatestReportableLesson = (group: ApiGroup) => {
     const lessons = group.lessons || [];
     const completed = lessons
@@ -138,16 +135,16 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
   if (loading) {
     return (
       <>
-        {/* Desktop Skeleton */}
+
         <div className={styles.desktopView}>
-          <SkeletonTable rows={5} columns={11} title="الحلقات" />
+          <SkeletonTable rows={5} columns={11} title="???????" />
         </div>
 
-        {/* Mobile Skeleton */}
+
         <div className={styles.mobileView}>
           <div className={styles.tableContainer}>
             <div className={styles.header}>
-              <h2 className={styles.title}>الحلقات</h2>
+              <h2 className={styles.title}>???????</h2>
             </div>
             <SkeletonCards cards={3} type="student" />
           </div>
@@ -166,7 +163,6 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
     );
   }
 
-  // Apply filtering: name-only search + optional day filter
   const normalizedSearch = searchTerm.trim().toLowerCase();
   const byName = !normalizedSearch
     ? groups
@@ -199,9 +195,9 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
   return (
     <div className={styles.tableContainer}>
       <div className={styles.header}>
-        <h2 className={styles.title}>الحلقات</h2>
+        <h2 className={styles.title}>???????</h2>
       </div>
-      {/* Desktop Table View */}
+
 
       {filteredGroups.length === 0 ? (
         <div
@@ -212,27 +208,27 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
           }}
         >
           <FiUsers size={48} style={{ marginBottom: "1rem", opacity: 0.5 }} />
-          <h3>لا توجد حلقات</h3>
-          <p>لم يتم العثور على أي حلقات مطابقة للبحث</p>
+          <h3>?? ???? ?????</h3>
+          <p>?? ??? ?????? ??? ?? ????? ?????? ?????</p>
         </div>
       ) : (
         <>
-          {/* Desktop Table View */}
+
           <div className={styles.desktopView}>
             <div className={styles.tableWrapper}>
               <table className={styles.classTable}>
                 <thead>
                   <tr>
-                    <th className={styles.firstCell}>اسم الحلقة</th>
-                    <th>الوصف</th>
-                    <th>المعلم</th>
-                    <th>عدد الطلاب</th>
-                    <th>موعد الحلقات</th>
-                    <th>موعد الحلقات الإعتيادية</th>
-                    <th>موعد الحلقة القادمة</th>
-                    <th>رابط الحلقة</th>
-                    <th>التقارير</th>
-                    <th>الإجراءات</th>
+                    <th className={styles.firstCell}>??? ??????</th>
+                    <th>?????</th>
+                    <th>??????</th>
+                    <th>??? ??????</th>
+                    <th>???? ???????</th>
+                    <th>???? ??????? ??????????</th>
+                    <th>???? ?????? ???????</th>
+                    <th>???? ??????</th>
+                    <th>????????</th>
+                    <th>?????????</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -254,7 +250,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                           <span
                             className={`${styles.studentName} ${styles.primaryColor}`}
                           >
-                            {group.description || "لا يوجد وصف"}
+                            {group.description || "?? ???? ???"}
                           </span>
                         </td>
                         <td className={styles.groupCell}>
@@ -263,7 +259,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                           >
                             {group.teacherId.userId.name
                               ? group.teacherId.userId.name
-                              : "لا يوجد معلم"}
+                              : "?? ???? ????"}
                           </div>
                         </td>
                         <td className={styles.groupCell}>
@@ -285,9 +281,9 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                             variant="primary"
                             size="small"
                             icon={<FiCalendar />}
-                            title="عرض الحلقات"
+                            title="??? ???????"
                           >
-                            عرض الحلقات
+                            ??? ???????
                           </Button>
                         </td>
                         <td className={styles.groupCell}>
@@ -304,15 +300,15 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                             <FiCalendar style={{ marginLeft: "0.5rem" }} />
                             {nextLesson
                               ? formatDate(nextLesson.scheduledAt)
-                              : "لا يوجد حصص قادمة هذا الشهر"}
+                              : "?? ???? ??? ????? ??? ?????"}
                           </span>
                         </td>
                         <td className={styles.linkContainer}>
                           <MeetingLinkActions
                             meetingLink={group.meetingLink}
                             styles={styles}
-                            onCopySuccess={() => alert("تم نسخ الرابط بنجاح")}
-                            onCopyError={() => alert("فشل في نسخ الرابط")}
+                            onCopySuccess={() => alert("?? ??? ?????? ?????")}
+                            onCopyError={() => alert("??? ?? ??? ??????")}
                           />
                         </td>
                         <td>
@@ -320,7 +316,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                             <Button
                               onClick={() => {
                                 if (!reportableLesson) return;
-                                // Construct a raw-like lesson with groupId shape for StudentListModal
+
                                 const lessonForModal: LessonForModal = {
                                   _id: reportableLesson._id,
                                   scheduledAt: reportableLesson.scheduledAt,
@@ -338,12 +334,12 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                               variant="primary"
                               size="small"
                               icon={<FaListUl />}
-                              title="عرض التقارير"
+                              title="??? ????????"
                               disabled={
                                 !reportableLesson || group.members.length === 0
                               }
                             >
-                              عرض التقارير
+                              ??? ????????
                             </Button>
                           </div>
                         </td>
@@ -359,9 +355,9 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                               variant="primary"
                               size="small"
                               icon={<FiEdit />}
-                              title="المزيد من الإجراءات"
+                              title="?????? ?? ?????????"
                             >
-                              إجراءات
+                              ???????
                             </Button>
                           </div>
                         </td>
@@ -373,7 +369,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
             </div>
           </div>
 
-          {/* Mobile Cards View */}
+
           <div className={styles.mobileView}>
             <MobileGroupCards groups={filteredGroups} />
           </div>

@@ -1,19 +1,16 @@
-.tasksContainer {
+﻿.tasksContainer {
   padding: 1.5rem;
 }
-
 .header {
   margin-bottom: 2rem;
   text-align: center;
 }
-
 .title {
   color: var(--primary-color);
   font-size: 1.75rem;
   font-weight: 700;
   margin-bottom: 1rem;
 }
-
 .sessionInfo {
   background: linear-gradient(
     135deg,
@@ -28,30 +25,25 @@
   align-items: center;
   box-shadow: 0 4px 12px rgba(30, 61, 50, 0.2);
 }
-
 .sessionDetails {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
-
 .courseName {
   font-size: 1.25rem;
   font-weight: 700;
 }
-
 .teacherName {
   font-size: 1rem;
   opacity: 0.9;
 }
-
 .sessionDateTime {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   text-align: left;
 }
-
 .sessionDate,
 .sessionTime {
   font-size: 0.95rem;
@@ -62,12 +54,9 @@
   white-space: nowrap;
   text-align: start;
 }
-
-/* ==== SESSION LINK STYLES ==== */
 .sessionLinkSection {
   margin-top: 1rem;
 }
-
 .sessionLinkButtons {
   display: flex;
   gap: 0.75rem;
@@ -75,7 +64,6 @@
   justify-content: flex-end;
   flex-wrap: wrap;
 }
-
 .linkButton {
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -92,39 +80,33 @@
   text-decoration: none;
   white-space: nowrap;
 }
-
 .openLinkBtn:hover {
   background: rgba(255, 255, 255, 0.3);
   border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
 .copyLinkBtn {
   padding: 0.5rem;
   min-width: 2.5rem;
   justify-content: center;
 }
-
 .copyLinkBtn:hover {
   background: rgba(255, 255, 255, 0.3);
   border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-2px);
 }
-
 .tasksContent {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
-
 .taskSection {
   background: var(--base-bg);
   border: 1px solid var(--border-color);
   border-radius: 12px;
   overflow: hidden;
 }
-
 .sectionHeader {
   background: var(--separator-bg);
   padding: 1rem 1.5rem;
@@ -133,14 +115,12 @@
   align-items: center;
   border-bottom: 1px solid var(--border-color);
 }
-
 .sectionTitle {
   color: var(--primary-color);
   font-size: 1.3rem;
   font-weight: 600;
   margin: 0;
 }
-
 .taskCount {
   background: var(--primary-color);
   color: white;
@@ -149,43 +129,36 @@
   font-size: 0.85rem;
   font-weight: 600;
 }
-
 .tasksList {
   padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-
 .taskCard {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.25rem;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .taskCard:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
 .newTask {
   background: rgba(16, 185, 129, 0.05);
   border-color: rgba(16, 185, 129, 0.3);
 }
-
 .reviewTask {
   background: rgba(59, 130, 246, 0.05);
   border-color: rgba(59, 130, 246, 0.3);
 }
-
 .taskHeader {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
   margin-bottom: 1rem;
 }
-
 .taskContent {
   color: var(--text-dark);
   font-size: 1.1rem;
@@ -193,7 +166,6 @@
   margin: 0;
   line-height: 1.5;
 }
-
 .taskNotes {
   background: rgba(99, 184, 177, 0.1);
   border: 1px solid rgba(99, 184, 177, 0.2);
@@ -201,25 +173,21 @@
   padding: 0.875rem;
   margin-bottom: 1rem;
 }
-
 .notesLabel {
   color: var(--primary-color);
   font-weight: 600;
   font-size: 0.9rem;
 }
-
 .notesText {
   color: var(--text-dark);
   font-size: 0.95rem;
   margin: 0.5rem 0 0 0;
   line-height: 1.5;
 }
-
 .taskActions {
   display: flex;
   justify-content: flex-end;
 }
-
 .actionButton {
   background: var(--secondary-color);
   color: white;
@@ -231,13 +199,10 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
-
 .actionButton:hover {
   background: var(--primary-color);
   transform: translateY(-1px);
 }
-
-/* Study Tips Section */
 .studyTips {
   background: rgba(245, 245, 220, 0.5);
   border: 1px solid rgba(99, 184, 177, 0.2);
@@ -245,7 +210,6 @@
   padding: 1.5rem;
   margin-top: 2rem;
 }
-
 .tipsTitle {
   color: var(--primary-color);
   font-size: 1.25rem;
@@ -253,7 +217,6 @@
   margin-bottom: 1rem;
   text-align: center;
 }
-
 .tipsList {
   list-style: none;
   padding: 0;
@@ -262,7 +225,6 @@
   flex-direction: column;
   gap: 0.75rem;
 }
-
 .tip {
   color: var(--text-dark);
   font-size: 0.95rem;
@@ -274,7 +236,6 @@
   position: relative;
   padding-right: 2.5rem;
 }
-
 .tip::before {
   content: "💡";
   position: absolute;
@@ -283,160 +244,125 @@
   transform: translateY(-50%);
   font-size: 1.1rem;
 }
-
-/* Responsive Design */
 @media (max-width: 768px) {
   .tasksContainer {
     padding: 1rem;
   }
-
   .title {
     font-size: 1.5rem;
   }
-
   .sessionInfo {
     flex-direction: column;
     gap: 1rem;
     text-align: center;
     padding: 1.25rem;
   }
-
   .sessionDateTime {
     flex-direction: row;
     justify-content: center;
     gap: 1rem;
   }
-
   .sectionHeader {
     padding: 0.875rem 1rem;
     flex-direction: column;
     gap: 0.5rem;
     text-align: center;
   }
-
   .sectionTitle {
     font-size: 1.1rem;
   }
-
   .tasksList {
     padding: 0.75rem;
   }
-
   .taskCard {
     padding: 1rem;
   }
-
   .taskHeader {
     gap: 0.5rem;
   }
-
   .taskContent {
     font-size: 1rem;
   }
-
   .studyTips {
     padding: 1.25rem;
     margin-top: 1.5rem;
   }
-
   .tipsTitle {
     font-size: 1.1rem;
   }
 }
-
 @media (max-width: 480px) {
   .tasksContainer {
     padding: 0.75rem;
   }
-
   .header {
     margin-bottom: 1.5rem;
   }
-
   .title {
     font-size: 1.25rem;
   }
-
   .sessionInfo {
     padding: 1rem;
   }
-
   .courseName {
     font-size: 1.1rem;
   }
-
   .teacherName {
     font-size: 0.95rem;
   }
-
   .sessionDateTime {
     flex-direction: column;
     gap: 0.5rem;
   }
-
   .sessionDate,
   .sessionTime {
     font-size: 0.9rem;
     padding: 0.2rem 0.6rem;
   }
-
   .tasksContent {
     gap: 1.5rem;
   }
-
   .sectionHeader {
     padding: 0.75rem;
   }
-
   .sectionTitle {
     font-size: 1rem;
   }
-
   .taskCard {
     padding: 0.875rem;
   }
-
   .taskHeader {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
-
   .taskIcon {
     font-size: 1.25rem;
     margin-top: 0;
   }
-
   .taskContent {
     font-size: 0.95rem;
   }
-
   .taskActions {
     justify-content: center;
   }
-
   .actionButton {
     padding: 0.4rem 0.8rem;
     font-size: 0.85rem;
   }
-
   .studyTips {
     padding: 1rem;
   }
-
   .tip {
     font-size: 0.9rem;
     padding: 0.6rem;
     padding-right: 2.25rem;
   }
-
   .tip::before {
     right: 0.6rem;
     font-size: 1rem;
   }
 }
-
-/* Contact Info Styles */
 .contactInfo {
   background: var(--base-bg);
   border: 1px solid var(--border-color);
@@ -444,14 +370,12 @@
   padding: 1.5rem;
   margin-top: 1rem;
 }
-
 .contactInfo h4 {
   margin-bottom: 1rem;
   color: var(--primary-color);
   font-size: 1.1rem;
   text-align: center;
 }
-
 .contactInfo p {
   margin: 0.5rem 0;
   color: var(--text-color);
@@ -459,15 +383,12 @@
   text-align: center;
   font-family: "Cairo", sans-serif;
 }
-
-/* Empty State with Warning */
 .emptyState {
   text-align: center;
   padding: 2rem;
   color: var(--text-light);
   font-style: italic;
 }
-
 .emptyState p {
   margin-top: 0.5rem;
   font-size: 0.9rem;

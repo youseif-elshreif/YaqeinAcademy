@@ -1,4 +1,4 @@
-import StatCard from "@/src/components/common/UI/StatCard";
+﻿import StatCard from "@/src/components/common/UI/StatCard";
 import styles from "./StudentSummaryCards.module.css";
 import { FaCalendarCheck, FaHourglassHalf, FaBook } from "react-icons/fa";
 import { StudentSummaryCardsProps } from "@/src/types";

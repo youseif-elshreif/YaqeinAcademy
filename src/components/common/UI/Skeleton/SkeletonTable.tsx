@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import styles from "./SkeletonLoading.module.css";
 import { SkeletonTableProps } from "@/src/types";
 

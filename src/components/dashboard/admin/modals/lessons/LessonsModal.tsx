@@ -44,7 +44,6 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
   const { lessonsRefreshKey, addLessonToGroup } = useLessonsContext();
   const { token } = useAuth();
 
-  // Fetch group lessons when modal opens
   useEffect(() => {
     let cancelled = false;
     const fetchLessons = async () => {
@@ -54,7 +53,6 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
         if (!token || !getGroupById) throw new Error("no token");
         const data = await getGroupById(token, groupId);
 
-        // Store group data for schedule generation
         setGroupData(data?.group);
 
         const apiLessons = data?.group?.lessons ?? [];
@@ -74,7 +72,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
         });
         if (!cancelled) setLessons(mapped);
       } catch (e) {
-        if (!cancelled) setError("فشل في جلب بيانات الحصص");
+        if (!cancelled) setError("??? ?? ??? ?????? ?????");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -93,7 +91,6 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
     }, 300);
   };
 
-  // Function to add remaining lessons for the month
   const handleAddMonthLessons = async () => {
     if (!token || !groupData || !addLessonToGroup) return;
 
@@ -101,7 +98,6 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
       setIsAddingMonthLessons(true);
       setMonthLessonsInfo("");
 
-      // Extract weekdays and times from group data
       const weekdays: string[] = [];
       const times: string[] = [];
 
@@ -122,11 +118,10 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
       }
 
       if (weekdays.length === 0) {
-        setError("لم يتم العثور على جدول زمني للمجموعة");
+        setError("?? ??? ?????? ??? ???? ???? ????????");
         return;
       }
 
-      // Generate lesson schedule using the date utility
       const schedule = createLessonSchedule(
         weekdays,
         times,
@@ -134,32 +129,29 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
       );
 
       if (schedule.length === 0) {
-        setMonthLessonsInfo("لا يمكن إضافة حصص جديدة لهذا الشهر.");
+        setMonthLessonsInfo("?? ???? ????? ??? ????? ???? ?????.");
         setTimeout(() => {
           setMonthLessonsInfo("");
         }, 3000);
         return;
       }
 
-      // Add each lesson to the group
       for (const lesson of schedule) {
         await addLessonToGroup(token, groupId, lesson);
       }
-      setMonthLessonsInfo(`تمت إضافة ${schedule.length} حصة بنجاح.`);
-      // The useEffect will automatically refresh the lessons list due to lessonsRefreshKey
+      setMonthLessonsInfo(`??? ????? ${schedule.length} ??? ?????.`);
+
     } catch (error) {
-      setError("فشل في إضافة حصص الشهر");
+      setError("??? ?? ????? ??? ?????");
     } finally {
       setIsAddingMonthLessons(false);
     }
   };
 
-  // Formatting handled within LessonCard
-
   return (
     <ModalContainer isOpen={true} isClosing={isClosing} onClose={handleClose}>
       <ModalHeader
-        title={`حصص حلقة: ${groupName}`}
+        title={`??? ????: ${groupName}`}
         icon={<FaCalendarCheck />}
         onClose={handleClose}
       />
@@ -171,21 +163,21 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
             className={`${styles.actionBtn} ${styles.addBtn}`}
           >
             <FaCalendarPlus />
-            إضافة حصة جديدة
+            ????? ??? ?????
           </button>
 
           <button
             onClick={handleAddMonthLessons}
             disabled={isAddingMonthLessons || loading || !groupData}
             className={`${styles.actionBtn} ${styles.monthBtn}`}
-            title="إضافة جميع الحصص المتبقية في الشهر بناءً على جدول المجموعة"
+            title="????? ???? ????? ???????? ?? ????? ????? ??? ???? ????????"
           >
             <FaCalendarWeek />
-            {isAddingMonthLessons ? "جاري الإضافة..." : "إضافة حصص الشهر"}
+            {isAddingMonthLessons ? "???? ???????..." : "????? ??? ?????"}
           </button>
         </div>
 
-        {/* رسالة عند إضافة حصص الشهر */}
+
         {monthLessonsInfo && (
           <div
             style={{
@@ -203,7 +195,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
           {loading ? (
             <div className={styles.emptyState}>
               <FaCalendarDay className={styles.emptyIcon} />
-              <h3>جاري تحميل الحصص...</h3>
+              <h3>???? ????? ?????...</h3>
             </div>
           ) : error ? (
             <div className={styles.emptyState}>
@@ -212,8 +204,8 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
           ) : lessons.length === 0 ? (
             <div className={styles.emptyState}>
               <FaCalendarDay className={styles.emptyIcon} />
-              <h3>لا توجد حصص</h3>
-              <p>لم يتم جدولة أي حصص لهذه الحلقة بعد</p>
+              <h3>?? ???? ???</h3>
+              <p>?? ??? ????? ?? ??? ???? ?????? ???</p>
             </div>
           ) : (
             <div className={styles.lessonsGrid}>
@@ -249,7 +241,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
       <ModalActions
         actions={[
           {
-            label: "إغلاق",
+            label: "?????",
             onClick: handleClose,
             variant: "secondary" as const,
           },

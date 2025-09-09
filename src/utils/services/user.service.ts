@@ -1,4 +1,4 @@
-import api from "@/src/utils/api";
+﻿import api from "@/src/utils/api";
 
 export const getProfile = () =>
   api.get(`/api/user/profile`).then((r) => r.data?.data ?? r.data);

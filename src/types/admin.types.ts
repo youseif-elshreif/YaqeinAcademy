@@ -1,38 +1,29 @@
-﻿// ==================================================
-// Admin Modal Types
-// ==================================================
-
-import { Teacher } from "./teacher.types";
+﻿import { Teacher } from "./teacher.types";
 import { User } from "./auth.types";
 import { BaseModalProps } from "./base.types";
-
 export interface Member {
   _id: string;
   name: string;
   email: string;
   role?: string;
 }
-
 export interface RemoveMemberModalProps extends BaseModalProps {
   groupId: string;
   groupName: string;
   onSuccess?: () => void;
 }
-
 export interface AddMembersModalProps extends BaseModalProps {
   groupId: string;
   groupName: string;
   groupType: "private" | "public";
   onSuccess?: () => void;
 }
-
 export interface MemberInput {
   id: string;
   memberId: string;
   name?: string;
   email?: string;
 }
-
 export interface CourseFormData {
   _id?: string;
   title: string;
@@ -41,26 +32,21 @@ export interface CourseFormData {
   duration: string;
   startAt: string;
 }
-
 export interface AddCourseModalProps {
   isEditMode?: boolean;
   editCourseId?: string;
 }
-
 export interface DeleteCourseModalProps {
   isOpen: boolean;
   onClose: () => void;
   courseId: string | null;
   courseName?: string;
 }
-
 export interface MemberFormErrors {
   name?: string;
   email?: string;
   phone?: string;
 }
-
-// Group action modal interfaces
 export interface ConfirmDeleteGroupModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -68,12 +54,10 @@ export interface ConfirmDeleteGroupModalProps {
   groupName: string;
   onConfirmDelete: (groupId: string) => void;
 }
-
 export interface LessonsModalProps {
   groupId: string;
   groupName: string;
 }
-
 export interface UILesson {
   id: string;
   day: string;
@@ -82,7 +66,6 @@ export interface UILesson {
   meetingLink?: string;
   status?: string;
 }
-
 export interface UILessonCard {
   id: string;
   day: string;
@@ -91,14 +74,12 @@ export interface UILessonCard {
   meetingLink?: string;
   status?: string;
 }
-
 export interface LessonCardProps {
   lesson: UILessonCard;
   showActions?: boolean; // default true
   onEdit?: (l: UILessonCard) => void;
   onDelete?: (l: UILessonCard) => void;
 }
-
 export interface AdminCardProps {
   admin: {
     _id: string;
@@ -108,15 +89,9 @@ export interface AdminCardProps {
     createdAt: string;
   };
 }
-
 export interface MobileAdminCardsProps {
   admins: AdminUser[];
 }
-
-// ==================================================
-// User Management Types
-// ==================================================
-
 export interface AdminUser {
   _id: string;
   name: string;
@@ -125,7 +100,6 @@ export interface AdminUser {
   createdAt: string;
   updatedAt?: string;
 }
-
 export interface StudentUser {
   _id?: string;
   id?: string;
@@ -142,7 +116,6 @@ export interface StudentUser {
   updatedAt?: string;
   isActive?: boolean;
 }
-
 export interface TeacherUser {
   _id: string;
   name?: string;
@@ -178,11 +151,9 @@ export interface TeacherUser {
     meetingLink?: string;
   };
 }
-
 export interface AdminTableRowProps {
   admin: AdminUser;
 }
-
 export interface StudentTableRowProps {
   studentitem: User & {
     _id?: string;
@@ -194,27 +165,21 @@ export interface StudentTableRowProps {
     PrivitelessonCredits?: number;
   };
 }
-
 export interface TeacherTableRowProps {
   teacher: Teacher;
 }
-
 export interface MobileStudentCardsProps {
   Students: User[];
 }
-
 export interface StudentCardProps {
   studentItem: User;
 }
-
 export interface MobileTeacherCardsProps {
   teachers: Teacher[];
 }
-
 export interface TeacherCardProps {
   teacher: Teacher;
 }
-
 export interface GroupApiData {
   _id: string;
   name: string;
@@ -238,14 +203,12 @@ export interface GroupApiData {
   createdAt: string;
   updatedAt: string;
 }
-
 export interface GroupLesson {
   _id: string;
   scheduledAt: string;
   meetingLink: string;
   status: string;
 }
-
 export interface LessonForModal {
   _id: string;
   scheduledAt: string;
@@ -258,21 +221,14 @@ export interface LessonForModal {
     members: Member[];
   };
 }
-
 export interface PaymentMethodType {
   value: string;
   label: string;
 }
-
-// ==================================================
-// Groups & Lessons Types
-// ==================================================
-
 export interface TimeSlot {
   day: string;
   time: string;
 }
-
 export interface GroupFormData {
   name: string;
   description: string;
@@ -281,7 +237,6 @@ export interface GroupFormData {
   meetingLink: string;
   timeSlots: TimeSlot[];
 }
-
 export interface GroupFormErrors {
   name?: string;
   description?: string;
@@ -289,12 +244,10 @@ export interface GroupFormErrors {
   meetingLink?: string;
   timeSlots?: string;
 }
-
 export interface AddGroupModalProps {
   isEditMode?: boolean;
   editGroupId?: string;
 }
-
 export interface GroupActionsModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -309,7 +262,6 @@ export interface GroupActionsModalProps {
   ) => void;
   onRemoveMember: (groupId: string, groupName: string) => void;
 }
-
 export interface TeacherOption {
   id: string;
   name: string;
@@ -318,14 +270,12 @@ export interface TeacherOption {
     _id: string;
   };
 }
-
 export interface LessonFormData {
   subject: string;
   scheduledAt: string;
   meetingLink: string;
   groupId: string;
 }
-
 export interface EditLessonModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -337,7 +287,6 @@ export interface EditLessonModalProps {
     groupId: string;
   } | null;
 }
-
 export interface DeleteLessonModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -346,17 +295,11 @@ export interface DeleteLessonModalProps {
     subject: string;
   } | null;
 }
-
 export interface AddLessonModalProps {
   isOpen: boolean;
   onClose: () => void;
   groupId?: string;
 }
-
-// ==================================================
-// User Management Types
-// ==================================================
-
 export interface UserFormData {
   name: string;
   email: string;
@@ -379,7 +322,6 @@ export interface UserFormData {
   privateCredits?: number; // Private credits for user
   publicCredits?: number; // Public credits for user
 }
-
 export interface UserFormErrors {
   name?: string;
   email?: string;
@@ -394,8 +336,6 @@ export interface UserFormErrors {
   numOfPartsofQuran?: string;
   meetingLink?: string;
 }
-
-// User update payload interface
 export interface UserUpdatePayload {
   name: string;
   email: string;
@@ -406,18 +346,15 @@ export interface UserUpdatePayload {
   numOfPartsofQuran?: number;
   meetingLink?: string;
 }
-
 export interface AddUserModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
 export interface EditUserModalProps {
   isOpen: boolean;
   onClose: () => void;
   userData: any;
 }
-
 export interface DeleteUserModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -427,7 +364,6 @@ export interface DeleteUserModalProps {
     userType: string;
   } | null;
 }
-
 export interface EditTeacherLinkModalProps {
   isOpen: boolean;
   onClose: () => void;

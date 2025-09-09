@@ -1,4 +1,4 @@
-.card {
+﻿.card {
   background: var(--card-bg, #fff);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
   border-radius: 16px;
@@ -11,33 +11,28 @@
   align-items: center;
   margin: 50px auto;
 }
-
 .icon {
   font-size: 3rem;
   color: var(--secondary-color);
   margin-bottom: 1rem;
 }
-
 .heading {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 1rem;
   color: var(--primary-color);
 }
-
 .paragraph {
   font-size: 1.1rem;
   color: var(--text, #444);
   margin-bottom: 2rem;
 }
-
 .buttonGroup {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   width: 100%;
 }
-
 .primaryButton {
   background: var(--primary-color);
   color: #fff;
@@ -53,7 +48,6 @@
 .primaryButton:hover {
   background: var(--secondary-color);
 }
-
 .secondaryButton {
   background: transparent;
   color: var(--secondary-color);
@@ -70,12 +64,10 @@
   background: var(--secondary-color);
   color: #fff;
 }
-
 .icon2 {
   margin-bottom: -10px;
   margin-right: 5px;
 }
-
 @media (max-width: 600px) {
   .card {
     padding: 1.5rem 1rem;

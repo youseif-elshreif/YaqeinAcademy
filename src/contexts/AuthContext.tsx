@@ -1,5 +1,4 @@
-"use client";
-
+﻿"use client";
 import React, {
   createContext,
   useReducer,
@@ -19,9 +18,6 @@ import {
   AuthAction,
   AuthState,
 } from "@/src/types";
-// import { isFloat64Array } from "node:util/types";
-
-// Reducer function
 const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   switch (action.type) {
     case "LOGIN_START":
@@ -66,13 +62,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
       return state;
   }
 };
-
-// CreateContext
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-// provider component
-
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -83,12 +73,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     isLoading: true,
     error: null,
   });
-
-  // Check if user is authenticated based on token and user state
   const isUserAuthenticated = useMemo(() => {
     return isAuthenticated() && state.user !== null;
   }, [state.user]);
-
   const getUserData = useCallback(
     async (shouldRedirect: boolean = false) => {
       dispatch({ type: "SET_LOADING", payload: true });
@@ -96,15 +83,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         if (typeof window === "undefined") {
           throw new Error("Not running in browser environment");
         }
-
         const token = localStorage.getItem("accessToken");
         if (!token) {
           throw new Error("No access token found");
         }
-
         const response = await authSvc.getUserProfile();
         const userData = response.data;
-
         const user: User = {
           _id: userData._id,
           email: userData.email,
@@ -118,13 +102,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           createdAt: userData.createdAt,
           avatar: userData.avatar || "/avatar.png",
         };
-
         dispatch({
           type: "LOGIN_SUCCESS",
           payload: { user, token },
         });
-
-        // Only redirect if explicitly requested
         if (shouldRedirect) {
           if (userData.role === "student") {
             router.push("/student/dashboard");
@@ -152,11 +133,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     },
     [router]
   );
-
-  // Session check on app start - بدون dependencies لتجنب infinite loop
   useEffect(() => {
     let isMounted = true;
-
     const checkSession = async () => {
       if (typeof window === "undefined") {
         if (isMounted) {
@@ -164,16 +142,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         }
         return;
       }
-
       const token = localStorage.getItem("accessToken");
       if (token && !state.user) {
         try {
           if (isMounted) {
-            // استدعاء getUserData مباشرة بدلاً من dependency
             dispatch({ type: "SET_LOADING", payload: true });
             const response = await authSvc.getUserProfile();
             const userData = response.data;
-
             const user: User = {
               _id: userData._id,
               email: userData.email,
@@ -187,7 +162,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
               createdAt: userData.createdAt,
               avatar: userData.avatar || "/avatar.png",
             };
-
             dispatch({
               type: "LOGIN_SUCCESS",
               payload: { user, token },
@@ -205,20 +179,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       }
     };
-
     checkSession();
-
     return () => {
       isMounted = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // ✅ بدون dependencies
-
-  // Login function
   const login = useCallback(
     async (credentials: LoginCredentials) => {
       dispatch({ type: "LOGIN_START" });
-
       try {
         const data = await authSvc.login(
           credentials.email,
@@ -230,7 +198,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       } catch {
         const errorMessage = "ادخل البريد الالكتروني وكلمة المرور بشكل صحيح";
-
         dispatch({
           type: "LOGIN_FAILURE",
           payload: errorMessage,
@@ -240,8 +207,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     },
     [getUserData]
   );
-
-  // Register function
   const register = useCallback(
     async (regData: RegisterData) => {
       dispatch({ type: "LOGIN_START" });
@@ -256,7 +221,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         const errorMessage =
           error.response?.data?.message ||
           "حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.";
-
         dispatch({
           type: "LOGIN_FAILURE",
           payload: errorMessage,
@@ -266,14 +230,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     },
     [router, getUserData]
   );
-
-  // verify-email
-
   const verifyEmail = useCallback(
     async (token: string) => {
       try {
         const data = await authSvc.verifyEmail(token);
-
         if (typeof window !== "undefined") {
           localStorage.setItem("accessToken", data.accessToken);
         }
@@ -282,7 +242,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         const errorMessage =
           error.response?.data?.message ||
           "حدث خطأ أثناء التحقق من البريد الإلكتروني. يرجى المحاولة مرة أخرى.";
-
         dispatch({
           type: "LOGIN_FAILURE",
           payload: errorMessage,
@@ -292,13 +251,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     },
     [getUserData]
   );
-
-  // Logout function
   const logout = useCallback(async () => {
     try {
       await authSvc.logout();
     } catch {
-      // Logout API call failed, continue with cleanup
     } finally {
       if (typeof window !== "undefined") {
         localStorage.removeItem("accessToken");
@@ -307,20 +263,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       router.push("/");
     }
   }, [router]);
-
-  // Clear error function
   const clearError = useCallback(() => {
     dispatch({ type: "CLEAR_ERROR" });
   }, []);
-
-  // update user data function
   const updateUserData = useCallback(
     async (userData: Partial<User>) => {
       dispatch({ type: "UPDATE_USER_START" });
-
       try {
         const data = await authSvc.updateUserProfile(userData);
-
         if (typeof window !== "undefined") {
           localStorage.setItem("accessToken", data.accessToken);
         }
@@ -330,14 +280,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           type: "UPDATE_USER_FAILURE",
           payload: "حدث خطأ أثناء تحديث البيانات. يرجى المحاولة مرة أخرى.",
         });
-
         throw error;
       }
     },
     [getUserData]
   );
-
-  // Memoize context value to prevent unnecessary re-renders
   const contextValue = useMemo(
     () => ({
       ...state,
@@ -362,12 +309,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       isUserAuthenticated,
     ]
   );
-
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };
-
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

@@ -1,5 +1,4 @@
-/* Enhanced Loader Base Styles */
-.loader {
+﻿.loader {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7,19 +6,15 @@
   font-family: "Cairo", sans-serif;
   direction: rtl;
 }
-
-/* Loader Types */
 .default {
   padding: 20px;
   flex-direction: column;
   gap: 12px;
 }
-
 .inline {
   flex-direction: row;
   gap: 8px;
 }
-
 .overlay {
   position: fixed;
   top: 0;
@@ -30,7 +25,6 @@
   z-index: 9999;
   backdrop-filter: blur(2px);
 }
-
 .overlayContent {
   display: flex;
   flex-direction: column;
@@ -40,81 +34,61 @@
   height: 100%;
   color: white;
 }
-
 .minimal {
   padding: 8px;
   gap: 6px;
 }
-
-/* Sizes */
 .small {
   font-size: 12px;
 }
-
 .small .spinner {
   width: 16px;
   height: 16px;
 }
-
 .small .dot {
   width: 3px;
   height: 3px;
 }
-
 .medium {
   font-size: 14px;
 }
-
 .medium .spinner {
   width: 24px;
   height: 24px;
 }
-
 .medium .dot {
   width: 4px;
   height: 4px;
 }
-
 .large {
   font-size: 16px;
 }
-
 .large .spinner {
   width: 32px;
   height: 32px;
 }
-
 .large .dot {
   width: 5px;
   height: 5px;
 }
-
-/* Colors */
 .primary .spinner .dot {
   background-color: #007bff;
 }
-
 .primary .text {
   color: #007bff;
 }
-
 .secondary .spinner .dot {
   background-color: #6c757d;
 }
-
 .secondary .text {
   color: #6c757d;
 }
-
 .white .spinner .dot {
   background-color: white;
 }
-
 .white .text {
   color: white;
 }
-
-/* Spinner Animation */
 .spinner {
   display: flex;
   align-items: center;
@@ -123,7 +97,6 @@
   width: 24px;
   height: 24px;
 }
-
 .dot {
   width: 4px;
   height: 4px;
@@ -131,19 +104,15 @@
   background-color: #007bff;
   animation: dotPulse 1.4s ease-in-out infinite both;
 }
-
 .dot:nth-child(1) {
   animation-delay: -0.32s;
 }
-
 .dot:nth-child(2) {
   animation-delay: -0.16s;
 }
-
 .dot:nth-child(3) {
   animation-delay: 0;
 }
-
 @keyframes dotPulse {
   0%,
   80%,
@@ -156,15 +125,12 @@
     opacity: 1;
   }
 }
-
-/* Text Styles */
 .text {
   font-weight: 500;
   color: #007bff;
   white-space: nowrap;
   animation: textFade 2s ease-in-out infinite;
 }
-
 @keyframes textFade {
   0%,
   100% {
@@ -174,28 +140,21 @@
     opacity: 1;
   }
 }
-
-/* Responsive Design */
 @media (max-width: 768px) {
   .default {
     padding: 16px;
   }
-
   .text {
     font-size: 13px;
   }
 }
-
-/* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
   .overlay {
     background: rgba(0, 0, 0, 0.7);
   }
-
   .primary .text {
     color: #4fc3f7;
   }
-
   .primary .spinner .dot {
     background-color: #4fc3f7;
   }

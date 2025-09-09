@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React from "react";
 import { FiUsers, FiCalendar, FiMail } from "react-icons/fi";
 import { HiOutlineViewList } from "react-icons/hi";
@@ -89,5 +89,3 @@ const AdminSidebar: React.FC = () => {
 };
 
 export default AdminSidebar;
-
-

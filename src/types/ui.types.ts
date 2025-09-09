@@ -1,52 +1,38 @@
-﻿// ==================================================
-// UI Component Types
-// ==================================================
-
-import { IconType } from "react-icons";
+﻿import { IconType } from "react-icons";
 import { BaseComponentProps, BaseLoaderProps, BaseCourse } from "./base.types";
-
 export interface StatCardProps extends BaseComponentProps {
   icon: IconType;
   value: string | number;
   label: string;
 }
-
 export interface SkeletonTableProps extends BaseComponentProps {
   rows?: number;
   columns?: number;
   title?: string;
 }
-
 export interface SkeletonCardsProps extends BaseComponentProps {
   cards?: number;
   type?: "student" | "teacher" | "lesson";
 }
-
 export interface EnhancedLoaderProps extends BaseLoaderProps {
   text?: string;
   color?: "primary" | "secondary" | "white";
 }
-
 export interface EmailVerificationLoaderProps extends BaseComponentProps {
-  // Can be extended later if needed
   message?: string;
 }
-
-// UI-specific Course interface extends base course
 export interface UICourse extends Omit<BaseCourse, "description"> {
   description?: string; // Make description optional for UI course
   startDate: string;
   shortDescription: string;
   telegramLink?: string;
 }
-
 export interface CoursesGridProps extends BaseComponentProps {
   courses: UICourse[];
   showBtn?: boolean;
   isContainer?: boolean;
   isAdminView?: boolean;
 }
-
 export interface CourseCardProps extends BaseComponentProps {
   id?: string;
   title: string;
@@ -59,7 +45,6 @@ export interface CourseCardProps extends BaseComponentProps {
   onDelete?: () => void;
   telegramLink?: string;
 }
-
 export interface AdminCourseCardProps extends BaseComponentProps {
   id: string;
   title: string;
@@ -68,13 +53,11 @@ export interface AdminCourseCardProps extends BaseComponentProps {
   shortDescription: string;
   showBtn?: boolean;
 }
-
 export interface PaginationControlsProps extends BaseComponentProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
 }
-
 export interface DayFilterProps extends BaseComponentProps {
   value: string;
   onChange: (value: string) => void;
@@ -82,7 +65,6 @@ export interface DayFilterProps extends BaseComponentProps {
   wrapperClassName?: string;
   selectClassName?: string;
 }
-
 export interface SearchFilterProps extends BaseComponentProps {
   value: string;
   onChange: (value: string) => void;
@@ -91,7 +73,6 @@ export interface SearchFilterProps extends BaseComponentProps {
   inputClassName?: string;
   iconClassName?: string;
 }
-
 export interface AuthButtonProps extends BaseComponentProps {
   type?: "button" | "submit" | "reset";
   onClick?: () => void;
@@ -102,8 +83,6 @@ export interface AuthButtonProps extends BaseComponentProps {
   variant?: "primary" | "secondary";
   fullWidth?: boolean;
 }
-
-// Meeting link actions props - unique to this file
 export interface MeetingLinkActionsProps extends BaseComponentProps {
   meetingLink?: string;
   styles: any;

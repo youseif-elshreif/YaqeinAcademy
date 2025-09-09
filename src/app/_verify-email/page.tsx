@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BsCheckCircle, BsXCircle, BsClockHistory } from "react-icons/bs";
@@ -6,21 +6,18 @@ import { useAuth } from "@/src/contexts/AuthContext";
 import EmailVerificationLoader from "@/src/components/common/UI/EmailVerificationLoader";
 import Button from "@/src/components/common/Button";
 import styles from "@/src/styles/VerifyEmailPage.module.css";
-
 const VerifyEmailPage: React.FC = () => {
   const { verifyEmail } = useAuth();
   const router = useRouter();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading"
   );
-
   useEffect(() => {
     const token = new URLSearchParams(window.location.search).get("token");
     if (!token || typeof token !== "string") {
       setStatus("error");
       return;
     }
-
     const verify = async () => {
       try {
         await verifyEmail(token);
@@ -30,16 +27,12 @@ const VerifyEmailPage: React.FC = () => {
         setStatus("error");
       }
     };
-
     verify();
-    // eslint-disable-next-line
   }, []);
-
   const renderContent = () => {
     if (status === "loading") {
       return <EmailVerificationLoader />;
     }
-
     if (status === "success") {
       return (
         <>
@@ -57,7 +50,6 @@ const VerifyEmailPage: React.FC = () => {
         </>
       );
     }
-
     return (
       <>
         <BsXCircle className={`${styles.icon} ${styles.error}`} />
@@ -70,7 +62,6 @@ const VerifyEmailPage: React.FC = () => {
       </>
     );
   };
-
   return (
     <main className={styles.main}>
       <div className={"container"}>
@@ -81,5 +72,4 @@ const VerifyEmailPage: React.FC = () => {
     </main>
   );
 };
-
 export default VerifyEmailPage;

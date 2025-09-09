@@ -48,7 +48,7 @@ const AddLessonModal: React.FC = () => {
         throw new Error("Missing token or group context");
       }
       const { date, time } = formData;
-      // Combine date and time to ISO string in local timezone
+
       const scheduledAt = new Date(`${date}T${time}:00`).toISOString();
       await addLessonToGroup(token, selectedGroupForLessons.groupId, {
         scheduledAt,
@@ -64,13 +64,13 @@ const AddLessonModal: React.FC = () => {
 
   const actions = [
     {
-      label: "إلغاء",
+      label: "?????",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isSubmitting,
     },
     {
-      label: "إضافة الحلقة",
+      label: "????? ??????",
       onClick: () => {},
       variant: "primary" as const,
       disabled: isSubmitting,
@@ -87,7 +87,7 @@ const AddLessonModal: React.FC = () => {
       onClose={handleClose}
     >
       <ModalHeader
-        title="إضافة حصة جديدة"
+        title="????? ??? ?????"
         icon={<FaCalendarPlus />}
         onClose={handleClose}
         disabled={isSubmitting}
@@ -97,7 +97,7 @@ const AddLessonModal: React.FC = () => {
         <form onSubmit={handleSubmit} className={baseStyles.form}>
           <div className={baseStyles.formGrid}>
             <FormField
-              label="الوقت"
+              label="?????"
               name="time"
               type="time"
               value={formData.time}
@@ -107,7 +107,7 @@ const AddLessonModal: React.FC = () => {
             />
 
             <FormField
-              label="التاريخ"
+              label="???????"
               name="date"
               type="date"
               value={formData.date}
@@ -117,7 +117,7 @@ const AddLessonModal: React.FC = () => {
             />
 
             <FormField
-              label="رابط الحصة"
+              label="???? ?????"
               name="meetingLink"
               type="url"
               value={formData.meetingLink}

@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-// api instance is handled inside services
+
 import { getTeacherLessons } from "@/src/utils/services/lesson.service";
 import { TeacherDashboardContextType } from "@/src/types";
 import { useReportContext } from "./ReportContext";
@@ -20,9 +20,6 @@ export const TeacherDashboardProvider: React.FC<{
 }> = ({ children }) => {
   const [teacherLessons, setTeacherLessons] = useState<any[]>([]);
   const { createLessonReport } = useReportContext();
-
-  // Note: completeLesson is now available through LessonsContext
-  // Components should use useLessonsContext() for lesson completion
 
   const getMyLessons = useCallback(async () => {
     try {
@@ -54,7 +51,7 @@ export const TeacherDashboardProvider: React.FC<{
         for (const r of reports) {
           await createLessonReport(lessonId, r as any);
         }
-        // Note: Lesson completion should be done separately using LessonsContext.completeLesson()
+
       },
       reportMultipleAndComplete: async (
         lessonId: string,
@@ -70,7 +67,7 @@ export const TeacherDashboardProvider: React.FC<{
         for (const r of reports) {
           await createLessonReport(lessonId, r as any);
         }
-        // Note: Lesson completion should be done separately using LessonsContext.completeLesson()
+
       },
     }),
     [teacherLessons, getMyLessons, createLessonReport]

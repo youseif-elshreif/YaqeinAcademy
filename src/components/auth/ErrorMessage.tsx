@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import styles from "./ErrorMessage.module.css";
 import { FaExclamationTriangle, FaCheck, FaInfoCircle } from "react-icons/fa";
 import { ErrorMessageProps } from "@/src/types";

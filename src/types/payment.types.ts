@@ -1,8 +1,4 @@
-﻿// ==================================================
-// Payment Types
-// ==================================================
-
-export interface Payment {
+﻿export interface Payment {
   id: string;
   studentId: string;
   studentName: string;
@@ -15,7 +11,6 @@ export interface Payment {
   paymentMethod?: "cash" | "bank_transfer" | "card";
   notes?: string;
 }
-
 export interface PaymentHistory {
   id: string;
   studentId: string;
@@ -24,7 +19,6 @@ export interface PaymentHistory {
   method: string;
   notes?: string;
 }
-
 export interface CreditsFormData {
   privateAmount: number;
   publicAmount?: number;

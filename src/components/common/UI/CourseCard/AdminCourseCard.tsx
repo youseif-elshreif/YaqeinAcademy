@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useAdminModal } from "@/src/contexts/AdminModalContext";
 import CourseCard from "./CourseCard";

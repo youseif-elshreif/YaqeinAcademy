@@ -29,18 +29,18 @@ type ReportContextType = {
   myReports: StudentReport[];
   isLoading: boolean;
   error: string | null;
-  // Get reports for a specific student (for teachers/admins)
+
   getStudentReports: (studentId: string) => Promise<StudentReport[]>;
-  // Get current user's reports (for students)
+
   getMyReports: () => Promise<StudentReport[]>;
-  // Create a new lesson report
+
   createLessonReport: (
     lessonId: string,
     payload: reportSvc.StudentReportPayload
   ) => Promise<any>;
-  // Clear cached data
+
   clearReports: () => void;
-  // Refresh data
+
   refreshStudentReports: (studentId: string) => Promise<void>;
   refreshMyReports: () => Promise<void>;
 };
@@ -75,7 +75,7 @@ export const ReportProvider = ({ children }: ReportProviderProps) => {
         setStudentReports(reports);
         return reports;
       } catch (error) {
-        setError("فشل في جلب تقارير الطالب");
+        setError("??? ?? ??? ?????? ??????");
         throw error;
       } finally {
         setIsLoading(false);
@@ -89,7 +89,7 @@ export const ReportProvider = ({ children }: ReportProviderProps) => {
       setIsLoading(true);
       setError(null);
       const data = await reportSvc.getMyReports();
-      // Handle different response formats
+
       const reports = Array.isArray(data?.data)
         ? data.data
         : Array.isArray(data)
@@ -98,7 +98,7 @@ export const ReportProvider = ({ children }: ReportProviderProps) => {
       setMyReports(reports);
       return reports;
     } catch (error) {
-      setError("فشل في جلب تقاريري");
+      setError("??? ?? ??? ???????");
       throw error;
     } finally {
       setIsLoading(false);
@@ -113,7 +113,7 @@ export const ReportProvider = ({ children }: ReportProviderProps) => {
         const result = await reportSvc.postLessonReport(lessonId, payload);
         return result;
       } catch (error) {
-        setError("فشل في إنشاء تقرير الدرس");
+        setError("??? ?? ????? ????? ?????");
         throw error;
       } finally {
         setIsLoading(false);

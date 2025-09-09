@@ -58,7 +58,6 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
   const [teachers, setTeachers] = useState<TeacherOption[]>([]);
   const [loadingTeachers, setLoadingTeachers] = useState(false);
 
-  // Load teachers data when component mounts
   const fetchTeachers = useCallback(async () => {
     try {
       setLoadingTeachers(true);
@@ -67,7 +66,6 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
 
       const teachersData = await getTeachers(token);
 
-      // Create teachers list with combined data
       const combinedTeachers = teachersData
         .filter(
           (teacher: Teacher) =>
@@ -80,7 +78,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
 
       setTeachers(combinedTeachers);
     } catch {
-      // Error loading teachers
+
     } finally {
       setLoadingTeachers(false);
     }
@@ -90,7 +88,6 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
     fetchTeachers();
   }, [fetchTeachers]);
 
-  // Load group data when in edit mode
   const fetchGroupData = useCallback(async () => {
     if (!isEditMode || !editGroupId) return;
 
@@ -99,7 +96,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       setErrorMessage("");
       const token = localStorage.getItem("accessToken");
       if (!token) {
-        setErrorMessage("لا يوجد رمز مصادقة");
+        setErrorMessage("?? ???? ??? ??????");
         return;
       }
 
@@ -107,7 +104,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       const targetGroup = groupsData.find((group) => group._id === editGroupId);
 
       if (targetGroup) {
-        // تحويل البيانات إلى نموذج النموذج
+
         const timeSlots: TimeSlot[] = [];
 
         if (
@@ -151,10 +148,10 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
           timeSlots: timeSlots,
         });
       } else {
-        setErrorMessage("لم يتم العثور على الحلقة");
+        setErrorMessage("?? ??? ?????? ??? ??????");
       }
     } catch {
-      setErrorMessage("حدث خطأ أثناء جلب بيانات الحلقة");
+      setErrorMessage("??? ??? ????? ??? ?????? ??????");
     } finally {
       setIsLoading(false);
     }
@@ -167,7 +164,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
   const handleClose = () => {
     setIsClosing(true);
     setTimeout(() => {
-      // Reset form data
+
       setFormData({
         name: "",
         description: "",
@@ -179,7 +176,6 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       setErrorMessage("");
       setFieldErrors({});
 
-      // Close the appropriate modal based on mode
       if (isEditMode) {
         closeEditGroupModal();
       } else {
@@ -200,12 +196,10 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       [name]: value,
     }));
 
-    // Clear error when user starts typing
     if (errorMessage) {
       setErrorMessage("");
     }
 
-    // Clear field-specific error
     if (fieldErrors[name as keyof GroupFormErrors]) {
       setFieldErrors((prev) => ({
         ...prev,
@@ -249,44 +243,38 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
   const validateForm = (): boolean => {
     const newErrors: GroupFormErrors = {};
 
-    // اسم الحلقة
     if (!formData.name.trim()) {
-      newErrors.name = "اسم الحلقة مطلوب";
+      newErrors.name = "??? ?????? ?????";
     } else if (formData.name.trim().length < 3) {
-      newErrors.name = "اسم الحلقة يجب أن يكون 3 أحرف على الأقل";
+      newErrors.name = "??? ?????? ??? ?? ???? 3 ???? ??? ?????";
     }
 
-    // المدرس
     if (!formData.teacherId.trim()) {
-      newErrors.teacherId = "يجب اختيار المدرس";
+      newErrors.teacherId = "??? ?????? ??????";
     }
 
-    // الوصف (اختياري، لكن لو موجود يبقى أقل من 500 حرف)
     if (
       formData.description.trim() &&
       formData.description.trim().length > 500
     ) {
-      newErrors.description = "الوصف يجب أن يكون أقل من 500 حرف";
+      newErrors.description = "????? ??? ?? ???? ??? ?? 500 ???";
     }
 
-    // رابط الاجتماع
     if (!formData.meetingLink.trim()) {
-      newErrors.meetingLink = "رابط الاجتماع مطلوب";
+      newErrors.meetingLink = "???? ???????? ?????";
     } else if (!/^https?:\/\/.+/.test(formData.meetingLink)) {
-      newErrors.meetingLink = "رابط الاجتماع يجب أن يبدأ بـ http أو https";
+      newErrors.meetingLink = "???? ???????? ??? ?? ???? ?? http ?? https";
     }
 
-    // المواعيد
     const firstTimeSlot = formData.timeSlots[0];
     if (!firstTimeSlot.day || !firstTimeSlot.time) {
-      newErrors.timeSlots = "يجب إدخال موعد واحد على الأقل (اليوم والوقت)";
+      newErrors.timeSlots = "??? ????? ???? ???? ??? ????? (????? ??????)";
     }
 
     setFieldErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // Function to create lessons for the group
   const createGroupLessons = async (
     groupId: string,
     meetingLink: string,
@@ -295,15 +283,14 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
     token: string
   ) => {
     try {
-      // Generate lesson schedule using the date utility
+
       const schedule = createLessonSchedule(weekdays, times, meetingLink);
 
-      // Add each lesson to the group
       for (const lesson of schedule) {
         await addLessonToGroup(token, groupId, lesson);
       }
     } catch {
-      // Don't throw error - group creation was successful, lesson creation is secondary
+
     }
   };
 
@@ -320,18 +307,17 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
     try {
       const token = localStorage.getItem("accessToken");
       if (!token) {
-        setErrorMessage("لا يوجد رمز مصادقة. يرجى تسجيل الدخول مرة أخرى");
+        setErrorMessage("?? ???? ??? ??????. ???? ????? ?????? ??? ????");
         return;
       }
 
-      // Transform timeSlots to API format
       const usualDate: Record<string, string> = {};
       const weekdays: string[] = [];
       const times: string[] = [];
 
       formData.timeSlots.forEach((slot, index) => {
         if (slot.day && slot.time) {
-          // For API compatibility (existing backend format)
+
           const dayKey =
             index === 0 ? "firstDay" : index === 1 ? "secondDay" : "thirdDay";
           const timeKey =
@@ -343,7 +329,6 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
           usualDate[dayKey] = slot.day;
           usualDate[timeKey] = slot.time;
 
-          // For lesson scheduling (new format)
           weekdays.push(slot.day);
           times.push(slot.time);
         }
@@ -363,19 +348,17 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       let response;
 
       if (isEditMode && editGroupId) {
-        // Edit existing group
+
         response = await updateGroup(token, editGroupId, groupData);
       } else {
-        // Create new group
+
         response = await createGroup(token, groupData);
       }
 
-      // Refresh groups data after successful operation
       await getGroups(token);
 
-      // For new groups, create lessons and open members modal
       if (!isEditMode) {
-        // Create lessons for the new group
+
         if (weekdays.length > 0 && times.length > 0) {
           await createGroupLessons(
             response._id,
@@ -386,10 +369,8 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
           );
         }
 
-        // Close current modal
         handleClose();
 
-        // Open members modal
         setTimeout(() => {
           openAddMembersModal({
             id: response._id,
@@ -398,11 +379,11 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
           });
         }, 400);
       } else {
-        // Just close modal for edit mode
+
         handleClose();
       }
     } catch (error: unknown) {
-      // Handle different types of errors
+
       const errorObj = error as any;
       if (errorObj?.response?.data?.message) {
         setErrorMessage(errorObj.response.data.message);
@@ -410,9 +391,9 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
         setErrorMessage(errorObj.message);
       } else {
         setErrorMessage(
-          `حدث خطأ أثناء ${
-            isEditMode ? "تحديث" : "إنشاء"
-          } الحلقة. يرجى المحاولة مرة أخرى`
+          `??? ??? ????? ${
+            isEditMode ? "?????" : "?????"
+          } ??????. ???? ???????? ??? ????`
         );
       }
     } finally {
@@ -421,33 +402,33 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
   };
 
   const daysOfWeek = [
-    { value: "", label: "اختر اليوم" },
-    { value: "السبت", label: "السبت" },
-    { value: "الأحد", label: "الأحد" },
-    { value: "الاثنين", label: "الاثنين" },
-    { value: "الثلاثاء", label: "الثلاثاء" },
-    { value: "الأربعاء", label: "الأربعاء" },
-    { value: "الخميس", label: "الخميس" },
-    { value: "الجمعة", label: "الجمعة" },
+    { value: "", label: "???? ?????" },
+    { value: "?????", label: "?????" },
+    { value: "?????", label: "?????" },
+    { value: "???????", label: "???????" },
+    { value: "????????", label: "????????" },
+    { value: "????????", label: "????????" },
+    { value: "??????", label: "??????" },
+    { value: "??????", label: "??????" },
   ];
 
   const teacherOptions = [
     {
       value: "",
-      label: loadingTeachers ? "جاري تحميل المدرسين..." : "اختر المدرس",
+      label: loadingTeachers ? "???? ????? ????????..." : "???? ??????",
     },
     ...teachers.map((t: TeacherOption) => ({ value: t.id, label: t.name })),
   ];
 
   const actions = [
     {
-      label: "إلغاء",
+      label: "?????",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isSubmitting,
     },
     {
-      label: isEditMode ? "حفظ التعديلات" : "حفظ الحلقة",
+      label: isEditMode ? "??? ?????????" : "??? ??????",
       onClick: () => {},
       variant: "primary" as const,
       disabled: isSubmitting,
@@ -465,7 +446,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       onClose={handleClose}
     >
       <ModalHeader
-        title={isEditMode ? "تعديل الحلقة" : "إضافة حلقة جديدة"}
+        title={isEditMode ? "????? ??????" : "????? ???? ?????"}
         icon={<FaUsers />}
         onClose={handleClose}
         isOpen={true}
@@ -476,7 +457,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
         {isLoading ? (
           <div className={styles.form}>
             <div className={baseStyles.formGrid}>
-              {/* Skeleton for form fields */}
+
               <div className={baseStyles.inputGroup}>
                 <div className={styles.skeletonLabel}></div>
                 <div className={styles.skeletonInput}></div>
@@ -528,29 +509,29 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
 
             <div className={baseStyles.formGrid}>
               <FormField
-                label="اسم الحلقة"
+                label="??? ??????"
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
                 error={fieldErrors.name}
                 disabled={isSubmitting}
-                placeholder="مثال: حلقة التأسيس"
+                placeholder="????: ???? ???????"
               />
 
               <SelectField
-                label="نوع الحلقة"
+                label="??? ??????"
                 name="type"
                 value={formData.type}
                 onChange={handleInputChange as any}
                 options={[
-                  { value: "private", label: "خاصة" },
-                  { value: "public", label: "عامة" },
+                  { value: "private", label: "????" },
+                  { value: "public", label: "????" },
                 ]}
                 disabled={isSubmitting}
               />
 
               <SelectField
-                label="اختيار المدرس"
+                label="?????? ??????"
                 name="teacherId"
                 value={formData.teacherId}
                 onChange={handleInputChange as any}
@@ -560,7 +541,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
               />
 
               <FormField
-                label="رابط الاجتماع"
+                label="???? ????????"
                 name="meetingLink"
                 type="url"
                 value={formData.meetingLink}
@@ -571,14 +552,14 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
               />
 
               <FormField
-                label="الوصف"
+                label="?????"
                 name="description"
                 type="textarea"
                 value={formData.description}
                 onChange={handleInputChange}
                 error={fieldErrors.description}
                 disabled={isSubmitting}
-                placeholder="وصف مختصر للحلقة"
+                placeholder="??? ????? ??????"
                 rows={3}
                 fullWidth
               />
@@ -588,7 +569,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                 style={{ gridColumn: "1 / -1" }}
               >
                 <label className={baseStyles.label}>
-                  <FaCalendarAlt className={styles.labelIcon} /> مواعيد الدروس
+                  <FaCalendarAlt className={styles.labelIcon} /> ?????? ??????
                 </label>
                 {formData.timeSlots.map((slot, index) => (
                   <div key={index} className={baseStyles.timeSlotRow}>
@@ -626,7 +607,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                         icon={<FaMinus />}
                         disabled={isSubmitting}
                       >
-                        حذف
+                        ???
                       </Button>
                     )}
                   </div>
@@ -646,7 +627,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                     icon={<FaPlus />}
                     disabled={isSubmitting}
                   >
-                    إضافة موعد آخر
+                    ????? ???? ???
                   </Button>
                 )}
               </div>

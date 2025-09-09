@@ -1,9 +1,4 @@
-﻿// ==================================================
-// Student Types
-// ==================================================
-
-import { BaseUser, BaseComponentProps } from "./base.types";
-
+﻿import { BaseUser, BaseComponentProps } from "./base.types";
 export interface Student extends BaseUser {
   totalPaid: number;
   allowedLessons: number;
@@ -26,7 +21,6 @@ export interface Student extends BaseUser {
   payedClasses?: number;
   amountPaid?: number;
 }
-
 export interface StudentData extends BaseUser {
   totalPaid: number;
   paymentStatus: "paid" | "unpaid" | "partial";
@@ -40,7 +34,6 @@ export interface StudentData extends BaseUser {
   absentClasses: number;
   overallRate: number;
 }
-
 export interface StudentCompletedClassData {
   classId: number;
   date: string;
@@ -57,20 +50,17 @@ export interface StudentCompletedClassData {
     review: string[];
   } | null;
 }
-
 export interface StudentAllData {
   studentId: number;
   studentName: string;
   nickname: string;
   classes: StudentCompletedClassData[];
 }
-
 export interface StudentAllDataComponentProps extends BaseComponentProps {
   studentData: StudentAllData | null;
   onClose: () => void;
   onViewClassDetails?: (classData: StudentCompletedClassData) => void;
 }
-
 export interface StudentGroupData {
   usualDate: {
     firstDay: string;
@@ -82,7 +72,6 @@ export interface StudentGroupData {
   };
   meetingLink: string;
 }
-
 export interface StudentPayment {
   studentId: string;
   studentName: string;
@@ -90,7 +79,6 @@ export interface StudentPayment {
   lastPaymentDate: string;
   status: "paid" | "unpaid" | "partial";
 }
-
 export interface StudentINClassData {
   studentId: number;
   studentName: string;

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+﻿import React, { createContext, useContext, useState, ReactNode } from "react";
 import { ClassData, ModalContextType } from "@/src/types";
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -14,16 +14,15 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
   classes,
   onClassesUpdate,
 }) => {
-  // Modal states
+
   const [completeModalOpen, setCompleteModalOpen] = useState(false);
   const [studentAllDataModalOpen, setStudentAllDataModalOpen] = useState(false);
-  // Edit group name modal removed
+
   const [groupCompleteModalOpen, setGroupCompleteModalOpen] = useState(false);
   const [addClassLinkModalOpen, setAddClassLinkModalOpen] = useState(false);
   const [studentListModalOpen, setStudentListModalOpen] = useState(false);
   const [studentReportsModalOpen, setStudentReportsModalOpen] = useState(false);
 
-  // Selected data states
   const [selectedClass, setSelectedClass] = useState<ClassData | null>(null); // legacy
   const [selectedLesson, setSelectedLesson] = useState<any | null>(null); // raw lesson
   const [selectedLessonForStudents, setSelectedLessonForStudents] = useState<
@@ -34,7 +33,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     id: string;
     name?: string;
   } | null>(null);
-  // Removed selectedGroupData state
+
   const [selectedGroupClass, setSelectedGroupClass] =
     useState<ClassData | null>(null); // legacy
   const [selectedClassForLink, setSelectedClassForLink] = useState<{
@@ -46,7 +45,6 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     classLink?: string; // Add classLink to type
   } | null>(null);
 
-  // Open modal actions
   const openCompleteModal = (lesson: any) => {
     setSelectedLesson(lesson);
     const members = Array.isArray(lesson?.groupId?.members)
@@ -58,8 +56,6 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
       setCompleteModalOpen(true);
     }
   };
-
-  // openPostponeModal removed
 
   const openStudentDataModal = (studentId: number) => {
     const student = classes
@@ -91,8 +87,6 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
       setStudentAllDataModalOpen(true);
     }
   };
-
-  // openEditGroupNameModal removed
 
   const openGroupCompleteModal = (classData: ClassData) => {
     setSelectedGroupClass(classData);
@@ -126,21 +120,16 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     setAddClassLinkModalOpen(true);
   };
 
-  // Close actions
   const closeCompleteModal = () => {
     setCompleteModalOpen(false);
     setSelectedClass(null);
     setSelectedLesson(null);
   };
 
-  // closePostponeModal removed
-
   const closeStudentDataModal = () => {
     setStudentAllDataModalOpen(false);
     setStudentAllData(null);
   };
-
-  // closeEditGroupNameModal removed
 
   const closeGroupCompleteModal = () => {
     setGroupCompleteModalOpen(false);
@@ -163,7 +152,6 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     setSelectedStudentForReports(null);
   };
 
-  // Save actions
   const saveClassCompletion = (completionData: any) => {
     if (!selectedClass) return;
 
@@ -192,10 +180,6 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     closeCompleteModal();
   };
 
-  // saveClassPostpone removed
-
-  // saveGroupName removed
-
   const saveClassLink = (classLink: string, classId: number) => {
     const updatedClasses = classes.map((cls) => {
       if (cls.id === classId) {
@@ -216,7 +200,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
 
     const updatedClasses = classes.map((cls) => {
       if (cls.id === selectedGroupClass.id) {
-        // Update each student with their individual completion data
+
         const updatedStudents = cls.students.map((student) => {
           const studentCompletion = completionData.find(
             (completion) => completion.studentId === student.studentId
@@ -234,7 +218,6 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
           return student;
         });
 
-        // Calculate average group rate
         const totalRate = completionData.reduce(
           (sum, data) => sum + data.rate,
           0
@@ -256,9 +239,8 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     closeGroupCompleteModal();
   };
 
-  // Type cast as ModalContextType while omitting removed fields; interface will be updated separately.
   const contextValue = {
-    // Modal states
+
     completeModalOpen,
     studentAllDataModalOpen,
 
@@ -267,7 +249,6 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     studentListModalOpen,
     studentReportsModalOpen,
 
-    // Selected data
     selectedClass,
     selectedLesson,
     selectedLessonForStudents,
@@ -277,7 +258,6 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     selectedGroupClass,
     selectedClassForLink,
 
-    // Modal actions
     openCompleteModal,
     openStudentDataModal,
 
@@ -286,7 +266,6 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     openStudentListModal,
     openStudentReportsModal,
 
-    // Close actions
     closeCompleteModal,
     closeStudentDataModal,
 
@@ -295,7 +274,6 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     closeStudentListModal,
     closeStudentReportsModal,
 
-    // Save actions
     saveClassCompletion,
 
     saveClassLink,

@@ -42,41 +42,41 @@ const GroupManagement: React.FC = () => {
   const tabs = [
     {
       id: "groups",
-      label: "الحلقات",
+      label: "???????",
     },
   ];
 
   return (
     <div className={styles.overviewContainer}>
       <div className={userStyles.headerRow}>
-        <h1 className={styles.pageTitle}>إدارة الحلقات</h1>
+        <h1 className={styles.pageTitle}>????? ???????</h1>
         <div className={userStyles.headerActions}>
           <Button
             onClick={handleExportData}
             variant="secondary"
             icon={<FiDownload />}
           >
-            تصدير البيانات
+            ????? ????????
           </Button>
           <Button onClick={handleAddGroup} variant="primary" icon={<FiPlus />}>
-            إضافة حلقة جديدة
+            ????? ???? ?????
           </Button>
         </div>
       </div>
 
-      {/* Statistics Cards */}
+
       <div className={styles.statsGrid}>
-        <StatCard icon={FiUsers} value={groups.length} label="إجمالي الحلقات" />
+        <StatCard icon={FiUsers} value={groups.length} label="?????? ???????" />
       </div>
 
-      {/* Chart removed as requested */}
+
 
       <div className={styles.filterContainer}>
         <div className={styles.filterGroup}>
           <SearchFilter
             value={searchTerm}
             onChange={setSearchTerm}
-            placeholder="البحث باسم الحلقة فقط..."
+            placeholder="????? ???? ?????? ???..."
             wrapperClassName={userStyles.filterInputWrapper}
             inputClassName={userStyles.formInput}
             iconClassName={userStyles.filterIcon}
@@ -86,7 +86,7 @@ const GroupManagement: React.FC = () => {
           <DayFilter
             value={dayFilter}
             onChange={setDayFilter}
-            placeholder="كل الأيام"
+            placeholder="?? ??????"
             wrapperClassName={userStyles.filterInputWrapper}
             selectClassName={userStyles.formInput}
           />

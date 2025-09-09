@@ -64,7 +64,7 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
       setStudents(studentsOnly);
       return studentsOnly;
     } catch (error) {
-      setError("فشل في جلب بيانات الطلاب");
+      setError("??? ?? ??? ?????? ??????");
       throw error;
     } finally {
       setIsLoading(false);
@@ -81,7 +81,7 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
         await getStudents(token);
         return data;
       } catch (error) {
-        setError("فشل في إنشاء الطالب");
+        setError("??? ?? ????? ??????");
         throw error;
       } finally {
         setIsLoading(false);
@@ -99,7 +99,7 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
         await getStudents(token);
         return data;
       } catch (error) {
-        setError("فشل في تحديث بيانات الطالب");
+        setError("??? ?? ????? ?????? ??????");
         throw error;
       } finally {
         setIsLoading(false);
@@ -108,7 +108,6 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
     [getStudents]
   );
 
-  // Update member (generic function for updating any member)
   const updateMember = useCallback(
     async (token: string, memberId: string, memberData: any) => {
       try {
@@ -118,7 +117,7 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
         await getStudents(token);
         return data;
       } catch (error) {
-        setError("فشل في تحديث بيانات العضو");
+        setError("??? ?? ????? ?????? ?????");
         throw error;
       } finally {
         setIsLoading(false);
@@ -145,7 +144,7 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
         await getStudents(token);
         return data;
       } catch (error) {
-        setError("فشل في إضافة نقاط للطالب");
+        setError("??? ?? ????? ???? ??????");
         throw error;
       } finally {
         setIsLoading(false);
@@ -164,7 +163,7 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
         await getStudents(token);
         return data;
       } catch (error) {
-        setError("فشل في حذف العضو");
+        setError("??? ?? ??? ?????");
         throw error;
       } finally {
         setIsLoading(false);

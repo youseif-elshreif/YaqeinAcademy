@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useAdminStatsContext } from "@/src/contexts/AdminStatsContext";
 import styles from "@/src/components/dashboard/admin/styles.module.css";
 import SkeletonTable from "@/src/components/dashboard/admin/components/SkeletonTable";
@@ -14,7 +14,6 @@ const AdminsTable: React.FC<{ searchTerm?: string }> = ({
 }) => {
   const { admins = [], isLoading, error } = useAdminStatsContext();
 
-  // Show loading if context is loading OR if we don't have data yet
   const shouldShowLoading = isLoading || (admins.length === 0 && !error);
 
   if (shouldShowLoading) {
@@ -89,7 +88,7 @@ const AdminsTable: React.FC<{ searchTerm?: string }> = ({
         </div>
       ) : (
         <>
-          {/* Desktop Table View */}
+
           <div className={styles.desktopView}>
             <div className={styles.tableWrapper}>
               <table className={styles.classTable}>
@@ -111,7 +110,7 @@ const AdminsTable: React.FC<{ searchTerm?: string }> = ({
             </div>
           </div>
 
-          {/* Mobile Cards View */}
+
           <div className={styles.mobileView}>
             <MobileAdminCards admins={filtered} />
           </div>

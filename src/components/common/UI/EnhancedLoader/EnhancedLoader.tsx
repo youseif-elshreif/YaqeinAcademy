@@ -1,4 +1,4 @@
-import styles from "./EnhancedLoader.module.css";
+﻿import styles from "./EnhancedLoader.module.css";
 import { EnhancedLoaderProps } from "@/src/types";
 
 export default function EnhancedLoader({

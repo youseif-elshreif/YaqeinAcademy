@@ -1,4 +1,4 @@
-import styles from "./NextSessionTasks.module.css";
+﻿import styles from "./NextSessionTasks.module.css";
 import {
   FaCalendarAlt,
   FaClock,
@@ -9,19 +9,13 @@ import {
 import { useStudentDashboard } from "@/src/contexts/StudentDashboardContext";
 import { useEffect } from "react";
 import MeetingLinkActions from "@/src/components/common/MeetingLinkActions";
-
 const NextSessionTasks = () => {
   const { userStats, userLessons, getUserLessons } = useStudentDashboard();
-
   useEffect(() => {
     getUserLessons();
-    // eslint-disable-next-line
   }, []);
-
-  // Function to get next lesson date from userLessons
   const getNextLesson = () => {
     if (!userLessons || userLessons.length === 0) return null;
-
     const now = new Date();
     const futureLessons = userLessons
       .filter((lesson) => new Date(lesson.scheduledAt) > now)
@@ -29,12 +23,9 @@ const NextSessionTasks = () => {
         (a, b) =>
           new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime()
       );
-
     if (futureLessons.length === 0) return null;
-
     const nextLesson = futureLessons[0];
     const lessonDate = new Date(nextLesson.scheduledAt);
-
     return {
       date: lessonDate.toLocaleDateString("ar-EG", {
         year: "numeric",
@@ -50,18 +41,13 @@ const NextSessionTasks = () => {
       }),
     };
   };
-
-  // Check if student has available credits
   const availableCredits = userStats?.PrivitelessonCredits || 0;
-
-  // If no credits, show contact admin message
   if (availableCredits === 0) {
     return (
       <div className={styles.tasksContainer}>
         <div className={styles.header}>
           <h2 className={styles.title}>المطلوب للحصة القادمة</h2>
         </div>
-
         <div className={styles.tasksContent}>
           <div className={styles.taskSection}>
             <div
@@ -110,7 +96,6 @@ const NextSessionTasks = () => {
       </div>
     );
   }
-  // Mock data for next session tasks
   const nextSessionData = {
     sessionDate: "2025-01-20",
     sessionTime: "09:00 ص",
@@ -143,10 +128,7 @@ const NextSessionTasks = () => {
       },
     ],
   };
-
   const nextDate = getNextLesson();
-
-  // Show normal content for students with credits
   return (
     <div className={styles.tasksContainer}>
       <div className={styles.header}>
@@ -174,9 +156,7 @@ const NextSessionTasks = () => {
           )}
         </div>
       </div>
-
       <div className={styles.tasksContent}>
-        {/* New Memorization Section */}
         {nextSessionData.newMemorization.length > 0 && (
           <div className={styles.taskSection}>
             <div className={styles.sectionHeader}>
@@ -187,7 +167,6 @@ const NextSessionTasks = () => {
                 {nextSessionData.newMemorization.length} مهام
               </span>
             </div>
-
             <div className={styles.tasksList}>
               {nextSessionData.newMemorization.map((task) => (
                 <div
@@ -197,7 +176,6 @@ const NextSessionTasks = () => {
                   <div className={styles.taskHeader}>
                     <h4 className={styles.taskContent}>{task.content}</h4>
                   </div>
-
                   {task.notes && (
                     <div className={styles.taskNotes}>
                       <span className={styles.notesLabel}>ملاحظة:</span>
@@ -209,8 +187,6 @@ const NextSessionTasks = () => {
             </div>
           </div>
         )}
-
-        {/* Review Section */}
         {nextSessionData.review.length > 0 && (
           <div className={styles.taskSection}>
             <div className={styles.sectionHeader}>
@@ -221,7 +197,6 @@ const NextSessionTasks = () => {
                 {nextSessionData.review.length} مهام
               </span>
             </div>
-
             <div className={styles.tasksList}>
               {nextSessionData.review.map((task) => (
                 <div
@@ -231,7 +206,6 @@ const NextSessionTasks = () => {
                   <div className={styles.taskHeader}>
                     <h4 className={styles.taskContent}>{task.content}</h4>
                   </div>
-
                   {task.notes && (
                     <div className={styles.taskNotes}>
                       <span className={styles.notesLabel}>ملاحظة:</span>
@@ -244,8 +218,6 @@ const NextSessionTasks = () => {
           </div>
         )}
       </div>
-
-      {/* Study Tips */}
       <div className={styles.studyTips}>
         <h3 className={styles.tipsTitle}>
           <FaLightbulb /> نصائح للدراسة
@@ -264,5 +236,4 @@ const NextSessionTasks = () => {
     </div>
   );
 };
-
 export default NextSessionTasks;

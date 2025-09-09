@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -13,8 +13,6 @@ import {
 import styles from "./login.module.css";
 import { useAuth } from "@/src/contexts/AuthContext";
 import { LoginFormData, LoginFormErrors } from "@/src/types";
-
-// Type definitions
 
 const LoginPage = () => {
   const { login } = useAuth();

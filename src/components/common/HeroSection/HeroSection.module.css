@@ -1,9 +1,8 @@
-.hero {
+﻿.hero {
   padding: 4rem 0;
   position: relative;
   overflow: hidden;
 }
-
 .heroContent {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -11,12 +10,10 @@
   align-items: center;
   min-height: 300px;
 }
-
 .textContent {
   z-index: 2;
   position: relative;
 }
-
 .title {
   font-size: 3rem;
   font-weight: 700;
@@ -24,14 +21,12 @@
   margin-bottom: 1.5rem;
   line-height: 1.2;
 }
-
 .subtitle {
   font-size: 1.25rem;
   color: var(--text-light);
   line-height: 1.6;
   max-width: 600px;
 }
-
 .illustration {
   position: relative;
   display: flex;
@@ -39,7 +34,6 @@
   align-items: center;
   height: 250px;
 }
-
 .logoImage {
   width: 70%;
   height: auto;
@@ -49,7 +43,6 @@
   filter: drop-shadow(var(--shadow));
   -webkit-filter: drop-shadow(var(--shadow));
 }
-
 .decorativeShape {
   width: 120px;
   height: 120px;
@@ -67,7 +60,6 @@
   box-shadow: var(--shadow);
   opacity: 0.8;
 }
-
 .decorativeShape2 {
   width: 80px;
   height: 80px;
@@ -85,7 +77,6 @@
   box-shadow: var(--shadow);
   opacity: 0.6;
 }
-
 @keyframes float {
   0%,
   100% {
@@ -98,53 +89,42 @@
     transform: translateY(5px) rotate(-3deg);
   }
 }
-
 @media (max-width: 992px) {
   .logoImage {
     width: 95% !important;
   }
-
   .decorativeShape {
     width: 90px;
     height: 90px;
     top: 120px;
     left: -5px;
   }
-
   .decorativeShape2 {
     right: -5px;
   }
 }
-
-/* Responsive design */
 @media (max-width: 768px) {
   .hero {
     padding: 3rem 0;
   }
-
   .heroContent {
     grid-template-columns: 1fr;
     gap: 2rem;
     text-align: center;
   }
-
   .title {
     font-size: 2.2rem;
     margin-bottom: 1rem;
   }
-
   .subtitle {
     font-size: 1.1rem;
   }
-
   .illustration {
     height: 180px;
   }
-
   .logoImage {
     width: 195px !important;
   }
-
   .decorativeShape,
   .decorativeShape2 {
     width: 60px;
@@ -155,7 +135,6 @@
     right: 0;
     margin-top: 30px;
   }
-
   .decorativeShape {
     margin-left: -50px;
   }

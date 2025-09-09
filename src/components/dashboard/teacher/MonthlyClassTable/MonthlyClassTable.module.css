@@ -1,11 +1,7 @@
-/* ==== SHARED/REUSABLE STYLES ==== */
-
-.firstCell {
+﻿.firstCell {
   position: sticky;
   right: 0;
 }
-
-/* Base button for icon buttons */
 .iconButton {
   background: none;
   border: 1px solid var(--border-color);
@@ -16,33 +12,26 @@
   justify-content: center;
   transition: all 0.3s ease;
 }
-
 .iconButton:hover {
   background: var(--separator-bg);
   border-color: var(--secondary-color);
   color: var(--secondary-color);
 }
-
-/* Icon button variations */
 .iconButtonSmall {
   padding: 0.3rem;
   font-size: 0.75rem;
   min-width: 1.5rem;
   height: 1.5rem;
 }
-
 .iconButtonMedium {
   padding: 0.4rem;
   font-size: 0.8rem;
   gap: 0.3125rem;
 }
-
-/* Shared hover effect for clickable text elements */
 .clickableText {
   cursor: pointer;
   transition: color 0.2s ease;
 }
-
 .clickableText span {
   transition: color 0.2s ease;
   -webkit-transition: color 0.2s ease;
@@ -50,56 +39,40 @@
   -ms-transition: color 0.2s ease;
   -o-transition: color 0.2s ease;
 }
-
 .clickableText:hover,
 .clickableText:hover span {
   color: var(--secondary-color);
   text-decoration: underline;
 }
-
-/* Shared hover effect for clickable text with children */
 .clickableTextWithChildren:hover,
 .clickableTextWithChildren:hover span {
   color: var(--secondary-color) !important;
   text-decoration: underline;
 }
-
-/* Shared color transitions */
 .colorTransition {
   transition: color 0.2s ease;
 }
-
 .allTransition {
   transition: all 0.3s ease;
 }
-
-/* Shared text colors */
 .primaryColor {
   color: var(--primary-color);
 }
-
 .secondaryColor {
   color: var(--secondary-color);
 }
-
 .lightColor {
   color: var(--text-light);
 }
-
 .darkColor {
   color: var(--text-dark);
 }
-
-/* Shared font weights */
 .fontMedium {
   font-weight: 500;
 }
-
 .fontSemiBold {
   font-weight: 600;
 }
-
-/* Base button styles */
 .baseButton {
   border: none;
   border-radius: 6px;
@@ -108,16 +81,12 @@
   white-space: nowrap;
   transition: all 0.3s ease;
 }
-
 .baseButton:hover {
   opacity: 0.8;
 }
-
-/* ==== ACTION BUTTONS STYLES ==== */
 .actionsCell {
   text-align: center;
 }
-
 .actionButtons {
   display: flex;
   gap: 0.75rem;
@@ -126,7 +95,6 @@
   flex-wrap: wrap;
   min-height: 3rem;
 }
-
 .actionBtn {
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
@@ -137,52 +105,43 @@
   position: relative;
   overflow: hidden;
 }
-
 .actionBtn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(30, 61, 50, 0.2);
 }
-
 .actionBtn:active {
   transform: translateY(0);
   box-shadow: 0 2px 6px rgba(30, 61, 50, 0.15);
 }
-
 .completeBtn {
   background: var(--primary-color);
   color: white;
   border: 1px solid var(--primary-color);
 }
-
 .completeBtn:hover {
   background: var(--secondary-color);
   border-color: var(--secondary-color);
 }
-
 .postponeBtn {
   background: var(--separator-bg);
   color: var(--primary-color);
   border: 1px solid var(--border-color);
   font-weight: 600;
 }
-
 .postponeBtn:hover {
   background: var(--primary-color);
   color: white;
   border-color: var(--primary-color);
 }
-
 .viewBtn {
   background: var(--secondary-color);
   color: white;
   border: 1px solid var(--secondary-color);
 }
-
 .viewBtn:hover {
   background: var(--primary-color);
   border-color: var(--primary-color);
 }
-
 .cancelledText {
   color: var(--danger-color);
   font-weight: 500;
@@ -193,44 +152,35 @@
   font-size: 0.85rem;
   border: 1px solid var(--danger-color);
 }
-
-/* ==== COMPONENT SPECIFIC STYLES ==== */
-
 .tableContainer {
   background: var(--base-bg);
   border-radius: 0.75rem;
   border: 1px solid var(--border-color);
   margin-bottom: 2rem;
 }
-
 .table {
   min-width: 100%;
 }
-
 .header {
   padding: 1.5rem;
   border-bottom: 1px solid var(--border-color);
   text-align: center;
 }
-
 .title {
   font-size: 1.75rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
 }
-
 .subtitle {
   font-size: 1rem;
   margin: 0;
 }
-
 .classTable {
   min-width: 100%;
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
 }
-
 .classTable th {
   background: var(--separator-bg);
   color: var(--text-dark);
@@ -240,23 +190,19 @@
   border-bottom: 2px solid var(--border-color);
   white-space: nowrap;
 }
-
 .tableRow {
   border-bottom: 1px solid var(--border-color);
   transition: background-color 0.3s ease;
 }
-
 .tableRow:hover {
   background: rgba(99, 184, 177, 0.05);
 }
-
 .classTable td {
   padding: 1rem;
   text-align: center;
   border-bottom: 1px solid var(--border-color);
   vertical-align: middle;
 }
-
 .studentInfo {
   display: flex;
   align-items: center;
@@ -264,29 +210,22 @@
   gap: 0.5rem;
   cursor: pointer;
 }
-
 .studentName {
   font-weight: 500;
 }
-
 .nickname {
   font-size: 0.9rem;
   font-style: italic;
   margin-right: 0.3125rem;
 }
-
-/* Uses shared iconButton classes - no individual styles needed */
-
 .dateTimeContent {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
-
 .dateText {
   font-weight: 500;
 }
-
 .timeText {
   font-weight: 600;
   background: rgba(30, 61, 50, 0.1);
@@ -294,7 +233,6 @@
   border-radius: 0.75rem;
   font-size: 0.85rem;
 }
-
 .statusBadge {
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -302,49 +240,37 @@
   font-weight: 600;
   display: inline-block;
 }
-
 .completedStatus {
   background: var(--success-light);
   color: var(--success-color);
 }
-
 .pendingStatus {
   background: var(--warning-light);
   color: var(--warning-color);
 }
-
 .cancelledStatus {
   background: var(--danger-light);
   color: var(--danger-color);
 }
-
 .postponedStatus {
   background: rgba(138, 43, 226, 0.1);
   color: #8a2be2;
 }
-
 .rateCell {
   min-width: 8rem;
 }
-
 .rate {
   font-weight: 600;
 }
-
-/* .norate uses shared lightColor class */
-
-/* ==== LINK CELL STYLES ==== */
 .linkCell {
   text-align: center;
 }
-
 .linkContainer {
   display: flex;
   gap: 0.5rem;
   align-items: center;
   justify-content: center;
 }
-
 .linkButton {
   background: none;
   border: 1px solid var(--border-color);
@@ -359,19 +285,16 @@
   color: var(--text-color);
   white-space: nowrap;
 }
-
 .openLinkBtn {
   background: var(--primary-color);
   color: white;
   border-color: var(--primary-color);
 }
-
 .openLinkBtn:hover {
   background: var(--secondary-color);
   border-color: var(--secondary-color);
   transform: translateY(-1px);
 }
-
 .copyLinkBtn {
   background: var(--separator-bg);
   color: var(--secondary-color);
@@ -380,32 +303,26 @@
   min-width: 2rem;
   justify-content: center;
 }
-
 .copyLinkBtn:hover {
   background: var(--secondary-color);
   color: white;
   transform: translateY(-1px);
 }
-
 .addLinkBtn {
   background: var(--warning-color);
   color: white;
   border-color: var(--warning-color);
 }
-
 .addLinkBtn:hover {
   background: var(--warning-dark);
   border-color: var(--warning-dark);
   transform: translateY(-1px);
 }
-
 .noLinkText {
   color: var(--muted-color);
   font-size: 0.8rem;
   font-style: italic;
 }
-
-/* ==== MOBILE CARD LINK STYLES ==== */
 .cardLinkContainer {
   display: flex;
   gap: 0.375rem;
@@ -413,26 +330,21 @@
   flex-wrap: wrap;
   justify-content: flex-end;
 }
-
 .cardLinkBtn {
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
 }
-
 .cardCopyBtn {
   padding: 0.25rem;
   min-width: 1.75rem;
   font-size: 0.75rem;
 }
-
-/* ==== MOBILE CARDS STYLES ==== */
 .mobileCardsContainer {
   display: none;
   padding: 1rem;
   gap: 1rem;
   flex-direction: column;
 }
-
 .classCard {
   background: var(--base-bg);
   border: 1px solid var(--border-color);
@@ -440,7 +352,6 @@
   padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
-
 .cardHeader {
   display: flex;
   justify-content: space-between;
@@ -449,36 +360,30 @@
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--border-color);
 }
-
 .cardStudentName {
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0;
 }
-
 .cardBody {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-
 .cardInfo {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
-
 .infoItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 .infoLabel {
   font-size: 0.9rem;
   font-weight: 500;
 }
-
 .infoValue {
   font-size: 0.9rem;
   font-weight: 600;
@@ -486,32 +391,26 @@
   width: calc(100% - 100px);
   text-align: left;
 }
-
-/* Group-related styles */
 .groupContainer {
   position: relative;
   display: flex;
   align-items: flex-start;
 }
-
 .groupNameContainer {
   display: flex;
   align-items: center;
 }
-
 .groupName {
   font-weight: 600;
   display: flex;
   align-items: center;
   padding: 10px 0;
 }
-
 .groupIndicator {
   font-size: 0.85rem;
   font-weight: 500;
   margin-right: 0.5rem;
 }
-
 .groupMembersTooltip {
   position: absolute;
   top: 100%;
@@ -540,7 +439,6 @@
   -ms-transform: translate(-50%, -80%);
   -o-transform: translate(-50%, -80%);
 }
-
 .groupContainer:hover .groupMembersTooltip {
   opacity: 1;
   visibility: visible;
@@ -551,14 +449,12 @@
   -ms-transform: translate(-100%, -80%);
   -o-transform: translate(-100%, -80%);
 }
-
 .groupMemberName {
   font-size: 0.85rem;
   font-weight: 500;
   display: inline-block;
   margin: 0.1rem 0;
 }
-
 .groupMembers {
   margin-top: 0.75rem;
   padding: 0.75rem;
@@ -566,37 +462,30 @@
   border-radius: 6px;
   border: 1px solid var(--border-color);
 }
-
 .membersLabel {
   display: block;
   font-size: 0.9rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
-
 .membersList {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem;
 }
-
 .memberName {
   font-size: 0.85rem;
   font-weight: 500;
   display: inline-block;
 }
-
 .memberNickname {
   font-weight: 400;
   margin-right: 0.25rem;
 }
-
 .groupRate {
   font-weight: 600;
   font-size: 0.95rem;
 }
-
-/* Group badge */
 .groupBadge {
   position: absolute;
   top: 35px;
@@ -621,15 +510,11 @@
   gap: 0.3rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
-
-/* Card actions */
 .cardActions {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
 }
-
-/* Table wrapper for horizontal scroll with top scrollbar */
 .tableWrapper {
   overflow-x: auto;
   overflow-y: hidden;
@@ -639,13 +524,9 @@
   scroll-behavior: smooth;
   transform: rotateX(180deg);
 }
-
-/* Flip the table back to normal orientation */
 .tableWrapper .classTable {
   transform: rotateX(180deg);
 }
-
-/* Scroll hint indicator */
 .tableWrapper::after {
   content: "";
   position: absolute;
@@ -659,92 +540,71 @@
   transition: opacity 0.3s ease;
   transform: rotateX(180deg);
 }
-
 .tableWrapper:hover::after {
   opacity: 1;
 }
-
-/* Responsive Design */
 @media (max-width: 768px) {
   .tableWrapper {
     display: none;
   }
-
   .mobileCardsContainer {
     display: flex;
   }
-
   .header {
     padding: 1rem;
   }
-
   .title {
     font-size: 1.5rem;
   }
-
   .subtitle {
     font-size: 0.95rem;
   }
-
   .groupBadge {
     top: -35px;
     right: 0px;
   }
 }
-
 @media (max-width: 1024px) and (min-width: 769px) {
   .tableWrapper {
     transform: rotateX(180deg);
     box-shadow: inset -10px 0 10px -10px rgba(0, 0, 0, 0.1);
   }
-
   .tableWrapper .classTable {
     transform: rotateX(180deg);
     min-width: 1500px;
   }
 }
-
 @media (max-width: 480px) {
   .mobileCardsContainer {
     padding: 0.75rem;
   }
-
   .cardHeader {
     flex-direction: column;
     align-items: stretch;
     gap: 0.5rem;
     text-align: center;
   }
-
   .cardActions {
     flex-direction: column;
   }
-
   .actionBtn {
     width: 100%;
   }
 }
-
-/* ==== RESPONSIVE VIEW CONTROLS ==== */
 .desktopView {
   display: block;
 }
-
 .mobileView {
   display: none;
 }
-
 @media (max-width: 768px) {
   .desktopView {
     display: none;
   }
-
   .mobileView {
     display: block;
   }
 }
-
-/* ==== FILTERS SECTION ==== */
 .filtersContainer {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -753,7 +613,6 @@
   margin-bottom: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
-
 .filtersRow {
   display: flex;
   align-items: center;
@@ -761,27 +620,23 @@
   flex-wrap: wrap;
   margin-bottom: 0.75rem;
 }
-
 .filterGroup {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   min-width: 200px;
 }
-
 .filterIcon {
   color: var(--secondary-color);
   font-size: 1rem;
   flex-shrink: 0;
 }
-
 .filterLabel {
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-secondary);
   white-space: nowrap;
 }
-
 .filterInput,
 .filterSelect {
   flex: 1;
@@ -793,14 +648,12 @@
   color: var(--text-color);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-
 .filterInput:focus,
 .filterSelect:focus {
   outline: none;
   border-color: var(--secondary-color);
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
-
 .clearFiltersBtn {
   background: var(--danger-color);
   color: white;
@@ -816,11 +669,9 @@
   align-items: center;
   gap: 0.25rem;
 }
-
 .clearFiltersBtn:hover {
   background: #dc2626;
 }
-
 .currentMonthBtn {
   background: var(--secondary-color);
   color: white;
@@ -836,17 +687,14 @@
   align-items: center;
   gap: 0.25rem;
 }
-
 .currentMonthBtn:hover {
   background: #2563eb;
 }
-
 .currentMonthActive {
   background: #1d4ed8 !important;
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
   position: relative;
 }
-
 .currentMonthActive::after {
   content: "✓";
   position: absolute;
@@ -863,7 +711,6 @@
   align-items: center;
   justify-content: center;
 }
-
 .resultsInfo {
   display: flex;
   align-items: center;
@@ -875,59 +722,45 @@
   border-radius: 0.25rem;
   border: 1px solid var(--border-color);
 }
-
 .infoIcon {
   color: var(--secondary-color);
   font-size: 0.875rem;
 }
-
-/* ==== GROUP STYLING CONSISTENCY ==== */
-
 .groupNameContainer {
   margin-top: 0.25rem;
 }
-
-/* Mobile Group Badge */
 .classCard .groupBadge {
   font-size: 0.7rem;
   padding: 0.2rem 0.4rem;
 }
-
-/* Mobile Filters */
 @media (max-width: 768px) {
   .filtersContainer {
     padding: 0.75rem;
     margin-bottom: 1rem;
   }
-
   .filtersRow {
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
   }
-
   .filterGroup {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.25rem;
     min-width: unset;
   }
-
   .filterLabel {
     font-size: 0.75rem;
     margin-bottom: 0.25rem;
   }
-
   .filterInput,
   .filterSelect {
     width: 100%;
   }
-
   .clearFiltersBtn {
     align-self: center;
     min-width: 120px;
   }
-
   .resultsInfo {
     justify-content: center;
     margin-top: 0.5rem;

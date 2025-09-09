@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import Button from "../Button";
 import baseStyles from "../../../styles/BaseModal.module.css";
 import { ModalActionsProps, ActionButton } from "@/src/types";

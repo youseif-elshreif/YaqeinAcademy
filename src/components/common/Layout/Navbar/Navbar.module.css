@@ -1,4 +1,4 @@
-.navbar {
+﻿.navbar {
   background: var(--secondary-color);
   box-shadow: var(--shadow);
   position: sticky;
@@ -8,7 +8,6 @@
   width: 100%;
   flex-direction: row-reverse;
 }
-
 .navContent {
   display: flex;
   justify-content: space-between;
@@ -16,17 +15,14 @@
   padding: 0.6rem 0;
   position: relative;
 }
-
 .logo {
   display: flex;
   align-items: center;
 }
-
 .logo li {
   list-style: none;
   margin-top: 10px;
 }
-
 .logoImage {
   height: 3.4375rem;
   width: auto;
@@ -37,12 +33,10 @@
   -ms-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
 }
-
 .navContent .logoImage:hover {
   filter: drop-shadow(0 0px 5px rgba(0, 0, 0, 0.3));
   -webkit-filter: drop-shadow(0 0px 5px rgba(0, 0, 0, 0.3));
 }
-
 .navMenu {
   display: flex;
   list-style: none;
@@ -50,26 +44,20 @@
   margin: 0;
   align-items: center;
 }
-
-/* Greeting */
 .greetingItem {
   margin-inline-start: 0.5rem;
 }
-
 .greetingText {
   color: var(--base-bg);
   white-space: nowrap;
   font-size: 0.95rem;
 }
-
 .greetingName {
   color: var(--primary-color);
 }
-
 .navItem {
   position: relative;
 }
-
 .navLink {
   color: var(--base-bg);
   font-weight: 500;
@@ -79,19 +67,16 @@
   position: relative;
   display: block;
 }
-
 .navLink:hover {
   color: var(--primary-color);
   background: rgba(30, 61, 50, 0.05);
   transform: translateY(-1px);
 }
-
 .navLink.active {
   color: var(--primary-color);
   font-weight: 600;
   background: rgba(30, 61, 50, 0.1);
 }
-
 .navLink.active::after {
   content: "";
   position: absolute;
@@ -103,8 +88,6 @@
   background: var(--primary-color);
   border-radius: 2px;
 }
-
-/* Mobile Menu Toggle */
 .menuToggle {
   background: none;
   border: none;
@@ -117,7 +100,6 @@
   transition: background 0.3s ease;
   position: relative;
 }
-
 .hamburger {
   width: 1.5625rem;
   height: 0.1875rem;
@@ -126,12 +108,9 @@
   transition: all 0.3s ease;
   transform-origin: center;
 }
-
 .menuToggle:hover .hamburger {
   background: var(--base-bg);
 }
-
-/* Mobile Menu Overlay */
 .mobileOverlay {
   position: fixed;
   top: 0;
@@ -142,7 +121,6 @@
   z-index: 998;
   animation: fadeIn 0.3s ease;
 }
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -151,8 +129,6 @@
     opacity: 1;
   }
 }
-
-/* Mobile Menu */
 .mobileMenu {
   position: fixed;
   top: 0;
@@ -171,11 +147,9 @@
   -ms-transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   -o-transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 .mobileMenuOpen {
   left: 0 !important;
 }
-
 .mobileMenuHeader {
   display: flex;
   justify-content: space-between;
@@ -184,13 +158,11 @@
   border-bottom: 1px solid var(--border-color);
   background: var(--secondary-color);
 }
-
 .mobileMenuHeader h3 {
   color: var(--primary-color);
   font-weight: 700;
   margin: 0;
 }
-
 .closeButton {
   background: none;
   border: none;
@@ -206,27 +178,22 @@
   align-items: center;
   justify-content: center;
 }
-
 .closeButton:hover {
   background: rgba(0, 0, 0, 0.1);
   color: var(--primary-color);
 }
-
 .mobileNavList {
   list-style: none;
   margin: 0;
   padding: 0;
   flex: 1;
 }
-
 .mobileNavItem {
   border-bottom: 1px solid rgba(224, 224, 224, 0.3);
 }
-
 .mobileNavItem:last-child {
   border-bottom: none;
 }
-
 .mobileNavLink {
   display: block;
   padding: 1.25rem 1.25rem;
@@ -236,32 +203,26 @@
   transition: all 0.3s ease;
   position: relative;
 }
-
 .mobileNavLink:hover {
   background: rgba(30, 61, 50, 0.05);
   color: var(--primary-color);
   padding-right: 1.5rem;
 }
-
 .mobileNavLink.active {
   color: var(--primary-color);
   font-weight: 600;
   background: rgba(30, 61, 50, 0.1);
   border-right: 4px solid var(--secondary-color);
 }
-
 .mobileMenuFooter {
   padding: 0.5rem;
   border-top: 1px solid var(--border-color);
   background: var(--secondary-color);
   text-align: center;
 }
-
 .mobileMenuFooter .logoImage {
   margin: 0 auto;
 }
-
-/* Logout Button Styles */
 .logoutButton {
   background: none;
   border: none;
@@ -276,13 +237,10 @@
   width: 100%;
   text-align: center;
 }
-
 .logoutButton:hover {
   color: var(--danger-color);
   background: rgba(220, 53, 69, 0.1);
 }
-
-/* User Info in Mobile Menu */
 .userInfo {
   padding: 1rem;
   border-bottom: 1px solid var(--border-color);
@@ -291,25 +249,19 @@
   color: var(--text-primary);
   text-align: center;
 }
-
 .userInfo p {
   margin: 0;
   font-size: 0.9rem;
   color: var(--primary-color);
 }
-
-/* Override for mobile logout button */
 .mobileNavList .logoutButton {
   color: var(--danger-color);
   font-weight: 500;
 }
-
 .mobileNavList .logoutButton:hover {
   background: rgba(220, 53, 69, 0.1);
   color: var(--danger-color);
 }
-
-/* Add some spacing for desktop logout button */
 .navMenu .logoutButton {
   padding: 0.5rem 1rem;
   border-radius: 6px;
@@ -317,101 +269,77 @@
   color: var(--danger-color);
   border: 1px solid rgba(220, 53, 69, 0.2);
 }
-
 .navMenu .logoutButton:hover {
   background: var(--danger-color);
   color: var(--base-bg);
   transform: translateY(-1px);
 }
-
-/* Responsive adjustments */
 @media (max-width: 1024px) {
   .navMenu {
     gap: 1.5rem;
   }
-
   .navLink {
     padding: 0.4rem 0.8rem;
     font-size: 0.95rem;
   }
 }
-
 @media (max-width: 768px) {
   .logoImage {
     height: 2.8rem;
   }
-
   .navContent {
     padding: 0.75rem 0;
   }
-
   .logo h2 {
     font-size: 1.3rem;
   }
-
   .mobileMenu {
     width: 100%;
     left: -100%;
   }
-
   .greetingText {
-    display: none; /* hide greeting in top bar on small screens */
+    display: none; 
   }
 }
-
 @media (max-width: 480px) {
   .logo h2 {
     font-size: 1.2rem;
   }
-
   .logoImage {
     height: 2.1875rem;
   }
-
   .mobileNavLink {
     padding: 1rem 1rem;
     font-size: 1rem;
   }
-
   .mobileMenuHeader {
     padding: 1.25rem 1rem;
   }
-
   .mobileMenuFooter {
     padding: 1rem;
   }
 }
-
-/* Animation for better UX */
 @media (prefers-reduced-motion: no-preference) {
   .navLink {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-
   .mobileNavLink {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
-
-/* Focus states for accessibility */
 .navLink.active,
 .navLink:focus {
   outline: 2px solid var(--primary-color);
   outline-offset: 2px;
 }
-
-/* High contrast mode support */
 @media (prefers-contrast: high) {
   .navbar {
     border-bottom: 2px solid var(--primary-color);
   }
-
   .navLink.active::after {
     height: 0.25rem;
   }
 }
-
-/* Auth Loading State */
 .authLoader {
   display: flex;
   align-items: center;
@@ -423,7 +351,6 @@
   color: #666;
   animation: pulse 1.5s ease-in-out infinite alternate;
 }
-
 .loadingSpinner {
   width: 16px;
   height: 16px;
@@ -432,7 +359,6 @@
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
-
 @keyframes pulse {
   from {
     opacity: 0.6;
@@ -441,7 +367,6 @@
     opacity: 1;
   }
 }
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);

@@ -25,10 +25,9 @@ const EditLessonModal: React.FC = () => {
     meetingLink: "",
   });
 
-  // تعبئة البيانات عند فتح المودال
   useEffect(() => {
     if (selectedLessonData) {
-      // Normalize ISO date to YYYY-MM-DD for date input
+
       const rawDate = selectedLessonData.date;
       const d = new Date(rawDate);
       const yyyy = d.getFullYear();
@@ -84,13 +83,13 @@ const EditLessonModal: React.FC = () => {
 
   const actions = [
     {
-      label: "إلغاء",
+      label: "?????",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isSubmitting,
     },
     {
-      label: "حفظ التغييرات",
+      label: "??? ?????????",
       onClick: () => {},
       variant: "primary" as const,
       disabled: isSubmitting,
@@ -107,7 +106,7 @@ const EditLessonModal: React.FC = () => {
       onClose={handleClose}
     >
       <ModalHeader
-        title="تعديل الحلقة"
+        title="????? ??????"
         icon={<FaEdit />}
         onClose={handleClose}
         disabled={isSubmitting}
@@ -117,7 +116,7 @@ const EditLessonModal: React.FC = () => {
         <form onSubmit={handleSubmit} className={baseStyles.form}>
           <div className={baseStyles.formGrid}>
             <FormField
-              label="الوقت"
+              label="?????"
               name="time"
               type="time"
               value={formData.time}
@@ -127,7 +126,7 @@ const EditLessonModal: React.FC = () => {
             />
 
             <FormField
-              label="التاريخ"
+              label="???????"
               name="date"
               type="date"
               value={formData.date}
@@ -137,7 +136,7 @@ const EditLessonModal: React.FC = () => {
             />
 
             <FormField
-              label="رابط الحصة"
+              label="???? ?????"
               name="meetingLink"
               type="url"
               value={formData.meetingLink}

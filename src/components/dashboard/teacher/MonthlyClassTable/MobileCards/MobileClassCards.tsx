@@ -1,4 +1,4 @@
-import ClassCard from "./ClassCard";
+﻿import ClassCard from "./ClassCard";
 import styles from "../MonthlyClassTable.module.css";
 import { MobileClassCardsProps } from "@/src/types";
 

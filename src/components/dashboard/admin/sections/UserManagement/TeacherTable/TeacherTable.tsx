@@ -1,4 +1,4 @@
-import { FiUsers } from "react-icons/fi";
+﻿import { FiUsers } from "react-icons/fi";
 import { useTeachersContext } from "@/src/contexts/TeachersContext";
 import styles from "@/src/components/dashboard/admin/styles.module.css";
 import SkeletonTable from "@/src/components/dashboard/admin/components/SkeletonTable";
@@ -12,18 +12,17 @@ const TeacherTable: React.FC<{ searchTerm?: string }> = ({
 }) => {
   const { teachers, isLoading } = useTeachersContext();
 
-  // Show loading if context is loading OR if we don't have data yet
   const shouldShowLoading = isLoading || !teachers;
 
   if (shouldShowLoading) {
     return (
       <>
-        {/* Desktop Skeleton */}
+
         <div className={styles.desktopView}>
           <SkeletonTable rows={5} columns={7} title="المعلمين" />
         </div>
 
-        {/* Mobile Skeleton */}
+
         <div className={styles.mobileView}>
           <div className={styles.tableContainer}>
             <div className={styles.header}>
@@ -73,7 +72,7 @@ const TeacherTable: React.FC<{ searchTerm?: string }> = ({
         </div>
       ) : (
         <>
-          {/* Desktop Table View */}
+
           <div className={styles.tableWrapper}>
             <table className={styles.classTable}>
               <thead>
@@ -95,7 +94,7 @@ const TeacherTable: React.FC<{ searchTerm?: string }> = ({
             </table>
           </div>
 
-          {/* Mobile Cards View */}
+
           <MobileClassCards teachers={filtered} />
         </>
       )}

@@ -1,4 +1,4 @@
-import StatCard from "@/src/components/common/UI/StatCard";
+﻿import StatCard from "@/src/components/common/UI/StatCard";
 import styles from "./TeacherSummaryCards.module.css";
 import {
   FaBook,

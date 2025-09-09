@@ -1,4 +1,4 @@
-import GroupCard from "./GroupCard";
+﻿import GroupCard from "./GroupCard";
 import styles from "@/src/components/dashboard/admin/styles.module.css";
 
 interface MobileGroupCardsProps {

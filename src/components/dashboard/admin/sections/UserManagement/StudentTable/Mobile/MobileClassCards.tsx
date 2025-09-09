@@ -1,4 +1,4 @@
-import ClassCard from "./ClassCard";
+﻿import ClassCard from "./ClassCard";
 import styles from "@/src/components/dashboard/admin/styles.module.css";
 import { MobileStudentCardsProps } from "@/src/types";
 

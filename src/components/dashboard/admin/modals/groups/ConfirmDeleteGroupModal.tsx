@@ -34,7 +34,7 @@ const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
   };
 
   const handleConfirmDelete = async () => {
-    if (confirmText.trim().toLowerCase() !== "حذف") {
+    if (confirmText.trim().toLowerCase() !== "???") {
       return;
     }
 
@@ -50,17 +50,17 @@ const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
   };
 
   const isDeleteEnabled =
-    confirmText.trim().toLowerCase() === "حذف" && !isLoading;
+    confirmText.trim().toLowerCase() === "???" && !isLoading;
 
   const actions = [
     {
-      label: "إلغاء",
+      label: "?????",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isLoading,
     },
     {
-      label: isLoading ? "جاري الحذف..." : "حذف الحلقة",
+      label: isLoading ? "???? ?????..." : "??? ??????",
       onClick: handleConfirmDelete,
       variant: "danger" as const,
       disabled: !isDeleteEnabled,
@@ -76,7 +76,7 @@ const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
       onClose={handleClose}
     >
       <ModalHeader
-        title="تأكيد حذف الحلقة"
+        title="????? ??? ??????"
         icon={<FaTrash />}
         onClose={handleClose}
         disabled={isLoading}
@@ -84,22 +84,22 @@ const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
       />
       <div className={baseStyles.modalBody}>
         <WarningPanel
-          title="هل أنت متأكد من حذف هذه الحلقة؟"
-          text="لا يمكن التراجع عن هذا الإجراء"
+          title="?? ??? ????? ?? ??? ??? ???????"
+          text="?? ???? ??????? ?? ??? ???????"
         />
 
         <div className={baseStyles.groupInfo}>
           <h4 className={baseStyles.groupName}>&ldquo;{groupName}&rdquo;</h4>
-          <p className={baseStyles.groupId}>المعرف: {groupId}</p>
+          <p className={baseStyles.groupId}>??????: {groupId}</p>
           <p className={baseStyles.warningText}>
-            سيتم حذف جميع البيانات والأعضاء المرتبطة بهذه الحلقة
+            ???? ??? ???? ???????? ???????? ???????? ???? ??????
           </p>
         </div>
 
         <ConfirmTextInput
           label={
             <>
-              للحذف، اكتب &quot;<strong>حذف</strong>&quot; في المربع أدناه:
+              ?????? ???? &quot;<strong>???</strong>&quot; ?? ?????? ?????:
             </>
           }
           value={confirmText}

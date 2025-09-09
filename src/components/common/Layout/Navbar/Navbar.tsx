@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -14,7 +14,6 @@ const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Define menu items based on authentication status
   const getMenuItems = () => {
     const baseItems = [
       { label: "الرئيسية", href: "/" },
@@ -45,7 +44,7 @@ const Navbar = () => {
         ...baseItems,
         { label: "تسجيل الدخول", href: "/login" },
         { label: "تسجيل حساب", href: "/register" },
-        // { label: "لوحة الإدارة", href: "/admin/dashboard" },
+
       ];
     }
   };
@@ -56,7 +55,6 @@ const Navbar = () => {
     setIsMounted(true);
   }, []);
 
-  // Close mobile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const navbar = document.querySelector(`.${styles.navbar}`);
@@ -78,7 +76,6 @@ const Navbar = () => {
     };
   }, [isMenuOpen]);
 
-  // Close menu on route change (App Router version)
   useEffect(() => {
     setIsMenuOpen(false);
   }, [pathname]);
@@ -106,7 +103,6 @@ const Navbar = () => {
     closeMenu();
   };
 
-  // ✅ عرض loader أثناء فحص التوثيق
   if (isLoading) {
     return (
       <nav className={styles.navbar}>
@@ -138,7 +134,7 @@ const Navbar = () => {
     <nav className={styles.navbar}>
       <div className="container">
         <div className={styles.navContent}>
-          {/* Logo */}
+
           <div className={styles.logo}>
             <Link href="/">
               <Image
@@ -150,7 +146,7 @@ const Navbar = () => {
                 priority
               />
             </Link>
-            {/* Greeting for authenticated users (desktop) */}
+
             {isAuthenticated && user?.name && (
               <li className={`${styles.navItem} ${styles.greetingItem}`}>
                 <span
@@ -164,7 +160,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Desktop Menu */}
+
           <ul className={`${styles.navMenu} mobile-hidden`}>
             {menuItems.map((item, index) => (
               <li key={index} className={styles.navItem}>
@@ -191,7 +187,7 @@ const Navbar = () => {
             )}
           </ul>
 
-          {/* Mobile Menu Toggle */}
+
           <button
             className={`${styles.menuToggle} desktop-hidden`}
             onClick={toggleMenu}
@@ -209,12 +205,12 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Mobile Menu Overlay */}
+
         {isMenuOpen && (
           <div className={styles.mobileOverlay} onClick={closeMenu}></div>
         )}
 
-        {/* Mobile Menu */}
+
         <div
           className={`${styles.mobileMenu} ${
             isMenuOpen ? styles.mobileMenuOpen : ""
@@ -231,7 +227,7 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Greeting for authenticated users (mobile) */}
+
           {isAuthenticated && user?.name && (
             <div className={styles.userInfo}>
               <p>

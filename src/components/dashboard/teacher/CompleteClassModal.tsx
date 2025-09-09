@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import styles from "./CompleteClassModal.module.css";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import {
@@ -35,7 +35,6 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
   const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Initialize form with existing data if available
   useEffect(() => {
     if (existingData) {
       setrate(existingData.rate);
@@ -269,7 +268,6 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
     </div>
   );
 
-  // Actions in footer
   const actions = (() => {
     if (attended === null) {
       return [
@@ -364,7 +362,7 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
         className={styles.modalBody}
         onSubmit={handleSubmit}
       >
-        {/* Avoid nesting the same modalBody container to prevent style conflicts */}
+
         <div>
           <div className={styles.classInfo}>
             <p>

@@ -1,4 +1,4 @@
-import AdminSidebar from "@/src/components/dashboard/admin/components/AdminSidebar";
+﻿import AdminSidebar from "@/src/components/dashboard/admin/components/AdminSidebar";
 import { AdminModalProvider } from "@/src/contexts/AdminModalContext";
 import AdminModalsContainer from "@/src/components/dashboard/admin/modals/AdminModalsContainer";
 import styles from "@/src/styles/AdminDashboard.module.css";
@@ -18,4 +18,4 @@ export default function DashboardLayout({
     </AdminModalProvider>
   );
 }
-// export default withAdminProtection(DashboardLayout);
+

@@ -52,7 +52,7 @@ export const CoursesProvider = ({ children }: CoursesProviderProps) => {
       setCourses(data);
       return data;
     } catch (error) {
-      setError("فشل في جلب بيانات الدورات");
+      setError("??? ?? ??? ?????? ???????");
       throw error;
     } finally {
       setIsLoading(false);
@@ -62,14 +62,14 @@ export const CoursesProvider = ({ children }: CoursesProviderProps) => {
   const getCourseByIdAPI = useCallback(
     async (token: string, courseId: string) => {
       try {
-        // Note: token parameter kept for compatibility but not used in current API
+
         void token;
         setIsLoading(true);
         setError(null);
         const data = await adminSvc.getCourseById(courseId);
         return data;
       } catch (error) {
-        setError("فشل في جلب بيانات الدورة");
+        setError("??? ?? ??? ?????? ??????");
         throw error;
       } finally {
         setIsLoading(false);
@@ -87,7 +87,7 @@ export const CoursesProvider = ({ children }: CoursesProviderProps) => {
         await getCourses(token);
         return data;
       } catch (error) {
-        setError("فشل في إنشاء الدورة");
+        setError("??? ?? ????? ??????");
         throw error;
       } finally {
         setIsLoading(false);
@@ -105,7 +105,7 @@ export const CoursesProvider = ({ children }: CoursesProviderProps) => {
         await getCourses(token);
         return data;
       } catch (error) {
-        setError("فشل في تحديث الدورة");
+        setError("??? ?? ????? ??????");
         throw error;
       } finally {
         setIsLoading(false);
@@ -123,7 +123,7 @@ export const CoursesProvider = ({ children }: CoursesProviderProps) => {
         await getCourses(token);
         return result;
       } catch (error) {
-        setError("فشل في حذف الدورة");
+        setError("??? ?? ??? ??????");
         throw error;
       } finally {
         setIsLoading(false);

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React from "react";
 import { FiCalendar, FiX, FiClock } from "react-icons/fi";
 import styles from "./ReportsModal.module.css";
@@ -32,7 +32,6 @@ const ReportsFilter: React.FC<ReportsFilterProps> = ({
     { value: "12", label: "ديسمبر" },
   ];
 
-  // إنشاء قائمة السنوات (من 2020 إلى 2030)
   const years = [];
   for (let year = 2020; year <= 2030; year++) {
     years.push({ value: year.toString(), label: year.toString() });

@@ -1,32 +1,11 @@
-﻿// ==================================================
-// Main Types Export Index
-// ==================================================
-
-// Base Types (Foundation)
-export * from "./base.types";
-
-// Auth & User Types
+﻿export * from "./base.types";
 export * from "./auth.types";
-
-// Teacher Types
 export * from "./teacher.types";
-
-// Student Types
 export * from "./student.types";
-
-// Lesson Types
 export * from "./lesson.types";
-
-// Group Types
 export * from "./group.types";
-
-// Payment Types
 export * from "./payment.types";
-
-// Modal & Context Types
 export * from "./modal.types";
-
-// Modal System Types
 export type {
   ActionButtonProps,
   ConfirmTextInputProps,
@@ -40,17 +19,9 @@ export type {
   Option,
   WarningPanelProps,
 } from "./modal-system.types";
-
-// Component Types
 export * from "./component.types";
-
-// Admin Types
 export * from "./admin.types";
-
-// Course Types
 export * from "./course.types";
-
-// Form Types (avoid conflicts by importing specific types)
 export type {
   InputFieldProps,
   TextareaFieldProps,
@@ -59,8 +30,6 @@ export type {
   ErrorDisplayProps,
   ErrorMessageProps,
 } from "./form.types";
-
-// UI Types (avoid conflicts by importing specific types)
 export type {
   StatCardProps,
   SkeletonTableProps,
@@ -77,8 +46,6 @@ export type {
   AuthButtonProps,
   MeetingLinkActionsProps,
 } from "./ui.types";
-
-// Layout Types (avoid conflicts by importing specific types)
 export type {
   NavItem,
   NavbarProps,
@@ -89,11 +56,7 @@ export type {
   BreadcrumbProps,
   HeaderProps,
 } from "./layout.types";
-
-// Report Types
 export * from "./report.types";
-
-// Dashboard Types - consolidated from separate dashboard files
 export type {
   GroupCompleteClassModalProps,
   CompletionData,
@@ -102,8 +65,6 @@ export type {
   EditClassLinkModalProps,
   ClassModalsProps,
 } from "./dashboard.types";
-
-// Student Dashboard Types
 export type {
   User as StudentUser,
   StudentSummaryCardsProps,
@@ -112,8 +73,6 @@ export type {
   StudentDataProps,
   StudentMyReportsModalProps,
 } from "./student-dashboard.types";
-
-// Teacher Dashboard Types
 export type {
   LessonLike,
   TeacherSummaryCardsProps,
@@ -131,8 +90,6 @@ export type {
   MobileClassCardsProps,
   ClassCardProps,
 } from "./teacher-dashboard.types";
-
-// Context Types (avoid conflicts by importing specific types)
 export type {
   AppProvidersProps,
   ModalProviderProps,
@@ -140,6 +97,3 @@ export type {
   StudentDashboardContextType,
   UnifiedReportsModalProps,
 } from "./context.types";
-
-// Deprecated Types - Remove these imports in next version
-// export type { } from "./ui-extended.types"; // DEPRECATED - merged into ui.types.ts and base.types.ts

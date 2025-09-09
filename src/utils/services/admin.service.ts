@@ -1,4 +1,4 @@
-import api from "@/src/utils/api";
+﻿import api from "@/src/utils/api";
 
 export const createTeacher = (payload: any) =>
   api.post(`/api/teacher`, payload).then((r) => r.data);

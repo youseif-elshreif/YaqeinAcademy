@@ -1,4 +1,4 @@
-import CourseCard from "@/src/components/common/UI/CourseCard/CourseCard";
+﻿import CourseCard from "@/src/components/common/UI/CourseCard/CourseCard";
 import AdminCourseCard from "@/src/components/common/UI/CourseCard/AdminCourseCard";
 import styles from "./CoursesGrid.module.css";
 import { CoursesGridProps } from "@/src/types";

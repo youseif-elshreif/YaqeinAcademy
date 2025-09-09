@@ -13,15 +13,14 @@ const LessonManagement: React.FC = () => {
   const { courses, getCourses } = useCoursesContext();
   const [isLoading, setIsLoading] = useState(false);
 
-  // Transform API data to match CoursesGrid interface
   const transformCourseData = (apiCourses: unknown[]) => {
     return apiCourses.map((course: any) => ({
       id: course._id, // Use _id from API response
       title: course.title,
       startDate: course.startAt
         ? new Date(course.startAt).toLocaleDateString("ar-EG")
-        : "غير محدد",
-      duration: course.duration || "غير محدد", // Add duration field
+        : "??? ????",
+      duration: course.duration || "??? ????", // Add duration field
       shortDescription:
         course.description.length > 100
           ? course.description.slice(0, 100) + "..."
@@ -32,7 +31,6 @@ const LessonManagement: React.FC = () => {
 
   const coursesData = transformCourseData(courses || []);
 
-  // Fetch courses on component mount
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -53,29 +51,29 @@ const LessonManagement: React.FC = () => {
   return (
     <div className={styles.overviewContainer}>
       <div className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>إدارة الدورات</h1>
+        <h1 className={styles.pageTitle}>????? ???????</h1>
         <Button
           variant="primary"
           icon={<FiPlus />}
           onClick={openAddCourseModal}
         >
-          إنشاء دورة جديدة
+          ????? ???? ?????
         </Button>
       </div>
 
-      {/* Stats Cards */}
+
       <div className={styles.statsGrid}>
         <StatCard
           icon={FiCalendar}
           value={coursesData.length}
-          label="عدد الدورات"
+          label="??? ???????"
         />
       </div>
 
       {isLoading ? (
         <EnhancedLoader
           type="default"
-          text="جاري تحميل الدورات..."
+          text="???? ????? ???????..."
           size="large"
           color="primary"
         />
@@ -84,7 +82,7 @@ const LessonManagement: React.FC = () => {
       ) : (
         <div>
           <h3 style={{ textAlign: "center", color: "var(--text-light)" }}>
-            لا توجد دورات
+            ?? ???? ?????
           </h3>
         </div>
       )}

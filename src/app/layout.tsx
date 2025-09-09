@@ -1,6 +1,4 @@
-// app/layout.tsx
-
-import "@/src/styles/globals.css";
+﻿import "@/src/styles/globals.css";
 import { AuthProvider } from "@/src/contexts/AuthContext";
 import AppContent from "./AppContent";
 import { Cairo } from "next/font/google";

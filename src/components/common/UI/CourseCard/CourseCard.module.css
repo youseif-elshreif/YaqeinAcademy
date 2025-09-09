@@ -1,4 +1,4 @@
-.card {
+﻿.card {
   background: var(--base-bg);
   border-radius: 12px;
   box-shadow: var(--shadow);
@@ -10,12 +10,10 @@
   display: flex;
   flex-direction: column;
 }
-
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
-
 .featured {
   border: 2px solid var(--secondary-color);
   background: linear-gradient(
@@ -24,11 +22,9 @@
     rgba(99, 184, 177, 0.02) 100%
   );
 }
-
 .cardHeader {
   margin-bottom: 1rem;
 }
-
 .closeBtn {
   background: var(--danger-color);
   color: white;
@@ -45,7 +41,6 @@
   gap: 5px;
   width: 100%;
 }
-
 .cardActions {
   display: flex;
   flex-direction: column;
@@ -54,7 +49,6 @@
 .closeBtn:hover {
   background: var(--danger-dark);
 }
-
 .linkButton {
   background: none;
   border: 1px solid var(--border-color);
@@ -72,19 +66,16 @@
   margin-bottom: 10px;
   white-space: nowrap;
 }
-
 .openLinkBtn {
   background: var(--primary-color);
   color: white;
   border-color: var(--primary-color);
 }
-
 .openLinkBtn:hover {
   background: var(--secondary-color);
   border-color: var(--secondary-color);
   transform: translateY(-1px);
 }
-
 .title {
   color: var(--primary-color);
   font-size: 1.25rem;
@@ -92,31 +83,26 @@
   margin-bottom: 0.5rem;
   line-height: 1.4;
 }
-
 .teacher {
   color: var(--text-light);
   font-size: 0.95rem;
   font-weight: 500;
 }
-
 .cardBody {
   flex: 1;
   margin-bottom: 1.5rem;
 }
-
 .description {
   color: var(--text-dark);
   line-height: 1.6;
   margin-bottom: 1.5rem;
   font-size: 0.95rem;
 }
-
 .courseInfo {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
-
 .infoItem {
   display: flex;
   justify-content: space-between;
@@ -125,60 +111,47 @@
   background: rgba(245, 245, 220, 0.3);
   border-radius: 6px;
 }
-
 .label {
   color: var(--text-light);
   font-size: 0.9rem;
   font-weight: 500;
 }
-
 .value {
   color: var(--primary-color);
   font-weight: 600;
   font-size: 0.9rem;
 }
-
 .cardFooter {
   margin-top: auto;
 }
-
 .bookButton {
   width: 100%;
   font-size: 1rem;
   border-radius: 8px;
   transition: all 0.3s ease;
 }
-
 .bookButton:hover {
   transform: translateY(-1px);
 }
-
 .featured .bookButton {
   background: var(--secondary-color);
 }
-
 .featured .bookButton:hover {
   background: var(--primary-color);
 }
-
-/* Responsive design */
 @media (max-width: 768px) {
   .card {
     padding: 1.25rem;
   }
-
   .title {
     font-size: 1.1rem;
   }
-
   .teacher {
     font-size: 0.9rem;
   }
-
   .description {
     font-size: 0.9rem;
   }
-
   .badge {
     font-size: 0.8rem;
     padding: 0.4rem 0.8rem;

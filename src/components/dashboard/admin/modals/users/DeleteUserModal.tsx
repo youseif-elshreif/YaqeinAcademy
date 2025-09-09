@@ -38,7 +38,7 @@ const DeleteUserModal: React.FC = () => {
   };
 
   const handleDelete = async () => {
-    if (confirmText.trim().toLowerCase() !== "حذف") {
+    if (confirmText.trim().toLowerCase() !== "???") {
       return;
     }
 
@@ -46,52 +46,52 @@ const DeleteUserModal: React.FC = () => {
 
     try {
       if (!token) {
-        alert("لم يتم العثور على رمز المصادقة");
+        alert("?? ??? ?????? ??? ??? ????????");
         return;
       }
       if (selectedUserForActions.userType === "teacher") {
-        // Use deleteTeacher function for teachers
+
         const teacherId =
           selectedUserForActions.fullData?.teacherInfo?._id ||
           selectedUserForActions.id;
         await deleteTeacher(token, teacherId);
       } else if (selectedUserForActions.userType === "admin") {
-        // Use deleteAdminMember function for admins
+
         const adminId = selectedUserForActions.id;
         await deleteAdminMember(token, adminId);
       } else {
-        // Use deleteStudentMember function for students
+
         const studentId = selectedUserForActions.id;
         await deleteStudentMember(token, studentId);
       }
 
       handleClose();
     } catch (error: unknown) {
-      alert("حدث خطأ أثناء الحذف");
+      alert("??? ??? ????? ?????");
     } finally {
       setIsDeleting(false);
     }
   };
 
   const isDeleteEnabled =
-    confirmText.trim().toLowerCase() === "حذف" && !isDeleting;
+    confirmText.trim().toLowerCase() === "???" && !isDeleting;
 
   const actions = [
     {
-      label: "إلغاء",
+      label: "?????",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isDeleting,
     },
     {
       label: isDeleting
-        ? "جاري الحذف..."
-        : `حذف ${
+        ? "???? ?????..."
+        : `??? ${
             selectedUserForActions.userType === "student"
-              ? "الطالب"
+              ? "??????"
               : selectedUserForActions.userType === "teacher"
-              ? "المعلم"
-              : "الإداري"
+              ? "??????"
+              : "???????"
           }`,
       onClick: handleDelete,
       variant: "danger" as const,
@@ -109,12 +109,12 @@ const DeleteUserModal: React.FC = () => {
       onClose={handleClose}
     >
       <ModalHeader
-        title={`تأكيد حذف ${
+        title={`????? ??? ${
           selectedUserForActions.userType === "student"
-            ? "الطالب"
+            ? "??????"
             : selectedUserForActions.userType === "teacher"
-            ? "المعلم"
-            : "الإداري"
+            ? "??????"
+            : "???????"
         }`}
         icon={<FaTrash />}
         onClose={handleClose}
@@ -124,10 +124,10 @@ const DeleteUserModal: React.FC = () => {
 
       <div className={baseStyles.modalBody}>
         <WarningPanel
-          title={`هل أنت متأكد من حذف هذا ${
-            selectedUserForActions.userType === "student" ? "الطالب" : "المعلم"
-          }؟`}
-          text="لا يمكن التراجع عن هذا الإجراء"
+          title={`?? ??? ????? ?? ??? ??? ${
+            selectedUserForActions.userType === "student" ? "??????" : "??????"
+          }?`}
+          text="?? ???? ??????? ?? ??? ???????"
         />
 
         <div className={baseStyles.groupInfo}>
@@ -135,27 +135,27 @@ const DeleteUserModal: React.FC = () => {
             {selectedUserForActions.name}
           </h4>
           <p className={baseStyles.groupId}>
-            المعرف: {selectedUserForActions.id}
+            ??????: {selectedUserForActions.id}
           </p>
           <p className={baseStyles.warningText}>
-            نوع المستخدم:{" "}
+            ??? ????????:{" "}
             {selectedUserForActions.userType === "student"
-              ? "طالب"
+              ? "????"
               : selectedUserForActions.userType === "teacher"
-              ? "معلم"
-              : "إداري"}
+              ? "????"
+              : "?????"}
           </p>
         </div>
 
         <ConfirmTextInput
           label={
             <>
-              للحذف، اكتب “<strong>حذف</strong>” في المربع أدناه:
+              ?????? ???? �<strong>???</strong>� ?? ?????? ?????:
             </>
           }
           value={confirmText}
           onChange={setConfirmText}
-          placeholder="حذف"
+          placeholder="???"
           disabled={isDeleting}
         />
 
@@ -166,3 +166,4 @@ const DeleteUserModal: React.FC = () => {
 };
 
 export default DeleteUserModal;
+

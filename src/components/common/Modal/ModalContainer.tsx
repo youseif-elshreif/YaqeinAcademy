@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import ReactDOM from "react-dom";
 import baseStyles from "../../../styles/BaseModal.module.css";
 import { ModalContainerProps } from "@/src/types";
@@ -58,7 +58,6 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
     </div>
   );
 
-  // Use a portal to escape any parent stacking context
   if (typeof document !== "undefined") {
     return ReactDOM.createPortal(overlay, document.body);
   }

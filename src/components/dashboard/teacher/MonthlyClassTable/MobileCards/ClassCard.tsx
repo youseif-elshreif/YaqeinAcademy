@@ -1,4 +1,4 @@
-import { FaUsers } from "react-icons/fa";
+﻿import { FaUsers } from "react-icons/fa";
 import styles from "../MonthlyClassTable.module.css";
 import { formatDate, getStatusColor, getStatusText } from "../utils";
 import { useModal } from "@/src/contexts/ModalContext";
@@ -13,7 +13,6 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
   const meetingLink: string | undefined =
     classItem?.meetingLink || group?.meetingLink;
 
-  // Determine action state
   const now = new Date();
   const scheduledDate = new Date(classItem?.scheduledAt);
   const isCompleted = classItem?.status === "completed";
@@ -74,7 +73,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
               })}
             </span>
           </div>
-          {/* Rating removed */}
+
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>رابط الحلقة:</span>
             <div className={styles.infoValue}>

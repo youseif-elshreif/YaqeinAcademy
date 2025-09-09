@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { FiPlus, FiDownload } from "react-icons/fi";
 import StatCard from "@/src/components/common/UI/StatCard";
-// import api from "@/src/utils/api";
+
 import styles from "@/src/styles/AdminDashboard.module.css";
 import userStyles from "@/src/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/src/contexts/AdminModalContext";
@@ -16,7 +16,6 @@ import { FiUsers, FiUserCheck, FiShield } from "react-icons/fi";
 import AdminsTable from "./AdminsTable";
 import SearchFilter from "@/src/components/common/UI/SearchFilter";
 import Button from "@/src/components/common/Button";
-// Types are now imported from the centralized types.ts file
 
 const UserManagement: React.FC = () => {
   const { openAddUserModal } = useAdminModal();
@@ -27,7 +26,6 @@ const UserManagement: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("students");
 
-  // Export users functionality removed (API logic cleared)
   const handleExportUsers = () => {
     alert("تصدير البيانات غير متاح في هذا الوضع التجريبي.");
   };
@@ -38,7 +36,7 @@ const UserManagement: React.FC = () => {
 
   useEffect(() => {
     if (!token) return;
-    // Fire-and-forget parallel fetches to hydrate context
+
     Promise.allSettled([
       getTeachers?.(token),
       getStudents?.(token),
@@ -115,7 +113,7 @@ const UserManagement: React.FC = () => {
         />
       </div>
 
-      {/* Filters */}
+
       <div className={styles.filterContainer}>
         <div className={styles.filterGroup}>
           <SearchFilter

@@ -1,9 +1,4 @@
-﻿// ==================================================
-// Form Component Types
-// ==================================================
-
-import { BaseComponentProps } from "./base.types";
-
+﻿import { BaseComponentProps } from "./base.types";
 export interface InputFieldProps extends BaseComponentProps {
   id: string;
   name: string;
@@ -23,7 +18,6 @@ export interface InputFieldProps extends BaseComponentProps {
   showPassword?: boolean;
   onTogglePassword?: () => void;
 }
-
 export interface TextareaFieldProps extends BaseComponentProps {
   id: string;
   name: string;
@@ -37,7 +31,6 @@ export interface TextareaFieldProps extends BaseComponentProps {
   rows?: number;
   helpText?: string;
 }
-
 export interface CheckboxFieldProps extends BaseComponentProps {
   id: string;
   label: string;
@@ -48,19 +41,16 @@ export interface CheckboxFieldProps extends BaseComponentProps {
   disabled?: boolean;
   required?: boolean;
 }
-
 export interface CountrySelectProps {
   onChange: (countryName: string, countryCode: string) => void;
   value?: string;
   placeholder?: string;
   disabled?: boolean;
 }
-
 export interface Option {
   value: string;
   label: string;
 }
-
 export interface SelectFieldProps {
   label: string;
   name: string;
@@ -72,18 +62,15 @@ export interface SelectFieldProps {
   error?: string;
   disabled?: boolean;
 }
-
 export interface ErrorMessageProps {
   message: string;
   type?: "error" | "success" | "info";
   className?: string;
 }
-
 export interface ErrorDisplayProps {
   message: string;
   variant?: "error" | "warning" | "info";
 }
-
 export interface ConfirmTextInputProps {
   expectedText: string;
   onConfirm: (confirmed: boolean) => void;

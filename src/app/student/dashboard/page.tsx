@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { StudentDashboardProvider } from "@/src/contexts/StudentDashboardContext";
 import StudentDashboard from "@/src/components/dashboard/student/StudentDashboard";

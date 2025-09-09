@@ -1,12 +1,9 @@
-/* Skeleton Loading Styles */
-
-.skeleton {
+﻿.skeleton {
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 4px;
 }
-
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -15,18 +12,14 @@
     background-position: 200% 0;
   }
 }
-
-/* Skeleton Table Row */
 .skeletonTableRow {
   display: table-row;
 }
-
 .skeletonTableCell {
   padding: 12px 8px;
   vertical-align: middle;
   border-bottom: 1px solid #f5f5f5;
 }
-
 .skeletonText {
   height: 16px;
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
@@ -35,20 +28,15 @@
   border-radius: 4px;
   margin: 2px 0;
 }
-
 .skeletonTextShort {
   width: 60%;
 }
-
 .skeletonTextMedium {
   width: 80%;
 }
-
 .skeletonTextLong {
   width: 90%;
 }
-
-/* Skeleton Card */
 .skeletonCard {
   background: white;
   border-radius: 12px;
@@ -56,14 +44,12 @@
   margin-bottom: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-
 .skeletonCardHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
 }
-
 .skeletonCardTitle {
   height: 20px;
   width: 150px;
@@ -72,7 +58,6 @@
   animation: shimmer 1.5s infinite;
   border-radius: 4px;
 }
-
 .skeletonCardBadge {
   height: 24px;
   width: 60px;
@@ -81,18 +66,15 @@
   animation: shimmer 1.5s infinite;
   border-radius: 12px;
 }
-
 .skeletonCardBody {
   margin-bottom: 16px;
 }
-
 .skeletonCardRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
 }
-
 .skeletonCardLabel {
   height: 14px;
   width: 80px;
@@ -101,7 +83,6 @@
   animation: shimmer 1.5s infinite;
   border-radius: 4px;
 }
-
 .skeletonCardValue {
   height: 14px;
   width: 120px;
@@ -110,13 +91,11 @@
   animation: shimmer 1.5s infinite;
   border-radius: 4px;
 }
-
 .skeletonCardActions {
   display: flex;
   gap: 8px;
   justify-content: space-between;
 }
-
 .skeletonButton {
   height: 36px;
   width: 80px;
@@ -125,12 +104,9 @@
   animation: shimmer 1.5s infinite;
   border-radius: 6px;
 }
-
 .skeletonButtonWide {
   width: 100px;
 }
-
-/* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .skeleton,
   .skeletonText,
@@ -142,7 +118,6 @@
     background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
     background-size: 200% 100%;
   }
-
   .skeletonCard {
     background: #1a1a1a;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);

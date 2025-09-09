@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+﻿import React, { useEffect } from "react";
 import { useModal } from "@/src/contexts/ModalContext";
 import CompleteClassModal from "@/src/components/dashboard/teacher/CompleteClassModal";
 import StudentAllDataComponent from "@/src/components/dashboard/teacher/StudentAllDataComponent";
@@ -9,7 +9,7 @@ import StudentReportsModal from "@/src/components/dashboard/teacher/StudentRepor
 
 const ModalContainer: React.FC = () => {
   const {
-    // Modal states
+
     completeModalOpen,
     studentAllDataModalOpen,
 
@@ -18,18 +18,13 @@ const ModalContainer: React.FC = () => {
     studentListModalOpen,
     studentReportsModalOpen,
 
-    // Selected data
     selectedLesson,
     selectedLessonForStudents,
     selectedStudentForReports,
     studentAllData,
 
-    // selectedGroupClass,
     selectedClassForLink,
 
-    // Actions
-    // saveClassCompletion,
-    // saveGroupCompletion,
     saveClassLink,
     closeCompleteModal,
     closeStudentDataModal,
@@ -40,8 +35,6 @@ const ModalContainer: React.FC = () => {
     closeStudentReportsModal,
     openStudentReportsModal,
   } = useModal();
-
-  // Group name edit removed
 
   const handleSaveClassLink = (link: string) => {
     if (selectedClassForLink) {
@@ -66,7 +59,7 @@ const ModalContainer: React.FC = () => {
 
   return (
     <>
-      {/* Complete Class Modal */}
+
       {completeModalOpen && selectedLesson && (
         <CompleteClassModal
           mode="single"
@@ -88,7 +81,7 @@ const ModalContainer: React.FC = () => {
           onClose={closeCompleteModal}
         />
       )}
-      {/* Group Complete Class Modal */}
+
       {groupCompleteModalOpen && selectedLesson && (
         <GroupCompleteClassModal
           isOpen={groupCompleteModalOpen}
@@ -96,20 +89,20 @@ const ModalContainer: React.FC = () => {
           onClose={closeGroupCompleteModal}
           onSuccess={() => {
             closeGroupCompleteModal();
-            // يمكن إضافة منطق إضافي هنا مثل تحديث البيانات
+
           }}
         />
       )}
-      {/* Postpone Class Modal removed */}
-      {/* Student All Data Modal */}
+
+
       {studentAllDataModalOpen && studentAllData && (
         <StudentAllDataComponent
           studentData={studentAllData}
           onClose={closeStudentDataModal}
         />
       )}
-      {/* Edit Group Name Modal removed */}
-      {/* Edit Class Link Modal */}
+
+
       {addClassLinkModalOpen && selectedClassForLink && (
         <EditClassLinkModal
           isOpen={addClassLinkModalOpen}
@@ -124,7 +117,7 @@ const ModalContainer: React.FC = () => {
         />
       )}
 
-      {/* Student List Modal (for viewing lesson members) */}
+
       {studentListModalOpen && selectedLessonForStudents && (
         <StudentListModal
           isOpen={studentListModalOpen}
@@ -134,7 +127,7 @@ const ModalContainer: React.FC = () => {
         />
       )}
 
-      {/* Student Reports Modal */}
+
       {studentReportsModalOpen && selectedStudentForReports && (
         <StudentReportsModal
           isOpen={studentReportsModalOpen}

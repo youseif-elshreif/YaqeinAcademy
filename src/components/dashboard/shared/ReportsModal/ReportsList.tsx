@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useMemo } from "react";
 import { FiCalendar } from "react-icons/fi";
 import ReportCard from "./ReportCard";
@@ -14,7 +14,6 @@ const ReportsList: React.FC<ReportsListProps> = ({
   const filteredReports = useMemo(() => {
     let filtered = reports;
 
-    // فلتر حسب الشهر
     if (selectedMonth) {
       filtered = filtered.filter((report) => {
         if (!report.createdAt) return false;
@@ -23,7 +22,6 @@ const ReportsList: React.FC<ReportsListProps> = ({
       });
     }
 
-    // فلتر حسب السنة
     if (selectedYear) {
       filtered = filtered.filter((report) => {
         if (!report.createdAt) return false;

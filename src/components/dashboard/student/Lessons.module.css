@@ -1,14 +1,12 @@
-.lessonsContainer {
+﻿.lessonsContainer {
   padding: 1.5rem;
 }
-
 .taskSection {
   background: var(--base-bg);
   border: 1px solid var(--border-color);
   border-radius: 12px;
   overflow: hidden;
 }
-
 .sectionHeader {
   background: var(--separator-bg);
   padding: 1rem 1.5rem;
@@ -17,14 +15,12 @@
   align-items: center;
   border-bottom: 1px solid var(--border-color);
 }
-
 .sectionTitle {
   color: var(--primary-color);
   font-size: 1.3rem;
   font-weight: 600;
   margin: 0;
 }
-
 .taskCount {
   background: var(--primary-color);
   color: white;
@@ -33,14 +29,12 @@
   font-size: 0.85rem;
   font-weight: 600;
 }
-
 .tasksList {
   padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-
 .taskCard {
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -49,19 +43,16 @@
   background: rgba(16, 185, 129, 0.05);
   border-color: rgba(16, 185, 129, 0.3);
 }
-
 .taskCard:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
 .taskHeader {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
   margin-bottom: 1rem;
 }
-
 .taskContent {
   color: var(--text-dark);
   font-size: 1.1rem;
@@ -69,7 +60,6 @@
   margin: 0;
   line-height: 1.5;
 }
-
 .taskNotes {
   background: rgba(99, 184, 177, 0.1);
   border: 1px solid rgba(99, 184, 177, 0.2);
@@ -77,87 +67,69 @@
   padding: 0.875rem;
   margin-bottom: 1rem;
 }
-
 .taskNotes:last-child {
   margin-bottom: 0;
 }
-
 .notesLabel {
   color: var(--primary-color);
   font-weight: 600;
   font-size: 0.9rem;
 }
-
 .notesText {
   color: var(--text-dark);
   font-size: 0.95rem;
   margin: 0.5rem 0 0 0;
   line-height: 1.5;
 }
-
 .emptyState {
   text-align: center;
   padding: 2rem;
   color: var(--text-light);
   font-size: 1.1rem;
 }
-
-/* Responsive Design */
 @media (max-width: 768px) {
   .lessonsContainer {
     padding: 1rem;
   }
-
   .sectionHeader {
     padding: 0.875rem 1rem;
     flex-direction: column;
     gap: 0.5rem;
     text-align: center;
   }
-
   .sectionTitle {
     font-size: 1.1rem;
   }
-
   .tasksList {
     padding: 0.75rem;
   }
-
   .taskCard {
     padding: 1rem;
   }
-
   .taskHeader {
     gap: 0.5rem;
   }
-
   .taskContent {
     font-size: 1rem;
   }
 }
-
 @media (max-width: 480px) {
   .lessonsContainer {
     padding: 0.75rem;
   }
-
   .sectionHeader {
     padding: 0.75rem;
   }
-
   .sectionTitle {
     font-size: 1rem;
   }
-
   .taskCard {
     padding: 0.875rem;
   }
-
   .taskHeader {
     flex-direction: column;
     align-items: flex-start;
   }
-
   .taskContent {
     font-size: 0.95rem;
   }

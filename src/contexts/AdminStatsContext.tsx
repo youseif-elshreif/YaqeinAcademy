@@ -55,7 +55,7 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
       setAdmins(list);
       return list;
     } catch (error) {
-      setError("فشل في جلب بيانات المديرين");
+      setError("??? ?? ??? ?????? ????????");
       throw error;
     } finally {
       setIsLoading(false);
@@ -69,7 +69,7 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
       const data = await adminSvc.createAdmin(adminData); // Note: We don't refresh admins here as it needs a token, which should be handled by the calling component
       return data;
     } catch (error) {
-      setError("فشل في إنشاء المدير");
+      setError("??? ?? ????? ??????");
       throw error;
     } finally {
       setIsLoading(false);
@@ -85,7 +85,7 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
         await getAdmins(token);
         return data;
       } catch (error) {
-        setError("فشل في تحديث بيانات العضو");
+        setError("??? ?? ????? ?????? ?????");
         throw error;
       } finally {
         setIsLoading(false);
@@ -103,7 +103,7 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
         await getAdmins(token);
         return data;
       } catch (error) {
-        setError("فشل في حذف العضو");
+        setError("??? ?? ??? ?????");
         throw error;
       } finally {
         setIsLoading(false);

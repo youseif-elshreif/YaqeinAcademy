@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useMemo, useState } from "react";
 import { ModalContainer, ModalHeader } from "@/src/components/common/Modal";
 import LessonCard from "@/src/components/dashboard/admin/modals/lessons/components/LessonCard";
@@ -40,7 +40,7 @@ const StudentListModal: React.FC<StudentListModalProps> = ({
         variant="default"
       />
       <div className={styles.modalBody}>
-        {/* Lesson summary card (reused) */}
+
         <LessonCard
           showActions={false}
           lesson={

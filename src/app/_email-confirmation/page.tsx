@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import Link from "next/link";
 import styles from "@/src/styles/EmailConfirmationPage.module.css";
 import { withGuestProtection } from "@/src/components/auth";
@@ -10,7 +10,7 @@ const EmailConfirmationPage: React.FC = () => {
   return (
     <main>
       <div className={styles.card}>
-        {/* Email Illustration and Arabic Text */}
+
         <div className={styles.noticeContainer}>
           <MdVerifiedUser className={styles.icon} />
           <h1 className={styles.heading}>
@@ -40,5 +40,4 @@ const EmailConfirmationPage: React.FC = () => {
   );
 };
 
-// export default withGuestProtection(EmailConfirmationPage);
 export default EmailConfirmationPage;

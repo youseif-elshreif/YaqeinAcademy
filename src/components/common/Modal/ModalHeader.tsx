@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { FaTimes } from "react-icons/fa";
 import baseStyles from "../../../styles/BaseModal.module.css";
 import { ModalHeaderProps } from "@/src/types";

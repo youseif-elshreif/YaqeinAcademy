@@ -8,19 +8,14 @@ import { TeacherCardProps } from "@/src/types";
 const ClassCard = ({ teacher }: TeacherCardProps) => {
   const { openUserActionsModal } = useAdminModal();
 
-  // Get user info safely
   const userInfo = typeof teacher.userId === "object" ? teacher.userId : null;
 
-  // Debug: Log teacher structure to understand the data===", teacher);
-
-  // Get meeting link
   const meetingLink = teacher.meetingLink || "";
 
-  // Function to handle actions modal
   const handleActionsClick = () => {
     openUserActionsModal({
       id: teacher._id,
-      name: userInfo?.name || "غير محدد",
+      name: userInfo?.name || "??? ????",
       userType: "teacher",
       fullData: teacher,
     });
@@ -31,7 +26,7 @@ const ClassCard = ({ teacher }: TeacherCardProps) => {
       <div className={styles.cardHeader}>
         <div className={styles.studentInfo}>
           <h3 className={`${styles.cardStudentName} ${styles.clickableText}`}>
-            {userInfo?.name || "غير محدد"}
+            {userInfo?.name || "??? ????"}
           </h3>
         </div>
       </div>
@@ -39,28 +34,28 @@ const ClassCard = ({ teacher }: TeacherCardProps) => {
       <div className={styles.cardBody}>
         <div className={styles.cardInfo}>
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>الإيميل:</span>
+            <span className={styles.infoLabel}>???????:</span>
             <span className={styles.infoValue}>
-              {userInfo?.email || "غير محدد"}
+              {userInfo?.email || "??? ????"}
             </span>
           </div>
 
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>رقم الهاتف:</span>
+            <span className={styles.infoLabel}>??? ??????:</span>
             <span className={styles.infoValue}>
-              {userInfo?.phone || "غير محدد"}
+              {userInfo?.phone || "??? ????"}
             </span>
           </div>
 
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>رصيد الحلقات:</span>
+            <span className={styles.infoLabel}>???? ???????:</span>
             <span className={styles.infoValue}>
               {teacher.numberOflessonsCridets}
             </span>
           </div>
 
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>تاريخ التسجيل:</span>
+            <span className={styles.infoLabel}>????? ???????:</span>
             <span className={styles.infoValue}>
               {new Date(teacher.createdAt).toLocaleDateString("ar-EG")}
             </span>
@@ -69,7 +64,7 @@ const ClassCard = ({ teacher }: TeacherCardProps) => {
       </div>
 
       <div className={styles.infoItem} style={{ marginBottom: "10px" }}>
-        <span className={styles.infoLabel}>رابط الحلقة:</span>
+        <span className={styles.infoLabel}>???? ??????:</span>
         <span className={styles.cardLinkContainer}>
           <MeetingLinkActions
             meetingLink={meetingLink}
@@ -80,16 +75,16 @@ const ClassCard = ({ teacher }: TeacherCardProps) => {
       </div>
 
       <div className={styles.infoItem}>
-        <span className={styles.infoLabel}>الإجراءات:</span>
+        <span className={styles.infoLabel}>?????????:</span>
         <span className={styles.cardLinkContainer}>
           <Button
             onClick={handleActionsClick}
             variant="primary"
             size="small"
             icon={<FaCog />}
-            title="إجراءات المعلم"
+            title="??????? ??????"
           >
-            الإجراءات
+            ?????????
           </Button>
         </span>
       </div>

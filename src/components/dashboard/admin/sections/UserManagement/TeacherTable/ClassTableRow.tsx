@@ -8,15 +8,13 @@ import { TeacherTableRowProps } from "@/src/types";
 const ClassTableRow = ({ teacher }: TeacherTableRowProps) => {
   const { openUserActionsModal } = useAdminModal();
 
-  // Get user info safely
   const userInfo = typeof teacher.userId === "object" ? teacher.userId : null;
 
-  // Debug: Log teacher structure to understand the data// Get meeting link
   const meetingLink = teacher.meetingLink || "";
   const handleActionsClick = () => {
     openUserActionsModal({
       id: teacher._id,
-      name: userInfo?.name || "غير محدد",
+      name: userInfo?.name || "??? ????",
       userType: "teacher",
       fullData: teacher,
     });
@@ -27,12 +25,12 @@ const ClassTableRow = ({ teacher }: TeacherTableRowProps) => {
       <td className={`${styles.studentCell} ${styles.firstCell}`}>
         <div className={styles.teacherInfo}>
           <span className={styles.teacherName}>
-            {userInfo?.name || "غير محدد"}
+            {userInfo?.name || "??? ????"}
           </span>
         </div>
       </td>
-      <td>{userInfo?.email || "غير محدد"}</td>
-      <td>{userInfo?.phone || "غير محدد"}</td>
+      <td>{userInfo?.email || "??? ????"}</td>
+      <td>{userInfo?.phone || "??? ????"}</td>
       <td className={styles.linkCell}>
         <MeetingLinkActions
           meetingLink={meetingLink}
@@ -48,9 +46,9 @@ const ClassTableRow = ({ teacher }: TeacherTableRowProps) => {
           variant="primary"
           size="small"
           icon={<FaCog />}
-          title="إجراءات المعلم"
+          title="??????? ??????"
         >
-          الإجراءات
+          ?????????
         </Button>
       </td>
     </tr>

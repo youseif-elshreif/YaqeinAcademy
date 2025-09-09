@@ -9,7 +9,6 @@ import DashboardTabs from "@/src/components/dashboard/student/DashboardTabs";
 import ProfileSettings from "@/src/components/dashboard/student/ProfileSettings";
 import { ModalProvider } from "@/src/contexts/ModalContext";
 import ModalContainer from "@/src/components/common/Layout/ModalContainer";
-// Use raw lessons shape from API; no local remapping
 import { useAuth } from "@/src/contexts/AuthContext";
 import { withTeacherProtection } from "@/src/components/auth/withRoleProtection";
 import {
@@ -24,8 +23,6 @@ const TeacherDashboardContent = () => {
   const [activeTab, setActiveTab] = useState("monthly-classes");
   const [loading, setLoading] = useState(true);
 
-  // No local remapping; consume lessons as returned from API
-
   useEffect(() => {
     let mounted = true;
     const fetchLessons = async () => {
@@ -35,7 +32,7 @@ const TeacherDashboardContent = () => {
         if (!token) return;
         const lessons = await getMyLessons();
         if (!mounted) return;
-        // Sort by scheduledAt ascending
+
         const sorted =
           lessons && lessons.length > 0
             ? lessons.slice().sort((a: any, b: any) => {
@@ -58,7 +55,6 @@ const TeacherDashboardContent = () => {
     };
   }, [getMyLessons]);
 
-  // Mock data for teacher dashboard
   const [treacherData] = useState({
     id: user?._id || "",
     name: user?.name || "",
@@ -67,15 +63,12 @@ const TeacherDashboardContent = () => {
     phone: user?.phone || "",
   });
 
-  // Removed mock schedules; using API data instead
-  //#region of table data
-
   const tabs = [
     {
       id: "monthly-classes",
-      label: "حصص شهرية",
+      label: "??? ?????",
     },
-    { id: "edit-profile", label: "تعديل الملف الشخصي" },
+    { id: "edit-profile", label: "????? ????? ??????" },
   ];
 
   const handleselectedtab = (tabId: string) => {
@@ -92,29 +85,28 @@ const TeacherDashboardContent = () => {
         return <MonthlyClassTable initialClasses={classes} loading={loading} />;
     }
   };
-  //#endregion of table data
 
   return (
     <ModalProvider classes={classes} onClassesUpdate={setClasses}>
       <Head>
-        <title>لوحة تحكم المعلم</title>
+        <title>???? ???? ??????</title>
         <meta
           name="description"
-          content="لوحة تحكم المعلم لإدارة الحلقات والطلاب"
+          content="???? ???? ?????? ?????? ??????? ???????"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="keywords"
-          content="معلم, لوحة تحكم, حصص, طلاب, إدارة, تجويد"
+          content="????, ???? ????, ???, ????, ?????, ?????"
         />
       </Head>
 
       <main className={styles.main}>
         <div className={`${styles.mainCont} container`}>
           <div className={styles.header}>
-            <h1 className={styles.pageTitle}>لوحة تحكم المعلم</h1>
+            <h1 className={styles.pageTitle}>???? ???? ??????</h1>
             <p className={styles.welcomeText}>
-              أهلاً وسهلاً {treacherData.name}
+              ????? ?????? {treacherData.name}
             </p>
           </div>
 

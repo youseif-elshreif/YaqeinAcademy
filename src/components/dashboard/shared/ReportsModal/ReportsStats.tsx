@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React from "react";
 import StatCard from "@/src/components/common/UI/StatCard";
 import { FiFileText, FiCheckCircle, FiBookOpen, FiStar } from "react-icons/fi";

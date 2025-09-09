@@ -1,13 +1,9 @@
-/* Group Actions Modal Styles */
-
-/* Group actions modal specific styles */
-.modalBody {
+﻿.modalBody {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   padding: 1.5rem;
 }
-
 .groupInfo {
   text-align: center;
   font-size: 1.5rem;
@@ -15,26 +11,22 @@
   color: var(--text-dark);
   margin-bottom: 2rem;
 }
-
 .groupName {
   color: var(--primary-color);
   font-size: 1.25rem;
   font-weight: 700;
   margin: 0 0 0.5rem 0;
 }
-
 .groupType {
   color: var(--text-light);
   font-size: 0.9rem;
   margin: 0;
 }
-
 .actionsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
 }
-
 .actionCard {
   background: var(--base-bg);
   border: 2px solid var(--border-color);
@@ -44,68 +36,55 @@
   transition: all 0.2s ease;
   text-align: center;
 }
-
 .actionCard:hover {
   border-color: var(--primary-color);
   background: var(--primary-light);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
 .actionIcon {
   font-size: 2.5rem;
   margin-bottom: 1rem;
   color: var(--primary-color);
 }
-
 .actionCard.danger .actionIcon {
   color: var(--danger-color);
 }
-
 .actionCard.warning .actionIcon {
   color: var(--warning-color);
 }
-
 .actionCard.danger:hover {
   border-color: var(--danger-color);
   background: rgba(239, 68, 68, 0.05);
 }
-
 .actionCard.warning:hover {
   border-color: var(--warning-color);
   background: rgba(245, 158, 11, 0.05);
 }
-
 .actionTitle {
   color: var(--text-dark);
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0 0 0.5rem 0;
 }
-
 .actionDescription {
   color: var(--text-light);
   font-size: 0.9rem;
   line-height: 1.4;
   margin: 0;
 }
-
 .actionCard.danger .actionTitle {
   color: var(--danger-color);
 }
-
 .actionCard.warning .actionTitle {
   color: var(--warning-color);
 }
-
-/* Stats Section */
 .statsSection {
   background: var(--main-bg);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
 }
-
 .statsTitle {
   color: var(--text-dark);
   font-size: 1rem;
@@ -115,13 +94,11 @@
   align-items: center;
   gap: 0.5rem;
 }
-
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 1rem;
 }
-
 .statItem {
   text-align: center;
   padding: 0.75rem;
@@ -129,40 +106,32 @@
   border-radius: 6px;
   border: 1px solid var(--border-color);
 }
-
 .statNumber {
   color: var(--primary-color);
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 0.25rem 0;
 }
-
 .statLabel {
   color: var(--text-light);
   font-size: 0.85rem;
   margin: 0;
 }
-
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .actionsGrid {
     grid-template-columns: 1fr;
   }
-
   .actionCard {
     padding: 1rem;
   }
-
   .actionIcon {
     font-size: 2rem;
     margin-bottom: 0.75rem;
   }
-
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
 @media (max-width: 480px) {
   .statsGrid {
     grid-template-columns: 1fr;

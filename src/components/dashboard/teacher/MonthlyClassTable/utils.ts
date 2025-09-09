@@ -1,7 +1,7 @@
-import styles from "./MonthlyClassTable.module.css";
+﻿import styles from "./MonthlyClassTable.module.css";
 
 export const formatDate = (dateString: string): string => {
-  // For server-side rendering compatibility
+
   if (typeof window === "undefined") {
     const date = new Date(dateString);
     const day = date.getDate();

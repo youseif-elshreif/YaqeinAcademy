@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { FiUsers } from "react-icons/fi";
 import styles from "@/src/components/dashboard/admin/styles.module.css";
 import ClassTableRow from "./ClassTableRow";
@@ -13,18 +13,17 @@ const StudentTable: React.FC<{ searchTerm?: string }> = ({
 }) => {
   const { students, isLoading, error } = useStudentsContext();
 
-  // Show loading if context is loading OR if we don't have data yet
   const shouldShowLoading = isLoading || (students.length === 0 && !error);
 
   if (shouldShowLoading) {
     return (
       <>
-        {/* Desktop Skeleton */}
+
         <div className={styles.desktopView}>
           <SkeletonTable rows={5} columns={10} title="الطلاب" />
         </div>
 
-        {/* Mobile Skeleton */}
+
         <div className={styles.mobileView}>
           <div className={styles.tableContainer}>
             <div className={styles.header}>
@@ -91,7 +90,7 @@ const StudentTable: React.FC<{ searchTerm?: string }> = ({
         </div>
       ) : (
         <>
-          {/* Desktop Table View */}
+
           <div className={styles.tableWrapper}>
             <table className={styles.classTable}>
               <thead>
@@ -117,7 +116,7 @@ const StudentTable: React.FC<{ searchTerm?: string }> = ({
             </table>
           </div>
 
-          {/* Mobile Cards View */}
+
           <MobileClassCards Students={filtered} />
         </>
       )}

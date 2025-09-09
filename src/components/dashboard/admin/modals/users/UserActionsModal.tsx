@@ -1,4 +1,4 @@
-import { useAdminModal } from "@/src/contexts/AdminModalContext";
+﻿import { useAdminModal } from "@/src/contexts/AdminModalContext";
 import styles from "./UserActionsModal.module.css";
 import { FaEdit, FaTrash, FaCoins, FaListUl, FaLink } from "react-icons/fa";
 import {
@@ -26,9 +26,9 @@ const UserActionsModal: React.FC = () => {
 
   const handleEdit = () => {
     closeUserActionsModal();
-    // تأخير فتح المودال الجديد حتى ينتهي إغلاق المودال الحالي
+
     setTimeout(() => {
-      // تمرير البيانات الكاملة إذا كانت متوفرة، وإلا استخدم البيانات الأساسية
+
       const dataToPass =
         selectedUserForActions.fullData || selectedUserForActions;
       openEditUserModal(dataToPass);
@@ -37,7 +37,7 @@ const UserActionsModal: React.FC = () => {
 
   const handleDelete = () => {
     closeUserActionsModal();
-    // تأخير فتح المودال الجديد حتى ينتهي إغلاق المودال الحالي
+
     setTimeout(() => {
       openDeleteUserModal(selectedUserForActions);
     }, 300);
@@ -45,7 +45,7 @@ const UserActionsModal: React.FC = () => {
 
   const handleAddCredits = () => {
     closeUserActionsModal();
-    // تأخير فتح المودال الجديد حتى ينتهي إغلاق المودال الحالي
+
     setTimeout(() => {
       openAddCreditsModal({
         userId: selectedUserForActions.id,
@@ -56,7 +56,7 @@ const UserActionsModal: React.FC = () => {
 
   const handleEditTeacherLink = () => {
     closeUserActionsModal();
-    // تأخير فتح المودال الجديد حتى ينتهي إغلاق المودال الحالي
+
     setTimeout(() => {
       const dataToPass =
         selectedUserForActions.fullData || selectedUserForActions;

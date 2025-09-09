@@ -1,17 +1,17 @@
-import StudentAllDataComponent from "@/src/components/dashboard/teacher/StudentAllDataComponent";
+﻿import StudentAllDataComponent from "@/src/components/dashboard/teacher/StudentAllDataComponent";
 import { ClassModalsProps } from "@/src/types";
 
 const ClassModals = ({
-  // keep only postpone/nickname/student data props here; completion modals use context now
+
   studentAllDataModalOpen,
   studentAllData,
   onCloseStudentAllData,
 }: ClassModalsProps) => {
   return (
     <>
-      {/* Complete modals are now handled in ModalContainer.tsx */}
 
-      {/* Student All Data Modal */}
+
+
       {studentAllDataModalOpen && studentAllData && (
         <StudentAllDataComponent
           studentData={studentAllData}
@@ -19,7 +19,7 @@ const ClassModals = ({
         />
       )}
 
-      {/* Edit Group Name Modal removed */}
+
     </>
   );
 };

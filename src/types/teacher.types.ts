@@ -1,9 +1,4 @@
-﻿// ==================================================
-// Teacher Types
-// ==================================================
-
-import { BaseUser } from "./base.types";
-
+﻿import { BaseUser } from "./base.types";
 export interface Teacher {
   numberOflessonsCridets: number;
   _id: string;
@@ -15,7 +10,6 @@ export interface Teacher {
   updatedAt: string;
   __v: number;
 }
-
 export interface UserTeacher extends BaseUser {
   country: string;
   city: string;
@@ -31,18 +25,14 @@ export interface UserTeacher extends BaseUser {
   updatedAt: string;
   __v: number;
 }
-
 export interface TeachersResponse {
   teachers: Teacher[];
   userTeahcer: UserTeacher[];
 }
-
 export interface CombinedTeacherData {
   teacherInfo: Teacher;
   userInfo: UserTeacher;
 }
-
-// Unified teacher data interface for dashboards
 export interface TeacherData extends BaseUser {
   teacherId: string | number;
   totalStudents: number;
@@ -52,7 +42,6 @@ export interface TeacherData extends BaseUser {
   groupsCount: number;
   totalEarnings: number;
 }
-
 export interface TeacherPayment {
   teacherId: string;
   teacherName: string;
@@ -60,7 +49,6 @@ export interface TeacherPayment {
   monthlyPayments: MonthlyPayment[];
   lastPaymentDate?: string;
 }
-
 export interface MonthlyPayment {
   month: string;
   amount: number;

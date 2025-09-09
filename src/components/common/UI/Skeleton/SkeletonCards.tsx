@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import styles from "./SkeletonLoading.module.css";
 import { SkeletonCardsProps } from "@/src/types";
 
@@ -11,7 +11,7 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
     <div className={`skeleton-cards-container ${className}`}>
       {Array.from({ length: cards }).map((_, index) => (
         <div key={index} className={`skeleton-card ${styles.skeletonCard}`}>
-          {/* Header */}
+
           <div className="card-header">
             <div className="skeleton-info">
               <div
@@ -21,12 +21,12 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
             </div>
           </div>
 
-          {/* Body */}
+
           <div className="card-body">
             <div className="card-info">
               {type === "lesson" ? (
                 <>
-                  {/* نوع مخصص للحلقات - للمعلمين */}
+
                   <div className="info-item">
                     <div
                       className={`${styles.skeletonText} ${styles.skeletonTextShort}`}
@@ -96,7 +96,7 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
                 </>
               ) : (
                 <>
-                  {/* النوع العادي للطلاب والمعلمين */}
+
                   <div className="info-item">
                     <div
                       className={`${styles.skeletonText} ${styles.skeletonTextShort}`}

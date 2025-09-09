@@ -1,5 +1,4 @@
-/* Modal Overlay */
-.modalOverlay {
+﻿.modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -13,12 +12,9 @@
   padding: 1rem;
   animation: fadeIn 0.3s ease-out;
 }
-
 .fadeOut {
   animation: fadeOut 0.3s ease-in;
 }
-
-/* Modal Container */
 .modal {
   background: var(--base-bg);
   border-radius: 12px;
@@ -32,12 +28,9 @@
   animation: modalSlideIn 0.3s ease-out;
   transform-origin: center;
 }
-
 .modalSlideOut {
   animation: modalSlideOut 0.3s ease-in;
 }
-
-/* Modal Header */
 .modalHeader {
   display: flex;
   justify-content: space-between;
@@ -47,19 +40,16 @@
   background: var(--primary-color);
   color: white;
 }
-
 .modalTitle {
   color: white;
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
 }
-
 .titleIcon {
   color: white;
   font-size: 1.25rem;
 }
-
 .closeBtn {
   background: none;
   border: none;
@@ -76,23 +66,17 @@
   align-items: center;
   justify-content: center;
 }
-
 .closeBtn:hover {
   background: rgba(255, 255, 255, 0.2);
   transform: scale(1.1);
 }
-
 .closeBtn:active {
   transform: scale(0.95);
 }
-
-/* Modal Body */
 .modalBody {
   overflow-y: auto;
   max-height: calc(90vh - 140px);
 }
-
-/* Actions Bar */
 .actionsBar {
   display: flex;
   justify-content: flex-end;
@@ -101,7 +85,6 @@
   padding: 1rem 1.5rem;
   border-bottom: 1px solid var(--border-color);
 }
-
 .actionBtn {
   display: flex;
   align-items: center;
@@ -114,29 +97,24 @@
   transition: all 0.2s ease;
   font-size: 0.9rem;
 }
-
 .addBtn {
   background: var(--primary-color);
   color: white;
 }
-
 .addBtn:hover {
   background: var(--secondary-color);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(30, 61, 50, 0.3);
 }
-
 .monthBtn {
   background: var(--secondary-color);
   color: white;
 }
-
 .monthBtn:hover:not(:disabled) {
   background: var(--primary-color);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(30, 61, 50, 0.3);
 }
-
 .monthBtn:disabled {
   background: var(--text-light);
   color: var(--text-muted);
@@ -144,33 +122,25 @@
   transform: none;
   box-shadow: none;
 }
-
 .editBtn {
   background: var(--warning-color);
   color: white;
   padding: 0.5rem;
 }
-
 .editBtn:hover {
   background: var(--warning-dark);
 }
-
 .deleteBtn {
   background: var(--error-color);
   color: white;
   padding: 0.5rem;
 }
-
 .deleteBtn:hover {
   background: var(--danger-dark);
 }
-
-/* Lessons Container */
 .lessonsContainer {
   min-height: 300px;
 }
-
-/* Empty State */
 .emptyState {
   display: flex;
   flex-direction: column;
@@ -179,34 +149,27 @@
   padding: 3rem 1rem;
   text-align: center;
 }
-
 .emptyIcon {
   font-size: 3rem;
   color: var(--text-light);
   margin-bottom: 1rem;
   opacity: 0.5;
 }
-
 .emptyState h3 {
   font-size: 1.25rem;
   color: var(--text-dark);
   margin: 0 0 0.5rem 0;
 }
-
 .emptyState p {
   color: var(--text-light);
   margin: 0;
 }
-
-/* Lessons Grid */
 .lessonsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1rem;
   padding-inline: 1.5rem;
 }
-
-/* Lesson Card */
 .lessonCard {
   background: var(--main-bg);
   border: 1px solid var(--border-color);
@@ -214,39 +177,31 @@
   padding: 1.25rem;
   transition: all 0.2s ease;
 }
-
 .lessonCard:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   border-color: var(--primary-color);
 }
-
-/* Lesson Header */
 .lessonHeader {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
 }
-
-/* Lesson Info */
 .lessonInfo {
   flex: 1;
 }
-
 .lessonDay {
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--primary-color);
   margin: 0 0 0.75rem 0;
 }
-
 .lessonDetails {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
-
 .lessonTime,
 .lessonDate {
   display: flex;
@@ -255,20 +210,15 @@
   color: var(--text-light);
   font-size: 0.9rem;
 }
-
 .detailIcon {
   font-size: 0.8rem;
   color: var(--secondary-color);
 }
-
-/* Lesson Actions */
 .lessonActions {
   display: flex;
   gap: 0.5rem;
   flex-shrink: 0;
 }
-
-/* Modal Footer */
 .modalFooter {
   display: flex;
   justify-content: center;
@@ -276,7 +226,6 @@
   background: var(--main-bg);
   border-top: 1px solid var(--border-color);
 }
-
 .closeButton {
   padding: 0.75rem 2rem;
   background: var(--text-light);
@@ -287,19 +236,16 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
-
 .closeButton:hover {
   background: var(--text-dark);
   transform: translateY(-1px);
 }
-
 .linkContainer {
   display: flex;
   gap: 0.5rem;
   align-items: center;
   justify-content: start;
 }
-
 .linkButton {
   background: none;
   border: 1px solid var(--border-color);
@@ -314,19 +260,16 @@
   color: var(--text-color);
   white-space: nowrap;
 }
-
 .openLinkBtn {
   background: var(--primary-color);
   color: white;
   border-color: var(--primary-color);
 }
-
 .openLinkBtn:hover {
   background: var(--secondary-color);
   border-color: var(--secondary-color);
   transform: translateY(-1px);
 }
-
 .copyLinkBtn {
   background: var(--separator-bg);
   color: var(--secondary-color);
@@ -335,14 +278,11 @@
   min-width: 2rem;
   justify-content: center;
 }
-
 .copyLinkBtn:hover {
   background: var(--secondary-color);
   color: white;
   transform: translateY(-1px);
 }
-
-/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -351,7 +291,6 @@
     opacity: 1;
   }
 }
-
 @keyframes fadeOut {
   from {
     opacity: 1;
@@ -360,7 +299,6 @@
     opacity: 0;
   }
 }
-
 @keyframes modalSlideIn {
   from {
     opacity: 0;
@@ -371,7 +309,6 @@
     transform: translateY(0) scale(1);
   }
 }
-
 @keyframes modalSlideOut {
   from {
     opacity: 1;
@@ -382,36 +319,28 @@
     transform: translateY(-20px) scale(0.95);
   }
 }
-
-/* Responsive Design */
 @media (max-width: 768px) {
   .modal {
     width: 95%;
     max-height: 95vh;
   }
-
   .lessonsGrid {
     grid-template-columns: 1fr;
   }
-
   .lessonHeader {
     flex-direction: column;
     gap: 0.75rem;
   }
-
   .lessonActions {
     align-self: flex-end;
   }
-
   .modalHeader {
     padding: 1rem;
   }
-
   .modalFooter {
     padding: 1rem;
   }
 }
-
 @media (max-width: 480px) {
   .actionsBar {
     flex-direction: column;

@@ -1,4 +1,4 @@
-import { FaUsers } from "react-icons/fa";
+﻿import { FaUsers } from "react-icons/fa";
 import styles from "../MonthlyClassTable.module.css";
 import { formatDate, getStatusColor, getStatusText } from "../utils";
 import { useModal } from "@/src/contexts/ModalContext";
@@ -15,7 +15,6 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
   const meetingLink: string | undefined =
     classItem?.meetingLink || group?.meetingLink;
 
-  // Determine action state
   const now = new Date();
   const scheduledDate = new Date(scheduledAt);
   const isCompleted = classItem?.status === "completed";
@@ -28,7 +27,7 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
 
   return (
     <tr key={classItem._id} className={styles.tableRow}>
-      {/* الطالب/الحلقة */}
+
       <td className={styles.studentCell}>
         <div className={styles.studentInfo}>
           <div className={styles.groupContainer}>
@@ -50,7 +49,7 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
         </div>
       </td>
 
-      {/* التاريخ والوقت */}
+
       <td className={styles.dateTimeCell}>
         <div className={styles.dateTimeContent}>
           <span className={styles.dateText}>{formatDate(scheduledAt)}</span>
@@ -64,7 +63,7 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
         </div>
       </td>
 
-      {/* الحالة */}
+
       <td>
         <span
           className={`${styles.statusBadge} ${getStatusColor(
@@ -75,12 +74,12 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
         </span>
       </td>
 
-      {/* رابط الحلقة */}
+
       <td className={styles.linkCell}>
         <MeetingLinkActions meetingLink={meetingLink} styles={styles} />
       </td>
 
-      {/* الإجراءات */}
+
       <td className={styles.actionsCell}>
         <div className={styles.actionButtons}>
           {memberCount > 0 ? (

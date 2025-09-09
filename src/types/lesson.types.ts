@@ -1,8 +1,4 @@
-﻿// ==================================================
-// Lesson Types
-// ==================================================
-
-export interface Lesson {
+﻿export interface Lesson {
   _id: string;
   groupId: string;
   reportId: string[];
@@ -14,7 +10,6 @@ export interface Lesson {
   updatedAt: string;
   __v: number;
 }
-
 export interface LessonManagementItem {
   id: string;
   title: string;
@@ -27,8 +22,6 @@ export interface LessonManagementItem {
   attendanceCount: number;
   totalStudents: number;
 }
-
-// Unified ClassData interface - combines all class-related data
 export interface ClassData {
   id: string | number;
   date: string;

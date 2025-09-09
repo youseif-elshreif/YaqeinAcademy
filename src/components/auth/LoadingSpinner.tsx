@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import Image from "next/image";
 import styles from "./LoadingSpinner.module.css";
 
@@ -6,7 +6,7 @@ const LoadingSpinner = () => {
   return (
     <div className={`${styles.container} ${styles.auth}`}>
       <div className={styles.content}>
-        {/* Logo with Pulse Animation */}
+
         <div className={styles.logoContainer}>
           <Image
             src="/img/logo/logo.webp"
@@ -21,7 +21,7 @@ const LoadingSpinner = () => {
           <div className={styles.pulseRing3}></div>
         </div>
 
-        {/* Message */}
+
         <div className={styles.textContainer}>
           <span className={styles.academyName}>أكاديمية يقين</span>
         </div>

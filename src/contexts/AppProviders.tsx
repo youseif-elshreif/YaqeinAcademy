@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { ReactNode } from "react";
 import { ContactProvider } from "./ContactContext";
 import { TeachersProvider } from "./TeachersContext";
@@ -37,7 +37,6 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
   );
 };
 
-// إعادة تصدير جميع الهوكس للراحة
 export { useContactContext } from "./ContactContext";
 export { useTeachersContext } from "./TeachersContext";
 export { useStudentsContext } from "./StudentsContext";
@@ -47,5 +46,4 @@ export { useLessonsContext } from "./LessonsContext";
 export { useAdminStatsContext } from "./AdminStatsContext";
 export { useReportContext } from "./ReportContext";
 
-// إعادة تصدير الـ types المهمة
 export type { ContactInfo } from "./ContactContext";

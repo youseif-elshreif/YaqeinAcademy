@@ -1,14 +1,10 @@
-/* ==== SHARED/REUSABLE STYLES ==== */
-
-.firstCell {
+﻿.firstCell {
   position: sticky;
   right: 0;
   background-color: var(--base-bg);
   white-space: nowrap;
   z-index: 5;
 }
-
-/* Base button for icon buttons */
 .iconButton {
   background: none;
   border: 1px solid var(--border-color);
@@ -19,33 +15,26 @@
   justify-content: center;
   transition: all 0.3s ease;
 }
-
 .iconButton:hover {
   background: var(--separator-bg);
   border-color: var(--secondary-color);
   color: var(--secondary-color);
 }
-
-/* Icon button variations */
 .iconButtonSmall {
   padding: 0.3rem;
   font-size: 0.75rem;
   min-width: 1.5rem;
   height: 1.5rem;
 }
-
 .iconButtonMedium {
   padding: 0.4rem;
   font-size: 0.8rem;
   gap: 0.3125rem;
 }
-
-/* Shared hover effect for clickable text elements */
 .clickableText {
   cursor: pointer;
   transition: color 0.2s ease;
 }
-
 .clickableText span {
   transition: color 0.2s ease;
   -webkit-transition: color 0.2s ease;
@@ -53,56 +42,40 @@
   -ms-transition: color 0.2s ease;
   -o-transition: color 0.2s ease;
 }
-
 .clickableText:hover,
 .clickableText:hover span {
   color: var(--secondary-color);
   text-decoration: underline;
 }
-
-/* Shared hover effect for clickable text with children */
 .clickableTextWithChildren:hover,
 .clickableTextWithChildren:hover span {
   color: var(--secondary-color) !important;
   text-decoration: underline;
 }
-
-/* Shared color transitions */
 .colorTransition {
   transition: color 0.2s ease;
 }
-
 .allTransition {
   transition: all 0.3s ease;
 }
-
-/* Shared text colors */
 .primaryColor {
   color: var(--primary-color);
 }
-
 .secondaryColor {
   color: var(--secondary-color);
 }
-
 .lightColor {
   color: var(--text-light);
 }
-
 .darkColor {
   color: var(--text-dark);
 }
-
-/* Shared font weights */
 .fontMedium {
   font-weight: 500;
 }
-
 .fontSemiBold {
   font-weight: 600;
 }
-
-/* Base button styles */
 .baseButton {
   border: none;
   border-radius: 6px;
@@ -111,16 +84,12 @@
   white-space: nowrap;
   transition: all 0.3s ease;
 }
-
 .baseButton:hover {
   opacity: 0.8;
 }
-
-/* ==== ACTION BUTTONS STYLES ==== */
 .actionsCell {
   text-align: center;
 }
-
 .actionButtons {
   display: flex;
   gap: 0.75rem;
@@ -129,7 +98,6 @@
   flex-wrap: wrap;
   min-height: 3rem;
 }
-
 .actionBtn {
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
@@ -140,52 +108,43 @@
   position: relative;
   overflow: hidden;
 }
-
 .actionBtn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(30, 61, 50, 0.2);
 }
-
 .actionBtn:active {
   transform: translateY(0);
   box-shadow: 0 2px 6px rgba(30, 61, 50, 0.15);
 }
-
 .completeBtn {
   background: var(--primary-color);
   color: white;
   border: 1px solid var(--primary-color);
 }
-
 .completeBtn:hover {
   background: var(--secondary-color);
   border-color: var(--secondary-color);
 }
-
 .postponeBtn {
   background: var(--separator-bg);
   color: var(--primary-color);
   border: 1px solid var(--border-color);
   font-weight: 600;
 }
-
 .postponeBtn:hover {
   background: var(--primary-color);
   color: white;
   border-color: var(--primary-color);
 }
-
 .viewBtn {
   background: var(--secondary-color);
   color: white;
   border: 1px solid var(--secondary-color);
 }
-
 .viewBtn:hover {
   background: var(--primary-color);
   border-color: var(--primary-color);
 }
-
 .cancelledText {
   color: var(--danger-color);
   font-weight: 500;
@@ -196,33 +155,26 @@
   font-size: 0.85rem;
   border: 1px solid var(--danger-color);
 }
-
-/* ==== TABLE CONTAINER STYLES ==== */
 .tableContainer {
   background: var(--base-bg);
   border: 1px solid var(--border-color);
   margin-bottom: 2rem;
 }
-
 .header {
   padding: 1.5rem;
   border-bottom: 1px solid var(--border-color);
   text-align: center;
 }
-
 .title {
   font-size: 1.75rem;
   font-weight: 700;
   color: var(--primary-color);
 }
-
 .subtitle {
   font-size: 1rem;
   margin: 0;
   color: var(--text-light);
 }
-
-/* ==== TABLE STYLES ==== */
 .tableWrapper {
   overflow-x: auto;
   overflow-y: hidden;
@@ -234,8 +186,6 @@
   background: var(--base-bg);
   transform: rotateX(180deg);
 }
-
-/* Flip the table back to normal orientation */
 .tableWrapper .classTable,
 .tableWrapper .scheduleTable {
   transform: rotateX(180deg);
@@ -244,8 +194,6 @@
   -ms-transform: rotateX(180deg);
   -o-transform: rotateX(180deg);
 }
-
-/* Scroll hint indicator */
 .tableWrapper::after {
   content: "";
   position: absolute;
@@ -259,22 +207,18 @@
   transition: opacity 0.3s ease;
   transform: rotateX(180deg);
 }
-
 .tableWrapper:hover::after {
   opacity: 1;
 }
-
 .classTable {
   min-width: 100%;
 }
-
 .classTable,
 .scheduleTable {
   border-collapse: collapse;
   font-size: 0.95rem;
   table-layout: fixed;
 }
-
 .classTable th,
 .scheduleTable th {
   background: var(--separator-bg);
@@ -287,16 +231,13 @@
   position: sticky;
   top: 0;
 }
-
 .tableRow {
   border-bottom: 1px solid var(--border-color);
   transition: background-color 0.3s ease;
 }
-
 .tableRow:hover {
   background: rgba(99, 184, 177, 0.05);
 }
-
 .classTable td,
 .scheduleTable td {
   padding: 1rem;
@@ -304,22 +245,16 @@
   border-bottom: 1px solid var(--border-color);
   vertical-align: middle;
 }
-
 .pastSession {
   opacity: 0.7;
   background: rgba(128, 128, 128, 0.05);
 }
-
 .pastSession td {
   color: var(--text-light);
 }
-
 .upcomingSession {
   background: rgba(99, 184, 177, 0.02);
 }
-
-/* ==== STUDENT/TEACHER CELL STYLES ==== */
-
 .studentInfo {
   display: flex;
   align-items: center;
@@ -327,19 +262,14 @@
   gap: 0.5rem;
   cursor: pointer;
 }
-
 .studentName {
   font-weight: 500;
 }
-
 .nickname {
   font-size: 0.9rem;
   font-style: italic;
   margin-right: 0.3125rem;
 }
-
-/* ==== DATE/TIME CELL STYLES ==== */
-
 .dateTimeContent,
 .dateContent {
   display: flex;
@@ -347,12 +277,10 @@
   gap: 0.25rem;
   align-items: center;
 }
-
 .dateText {
   font-weight: 500;
   color: var(--text-dark);
 }
-
 .timeText {
   font-weight: 600;
   background: rgba(30, 61, 50, 0.1);
@@ -360,17 +288,12 @@
   border-radius: 0.75rem;
   font-size: 0.85rem;
 }
-
 .pastSession .dateCell {
   text-decoration: line-through;
 }
-
 .dateCell {
   min-width: 12.5rem;
 }
-
-/* ==== STATUS CELL STYLES ==== */
-
 .statusBadge {
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -378,48 +301,37 @@
   font-weight: 600;
   display: inline-block;
 }
-
 .completedStatus {
   background: var(--success-light);
   color: var(--success-color);
 }
-
 .pendingStatus {
   background: var(--warning-light);
   color: var(--warning-color);
 }
-
 .cancelledStatus {
   background: var(--danger-light);
   color: var(--danger-color);
 }
-
 .postponedStatus {
   background: rgba(138, 43, 226, 0.1);
   color: #8a2be2;
 }
-
-/* ==== RATE CELL STYLES ==== */
 .rateCell {
   min-width: 8rem;
 }
-
 .rate {
   font-weight: 600;
 }
-
-/* ==== LINK CELL STYLES ==== */
 .linkCell {
   text-align: center;
 }
-
 .linkContainer {
   display: flex;
   gap: 0.5rem;
   align-items: center;
   justify-content: center;
 }
-
 .linkButton {
   background: none;
   border: 1px solid var(--border-color);
@@ -434,19 +346,16 @@
   color: var(--text-color);
   white-space: nowrap;
 }
-
 .openLinkBtn {
   background: var(--primary-color);
   color: white;
   border-color: var(--primary-color);
 }
-
 .openLinkBtn:hover {
   background: var(--secondary-color);
   border-color: var(--secondary-color);
   transform: translateY(-1px);
 }
-
 .copyLinkBtn {
   background: var(--separator-bg);
   color: var(--secondary-color);
@@ -455,65 +364,53 @@
   min-width: 2rem;
   justify-content: center;
 }
-
 .copyLinkBtn:hover {
   background: var(--secondary-color);
   color: white;
   transform: translateY(-1px);
 }
-
-/* Disabled state for link buttons */
 .linkButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none !important;
 }
-
 .linkButton:disabled:hover {
   background: var(--separator-bg);
   color: var(--text-light);
   border-color: var(--border-color);
   transform: none !important;
 }
-
 .openLinkBtn:disabled {
   background: var(--border-color);
   color: var(--text-light);
   border-color: var(--border-color);
 }
-
 .copyLinkBtn:disabled {
   background: var(--separator-bg);
   color: var(--text-light);
   border-color: var(--border-color);
 }
-
 .addLinkBtn {
   background: var(--warning-color);
   color: white;
   border-color: var(--warning-color);
 }
-
 .addLinkBtn:hover {
   background: var(--warning-dark);
   border-color: var(--warning-dark);
   transform: translateY(-1px);
 }
-
 .noLinkText {
   color: var(--muted-color);
   font-size: 0.8rem;
   font-style: italic;
 }
-
-/* ==== MOBILE CARD STYLES ==== */
 .mobileCardsContainer {
   display: none;
   padding: 1rem;
   gap: 1rem;
   flex-direction: column;
 }
-
 .mobileCard {
   background: var(--base-bg);
   border: 1px solid var(--border-color);
@@ -521,7 +418,6 @@
   padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
-
 .classCard {
   background: var(--base-bg);
   border: 1px solid var(--border-color);
@@ -529,7 +425,6 @@
   padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
-
 .cardHeader {
   display: flex;
   justify-content: space-between;
@@ -538,24 +433,20 @@
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--border-color);
 }
-
 .cardContent {
   margin-bottom: 1rem;
 }
-
 .cardRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.5rem;
 }
-
 .cardRow .label {
   font-weight: 600;
   color: var(--text-primary);
   min-width: 100px;
 }
-
 .cardActions {
   display: flex;
   flex-direction: column;
@@ -563,12 +454,10 @@
   padding-top: 0.75rem;
   border-top: 1px solid var(--border-color);
 }
-
 .linkActions {
   display: flex;
   gap: 0.5rem;
 }
-
 .copyBtn,
 .openBtn {
   padding: 0.5rem 1rem;
@@ -580,13 +469,11 @@
   font-size: 0.875rem;
   transition: all 0.3s ease;
 }
-
 .copyBtn:hover,
 .openBtn:hover {
   background: var(--primary-color);
   color: white;
 }
-
 .verificationBadge {
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
@@ -594,24 +481,20 @@
   font-weight: 600;
   text-align: center;
 }
-
 .verified {
   background: #e8f5e8;
   color: #2d5a27;
   border: 1px solid #a8d5a8;
 }
-
 .unverified {
   background: #fff3cd;
   color: #856404;
   border: 1px solid #ffeaa7;
 }
-
 .actionButtons {
   display: flex;
   gap: 0.5rem;
 }
-
 .editBtn,
 .deleteBtn {
   padding: 0.5rem 1rem;
@@ -622,64 +505,52 @@
   transition: all 0.3s ease;
   font-weight: 500;
 }
-
 .editBtn {
   background: var(--secondary-color);
   color: white;
 }
-
 .editBtn:hover {
   background: #2980b9;
 }
-
 .deleteBtn {
   background: #e74c3c;
   color: white;
 }
-
 .deleteBtn:hover {
   background: #c0392b;
 }
-
 .teacherInfo {
   display: flex;
   flex-direction: column;
 }
-
 .teacherName {
   font-weight: 600;
   color: var(--text-primary);
 }
-
 .cardStudentName {
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0;
 }
-
 .cardBody {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-
 .cardInfo {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
-
 .infoItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 .infoLabel {
   font-size: 0.9rem;
   font-weight: 500;
 }
-
 .infoValue {
   font-size: 0.9rem;
   font-weight: 600;
@@ -687,8 +558,6 @@
   width: calc(100% - 100px);
   text-align: left;
 }
-
-/* ==== MOBILE CARD LINK STYLES ==== */
 .cardLinkContainer {
   display: flex;
   gap: 0.375rem;
@@ -696,47 +565,38 @@
   flex-wrap: wrap;
   justify-content: flex-end;
 }
-
 .cardLinkBtn {
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
 }
-
 .cardCopyBtn {
   padding: 0.25rem;
   min-width: 1.75rem;
   font-size: 0.75rem;
 }
-
-/* ==== GROUP STYLES ==== */
 .groupCell {
   white-space: nowrap;
 }
-
 .groupContainer {
   position: relative;
   display: flex;
   align-items: flex-start;
 }
-
 .groupNameContainer {
   display: flex;
   align-items: center;
 }
-
 .groupName {
   font-weight: 600;
   display: flex;
   align-items: center;
   padding: 10px 0;
 }
-
 .groupIndicator {
   font-size: 0.85rem;
   font-weight: 500;
   margin-right: 0.5rem;
 }
-
 .groupMembersTooltip {
   position: absolute;
   top: 100%;
@@ -765,7 +625,6 @@
   -ms-transform: translate(-50%, -80%);
   -o-transform: translate(-50%, -80%);
 }
-
 .groupContainer:hover .groupMembersTooltip {
   opacity: 1;
   visibility: visible;
@@ -776,14 +635,12 @@
   -ms-transform: translate(-100%, -80%);
   -o-transform: translate(-100%, -80%);
 }
-
 .groupMemberName {
   font-size: 0.85rem;
   font-weight: 500;
   display: inline-block;
   margin: 0.1rem 0;
 }
-
 .groupMembers {
   margin-top: 0.75rem;
   padding: 0.75rem;
@@ -791,37 +648,30 @@
   border-radius: 6px;
   border: 1px solid var(--border-color);
 }
-
 .membersLabel {
   display: block;
   font-size: 0.9rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
-
 .membersList {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem;
 }
-
 .memberName {
   font-size: 0.85rem;
   font-weight: 500;
   display: inline-block;
 }
-
 .memberNickname {
   font-weight: 400;
   margin-right: 0.25rem;
 }
-
 .groupRate {
   font-weight: 600;
   font-size: 0.95rem;
 }
-
-/* Group badge */
 .groupBadge {
   position: absolute;
   top: 35px;
@@ -846,14 +696,11 @@
   gap: 0.3rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
-
-/* Card actions */
 .cardActions {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
 }
-
 .closeBtn {
   background: var(--danger-color);
   color: white;
@@ -873,34 +720,27 @@
   -ms-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
 }
-
 .closeBtn:hover {
   background: var(--danger-dark);
   transform: translateY(-1px);
 }
-
-/* ==== USER MANAGEMENT STYLES ==== */
 .iconMargin {
   margin-left: 8px;
 }
-
 .headerRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 32px;
 }
-
 .headerActions {
   display: flex;
   gap: 12px;
 }
-
 .filterInputWrapper {
   flex: 1;
   position: relative;
 }
-
 .filterIcon {
   position: absolute;
   right: 12px;
@@ -908,7 +748,6 @@
   transform: translateY(-50%);
   color: var(--text-light);
 }
-
 .formInput {
   width: 100%;
   height: 40px;
@@ -923,7 +762,6 @@
   outline: none;
   margin-bottom: 10px;
 }
-
 .formInput:focus {
   border-color: var(--secondary-color, #63b8b1);
   background: #fafbfc;
@@ -940,32 +778,25 @@
     flex-wrap: wrap;
   }
 }
-
-/* ==== RESPONSIVE DESIGN ==== */
 @media (max-width: 768px) {
   .tableWrapper {
     display: none;
   }
-
   .mobileCardsContainer {
     display: flex;
   }
-
   .cardActions {
     flex-direction: column;
     gap: 0.5rem;
   }
-
   .linkActions {
     flex-direction: column;
     gap: 0.25rem;
   }
-
   .actionButtons {
     flex-direction: column;
     gap: 0.25rem;
   }
-
   .copyBtn,
   .openBtn,
   .editBtn,
@@ -973,73 +804,58 @@
     width: 100%;
     text-align: center;
   }
-
   .header {
     padding: 1rem;
   }
-
   .title {
     font-size: 1.5rem;
   }
-
   .subtitle {
     font-size: 0.95rem;
   }
-
   .groupBadge {
     top: 0;
     right: 170px;
   }
-
   .headerActions {
     width: 100%;
     margin-top: 16px;
   }
-
   .filterInputWrapper {
     width: 100%;
   }
 }
-
 @media (max-width: 1024px) and (min-width: 769px) {
   .tableWrapper {
     transform: rotateX(180deg);
     box-shadow: inset -10px 0 10px -10px rgba(0, 0, 0, 0.1);
   }
-
   .tableWrapper .classTable,
   .tableWrapper .scheduleTable {
     transform: rotateX(180deg);
   }
 }
-
 @media (max-width: 480px) {
   .mobileCardsContainer {
     padding: 0.75rem;
   }
-
   .cardHeader {
     flex-direction: column;
     align-items: stretch;
     gap: 0.5rem;
     text-align: center;
   }
-
   .cardActions {
     flex-direction: column;
   }
-
   .actionBtn {
     width: 100%;
   }
 }
-
-/* ==== TOOLTIP STYLES ==== */
 .groupContainer {
   position: relative;
   display: inline-block;
 }
-
 .groupMembersTooltip {
   position: absolute;
   top: 100%;
@@ -1060,14 +876,12 @@
   transition: all 0.3s ease;
   transform: translateY(-10px);
 }
-
 .groupContainer:hover .groupMembersTooltip {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
   transform: translateY(0);
 }
-
 .groupMemberName {
   font-size: 0.85rem;
   font-weight: 500;
@@ -1076,16 +890,13 @@
   padding: 0.3rem 0;
   border-bottom: 1px solid var(--separator-bg);
 }
-
 .groupMemberName:last-child {
   border-bottom: none;
 }
-
 .tooltipContainer {
   position: relative;
   display: inline-block;
 }
-
 .idTooltip {
   position: absolute;
   top: 100%;
@@ -1104,7 +915,6 @@
   z-index: 1000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
-
 .idTooltip::before {
   content: "";
   position: absolute;
@@ -1115,14 +925,11 @@
   border-right: 5px solid transparent;
   border-bottom: 5px solid var(--dark-bg);
 }
-
 .tooltipContainer:hover .idTooltip {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
 }
-
-/* ==== ACTIONS MODAL STYLES ==== */
 .actionsModal {
   position: fixed;
   top: 0;
@@ -1136,7 +943,6 @@
   z-index: 1000;
   backdrop-filter: blur(4px);
 }
-
 .actionsModalContent {
   background: white;
   border-radius: 12px;
@@ -1146,7 +952,6 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   animation: modalSlideIn 0.3s ease-out;
 }
-
 @keyframes modalSlideIn {
   from {
     opacity: 0;
@@ -1157,7 +962,6 @@
     transform: scale(1) translateY(0);
   }
 }
-
 .actionsModalHeader {
   display: flex;
   justify-content: space-between;
@@ -1166,14 +970,12 @@
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--separator-bg);
 }
-
 .actionsModalTitle {
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-color);
   margin: 0;
 }
-
 .actionsModalCloseBtn {
   background: none;
   border: none;
@@ -1184,18 +986,15 @@
   border-radius: 4px;
   transition: all 0.2s ease;
 }
-
 .actionsModalCloseBtn:hover {
   background: var(--separator-bg);
   color: var(--text-color);
 }
-
 .actionsModalBody {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
-
 .actionButton {
   display: flex;
   align-items: center;
@@ -1210,7 +1009,6 @@
   font-weight: 500;
   text-align: right;
 }
-
 .actionButton:hover {
   background: var(--primary-color);
   color: white;
@@ -1218,35 +1016,29 @@
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
 }
-
 .actionButton.danger:hover {
   background: var(--danger-color);
   border-color: var(--danger-color);
   box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
 }
-
 .actionIcon {
   font-size: 1.1rem;
 }
-
 .actionText {
   flex: 1;
 }
-
 .actionsContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
 }
-
 .iconButtonText {
   font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.025em;
   white-space: nowrap;
 }
-
 .closeModalBtn {
   background: #6b7280;
   color: white;
@@ -1258,11 +1050,9 @@
   margin-top: 1rem;
   transition: all 0.2s ease;
 }
-
 .closeModalBtn:hover {
   background: #4b5563;
 }
-
 .groupMembersTooltip {
   position: absolute;
   top: 100%;
@@ -1291,26 +1081,20 @@
   -ms-transform: translate(-50%, -60%);
   -o-transform: translate(-50%, -60%);
 }
-
-/* ==== RESPONSIVE VIEW CONTROLS ==== */
 .desktopView {
   display: block;
 }
-
 .mobileView {
   display: none;
 }
-
 @media (max-width: 768px) {
   .desktopView {
     display: none;
   }
-
   .mobileView {
     display: block;
   }
 }
-
 .tooltipContainer:hover .groupMembersTooltip {
   opacity: 1;
   visibility: visible;

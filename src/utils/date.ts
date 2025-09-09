@@ -1,4 +1,4 @@
-// Helper function to get remaining dates in current month for a specific day (from today onwards)
+﻿// Helper function to get remaining dates in current month for a specific day (from today onwards)
 export const getDatesForDayInCurrentMonth = (dayName: string): Date[] => {
   const today = new Date();
   const year = today.getFullYear();
@@ -51,13 +51,12 @@ export const createLessonSchedule = (
         schedule.push({
           scheduledAt: dateWithTime.toISOString(),
           meetingLink: meetingLink,
-          subject: " ", // Always empty as requested
+          subject: " ",
         });
       });
     }
   });
 
-  // Sort by date
   schedule.sort(
     (a, b) =>
       new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime()
@@ -65,32 +64,6 @@ export const createLessonSchedule = (
 
   return schedule;
 };
-
-// export const generateSessionDates = (
-//   days: (string | undefined)[],
-//   count: number
-// ): string[] => {
-//   const allDates: Date[] = [];
-
-//   days.forEach((day) => {
-//     if (day) {
-//       const dates = getDatesForDayInCurrentMonth(day);
-//       allDates.push(...dates);
-//     }
-//   });
-
-//   allDates.sort((a, b) => a.getTime() - b.getTime());
-
-//   return allDates.slice(0, count).map((date) =>
-//     date.toLocaleDateString("ar", {
-//       weekday: "long",
-//       year: "numeric",
-//       month: "long",
-//       day: "numeric",
-//       calendar: "gregory",
-//     })
-//   );
-// };
 
 export const getNextSessionDate = (
   days: (string | undefined)[],
@@ -132,17 +105,3 @@ export const getNextSessionDate = (
 
   return null;
 };
-
-// export function getSessionTimes(
-//   times: (string | undefined)[],
-//   scheduleData: any[]
-// ): (string | undefined)[] {
-//   const timesArray: (string | undefined)[] = [];
-
-//   for (let index = 0; index < scheduleData.length; index++) {
-//     const timeIndex = index % times.length;
-//     timesArray.push(times[timeIndex]);
-//   }
-
-//   return timesArray;
-// }

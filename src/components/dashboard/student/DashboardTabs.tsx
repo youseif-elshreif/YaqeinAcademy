@@ -1,4 +1,4 @@
-import styles from "./DashboardTabs.module.css";
+﻿import styles from "./DashboardTabs.module.css";
 import { DashboardTabsProps } from "@/src/types";
 
 const DashboardTabs = ({

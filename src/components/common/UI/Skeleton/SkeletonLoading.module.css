@@ -1,5 +1,4 @@
-/* ==== SKELETON LOADING STYLES ==== */
-.skeletonCard {
+﻿.skeletonCard {
   animation: skeletonLoading 1.5s infinite ease-in-out;
   background: linear-gradient(
     90deg,
@@ -9,15 +8,12 @@
   );
   background-size: 200% 100%;
 }
-
 .skeletonTableRow {
   animation: skeletonLoading 1.5s infinite ease-in-out;
 }
-
 .skeletonTableCell {
   padding: 1rem;
 }
-
 .skeletonText {
   background: linear-gradient(
     90deg,
@@ -31,19 +27,15 @@
   height: 14px;
   margin: 2px 0;
 }
-
 .skeletonTextShort {
   width: 60px;
 }
-
 .skeletonTextMedium {
   width: 120px;
 }
-
 .skeletonTextLong {
   width: 200px;
 }
-
 .skeletonButton {
   background: linear-gradient(
     90deg,
@@ -58,7 +50,6 @@
   width: 80px;
   margin: 2px;
 }
-
 @keyframes skeletonLoading {
   0% {
     background-position: 200% 0;
@@ -67,8 +58,6 @@
     background-position: -200% 0;
   }
 }
-
-/* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .skeletonText,
   .skeletonButton,

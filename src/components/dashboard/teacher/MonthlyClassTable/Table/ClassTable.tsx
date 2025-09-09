@@ -1,7 +1,6 @@
-import ClassTableRow from "./ClassTableRow";
+﻿import ClassTableRow from "./ClassTableRow";
 import styles from "../MonthlyClassTable.module.css";
 import { ClassTableProps } from "@/src/types";
-// Using raw lesson items from API
 
 const ClassTable = ({ classes }: ClassTableProps) => {
   return (

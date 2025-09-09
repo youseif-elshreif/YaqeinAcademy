@@ -1,12 +1,9 @@
-/* ==== MAIN CONTAINER ==== */
-.modalBody {
+﻿.modalBody {
   padding: 1.5rem;
   max-height: 80vh;
   overflow-y: auto;
   background: var(--background-color);
 }
-
-/* ==== FILTERS SECTION ==== */
 .filtersContainer {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -15,34 +12,29 @@
   margin-bottom: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
-
 .filtersRow {
   display: flex;
   align-items: center;
   gap: 1.5rem;
   flex-wrap: wrap;
 }
-
 .filterGroup {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   min-width: 200px;
 }
-
 .filterIcon {
   color: var(--secondary-color);
   font-size: 1rem;
   flex-shrink: 0;
 }
-
 .filterLabel {
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-secondary);
   white-space: nowrap;
 }
-
 .filterSelect {
   flex: 1;
   padding: 0.5rem 0.75rem;
@@ -53,13 +45,11 @@
   color: var(--text-color);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-
 .filterSelect:focus {
   outline: none;
   border-color: var(--secondary-color);
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
-
 .clearFilterBtn {
   background: var(--danger-color);
   color: white;
@@ -75,11 +65,9 @@
   align-items: center;
   gap: 0.25rem;
 }
-
 .clearFilterBtn:hover {
   background: #dc2626;
 }
-
 .currentMonthBtn {
   background: var(--secondary-color);
   color: white;
@@ -95,17 +83,14 @@
   align-items: center;
   gap: 0.25rem;
 }
-
 .currentMonthBtn:hover {
   background: #2563eb;
 }
-
 .currentMonthActive {
   background: #1d4ed8 !important;
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
   position: relative;
 }
-
 .currentMonthActive::after {
   content: "✓";
   position: absolute;
@@ -122,7 +107,6 @@
   align-items: center;
   justify-content: center;
 }
-
 .resultsInfo {
   font-size: 0.875rem;
   color: var(--text-secondary);
@@ -132,23 +116,17 @@
   border: 1px solid var(--border-color);
   white-space: nowrap;
 }
-
-/* ==== STATS SECTION ==== */
 .statsSection {
   margin-bottom: 2rem;
 }
-
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
 }
-
-/* ==== REPORTS SECTION ==== */
 .reportsSection {
   margin-bottom: 1rem;
 }
-
 .sectionHeading {
   display: flex;
   align-items: center;
@@ -160,19 +138,15 @@
   padding-bottom: 0.5rem;
   border-bottom: 2px solid var(--border-color);
 }
-
 .headingIcon {
   color: var(--secondary-color);
   font-size: 1rem;
 }
-
 .reportsList {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-
-/* ==== REPORT CARD ==== */
 .reportCard {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -181,29 +155,24 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.2s ease;
 }
-
 .reportCard:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-
 .absentCard {
   border-left: 4px solid var(--danger-color);
   background: rgba(239, 68, 68, 0.05);
 }
-
 .reportHeader {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 1rem;
 }
-
 .reportMeta {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
-
 .lessonId,
 .reportDate {
   display: flex;
@@ -212,12 +181,10 @@
   font-size: 0.875rem;
   color: var(--text-secondary);
 }
-
 .metaIcon {
   font-size: 0.75rem;
   color: var(--secondary-color);
 }
-
 .ratingBadge {
   display: flex;
   align-items: center;
@@ -229,19 +196,15 @@
   font-size: 0.875rem;
   font-weight: 500;
 }
-
 .ratingIcon {
   font-size: 0.75rem;
 }
-
-/* ==== STATUS BADGES ==== */
 .reportStatus {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
-
 .statusBadge {
   padding: 0.25rem 0.75rem;
   border-radius: 1rem;
@@ -249,23 +212,18 @@
   font-weight: 500;
   text-align: center;
 }
-
 .statusSuccess {
   background: linear-gradient(135deg, #10b981, #059669);
   color: white;
 }
-
 .statusDanger {
   background: linear-gradient(135deg, #ef4444, #dc2626);
   color: white;
 }
-
 .statusWarning {
   background: linear-gradient(135deg, #f59e0b, #d97706);
   color: white;
 }
-
-/* ==== ABSENT MESSAGE ==== */
 .absentMessage {
   text-align: center;
   color: var(--text-secondary);
@@ -274,16 +232,12 @@
   background: var(--separator-bg);
   border-radius: 0.25rem;
 }
-
-/* ==== CONTENT SECTION ==== */
 .reportContent {
   margin-bottom: 1.5rem;
 }
-
 .contentSection {
   margin-bottom: 1rem;
 }
-
 .contentTitle {
   display: flex;
   align-items: center;
@@ -293,12 +247,10 @@
   color: var(--text-color);
   margin-bottom: 0.5rem;
 }
-
 .contentIcon {
   color: var(--secondary-color);
   font-size: 0.75rem;
 }
-
 .contentText {
   background: var(--separator-bg);
   padding: 0.75rem;
@@ -308,21 +260,17 @@
   color: var(--text-secondary);
   line-height: 1.5;
 }
-
-/* ==== MEMORIZATION SECTION ==== */
 .memorizationSection {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-
 .memorizationGroup {
   background: var(--separator-bg);
   padding: 1rem;
   border-radius: 0.5rem;
   border: 1px solid var(--border-color);
 }
-
 .memorizationTitle {
   display: flex;
   align-items: center;
@@ -332,18 +280,15 @@
   color: var(--text-color);
   margin-bottom: 0.75rem;
 }
-
 .memorizationIcon {
   color: var(--secondary-color);
   font-size: 0.75rem;
 }
-
 .chips {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
-
 .chip {
   padding: 0.25rem 0.75rem;
   border-radius: 1rem;
@@ -351,117 +296,92 @@
   font-weight: 500;
   color: white;
 }
-
 .chipNew {
   background: linear-gradient(135deg, #10b981, #059669);
 }
-
 .chipOld {
   background: linear-gradient(135deg, #166534, #14532d);
 }
-
 .emptyChip {
   color: var(--text-secondary);
   font-style: italic;
   font-size: 0.75rem;
 }
-
-/* ==== EMPTY STATE ==== */
 .empty {
   text-align: center;
   padding: 3rem 1rem;
   color: var(--text-secondary);
 }
-
 .emptyIcon {
   font-size: 3rem;
   color: var(--border-color);
   margin-bottom: 1rem;
 }
-
 .empty h3 {
   font-size: 1.125rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: var(--text-color);
 }
-
 .empty p {
   font-size: 0.875rem;
   color: var(--text-secondary);
 }
-
-/* ==== ERROR STATE ==== */
 .error {
   text-align: center;
   padding: 3rem 1rem;
   color: var(--danger-color);
 }
-
 .error h3 {
   font-size: 1.125rem;
   font-weight: 600;
 }
-
-/* ==== MOBILE RESPONSIVE ==== */
 @media (max-width: 768px) {
   .modalBody {
     padding: 1rem;
   }
-
   .filtersContainer {
     padding: 0.75rem;
   }
-
   .filtersRow {
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
   }
-
   .filterGroup {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.25rem;
     min-width: unset;
   }
-
   .filterSelect {
     width: 100%;
   }
-
   .clearFilterBtn {
     align-self: center;
     min-width: 120px;
   }
-
   .resultsInfo {
     text-align: center;
   }
-
   .statsGrid {
     grid-template-columns: 1fr;
     gap: 0.75rem;
   }
-
   .reportCard {
     padding: 1rem;
   }
-
   .reportHeader {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.75rem;
   }
-
   .reportMeta {
     width: 100%;
   }
-
   .memorizationSection {
     gap: 0.75rem;
   }
-
   .memorizationGroup {
     padding: 0.75rem;
   }

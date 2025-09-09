@@ -13,7 +13,7 @@ const MeetingLinkActions = ({
   onCopyError,
   onOpenLink,
 }: MeetingLinkActionsProps) => {
-  // Function to copy class link to clipboard
+
   const handleCopyLink = async (link: string) => {
     try {
       await navigator.clipboard.writeText(link);
@@ -27,7 +27,6 @@ const MeetingLinkActions = ({
     }
   };
 
-  // Function to open link in new tab
   const handleOpenLink = (link: string) => {
     window.open(link, "_blank", "noopener,noreferrer");
     if (onOpenLink) {
@@ -38,7 +37,7 @@ const MeetingLinkActions = ({
   if (!meetingLink && !disabled) {
     return (
       <div className={`${styles.linkContainer} ${containerClassName}`}>
-        <span className={styles.lightColor}>—</span>
+        <span className={styles.lightColor}>�</span>
       </div>
     );
   }
@@ -50,16 +49,16 @@ const MeetingLinkActions = ({
         variant="primary"
         size="small"
         icon={<FaExternalLinkAlt />}
-        title="فتح رابط الحلقة"
+        title="??? ???? ??????"
         disabled={disabled || !meetingLink}
       >
-        {showLabels ? "دخول الحلقة" : ""}
+        {showLabels ? "???? ??????" : ""}
       </Button>
       <Button
         onClick={() => handleCopyLink(meetingLink!)}
         variant="secondary"
         size="small"
-        title="نسخ رابط الحلقة"
+        title="??? ???? ??????"
         disabled={disabled || !meetingLink}
       >
         <FaCopy />
@@ -69,3 +68,5 @@ const MeetingLinkActions = ({
 };
 
 export default MeetingLinkActions;
+
+

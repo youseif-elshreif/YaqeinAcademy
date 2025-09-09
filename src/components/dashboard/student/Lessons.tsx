@@ -3,11 +3,9 @@ import styles from "./Lessons.module.css";
 import { FaCalendarAlt } from "react-icons/fa";
 import { useStudentDashboard } from "@/src/contexts/StudentDashboardContext";
 import SkeletonCards from "@/src/components/common/UI/Skeleton/SkeletonCards";
-
 export const Lessons = () => {
   const { getUserLessons, userLessons, userStats } = useStudentDashboard();
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const fetchLessons = async () => {
       try {
@@ -19,9 +17,7 @@ export const Lessons = () => {
       }
     };
     fetchLessons();
-    // eslint-disable-next-line
   }, []);
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return {
@@ -39,70 +35,62 @@ export const Lessons = () => {
       }),
     };
   };
-
-  // Get available credits from userStats
   const availableCredits = userStats?.PrivitelessonCredits || 0;
-
-  // Limit displayed lessons based on available credits
   const displayedLessons = userLessons.slice(0, availableCredits);
-
   if (loading) {
     return (
       <div className={styles.lessonsContainer}>
         <div className={styles.taskSection}>
           <div className={styles.sectionHeader}>
             <h3 className={styles.sectionTitle}>
-              <FaCalendarAlt /> جدول الحلقات
+              <FaCalendarAlt /> ???? ???????
             </h3>
-            <span className={styles.taskCount}>جاري التحميل...</span>
+            <span className={styles.taskCount}>???? ???????...</span>
           </div>
           <SkeletonCards cards={3} type="lesson" />
         </div>
       </div>
     );
   }
-
-  // If no credits available, show message
   if (availableCredits === 0) {
     return (
       <div className={styles.lessonsContainer}>
         <div className={styles.taskSection}>
           <div className={styles.sectionHeader}>
             <h3 className={styles.sectionTitle}>
-              <FaCalendarAlt /> جدول الحلقات
+              <FaCalendarAlt /> ???? ???????
             </h3>
-            <span className={styles.taskCount}>0 حصة</span>
+            <span className={styles.taskCount}>0 ???</span>
           </div>
           <div className={styles.emptyState}>
             <span style={{ color: "var(--warning-color)", fontWeight: "bold" }}>
-              ⚠️ لا توجد حلقات مستحقة حالياً
+              ?? ?? ???? ????? ?????? ??????
             </span>
             <p style={{ marginTop: "0.5rem", color: "var(--text-light)" }}>
-              يرجى التواصل مع الإدارة لإضافة كريديتس جديدة
+              ???? ??????? ?? ??????? ?????? ??????? ?????
             </p>
           </div>
         </div>
       </div>
     );
   }
-
   return (
     <div className={styles.lessonsContainer}>
       <div className={styles.taskSection}>
         <div className={styles.sectionHeader}>
           <h3 className={styles.sectionTitle}>
-            <FaCalendarAlt /> جدول الحلقات
+            <FaCalendarAlt /> ???? ???????
           </h3>
           <span className={styles.taskCount}>
-            {displayedLessons.length} من {availableCredits} حصة مستحقة
+            {displayedLessons.length} ?? {availableCredits} ??? ??????
           </span>
         </div>
         <div className={styles.tasksList}>
           {displayedLessons.length === 0 ? (
             <div className={styles.emptyState}>
-              <span>لا توجد حصص مجدولة حتى الآن</span>
+              <span>?? ???? ??? ?????? ??? ????</span>
               <p style={{ marginTop: "0.5rem", color: "var(--text-light)" }}>
-                سيتم إضافة الحصص من قبل المعلم حسب الجدول المتفق عليه
+                ???? ????? ????? ?? ??? ?????? ??? ?????? ?????? ????
               </p>
             </div>
           ) : (
@@ -114,11 +102,11 @@ export const Lessons = () => {
                     <h4 className={styles.taskContent}>{dateInfo.dayName}</h4>
                   </div>
                   <div className={styles.taskNotes}>
-                    <span className={styles.notesLabel}>التاريخ:</span>
+                    <span className={styles.notesLabel}>???????:</span>
                     <p className={styles.notesText}>{dateInfo.date}</p>
                   </div>
                   <div className={styles.taskNotes}>
-                    <span className={styles.notesLabel}>الوقت:</span>
+                    <span className={styles.notesLabel}>?????:</span>
                     <p className={styles.notesText}>{dateInfo.time}</p>
                   </div>
                 </div>

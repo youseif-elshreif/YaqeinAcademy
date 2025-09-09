@@ -13,7 +13,7 @@ type TeachersContextType = {
   teachers: Teacher[] | null;
   isLoading: boolean;
   error: string | null;
-  // CRUD operations
+
   getTeachers: (token: string) => Promise<Teacher[]>;
   createTeacher: (token: string, teacherData: any) => Promise<any>;
   updateTeacher: (
@@ -65,7 +65,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
       setTeachers(data.teachers);
       return data.teachers;
     } catch (error) {
-      setError("فشل في جلب بيانات المعلمين");
+      setError("??? ?? ??? ?????? ????????");
       throw error;
     } finally {
       setIsLoading(false);
@@ -82,7 +82,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
         await getTeachers(token);
         return data;
       } catch (error) {
-        setError("فشل في إنشاء المعلم");
+        setError("??? ?? ????? ??????");
         throw error;
       } finally {
         setIsLoading(false);
@@ -104,7 +104,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
         await getTeachers(token);
         return data;
       } catch (error) {
-        setError("فشل في تحديث بيانات المعلم");
+        setError("??? ?? ????? ?????? ??????");
         throw error;
       } finally {
         setIsLoading(false);
@@ -126,7 +126,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
         await getTeachers(token);
         return data;
       } catch (error) {
-        setError("فشل في تحديث رابط اجتماع المعلم");
+        setError("??? ?? ????? ???? ?????? ??????");
         throw error;
       } finally {
         setIsLoading(false);
@@ -144,7 +144,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
         await getTeachers(token);
         return data;
       } catch (error) {
-        setError("فشل في تحديث بيانات العضو");
+        setError("??? ?? ????? ?????? ?????");
         throw error;
       } finally {
         setIsLoading(false);
@@ -162,7 +162,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
         await getTeachers(token);
         return data;
       } catch (error) {
-        setError("فشل في حذف المعلم");
+        setError("??? ?? ??? ??????");
         throw error;
       } finally {
         setIsLoading(false);

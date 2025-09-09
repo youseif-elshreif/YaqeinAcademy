@@ -49,7 +49,6 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
     }, 300);
   };
 
-  // Load students data when component mounts
   const fetchStudents = useCallback(async () => {
     try {
       setLoadingStudents(true);
@@ -57,7 +56,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
       if (!token) return;
 
       const studentsData = await getStudents(token); // studentsData is already an array of users with role: "student"
-      // No need to filter or access .students property
+
       const combinedStudents = studentsData.map((student: User) => ({
         id: student._id,
         name: student.name,
@@ -80,12 +79,10 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
       )
     );
 
-    // Clear error when user starts typing
     if (errorMessage) {
       setErrorMessage("");
     }
 
-    // Clear field-specific error
     if (fieldErrors[id]) {
       setFieldErrors((prev) => ({
         ...prev,
@@ -109,13 +106,13 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
 
     memberInputs.forEach((input) => {
       if (input.memberId.trim() === "") {
-        // For empty fields, only show error if it's the only input
+
         if (memberInputs.length === 1) {
-          newErrors[input.id] = "يجب اختيار طالب";
+          newErrors[input.id] = "??? ?????? ????";
         }
       } else {
         hasValidInput = true;
-        // No need for length validation since we're using select dropdown
+
       }
     });
 
@@ -124,13 +121,13 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
     );
 
     if (!hasValidInput) {
-      setErrorMessage("يرجى اختيار طالب واحد على الأقل");
+      setErrorMessage("???? ?????? ???? ???? ??? ?????");
       setFieldErrors(newErrors);
       return false;
     }
 
     if (groupType === "private" && filledInputs.length > 1) {
-      setErrorMessage("الحلقات الخاصة تسمح بعضو واحد فقط");
+      setErrorMessage("??????? ?????? ???? ???? ???? ???");
       return false;
     }
 
@@ -150,7 +147,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
     try {
       const token = localStorage.getItem("accessToken");
       if (!token) {
-        setErrorMessage("لا يوجد رمز مصادقة. يرجى تسجيل الدخول مرة أخرى");
+        setErrorMessage("?? ???? ??? ??????. ???? ????? ?????? ??? ????");
         return;
       }
 
@@ -158,7 +155,6 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
         (input) => input.memberId.trim() !== ""
       );
 
-      // Send separate requests for each member
       for (const input of filledInputs) {
         await addGroupMember(token, groupId, {
           memberId: input.memberId.trim(),
@@ -166,21 +162,20 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
       } // Refresh groups data after successful operation
       await getGroups(token);
 
-      // Call success callback
       if (onSuccess) {
         onSuccess();
       }
 
       handleClose();
     } catch (error: unknown) {
-      // Handle different types of errors
+
       const errorObj = error as any;
       if (errorObj?.response?.data?.message) {
         setErrorMessage(errorObj.response.data.message);
       } else if (errorObj?.message) {
         setErrorMessage(errorObj.message);
       } else {
-        setErrorMessage("حدث خطأ أثناء إضافة الأعضاء. يرجى المحاولة مرة أخرى");
+        setErrorMessage("??? ??? ????? ????? ???????. ???? ???????? ??? ????");
       }
     } finally {
       setIsSubmitting(false);
@@ -189,13 +184,13 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
 
   const actions = [
     {
-      label: "إلغاء",
+      label: "?????",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isSubmitting,
     },
     {
-      label: "إضافة الأعضاء",
+      label: "????? ???????",
       onClick: () => {},
       variant: "primary" as const,
       disabled: isSubmitting,
@@ -212,7 +207,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
       onClose={handleClose}
     >
       <ModalHeader
-        title="إضافة أعضاء للحلقة"
+        title="????? ????? ??????"
         icon={<FaUserPlus />}
         onClose={handleClose}
         isOpen={true}
@@ -223,7 +218,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
         <div className={styles.groupInfo}>
           <h3 className={styles.groupName}>{groupName}</h3>
           <span className={styles.groupType}>
-            {groupType === "private" ? "حلقة خاصة" : "حلقة عامة"}
+            {groupType === "private" ? "???? ????" : "???? ????"}
           </span>
         </div>
 
@@ -234,8 +229,8 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
             <div className={styles.instructionsBox}>
               <p className={styles.instructions}>
                 {groupType === "private"
-                  ? "يمكنك إضافة طالب واحد فقط للحلقة الخاصة"
-                  : "يمكنك إضافة عدة طلاب للحلقة العامة"}
+                  ? "????? ????? ???? ???? ??? ?????? ??????"
+                  : "????? ????? ??? ???? ?????? ??????"}
               </p>
             </div>
             <div>
@@ -244,7 +239,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
                   <div key={input.id} className={baseStyles.inputGroup}>
                     <div className={styles.inputWrapper}>
                       <label className={baseStyles.label}>
-                        اختيار الطالب {index + 1}:
+                        ?????? ?????? {index + 1}:
                       </label>
                       <select
                         value={input.memberId}
@@ -258,8 +253,8 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
                       >
                         <option value="">
                           {loadingStudents
-                            ? "جاري تحميل الطلاب..."
-                            : "اختر الطالب"}
+                            ? "???? ????? ??????..."
+                            : "???? ??????"}
                         </option>
                         {students.map((student) => (
                           <option key={student.id} value={student.id}>
@@ -283,7 +278,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
                         icon={<FaMinus />}
                         disabled={isSubmitting}
                       >
-                        حذف
+                        ???
                       </Button>
                     )}
                   </div>
@@ -298,7 +293,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
                   icon={<FaPlus />}
                   disabled={isSubmitting}
                 >
-                  إضافة طالب آخر
+                  ????? ???? ???
                 </Button>
               )}
             </div>

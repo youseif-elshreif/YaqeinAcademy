@@ -12,7 +12,7 @@ import { FiClock, FiFileText } from "react-icons/fi";
 import { UnifiedReportsModalProps } from "@/src/types";
 
 interface ExtendedUnifiedReportsModalProps extends UnifiedReportsModalProps {
-  student?: { id: string; name?: string }; // إذا موجود يبقى للمعلم، إذا مش موجود يبقى للطالب
+  student?: { id: string; name?: string }; // ??? ????? ???? ??????? ??? ?? ????? ???? ??????
 }
 
 const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
@@ -34,12 +34,11 @@ const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
     getMyReports,
   } = useReportContext();
 
-  // تحديد إذا كان المودال للمعلم (student موجود) أو للطالب (student مش موجود)
   const isTeacherView = !!student;
   const reports = isTeacherView ? studentReports : myReports;
   const modalTitle = isTeacherView
-    ? `تقارير الطالب: ${student?.name || "-"}`
-    : "تقاريري";
+    ? `?????? ??????: ${student?.name || "-"}`
+    : "???????";
 
   const reportStats = useMemo(() => {
     const totalReports = reports.length;
@@ -64,7 +63,6 @@ const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
   const filteredReports = useMemo(() => {
     let filtered = reports;
 
-    // فلتر حسب الشهر
     if (selectedMonth) {
       filtered = filtered.filter((report) => {
         if (!report.createdAt) return false;
@@ -73,7 +71,6 @@ const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
       });
     }
 
-    // فلتر حسب السنة
     if (selectedYear) {
       filtered = filtered.filter((report) => {
         if (!report.createdAt) return false;
@@ -95,7 +92,6 @@ const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
     }
   }, [isOpen, isTeacherView, student?.id, getStudentReports, getMyReports]);
 
-  // تطبيق فلتر "هذا الشهر" تلقائياً عند فتح المودال
   useEffect(() => {
     if (isOpen) {
       const now = new Date();
@@ -114,13 +110,13 @@ const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
 
   const handleMonthChange = (month: string) => {
     setSelectedMonth(month);
-    // إذا غير المستخدم الشهر يدوياً، ألغي فلتر "هذا الشهر"
+
     setIsCurrentMonthActive(false);
   };
 
   const handleYearChange = (year: string) => {
     setSelectedYear(year);
-    // إذا غير المستخدم السنة يدوياً، ألغي فلتر "هذا الشهر"
+
     setIsCurrentMonthActive(false);
   };
 
@@ -149,7 +145,7 @@ const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
         {isLoading ? (
           <div className={styles.empty}>
             <FiClock className={styles.emptyIcon} />
-            <h3>جاري تحميل التقارير...</h3>
+            <h3>???? ????? ????????...</h3>
           </div>
         ) : error ? (
           <div className={styles.error}>
@@ -158,11 +154,11 @@ const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
         ) : reports.length === 0 ? (
           <div className={styles.empty}>
             <FiFileText className={styles.emptyIcon} />
-            <h3>لا توجد تقارير</h3>
+            <h3>?? ???? ??????</h3>
             <p>
               {isTeacherView
-                ? "لم يتم إنشاء أي تقارير لهذا الطالب بعد"
-                : "لم يتم إنشاء أي تقارير لك بعد"}
+                ? "?? ??? ????? ?? ?????? ???? ?????? ???"
+                : "?? ??? ????? ?? ?????? ?? ???"}
             </p>
           </div>
         ) : (
@@ -190,7 +186,7 @@ const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
               reports={filteredReports}
               selectedMonth={selectedMonth}
               selectedYear={selectedYear}
-              showLessonId={!isTeacherView} // نعرض lesson ID للطالب فقط
+              showLessonId={!isTeacherView} // ???? lesson ID ?????? ???
             />
           </>
         )}

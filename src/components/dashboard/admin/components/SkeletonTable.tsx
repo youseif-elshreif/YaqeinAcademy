@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import styles from "@/src/components/dashboard/admin/styles.module.css";
 import skeletonStyles from "@/src/components/dashboard/admin/styles/SkeletonLoading.module.css";
 import EnhancedLoader from "@/src/components/common/UI/EnhancedLoader";
@@ -29,7 +29,7 @@ const SkeletonTable: React.FC<SkeletonTableProps> = ({
         )}
       </div>
 
-      {/* Desktop Table Skeleton */}
+
       <div className={styles.tableWrapper}>
         <table className={styles.classTable}>
           <thead>

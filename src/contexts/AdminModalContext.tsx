@@ -33,7 +33,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
 
   const { token } = useAuth();
 
-  // Modal states
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
   const [addCourseModalOpen, setAddCourseModalOpen] = useState(false);
   const [editCourseModalOpen, setEditCourseModalOpen] = useState(false);
@@ -50,7 +49,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   const [editLessonModalOpen, setEditLessonModalOpen] = useState(false);
   const [deleteLessonModalOpen, setDeleteLessonModalOpen] = useState(false);
 
-  // User actions modals
   const [userActionsModalOpen, setUserActionsModalOpen] = useState(false);
   const [editUserModalOpen, setEditUserModalOpen] = useState(false);
   const [deleteUserModalOpen, setDeleteUserModalOpen] = useState(false);
@@ -60,7 +58,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   const [editTeacherLinkModalOpen, setEditTeacherLinkModalOpen] =
     useState(false);
 
-  // Selected data states
   const [selectedUserType, setSelectedUserType] = useState<UserType | null>(
     null
   );
@@ -126,7 +123,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     name?: string;
   } | null>(null);
 
-  // Open modal actions
   const openAddUserModal = () => {
     setAddUserModalOpen(true);
     setSelectedUserType(null); // Reset user type selection
@@ -182,7 +178,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     setRemoveMemberModalOpen(true);
   };
 
-  // Close modal actions
   const closeAddUserModal = () => {
     setAddUserModalOpen(false);
     setSelectedUserType(null);
@@ -231,7 +226,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     setSelectedGroupForMemberRemoval(null);
   };
 
-  // Lessons Modal handlers
   const openLessonsModal = (groupData: {
     groupId: string;
     groupName: string;
@@ -285,7 +279,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     setSelectedLessonData(null);
   };
 
-  // User Actions Modal handlers
   const openUserActionsModal = (userData: {
     id: string;
     name: string;
@@ -336,12 +329,11 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   }) => {
     setSelectedStudentForCredits(studentData);
     setAddCreditsModalOpen(true);
-    // Close add user modal if it's open
+
     setAddUserModalOpen(false);
     setSelectedUserType(null);
   };
 
-  // Open Student List Modal (shared with teacher modal component)
   const openStudentListModal = (lesson: any) => {
     setSelectedLessonForStudents(lesson);
     setStudentListModalOpen(true);
@@ -372,12 +364,10 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     setSelectedStudentForReports(null);
   };
 
-  // User type selection
   const setUserType = (type: UserType | null) => {
     setSelectedUserType(type);
   };
 
-  // Save actions
   const saveNewUser = async (userData: UserFormData, userType: UserType) => {
     try {
       let result;
@@ -444,8 +434,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
         }
       }
 
-      // For students, automatically open credits modal
-      // Try to extract created student id from different possible shapes
       const createdStudentId =
         (result && result.user && (result.user.id || result.user._id)) ||
         (result && (result.id || result._id));
@@ -458,16 +446,15 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
           });
         }, 500);
       } else {
-        // Close modal after successful submission for non-students
+
         closeAddUserModal();
       }
     } catch (error) {
-      // يمكنك إضافة رسالة خطأ هنا للمستخدم
+
       throw error;
     }
   };
 
-  // Update User function
   const updateUser = async (
     userId: string,
     userData: any,
@@ -482,12 +469,12 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
 
       switch (userType) {
         case "admin":
-          // Use updateMember for admin users
+
           result = await updateMember(token, userId, userData);
           break;
 
         case "teacher":
-          // Use updateMember for teacher users as well
+
           result = await updateMember(token, userId, userData);
           break;
 
@@ -512,7 +499,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     }
   };
 
-  // Update teacher meeting link only
   const updateTeacherMeetingLinkOnly = async (
     teacherId: string,
     meetingLink: string
@@ -535,7 +521,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     }
   };
 
-  // Handle group deletion
   const handleDeleteGroup = async (groupId: string) => {
     try {
       if (!token) {
@@ -545,14 +530,12 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
       closeConfirmDeleteGroupModal();
       closeGroupActionsModal();
 
-      // Refresh groups data directly
       await getGroups(token);
     } catch (error) {
       throw error;
     }
   };
 
-  // Add credits to student
   const addCreditsToStudent = async (
     studentId: string,
     privateAmount: number,
@@ -571,7 +554,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
 
       getStudents(token);
 
-      // Close modal after successful addition
       closeAddCreditsModal();
 
       return result;
@@ -580,11 +562,9 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     }
   };
 
-  // Save new group
   const saveNewGroup = async (groupData: any) => {
     try {
-      // TODO: Add actual API call for creating groups
-      // For now, just simulate the creation
+
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Close modal after successful submission
       closeAddGroupModal();
     } catch (error) {
@@ -593,7 +573,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   };
 
   const value: AdminModalContextType = {
-    // Modal states
+
     addUserModalOpen,
     addCourseModalOpen,
     editCourseModalOpen,
@@ -616,7 +596,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     studentReportsModalOpen,
     editTeacherLinkModalOpen,
 
-    // Selected data
     selectedUserType,
     selectedCourseId,
     selectedGroupData,
@@ -633,7 +612,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     selectedStudentForReports,
     selectedTeacherForLink,
 
-    // Modal actions
     openAddUserModal,
     openAddCourseModal,
     openEditCourseModal,
@@ -655,7 +633,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     openStudentListModal,
     openStudentReportsModal,
 
-    // Close actions
     closeAddUserModal,
     closeAddCourseModal,
     closeEditCourseModal,
@@ -677,10 +654,8 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     closeStudentListModal,
     closeStudentReportsModal,
 
-    // User type selection
     setUserType,
 
-    // Save actions
     saveNewUser,
     updateUser,
     updateTeacherMeetingLinkOnly,

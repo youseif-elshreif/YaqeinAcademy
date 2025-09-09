@@ -55,7 +55,7 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
       setContactInfo(data);
       return data;
     } catch (error) {
-      setError("فشل في جلب بيانات الاتصال");
+      setError("??? ?? ??? ?????? ???????");
       throw error;
     } finally {
       setIsLoading(false);
@@ -79,7 +79,7 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
         setContactInfo(result);
         return result;
       } catch (error) {
-        setError("فشل في تحديث بيانات الاتصال");
+        setError("??? ?? ????? ?????? ???????");
         throw error;
       } finally {
         setIsLoading(false);
@@ -92,7 +92,6 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
     await getContactInfo();
   }, [getContactInfo]);
 
-  // جلب البيانات عند التحميل الأول
   useEffect(() => {
     const token =
       typeof window !== "undefined"
@@ -100,7 +99,7 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
         : null;
     if (token) {
       getContactInfo().catch(() => {
-        // Silent fail on initial load
+
       });
     }
   }, [getContactInfo]);

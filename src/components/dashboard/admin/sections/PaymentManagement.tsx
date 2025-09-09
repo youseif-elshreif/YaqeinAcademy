@@ -63,12 +63,12 @@ const PaymentManagement: React.FC = () => {
       const response = await api.get("/admin/payments");
       setPayments(response.data);
     } catch (error) {
-      // Mock data for development
+
       const mockPayments: Payment[] = [
         {
           id: "1",
           studentId: "1",
-          studentName: "أحمد محمد علي",
+          studentName: "???? ???? ???",
           amount: 500,
           status: "paid",
           allowedLessons: 8,
@@ -76,12 +76,12 @@ const PaymentManagement: React.FC = () => {
           paymentDate: "2024-07-01T10:00:00Z",
           dueDate: "2024-07-31T23:59:59Z",
           paymentMethod: "bank_transfer",
-          notes: "دفعة شهر يوليو",
+          notes: "???? ??? ?????",
         },
         {
           id: "2",
           studentId: "3",
-          studentName: "محمد عبدالله",
+          studentName: "???? ???????",
           amount: 500,
           status: "unpaid",
           allowedLessons: 0,
@@ -91,7 +91,7 @@ const PaymentManagement: React.FC = () => {
         {
           id: "3",
           studentId: "4",
-          studentName: "سارة أحمد",
+          studentName: "???? ????",
           amount: 500,
           status: "partial",
           allowedLessons: 4,
@@ -99,7 +99,7 @@ const PaymentManagement: React.FC = () => {
           paymentDate: "2024-06-28T14:30:00Z",
           dueDate: "2024-07-28T23:59:59Z",
           paymentMethod: "cash",
-          notes: "دفعة جزئية 250 جنية",
+          notes: "???? ????? 250 ????",
         },
       ];
       setPayments(mockPayments);
@@ -113,31 +113,31 @@ const PaymentManagement: React.FC = () => {
       const response = await api.get("/admin/payments/history");
       setPaymentHistory(response.data);
     } catch (error) {
-      // Mock data
+
       const mockHistory: PaymentHistory[] = [
         {
           id: "1",
           studentId: "1",
           amount: 500,
           date: "2024-07-01T10:00:00Z",
-          method: "تحويل بنكي",
-          notes: "دفعة شهر يوليو",
+          method: "????? ????",
+          notes: "???? ??? ?????",
         },
         {
           id: "2",
           studentId: "1",
           amount: 500,
           date: "2024-06-01T10:00:00Z",
-          method: "نقداً",
-          notes: "دفعة شهر يونيو",
+          method: "?????",
+          notes: "???? ??? ?????",
         },
         {
           id: "3",
           studentId: "4",
           amount: 250,
           date: "2024-06-28T14:30:00Z",
-          method: "نقداً",
-          notes: "دفعة جزئية",
+          method: "?????",
+          notes: "???? ?????",
         },
       ];
       setPaymentHistory(mockHistory);
@@ -158,7 +158,7 @@ const PaymentManagement: React.FC = () => {
         )
       );
     } catch (error) {
-      alert("فشل في تحديث حالة الدفعة");
+      alert("??? ?? ????? ???? ??????");
     }
   };
 
@@ -209,18 +209,18 @@ const PaymentManagement: React.FC = () => {
       setShowPaymentModal(false);
       setSelectedPayment(null);
     } catch (error) {
-      alert("فشل في حفظ بيانات الدفعة");
+      alert("??? ?? ??? ?????? ??????");
     }
   };
 
   const getStatusText = (status: string) => {
     switch (status) {
       case "paid":
-        return "مدفوع";
+        return "?????";
       case "unpaid":
-        return "غير مدفوع";
+        return "??? ?????";
       case "partial":
-        return "دفعة جزئية";
+        return "???? ?????";
       default:
         return status;
     }
@@ -245,7 +245,7 @@ const PaymentManagement: React.FC = () => {
       <div className={styles.overviewContainer}>
         <EnhancedLoader
           type="default"
-          text="جاري تحميل بيانات المدفوعات..."
+          text="???? ????? ?????? ?????????..."
           size="large"
           color="primary"
         />
@@ -255,63 +255,63 @@ const PaymentManagement: React.FC = () => {
 
   return (
     <div className={styles.overviewContainer}>
-      <h1 className={styles.pageTitle}>المدفوعات والوصول</h1>
+      <h1 className={styles.pageTitle}>????????? ???????</h1>
 
-      {/* Stats Cards */}
+
       <div className={styles.statsGrid}>
         <StatCard
           icon={FiDollarSign}
-          value={`${stats.totalAmount.toLocaleString()} جنية`}
-          label="إجمالي المدفوعات"
+          value={`${stats.totalAmount.toLocaleString()} ????`}
+          label="?????? ?????????"
         />
 
-        <StatCard icon={FiCheck} value={stats.paidCount} label="طلاب دفعوا" />
+        <StatCard icon={FiCheck} value={stats.paidCount} label="???? ?????" />
 
-        <StatCard icon={FiX} value={stats.unpaidCount} label="طلاب لم يدفعوا" />
+        <StatCard icon={FiX} value={stats.unpaidCount} label="???? ?? ??????" />
 
         <StatCard
           icon={FiCalendar}
           value={stats.partialCount}
-          label="دفعات جزئية"
+          label="????? ?????"
         />
       </div>
 
-      {/* Filters */}
+
       <div className={styles.filtersContainer}>
         <div className={styles.filterGroup}>
-          <label className={styles.filterLabel}>تصفية حسب الحالة:</label>
+          <label className={styles.filterLabel}>????? ??? ??????:</label>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as any)}
             className={styles.filterSelect}
           >
-            <option value="all">جميع الحالات</option>
-            <option value="paid">مدفوع</option>
-            <option value="unpaid">غير مدفوع</option>
-            <option value="partial">دفعة جزئية</option>
+            <option value="all">???? ???????</option>
+            <option value="paid">?????</option>
+            <option value="unpaid">??? ?????</option>
+            <option value="partial">???? ?????</option>
           </select>
         </div>
       </div>
 
-      {/* Payments Table */}
+
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>اسم الطالب</th>
-              <th>المبلغ</th>
-              <th>الحالة</th>
-              <th>الدروس المسموحة</th>
-              <th>الدروس المستخدمة</th>
-              <th>تاريخ الاستحقاق</th>
-              <th>الإجراءات</th>
+              <th>??? ??????</th>
+              <th>??????</th>
+              <th>??????</th>
+              <th>?????? ????????</th>
+              <th>?????? ?????????</th>
+              <th>????? ?????????</th>
+              <th>?????????</th>
             </tr>
           </thead>
           <tbody>
             {filteredPayments.map((payment) => (
               <tr key={payment.id}>
                 <td className={styles.cellName}>{payment.studentName}</td>
-                <td>{payment.amount} جنية</td>
+                <td>{payment.amount} ????</td>
                 <td>
                   <span
                     className={`${styles.statusBadge} ${
@@ -348,18 +348,18 @@ const PaymentManagement: React.FC = () => {
                       variant="primary"
                       size="small"
                       icon={<FiEdit />}
-                      title="تعديل الدفعة"
+                      title="????? ??????"
                     >
-                      تعديل
+                      ?????
                     </Button>
                     <Button
                       onClick={() => handleViewHistory(payment.studentId)}
                       variant="primary"
                       size="small"
                       icon={<FiEye />}
-                      title="عرض تاريخ المدفوعات"
+                      title="??? ????? ?????????"
                     >
-                      التاريخ
+                      ???????
                     </Button>
                     {payment.status === "unpaid" && (
                       <Button
@@ -369,9 +369,9 @@ const PaymentManagement: React.FC = () => {
                         variant="primary"
                         size="small"
                         icon={<FiCheck />}
-                        title="تأكيد الدفع"
+                        title="????? ?????"
                       >
-                        تأكيد
+                        ?????
                       </Button>
                     )}
                   </div>
@@ -382,13 +382,13 @@ const PaymentManagement: React.FC = () => {
         </table>
       </div>
 
-      {/* Payment Modal */}
+
       {showPaymentModal && selectedPayment && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
             <div className={styles.modalHeader}>
               <h2 className={styles.modalTitle}>
-                تعديل دفعة {selectedPayment.studentName}
+                ????? ???? {selectedPayment.studentName}
               </h2>
               <Button
                 onClick={() => setShowPaymentModal(false)}
@@ -396,14 +396,14 @@ const PaymentManagement: React.FC = () => {
                 size="small"
                 icon={<FiX />}
               >
-                إغلاق
+                ?????
               </Button>
             </div>
 
             <div className={styles.modalBody}>
               <form onSubmit={handleSavePayment}>
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>المبلغ (جنية)</label>
+                  <label className={styles.formLabel}>?????? (????)</label>
                   <input
                     type="number"
                     value={paymentForm.amount}
@@ -417,7 +417,7 @@ const PaymentManagement: React.FC = () => {
 
                 <div className={styles.formGroup}>
                   <label className={styles.formLabel}>
-                    عدد الدروس المسموحة
+                    ??? ?????? ????????
                   </label>
                   <input
                     type="number"
@@ -434,7 +434,7 @@ const PaymentManagement: React.FC = () => {
                 </div>
 
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>طريقة الدفع</label>
+                  <label className={styles.formLabel}>????? ?????</label>
                   <select
                     value={paymentForm.paymentMethod}
                     onChange={(e) =>
@@ -448,14 +448,14 @@ const PaymentManagement: React.FC = () => {
                     }
                     className={styles.formSelect}
                   >
-                    <option value="cash">نقداً</option>
-                    <option value="bank_transfer">تحويل بنكي</option>
-                    <option value="card">بطاقة ائتمان</option>
+                    <option value="cash">?????</option>
+                    <option value="bank_transfer">????? ????</option>
+                    <option value="card">????? ??????</option>
                   </select>
                 </div>
 
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>ملاحظات</label>
+                  <label className={styles.formLabel}>???????</label>
                   <textarea
                     value={paymentForm.notes}
                     onChange={(e) =>
@@ -472,10 +472,10 @@ const PaymentManagement: React.FC = () => {
                     onClick={() => setShowPaymentModal(false)}
                     variant="secondary"
                   >
-                    إلغاء
+                    ?????
                   </Button>
                   <Button type="submit" variant="primary">
-                    حفظ
+                    ???
                   </Button>
                 </div>
               </form>
@@ -484,19 +484,19 @@ const PaymentManagement: React.FC = () => {
         </div>
       )}
 
-      {/* Payment History Modal */}
+
       {showHistoryModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
             <div className={styles.modalHeader}>
-              <h2 className={styles.modalTitle}>تاريخ المدفوعات</h2>
+              <h2 className={styles.modalTitle}>????? ?????????</h2>
               <Button
                 onClick={() => setShowHistoryModal(false)}
                 variant="link"
                 size="small"
                 icon={<FiX />}
               >
-                إغلاق
+                ?????
               </Button>
             </div>
 
@@ -505,16 +505,16 @@ const PaymentManagement: React.FC = () => {
                 <table className={styles.table}>
                   <thead>
                     <tr>
-                      <th>المبلغ</th>
-                      <th>التاريخ</th>
-                      <th>الطريقة</th>
-                      <th>ملاحظات</th>
+                      <th>??????</th>
+                      <th>???????</th>
+                      <th>???????</th>
+                      <th>???????</th>
                     </tr>
                   </thead>
                   <tbody>
                     {selectedStudentHistory.map((payment) => (
                       <tr key={payment.id}>
-                        <td>{payment.amount} جنية</td>
+                        <td>{payment.amount} ????</td>
                         <td className={styles.cellDate}>
                           {new Date(payment.date).toLocaleDateString("ar-SA")}
                         </td>
@@ -533,7 +533,7 @@ const PaymentManagement: React.FC = () => {
                   onClick={() => setShowHistoryModal(false)}
                   variant="primary"
                 >
-                  إغلاق
+                  ?????
                 </Button>
               </div>
             </div>

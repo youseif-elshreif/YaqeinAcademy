@@ -26,10 +26,9 @@ const EditTeacherLinkModal = () => {
   const [fieldError, setFieldError] = useState("");
   const [serverError, setServerError] = useState("");
 
-  // Populate form when modal opens
   useEffect(() => {
     if (editTeacherLinkModalOpen && selectedTeacherForLink) {
-      // Get meeting link from different possible locations
+
       const currentLink =
         selectedTeacherForLink.meetingLink ||
         selectedTeacherForLink.teacherInfo?.meetingLink ||
@@ -52,13 +51,13 @@ const EditTeacherLinkModal = () => {
 
   const validateLink = (link: string): string => {
     if (!link.trim()) {
-      return "رابط الاجتماع مطلوب";
+      return "???? ???????? ?????";
     }
     try {
       new URL(link);
       return "";
     } catch {
-      return "رابط الاجتماع غير صحيح";
+      return "???? ???????? ??? ????";
     }
   };
 
@@ -80,11 +79,10 @@ const EditTeacherLinkModal = () => {
       selectedTeacherForLink?.userId?._id ||
       selectedTeacherForLink?.userId?.id;
     if (!teacherId) {
-      setServerError("معرف المعلم مفقود");
+      setServerError("???? ?????? ?????");
       return;
     }
 
-    // Validate link
     const error = validateLink(meetingLink);
     if (error) {
       setFieldError(error);
@@ -100,7 +98,7 @@ const EditTeacherLinkModal = () => {
       const msg =
         errorObj?.response?.data?.message ||
         errorObj?.message ||
-        "حدث خطأ أثناء التحديث";
+        "??? ??? ????? ???????";
       setServerError(msg);
     } finally {
       setIsSubmitting(false);
@@ -111,13 +109,13 @@ const EditTeacherLinkModal = () => {
 
   const modalActions = [
     {
-      label: "إلغاء",
+      label: "?????",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isSubmitting,
     },
     {
-      label: "حفظ الرابط",
+      label: "??? ??????",
       onClick: () => {},
       variant: "primary" as const,
       disabled: isSubmitting,
@@ -130,7 +128,7 @@ const EditTeacherLinkModal = () => {
   const teacherName =
     selectedTeacherForLink?.name ||
     selectedTeacherForLink?.userId?.name ||
-    "المعلم";
+    "??????";
 
   return (
     <ModalContainer
@@ -141,7 +139,7 @@ const EditTeacherLinkModal = () => {
       onClose={handleClose}
     >
       <ModalHeader
-        title={`تعديل رابط حلقة ${teacherName}`}
+        title={`????? ???? ???? ${teacherName}`}
         icon={<FaLink />}
         onClose={handleClose}
         disabled={isSubmitting}
@@ -154,14 +152,14 @@ const EditTeacherLinkModal = () => {
 
           <div className={baseStyles.formGrid}>
             <FormField
-              label="رابط الاجتماع"
+              label="???? ????????"
               name="meetingLink"
               type="url"
               value={meetingLink}
               onChange={handleInputChange}
               error={fieldError}
               disabled={isSubmitting}
-              placeholder="مثال: https://zoom.us/j/123456789"
+              placeholder="????: https://zoom.us/j/123456789"
               required
             />
           </div>

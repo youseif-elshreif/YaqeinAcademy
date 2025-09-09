@@ -32,7 +32,7 @@ const DeleteLessonModal: React.FC = () => {
   };
 
   const handleDelete = async () => {
-    if (confirmText.trim().toLowerCase() !== "حذف") {
+    if (confirmText.trim().toLowerCase() !== "???") {
       return;
     }
 
@@ -62,17 +62,17 @@ const DeleteLessonModal: React.FC = () => {
   if (!selectedLessonData) return null;
 
   const isDeleteEnabled =
-    confirmText.trim().toLowerCase() === "حذف" && !isDeleting;
+    confirmText.trim().toLowerCase() === "???" && !isDeleting;
 
   const actions = [
     {
-      label: "إلغاء",
+      label: "?????",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isDeleting,
     },
     {
-      label: "حذف الحلقة",
+      label: "??? ??????",
       onClick: handleDelete,
       variant: "danger" as const,
       disabled: !isDeleteEnabled,
@@ -88,7 +88,7 @@ const DeleteLessonModal: React.FC = () => {
       onClose={handleClose}
     >
       <ModalHeader
-        title="حذف الحلقة"
+        title="??? ??????"
         icon={<FaTrash />}
         onClose={handleClose}
         isOpen={true}
@@ -96,27 +96,27 @@ const DeleteLessonModal: React.FC = () => {
       />
       <div className={baseStyles.modalBody}>
         <WarningPanel
-          title="هل أنت متأكد من حذف هذه الحلقة؟"
-          text="لا يمكن التراجع عن هذا الإجراء"
+          title="?? ??? ????? ?? ??? ??? ???????"
+          text="?? ???? ??????? ?? ??? ???????"
         />
 
         <div className={styles.lessonDetails}>
-          <h4 className={styles.detailsTitle}>تفاصيل الحلقة:</h4>
+          <h4 className={styles.detailsTitle}>?????? ??????:</h4>
           <div className={styles.detailsGrid}>
             <div className={styles.detailItem}>
-              <span className={styles.detailLabel}>اليوم:</span>
+              <span className={styles.detailLabel}>?????:</span>
               <span className={styles.detailValue}>
                 {selectedLessonData.day}
               </span>
             </div>
             <div className={styles.detailItem}>
-              <span className={styles.detailLabel}>الوقت:</span>
+              <span className={styles.detailLabel}>?????:</span>
               <span className={styles.detailValue}>
                 {selectedLessonData.time}
               </span>
             </div>
             <div className={styles.detailItem}>
-              <span className={styles.detailLabel}>التاريخ:</span>
+              <span className={styles.detailLabel}>???????:</span>
               <span className={styles.detailValue}>
                 {formatDate(selectedLessonData.date)}
               </span>
@@ -127,7 +127,7 @@ const DeleteLessonModal: React.FC = () => {
         <ConfirmTextInput
           label={
             <>
-              للحذف، اكتب &quot;<strong>حذف</strong>&quot; في المربع أدناه:
+              ?????? ???? &quot;<strong>???</strong>&quot; ?? ?????? ?????:
             </>
           }
           value={confirmText}

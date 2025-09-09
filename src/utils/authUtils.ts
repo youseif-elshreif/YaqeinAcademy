@@ -1,4 +1,4 @@
-// authUtils.ts - Helper functions for authentication
+﻿// authUtils.ts - Helper functions for authentication
 import api from "./api";
 
 /**

@@ -1,4 +1,4 @@
-import styles from "./EmailVerificationLoader.module.css";
+﻿import styles from "./EmailVerificationLoader.module.css";
 import { EmailVerificationLoaderProps } from "@/src/types";
 
 export default function EmailVerificationLoader({

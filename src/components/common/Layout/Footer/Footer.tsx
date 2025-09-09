@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import styles from "./Footer.module.css";
 import {
   FaFacebook,
@@ -16,7 +16,7 @@ const Footer = () => {
     <footer className={`${styles.footer} custom-bg`}>
       <div className="container z-1">
         <div className={styles.footerContent}>
-          {/* Academy Info */}
+
           <div className={styles.footerSection}>
             <h3 className={styles.sectionTitle}>أكاديمية يقين</h3>
             <p className={styles.description}>
@@ -25,7 +25,7 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Quick Links */}
+
           <div className={styles.footerSection}>
             <h4 className={styles.sectionTitle}>روابط سريعة</h4>
             <ul className={styles.linksList}>
@@ -52,7 +52,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Course Categories */}
+
           <div className={styles.footerSection}>
             <h4 className={styles.sectionTitle}>أقسام الدورات</h4>
             <ul className={styles.linksList}>
@@ -79,7 +79,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact Info */}
+
           <div className={styles.footerSection}>
             <h4 className={styles.sectionTitle}>تواصل معنا</h4>
             <div className={styles.contactInfo}>
@@ -140,7 +140,7 @@ const Footer = () => {
               )}
             </div>
 
-            {/* Social Media */}
+
             <div className={styles.socialMedia}>
               <h5 className={styles.socialTitle}>تابعنا على:</h5>
               <div className={styles.socialLinks}>
@@ -188,14 +188,14 @@ const Footer = () => {
                       <FaWhatsapp />
                     </a>
                   )}
-                {/* Keep YouTube placeholder only if you add field later */}
-                {/* {contact.youtube && (...)} */}
+
+
               </div>
             </div>
           </div>
         </div>
 
-        {/* Footer Bottom */}
+
         <div className={styles.footerBottom}>
           <p className={styles.copyright}>
             © 2025 أكاديمية يقين. جميع الحقوق محفوظة.

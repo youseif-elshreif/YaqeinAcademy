@@ -38,7 +38,7 @@ const CourseCard = ({
 
   return (
     <div className={`${styles.card}`}>
-      {/* edite and delete btns */}
+
       <div className={styles.cardHeader}>
         <h3 className={styles.title}>{title}</h3>
       </div>
@@ -48,12 +48,12 @@ const CourseCard = ({
 
         <div className={styles.courseInfo}>
           <div className={styles.infoItem}>
-            <span className={styles.label}>تاريخ البداية:</span>
+            <span className={styles.label}>????? ???????:</span>
             <span className={styles.value}>{startDate}</span>
           </div>
           <div className={styles.infoItem}>
-            <span className={styles.label}>مدة الدورة:</span>
-            <span className={styles.value}>{duration || "غير محدد"}</span>
+            <span className={styles.label}>??? ??????:</span>
+            <span className={styles.value}>{duration || "??? ????"}</span>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@ const CourseCard = ({
       {showBtn && (
         <div className={styles.cardFooter}>
           <Button variant="primary" fullWidth={true} onClick={handleBookNow}>
-            احجز الآن
+            ???? ????
           </Button>
         </div>
       )}
@@ -74,7 +74,7 @@ const CourseCard = ({
             fullWidth={true}
             onClick={handleEdit}
           >
-            تعديل
+            ?????
           </Button>
           <Button
             variant="danger"
@@ -83,7 +83,7 @@ const CourseCard = ({
             icon={<MdDeleteOutline />}
             onClick={handleDelete}
           >
-            حذف
+            ???
           </Button>
         </div>
       )}

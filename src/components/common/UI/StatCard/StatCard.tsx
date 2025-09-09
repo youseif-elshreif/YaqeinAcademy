@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { IconType } from "react-icons";
 import styles from "./StatCard.module.css";
 import { StatCardProps } from "@/src/types";
@@ -9,7 +9,7 @@ const StatCard: React.FC<StatCardProps> = ({
   label,
   className = "",
 }) => {
-  // Format numbers with Arabic locale
+
   const formatValue = (val: string | number): string => {
     if (typeof val === "number") {
       return val.toLocaleString("ar-SA");

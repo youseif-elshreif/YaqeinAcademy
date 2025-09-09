@@ -1,15 +1,9 @@
-﻿// ==================================================
-// Context Provider Types
-// ==================================================
-
-export interface AppProvidersProps {
+﻿export interface AppProvidersProps {
   children: React.ReactNode;
 }
-
 export interface ModalProviderProps {
   children: React.ReactNode;
 }
-
 export interface UnifiedReportsModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -19,7 +13,6 @@ export interface UnifiedReportsModalProps {
   title?: string;
   className?: string;
 }
-
 export interface TeacherDashboardContextType {
   teacherLessons: any[];
   getMyLessons: () => Promise<any[]>;
@@ -46,7 +39,6 @@ export interface TeacherDashboardContextType {
     }>
   ) => Promise<void>;
 }
-
 export interface StudentDashboardContextType {
   getUserStats: () => Promise<any>;
   userStats: any;

@@ -1,10 +1,4 @@
-﻿// ==================================================
-// Group Types
-// ==================================================
-
-import { TimeSlot } from "./admin.types";
-
-// Base group interface for consistency
+﻿import { TimeSlot } from "./admin.types";
 export interface BaseGroup {
   id: string;
   name: string;
@@ -20,8 +14,6 @@ export interface BaseGroup {
   meetingLink?: string;
   students: string[];
 }
-
-// Extended group interface for API responses
 export interface Group extends Omit<BaseGroup, "studentsCount"> {
   classDate: string;
   schedule?: {
@@ -29,15 +21,12 @@ export interface Group extends Omit<BaseGroup, "studentsCount"> {
     time: string;
   };
 }
-
-// Alias for consistency - points to BaseGroup
 export interface GroupData extends BaseGroup {
   schedule: {
     day: string;
     time: string;
   };
 }
-
 export interface ApiGroup {
   _id: string;
   name: string;

@@ -24,7 +24,6 @@ const EditUserModal = () => {
     updateUser,
   } = useAdminModal();
 
-  // Derive user type from selected user
   const currentUserType: UserType = useMemo(() => {
     if (!selectedUserData) return "student";
     if (
@@ -68,10 +67,9 @@ const EditUserModal = () => {
   const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
   const [serverError, setServerError] = useState<string>("");
 
-  // Populate form when modal opens
   useEffect(() => {
     if (editUserModalOpen && selectedUserData) {
-      // Handle different data structures for teachers vs students/admins
+
       const userData = selectedUserData.userId || selectedUserData; // Teachers have nested userId object
 
       setFormData({
@@ -111,31 +109,31 @@ const EditUserModal = () => {
   const validateField = (name: string, value: string): string => {
     switch (name) {
       case "name":
-        if (!value.trim()) return "الاسم مطلوب";
+        if (!value.trim()) return "????? ?????";
         if (value.trim().length < 2)
-          return "الاسم يجب أن يكون أكثر من حرف واحد";
+          return "????? ??? ?? ???? ???? ?? ??? ????";
         return "";
       case "email":
-        if (!value.trim()) return "البريد الإلكتروني مطلوب";
+        if (!value.trim()) return "?????? ?????????? ?????";
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(value)) return "البريد الإلكتروني غير صحيح";
+        if (!emailRegex.test(value)) return "?????? ?????????? ??? ????";
         return "";
       case "password":
         if (value && value.length < 6)
-          return "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
+          return "???? ?????? ??? ?? ???? 6 ???? ??? ?????";
         return "";
       case "phone":
-        if (!value.trim()) return "رقم الهاتف مطلوب";
+        if (!value.trim()) return "??? ?????? ?????";
         return "";
       case "country":
-        if (!value.trim()) return "البلد مطلوب";
+        if (!value.trim()) return "????? ?????";
         return "";
       case "age":
         if (currentUserType === "student") {
           const ageNum = parseInt(value);
-          if (!value.trim()) return "العمر مطلوب";
+          if (!value.trim()) return "????? ?????";
           if (isNaN(ageNum) || ageNum < 5 || ageNum > 100) {
-            return "العمر يجب أن يكون بين 5 و 100 سنة";
+            return "????? ??? ?? ???? ??? 5 ? 100 ???";
           }
         }
         return "";
@@ -208,9 +206,6 @@ const EditUserModal = () => {
     e.preventDefault();
     setServerError("");
 
-    // Check for user ID - handle different data structures
-    // For teachers: could be selectedUserData.userId._id or selectedUserData._id
-    // For students/admins: selectedUserData._id or selectedUserData.id
     const userId =
       selectedUserData?.userId?._id ||
       selectedUserData?.userId?.id ||
@@ -218,7 +213,7 @@ const EditUserModal = () => {
       selectedUserData?._id;
 
     if (!userId) {
-      setServerError("معرف المستخدم مفقود");
+      setServerError("???? ???????? ?????");
       return;
     }
     if (!validateForm()) return;
@@ -246,7 +241,7 @@ const EditUserModal = () => {
       const msg =
         errorObj?.response?.data?.message ||
         errorObj?.message ||
-        "حدث خطأ أثناء التحديث";
+        "??? ??? ????? ???????";
       setServerError(msg);
     } finally {
       setIsSubmitting(false);
@@ -257,13 +252,13 @@ const EditUserModal = () => {
 
   const modalActions = [
     {
-      label: "إلغاء",
+      label: "?????",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isSubmitting,
     },
     {
-      label: "حفظ التغييرات",
+      label: "??? ?????????",
       onClick: () => {},
       variant: "primary" as const,
       disabled: isSubmitting,
@@ -282,12 +277,12 @@ const EditUserModal = () => {
       onClose={handleClose}
     >
       <ModalHeader
-        title={`تعديل بيانات ${
+        title={`????? ?????? ${
           currentUserType === "teacher"
-            ? "مدرس"
+            ? "????"
             : currentUserType === "admin"
-            ? "إدارة"
-            : "طالب"
+            ? "?????"
+            : "????"
         }`}
         icon={<FaEdit />}
         onClose={handleClose}
@@ -308,9 +303,9 @@ const EditUserModal = () => {
             <ErrorDisplay message={serverError} />
 
             <div className={baseStyles.formGrid}>
-              {/* Common Fields */}
+
               <FormField
-                label="الاسم الكامل"
+                label="????? ??????"
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
@@ -320,7 +315,7 @@ const EditUserModal = () => {
               />
 
               <FormField
-                label="البريد الإلكتروني"
+                label="?????? ??????????"
                 name="email"
                 type="email"
                 value={formData.email}
@@ -331,37 +326,37 @@ const EditUserModal = () => {
               />
 
               <FormField
-                label="رقم الهاتف"
+                label="??? ??????"
                 name="phone"
                 type="tel"
                 value={formData.phone}
                 onChange={handleInputChange}
                 error={fieldErrors.phone}
                 disabled={isSubmitting}
-                placeholder="أدخل رقم الهاتف"
+                placeholder="???? ??? ??????"
                 required
               />
 
-              {/* Teacher Specific Fields - meetingLink moved to separate modal */}
 
-              {/* Student Specific Fields */}
+
+
               {currentUserType === "student" && (
                 <>
                   <FormField
-                    label="العمر"
+                    label="?????"
                     name="age"
                     type="number"
                     value={formData.age || ""}
                     onChange={handleInputChange}
                     error={fieldErrors.age}
                     disabled={isSubmitting}
-                    placeholder="أدخل العمر"
+                    placeholder="???? ?????"
                     min="5"
                     max="100"
                     required
                   />
 
-                  {/* Checkbox for Quran Memorization */}
+
                   <div
                     className={baseStyles.inputGroup}
                     style={{ gridColumn: "1 / -1" }}
@@ -371,25 +366,25 @@ const EditUserModal = () => {
                       name="hasQuranMemorization"
                       checked={hasQuranMemorization}
                       onChange={handleCheckboxChange}
-                      label="هل يحفظ من القرآن الكريم؟"
+                      label="?? ???? ?? ?????? ???????"
                       disabled={isSubmitting}
                     />
                   </div>
 
-                  {/* Conditional Quran Fields */}
+
                   {hasQuranMemorization && (
                     <>
                       <FormField
-                        label="القرآن المحفوظ"
+                        label="?????? ???????"
                         name="quranMemorized"
                         value={formData.quranMemorized}
                         onChange={handleInputChange}
                         disabled={isSubmitting}
-                        placeholder="مثال: الفاتحة، البقرة..."
+                        placeholder="????: ???????? ??????..."
                       />
 
                       <FormField
-                        label="عدد الأجزاء المحفوظة"
+                        label="??? ??????? ????????"
                         name="numOfPartsofQuran"
                         type="number"
                         value={formData.numOfPartsofQuran}

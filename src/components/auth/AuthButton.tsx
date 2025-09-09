@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import Button from "../common/Button/Button";
 import { AuthButtonProps } from "@/src/types";
 

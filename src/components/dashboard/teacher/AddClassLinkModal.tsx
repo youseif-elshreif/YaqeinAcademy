@@ -20,7 +20,6 @@ const EditClassLinkModal = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Set the current link when modal opens
   useEffect(() => {
     if (isOpen && classInfo?.currentLink) {
       setLink(classInfo.currentLink);
@@ -33,22 +32,21 @@ const EditClassLinkModal = ({
     e.preventDefault();
 
     if (!link.trim()) {
-      setError("يرجى إدخال رابط الحلقة");
+      setError("???? ????? ???? ??????");
       return;
     }
 
-    // Basic URL validation
     const urlPattern =
       /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
     if (!urlPattern.test(link.trim())) {
-      setError("يرجى إدخال رابط صحيح");
+      setError("???? ????? ???? ????");
       return;
     }
 
     setIsLoading(true);
 
     try {
-      // Add http:// if not present
+
       let finalLink = link.trim();
       if (
         !finalLink.startsWith("http://") &&
@@ -60,7 +58,7 @@ const EditClassLinkModal = ({
       await onSubmit(finalLink);
       onClose();
     } catch (error) {
-      setError("حدث خطأ في تحديث الرابط");
+      setError("??? ??? ?? ????? ??????");
     } finally {
       setIsLoading(false);
     }
@@ -74,13 +72,13 @@ const EditClassLinkModal = ({
 
   const actions = [
     {
-      label: "إلغاء",
+      label: "?????",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isLoading,
     },
     {
-      label: isLoading ? "جاري التحديث..." : "تحديث الرابط",
+      label: isLoading ? "???? ???????..." : "????? ??????",
       onClick: () => {},
       variant: "primary" as const,
       disabled: isLoading,
@@ -93,7 +91,7 @@ const EditClassLinkModal = ({
   return (
     <ModalContainer isOpen={true} variant="add" onClose={handleClose}>
       <ModalHeader
-        title="تعديل رابط الحلقة"
+        title="????? ???? ??????"
         icon={<FaExternalLinkAlt />}
         onClose={handleClose}
         disabled={isLoading}
@@ -101,19 +99,19 @@ const EditClassLinkModal = ({
       />
       <div className={styles.modalBody}>
         <div className={styles.classInfo}>
-          <h3 className={styles.classInfoTitle}>معلومات الحلقة:</h3>
+          <h3 className={styles.classInfoTitle}>??????? ??????:</h3>
           <div className={styles.classDetails}>
             <div className={styles.classDetail}>
-              <span className={styles.label}>التاريخ:</span>
+              <span className={styles.label}>???????:</span>
               <span className={styles.value}>{classInfo.date}</span>
             </div>
             <div className={styles.classDetail}>
-              <span className={styles.label}>الوقت:</span>
+              <span className={styles.label}>?????:</span>
               <span className={styles.value}>{classInfo.time}</span>
             </div>
             <div className={styles.classDetail}>
               <span className={styles.label}>
-                {classInfo.groupName ? "الحلقة:" : "الطالب:"}
+                {classInfo.groupName ? "??????:" : "??????:"}
               </span>
               <span className={styles.value}>
                 {classInfo.groupName || classInfo.studentName}
@@ -124,7 +122,7 @@ const EditClassLinkModal = ({
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
             <FormField
-              label="رابط الحلقة"
+              label="???? ??????"
               name="classLink"
               type="url"
               value={link}
@@ -132,15 +130,15 @@ const EditClassLinkModal = ({
                 setLink(e.target.value);
                 if (error) setError("");
               }}
-              placeholder="https://zoom.us/j/1234567890 أو https://meet.google.com/xxx-yyyy-zzz"
+              placeholder="https://zoom.us/j/1234567890 ?? https://meet.google.com/xxx-yyyy-zzz"
               required
               disabled={isLoading}
               fullWidth
             />
             <ErrorDisplay message={error || undefined} />
             <p className={styles.helpText}>
-              يمكنك إدخال رابط من Zoom، Google Meet، Microsoft Teams، أو أي منصة
-              أخرى
+              ????? ????? ???? ?? Zoom? Google Meet? Microsoft Teams? ?? ?? ????
+              ????
             </p>
           </div>
 

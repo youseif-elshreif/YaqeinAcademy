@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React from "react";
 import {
   FiClock,
@@ -19,7 +19,6 @@ const ReportCard: React.FC<ReportCardProps> = ({ report }) => {
       })
     : "-";
 
-  // إذا كان الطالب غائب، نعرض فقط التاريخ والحالة
   if (!report.attended) {
     return (
       <div className={`${styles.reportCard} ${styles.absentCard}`}>
@@ -45,7 +44,6 @@ const ReportCard: React.FC<ReportCardProps> = ({ report }) => {
     );
   }
 
-  // إذا كان الطالب حاضر، نعرض كل التفاصيل
   return (
     <div className={styles.reportCard}>
       <div className={styles.reportHeader}>

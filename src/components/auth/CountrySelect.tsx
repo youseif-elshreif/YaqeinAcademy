@@ -1,4 +1,4 @@
-import countries from "@/public/data/country.json";
+﻿import countries from "@/public/data/country.json";
 import styles from "./CountrySelect.module.css";
 import React, { useState, useRef, useEffect } from "react";
 import { FiChevronDown, FiSearch } from "react-icons/fi";
@@ -16,18 +16,15 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // تحويل البيانات إلى مصفوفة للسهولة
   const countriesArray = Object.entries(countries).map(([code, name]) => ({
     code,
     name: name as string,
   }));
 
-  // فلترة الدول حسب البحث
   const filteredCountries = countriesArray.filter((country) =>
     country.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // إغلاق القائمة عند النقر خارجها
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -42,7 +39,6 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // التركيز على البحث عند فتح القائمة
   useEffect(() => {
     if (isOpen && searchInputRef.current) {
       searchInputRef.current.focus();
@@ -67,7 +63,6 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
     setSearchTerm(e.target.value);
   };
 
-  // العثور على الدولة المحددة لعرض اسمها
   const displayValue =
     selectedCountry ||
     (value
@@ -81,7 +76,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
           disabled ? styles.disabled : ""
         }`}
       >
-        {/* الحقل الرئيسي */}
+
         <div
           className={`${styles.selectTrigger} ${
             isOpen ? styles.selectTriggerOpen : ""
@@ -102,10 +97,10 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
           />
         </div>
 
-        {/* القائمة المنسدلة */}
+
         {isOpen && (
           <div className={styles.selectDropdown}>
-            {/* حقل البحث */}
+
             <div className={styles.searchContainer}>
               <FiSearch className={styles.searchIcon} />
               <input
@@ -118,7 +113,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
               />
             </div>
 
-            {/* قائمة الدول */}
+
             <div className={styles.optionsList}>
               {filteredCountries.length > 0 ? (
                 filteredCountries.map((country) => (
