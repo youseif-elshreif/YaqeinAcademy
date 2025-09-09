@@ -14,6 +14,7 @@ import {
   FaClock,
 } from "react-icons/fa";
 import Button from "@/src/components/common/Button";
+import TestimonialsSwiperContainer from "@/src/components/common/TestimonialsSwiperContainer";
 
 export default function Home() {
   return (
@@ -336,23 +337,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className={styles.testimonials}>
-          <div className="container">
-            <h2 className={styles.header}>آراء طلابنا</h2>
-            <Image
-              src="/img/logo/logo-light.svg"
-              alt="شعار أكاديمية يقين"
-              className={styles.logoLight}
-              width={100}
-              height={100}
-            />
-            <blockquote>
-              <h4>أم عائشة و احمد</h4>
-              أكاديمية يقين غيرت حياتي! التعلم هنا ممتع وفعال.
-            </blockquote>
-            <p>- طالب سابق</p>
-          </div>
-        </section>
+        <TestimonialsSwiperContainer />
 
         <section className={styles.cta}>
           <div className={styles.ctaContainer}>

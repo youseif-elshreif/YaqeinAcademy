@@ -8,6 +8,7 @@ import { GroupsProvider } from "./GroupsContext";
 import { LessonsProvider } from "./LessonsContext";
 import { AdminStatsProvider } from "./AdminStatsContext";
 import { ReportProvider } from "./ReportContext";
+import { TestimonialsProvider } from "./TestimonialsContext";
 
 interface AppProvidersProps {
   children: ReactNode;
@@ -26,7 +27,9 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
             <CoursesProvider>
               <GroupsProvider>
                 <LessonsProvider>
-                  <ReportProvider>{children}</ReportProvider>
+                  <TestimonialsProvider>
+                    <ReportProvider>{children}</ReportProvider>
+                  </TestimonialsProvider>
                 </LessonsProvider>
               </GroupsProvider>
             </CoursesProvider>
@@ -45,5 +48,6 @@ export { useGroupsContext } from "./GroupsContext";
 export { useLessonsContext } from "./LessonsContext";
 export { useAdminStatsContext } from "./AdminStatsContext";
 export { useReportContext } from "./ReportContext";
+export { useTestimonials } from "./TestimonialsContext";
 
 export type { ContactInfo } from "./ContactContext";

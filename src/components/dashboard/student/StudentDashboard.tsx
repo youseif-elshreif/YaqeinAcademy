@@ -17,12 +17,14 @@ import { Lessons } from "./Lessons";
 import StudentMyReportsModal from "./StudentMyReportsModal";
 import MeetingLinkActions from "@/src/components/common/MeetingLinkActions";
 import Button from "@/src/components/common/Button";
+import AddTestimonialModal from "@/src/components/common/Modals/AddTestimonialModal";
 
 function StudentDashboard() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("next-session");
   const { getUserStats, userStats } = useStudentDashboard();
   const [myReportsOpen, setMyReportsOpen] = useState(false);
+  const [addTestimonialOpen, setAddTestimonialOpen] = useState(false);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -80,6 +82,17 @@ function StudentDashboard() {
         groupUsualDate.thirdDayTime,
       ].filter(Boolean)
     : [];
+
+  // Handle testimonial submission
+  const handleTestimonialSubmit = async (formData: any) => {
+    try {
+      console.log("Testimonial submitted:", formData);
+      // Here you would typically send the data to your API
+      setAddTestimonialOpen(false);
+    } catch (error) {
+      console.error("Error submitting testimonial:", error);
+    }
+  };
 
   const tabs = [
 
@@ -151,13 +164,22 @@ function StudentDashboard() {
               </div>
             </div>
             <div style={{ marginTop: 8, textAlign: "end" }}>
-              <Button
-                onClick={() => setMyReportsOpen(true)}
-                variant="primary"
-                size="small"
-              >
-                ??? ???????
-              </Button>
+              <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}>
+                <Button
+                  onClick={() => setAddTestimonialOpen(true)}
+                  variant="secondary"
+                  size="small"
+                >
+                  شاركنا رأيك
+                </Button>
+                <Button
+                  onClick={() => setMyReportsOpen(true)}
+                  variant="primary"
+                  size="small"
+                >
+                  تقاريري
+                </Button>
+              </div>
             </div>
           </div>
 
@@ -247,6 +269,11 @@ function StudentDashboard() {
           <StudentMyReportsModal
             isOpen={myReportsOpen}
             onClose={() => setMyReportsOpen(false)}
+          />
+          <AddTestimonialModal
+            isOpen={addTestimonialOpen}
+            onClose={() => setAddTestimonialOpen(false)}
+            onSubmit={handleTestimonialSubmit}
           />
         </div>
       </main>

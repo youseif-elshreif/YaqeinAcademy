@@ -1,6 +1,6 @@
 ﻿"use client";
 import React from "react";
-import { FiUsers, FiCalendar, FiMail } from "react-icons/fi";
+import { FiUsers, FiCalendar, FiMail, FiMessageSquare } from "react-icons/fi";
 import { HiOutlineViewList } from "react-icons/hi";
 import { FaTimes, FaUserFriends } from "react-icons/fa";
 import { usePathname } from "next/navigation";
@@ -28,6 +28,12 @@ const AdminSidebar: React.FC = () => {
       label: "إدارة الدورات",
       icon: FiCalendar,
       path: "/admin/dashboard/courses",
+    },
+    {
+      id: "testimonials",
+      label: "إدارة آراء الطلاب",
+      icon: FiMessageSquare,
+      path: "/admin/dashboard/testimonials",
     },
     {
       id: "contact",
