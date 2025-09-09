@@ -4,22 +4,7 @@ import styles from "../LessonsModal.module.css";
 import { FaClock, FaCalendarDay, FaEdit, FaTrash } from "react-icons/fa";
 import MeetingLinkActions from "@/components/common/MeetingLinkActions";
 import Button from "@/components/common/Button";
-
-export interface UILessonCard {
-  id: string;
-  day: string;
-  time: string; // HH:mm 24h
-  date: string; // ISO string
-  meetingLink?: string;
-  status?: string;
-}
-
-interface LessonCardProps {
-  lesson: UILessonCard;
-  showActions?: boolean; // default true
-  onEdit?: (l: UILessonCard) => void;
-  onDelete?: (l: UILessonCard) => void;
-}
+import { UILessonCard, LessonCardProps } from "@/types/admin.types";
 
 const LessonCard: React.FC<LessonCardProps> = ({
   lesson,
@@ -90,3 +75,5 @@ const LessonCard: React.FC<LessonCardProps> = ({
 };
 
 export default LessonCard;
+
+

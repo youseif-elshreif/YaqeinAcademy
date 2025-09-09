@@ -57,17 +57,6 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
 
               {type === "student" ? (
                 <>
-                  {/* الرقم التعريفي */}
-                  <div className={styles.infoItem}>
-                    <div
-                      className={`${skeletonStyles.skeletonText} ${skeletonStyles.skeletonTextShort}`}
-                      style={{ height: "14px", width: "90px" }}
-                    />
-                    <div
-                      className={`${skeletonStyles.skeletonText} ${skeletonStyles.skeletonTextShort}`}
-                      style={{ height: "14px", width: "80px" }}
-                    />
-                  </div>
 
                   {/* عدد الحلقات المستحقة */}
                   <div className={styles.infoItem}>
@@ -259,3 +248,5 @@ const SkeletonCards: React.FC<SkeletonCardsProps> = ({
 };
 
 export default SkeletonCards;
+
+

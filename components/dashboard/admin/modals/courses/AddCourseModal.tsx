@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import { useCoursesContext } from "@/contexts/CoursesContext";
-import { getCourseById } from "@/data/mockCourses";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import { FaSave, FaBook } from "react-icons/fa";
 import {
@@ -11,20 +10,7 @@ import {
   ModalActions,
   ErrorDisplay,
 } from "@/components/common/Modal";
-
-interface CourseFormData {
-  _id?: string;
-  title: string;
-  description: string;
-  telegramLink: string;
-  duration: string;
-  startAt: string;
-}
-
-interface AddCourseModalProps {
-  isEditMode?: boolean;
-  editCourseId?: string;
-}
+import { CourseFormData, AddCourseModalProps } from "@/types";
 
 const AddCourseModal: React.FC<AddCourseModalProps> = ({
   isEditMode = false,
@@ -94,26 +80,10 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
           duration: courseData.duration || "",
           startAt: courseData.startAt || "",
         });
-      } catch (apiError) {
-        // Fallback to mock data if API fails
-        console.log("API not available, using mock data...", apiError);
-        const mockCourse = getCourseById(editCourseId);
-
-        if (mockCourse) {
-          setFormData({
-            _id: mockCourse._id,
-            title: mockCourse.title,
-            description: mockCourse.description,
-            telegramLink: mockCourse.telegramLink,
-            duration: "",
-            startAt: "",
-          });
-        } else {
-          throw new Error("لم يتم العثور على الدورة");
-        }
+      } catch {
+        setServerError("حدث خطأ أثناء تحميل بيانات الدورة");
       }
-    } catch (error) {
-      console.error("Error loading course data:", error);
+    } catch {
       setServerError("حدث خطأ أثناء تحميل بيانات الدورة");
     } finally {
       setIsLoading(false);
@@ -249,11 +219,11 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
 
       // Close modal
       handleClose();
-    } catch (error: any) {
-      console.error("❌ Error saving course:", error);
+    } catch (error: unknown) {
+      const errorObj = error as any;
       const errorMessage =
-        error?.response?.data?.message ||
-        error?.message ||
+        errorObj?.response?.data?.message ||
+        errorObj?.message ||
         "حدث خطأ أثناء حفظ الدورة";
       setServerError(errorMessage);
     } finally {
@@ -263,8 +233,12 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
 
   if (isLoading) {
     return (
-      <ModalContainer isOpen={true} isClosing={isClosing}>
-        <ModalHeader title="جاري التحميل..." onClose={handleClose} />
+      <ModalContainer isOpen={true} isClosing={isClosing} onClose={handleClose}>
+        <ModalHeader
+          title="جاري التحميل..."
+          onClose={handleClose}
+          isOpen={true}
+        />
         <div className={baseStyles.modalBody}>
           <div className={baseStyles.loadingSpinner}>
             <span className={baseStyles.spinner}></span>
@@ -298,12 +272,13 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
       isClosing={isClosing}
       variant="add"
       size="large"
+      onClose={handleClose}
     >
       <ModalHeader
         title={isEditMode ? "تعديل الدورة" : "إضافة دورة جديدة"}
         icon={<FaBook />}
         onClose={handleClose}
-        disabled={isSubmitting}
+        isOpen={true}
         variant="add"
       />
 

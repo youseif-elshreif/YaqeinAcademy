@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import styles from "./LessonsModal.module.css";
@@ -13,25 +13,12 @@ import {
   ModalHeader,
   ModalActions,
 } from "@/components/common/Modal";
-import LessonCard, { UILessonCard } from "./components/LessonCard";
+import LessonCard from "./components/LessonCard";
 import { useGroupsContext } from "@/contexts/GroupsContext";
 import { useLessonsContext } from "@/contexts/LessonsContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { createLessonSchedule } from "@/utils/date";
-
-interface LessonsModalProps {
-  groupId: string;
-  groupName: string;
-}
-
-interface UILesson {
-  id: string;
-  day: string;
-  time: string; // HH:mm 24h
-  date: string; // ISO string
-  meetingLink?: string;
-  status?: string;
-}
+import { LessonsModalProps, UILesson, UILessonCard } from "@/types/admin.types";
 
 const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
   const {
@@ -82,9 +69,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
           };
         });
         if (!cancelled) setLessons(mapped);
-      } catch (e) {
-        console.error("Error loading lessons:", e);
-        if (!cancelled) setError("فشل في جلب بيانات الحصص");
+      } catch (e) {if (!cancelled) setError("فشل في جلب بيانات الحصص");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -157,9 +142,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
       }
       setMonthLessonsInfo(`تمت إضافة ${schedule.length} حصة بنجاح.`);
       // The useEffect will automatically refresh the lessons list due to lessonsRefreshKey
-    } catch (error) {
-      console.error("❌ Error adding month lessons:", error);
-      setError("فشل في إضافة حصص الشهر");
+    } catch (error) {setError("فشل في إضافة حصص الشهر");
     } finally {
       setIsAddingMonthLessons(false);
     }
@@ -168,7 +151,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
   // Formatting handled within LessonCard
 
   return (
-    <ModalContainer isOpen={true} isClosing={isClosing}>
+    <ModalContainer isOpen={true} isClosing={isClosing} onClose={handleClose}>
       <ModalHeader
         title={`حصص حلقة: ${groupName}`}
         icon={<FaCalendarCheck />}
@@ -271,3 +254,4 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
 };
 
 export default LessonsModal;
+

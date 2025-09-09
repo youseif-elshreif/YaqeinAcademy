@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import styles from "./DeleteLessonModal.module.css";
@@ -45,7 +45,6 @@ const DeleteLessonModal: React.FC = () => {
       await deleteLesson(token, selectedLessonData.id);
       handleClose();
     } catch (error) {
-      console.error("Error deleting lesson:", error);
     } finally {
       setIsDeleting(false);
     }
@@ -82,12 +81,17 @@ const DeleteLessonModal: React.FC = () => {
   ];
 
   return (
-    <ModalContainer isOpen={true} isClosing={isClosing} variant="delete">
+    <ModalContainer
+      isOpen={true}
+      isClosing={isClosing}
+      variant="delete"
+      onClose={handleClose}
+    >
       <ModalHeader
         title="حذف الحلقة"
         icon={<FaTrash />}
         onClose={handleClose}
-        disabled={isDeleting}
+        isOpen={true}
         variant="delete"
       />
       <div className={baseStyles.modalBody}>

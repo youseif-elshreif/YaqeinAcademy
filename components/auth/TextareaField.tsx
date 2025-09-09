@@ -1,19 +1,6 @@
+import React from "react";
 import styles from "./TextareaField.module.css";
-
-interface TextareaFieldProps {
-  id: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  placeholder?: string;
-  label?: string;
-  required?: boolean;
-  error?: string;
-  disabled?: boolean;
-  rows?: number;
-  helpText?: string;
-  className?: string;
-}
+import { TextareaFieldProps } from "@/types";
 
 const TextareaField: React.FC<TextareaFieldProps> = ({
   id,

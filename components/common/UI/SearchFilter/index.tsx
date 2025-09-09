@@ -1,14 +1,6 @@
 import React from "react";
 import { FiSearch } from "react-icons/fi";
-
-export interface SearchFilterProps {
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-  wrapperClassName?: string;
-  inputClassName?: string;
-  iconClassName?: string;
-}
+import { SearchFilterProps } from "@/types";
 
 const SearchFilter: React.FC<SearchFilterProps> = ({
   value,

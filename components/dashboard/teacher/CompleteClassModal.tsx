@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./CompleteClassModal.module.css";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import {
@@ -9,32 +9,11 @@ import {
 import { useTeacherDashboard } from "@/contexts/TeacherDashboardContext";
 import { useLessonsContext } from "@/contexts/LessonsContext";
 import Button from "@/components/common/Button";
-
-type BaseProps = {
-  lessonId: string;
-  scheduledAt: string;
-  student: { id: string; name: string };
-  groupName?: string;
-  onClose: () => void;
-};
-
-export type GroupStudentCompletion = {
-  rate: number;
-  completed: { newMemorization: string[]; review: string[] };
-  nextPrep: { newMemorization: string[]; review: string[] };
-  notes: string;
-  attended: boolean;
-};
-
-export type CompleteClassModalProps =
-  | (BaseProps & { mode: "single"; onSave?: never })
-  | (BaseProps & {
-      mode: "group";
-      onSave: (data: GroupStudentCompletion) => void;
-    });
+import { CompleteClassModalProps } from "@/types";
 
 export default function CompleteClassModal(props: CompleteClassModalProps) {
-  const { lessonId, scheduledAt, student, groupName, onClose } = props;
+  const { lessonId, scheduledAt, student, groupName, onClose, existingData } =
+    props;
   const { reportLesson } = useTeacherDashboard();
   const { completeLesson } = useLessonsContext();
   const [step, setStep] = useState(1);
@@ -55,6 +34,35 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
   const [nextReview, setNextReview] = useState<string[]>([""]);
   const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Initialize form with existing data if available
+  useEffect(() => {
+    if (existingData) {
+      setrate(existingData.rate);
+      setAttended(existingData.attended);
+      setNewMemorization(
+        existingData.completed.newMemorization.length > 0
+          ? existingData.completed.newMemorization
+          : [""]
+      );
+      setReview(
+        existingData.completed.review.length > 0
+          ? existingData.completed.review
+          : [""]
+      );
+      setNextNewMemorization(
+        existingData.nextPrep.newMemorization.length > 0
+          ? existingData.nextPrep.newMemorization
+          : [""]
+      );
+      setNextReview(
+        existingData.nextPrep.review.length > 0
+          ? existingData.nextPrep.review
+          : [""]
+      );
+      setNotes(existingData.notes);
+    }
+  }, [existingData]);
 
   const addField = (type: "new" | "review" | "nextNew" | "nextReview") => {
     if (type === "new") setNewMemorization([...newMemorization, ""]);
@@ -157,7 +165,10 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
     }
   };
 
-  const handlePrev = () => setStep(1);
+  const handlePrev = (e?: React.MouseEvent) => {
+    e?.preventDefault();
+    setStep(1);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -314,6 +325,7 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
       {
         label: "السابق",
         onClick: handlePrev,
+        type: "button" as const,
         variant: "secondary" as const,
         disabled: isSubmitting,
       },
@@ -329,7 +341,12 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
   })();
 
   return (
-    <ModalContainer isOpen={true} isClosing={isClosing} variant="add">
+    <ModalContainer
+      isOpen={true}
+      isClosing={isClosing}
+      variant="add"
+      onClose={handleClose}
+    >
       <ModalHeader
         title={
           attended === null

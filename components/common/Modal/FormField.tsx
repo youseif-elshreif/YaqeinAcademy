@@ -2,35 +2,7 @@ import React from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import baseStyles from "../../../styles/BaseModal.module.css";
 
-interface FormFieldProps {
-  label: string;
-  name: string;
-  type?:
-    | "text"
-    | "email"
-    | "password"
-    | "tel"
-    | "url"
-    | "number"
-    | "textarea"
-    | "time"
-    | "date";
-  value: string | number;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
-  error?: string;
-  disabled?: boolean;
-  placeholder?: string;
-  required?: boolean;
-  min?: string | number;
-  max?: string | number;
-  rows?: number;
-  showPasswordToggle?: boolean;
-  showPassword?: boolean;
-  onTogglePassword?: () => void;
-  fullWidth?: boolean;
-}
+import { FormFieldProps } from "@/types";
 
 const FormField: React.FC<FormFieldProps> = ({
   label,

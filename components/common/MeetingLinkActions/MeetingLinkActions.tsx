@@ -1,26 +1,12 @@
-import React from "react";
+﻿import React from "react";
 import { FaExternalLinkAlt, FaCopy } from "react-icons/fa";
 import Button from "@/components/common/Button";
-
-interface MeetingLinkActionsProps {
-  meetingLink?: string;
-  styles: any;
-  containerClassName?: string;
-  openButtonClassName?: string;
-  copyButtonClassName?: string;
-  showLabels?: boolean;
-  disabled?: boolean;
-  onCopySuccess?: () => void;
-  onCopyError?: (error: Error) => void;
-  onOpenLink?: (link: string) => void;
-}
+import {MeetingLinkActionsProps} from "@/types";
 
 const MeetingLinkActions = ({
   meetingLink,
   styles,
   containerClassName = "",
-  openButtonClassName = "",
-  copyButtonClassName = "",
   showLabels = true,
   disabled = false,
   onCopySuccess,
@@ -30,14 +16,10 @@ const MeetingLinkActions = ({
   // Function to copy class link to clipboard
   const handleCopyLink = async (link: string) => {
     try {
-      await navigator.clipboard.writeText(link);
-      console.log("تم نسخ الرابط بنجاح");
-      if (onCopySuccess) {
+      await navigator.clipboard.writeText(link);if (onCopySuccess) {
         onCopySuccess();
       }
-    } catch (err) {
-      console.error("فشل في نسخ الرابط:", err);
-      if (onCopyError) {
+    } catch (err) {if (onCopyError) {
         onCopyError(err as Error);
       }
     }

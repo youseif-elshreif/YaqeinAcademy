@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import {
@@ -10,13 +10,7 @@ import {
 } from "@/components/common/Modal";
 import { useCoursesContext } from "@/contexts/CoursesContext";
 import { useAuth } from "@/contexts/AuthContext";
-
-interface DeleteCourseModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  courseId: string | null;
-  courseName?: string;
-}
+import { DeleteCourseModalProps } from "@/types";
 
 const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
   isOpen,
@@ -46,7 +40,6 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
     }
 
     if (!courseId || !token) {
-      console.error("Missing courseId or token");
       return;
     }
 
@@ -55,7 +48,6 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
       await deleteCourse(token, courseId);
       handleClose();
     } catch (error) {
-      console.error("Error deleting course:", error);
     } finally {
       setIsDeleting(false);
     }
@@ -71,12 +63,13 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
       isClosing={isClosing}
       variant="delete"
       size="medium"
+      onClose={handleClose}
     >
       <ModalHeader
         title="تأكيد حذف الدورة"
         icon={<FaTrash />}
         onClose={handleClose}
-        disabled={isDeleting}
+        isOpen={isOpen}
         variant="delete"
       />
 

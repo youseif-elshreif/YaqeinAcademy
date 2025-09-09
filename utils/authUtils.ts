@@ -58,8 +58,7 @@ export const parseJwt = (token: string): any => {
         .join("")
     );
     return JSON.parse(jsonPayload);
-  } catch (e) {
-    console.error("Error parsing JWT token", e);
+  } catch {
     return null;
   }
 };
@@ -75,7 +74,7 @@ export const isTokenExpired = (token: string): boolean => {
     }
     // Check if expiration time is past current time
     return decoded.exp * 1000 < Date.now();
-  } catch  {
+  } catch {
     return true;
   }
 };
@@ -103,8 +102,7 @@ export const refreshToken = async (): Promise<string | null> => {
     const newToken = response.data.accessToken;
     saveAccessToken(newToken);
     return newToken;
-  } catch (error) {
-    console.error("Failed to refresh token:", error);
+  } catch {
     logout();
     return null;
   }

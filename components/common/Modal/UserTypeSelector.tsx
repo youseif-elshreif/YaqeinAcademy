@@ -4,21 +4,9 @@ import {
   FaChalkboardTeacher,
   FaGraduationCap,
 } from "react-icons/fa";
-import { UserType } from "@/utils/types";
+import { UserType, UserTypeSelectorProps, UserTypeOption } from "@/types";
 import baseStyles from "../../../styles/BaseModal.module.css";
 import { ActionButton } from ".";
-
-interface UserTypeOption {
-  type: UserType;
-  icon: React.ReactNode;
-  label: string;
-}
-
-interface UserTypeSelectorProps {
-  onSelect: (type: UserType) => void;
-  disabled?: boolean;
-  title?: string;
-}
 
 const UserTypeSelector: React.FC<UserTypeSelectorProps> = ({
   onSelect,

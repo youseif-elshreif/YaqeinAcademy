@@ -4,10 +4,7 @@ import { formatDate, getStatusColor, getStatusText } from "../utils";
 import { useModal } from "@/contexts/ModalContext";
 import MeetingLinkActions from "@/components/common/MeetingLinkActions";
 import Button from "@/components/common/Button";
-
-interface ClassCardProps {
-  classItem: any; // raw lesson from API
-}
+import { ClassCardProps } from "@/types";
 
 const ClassCard = ({ classItem }: ClassCardProps) => {
   const { openCompleteModal, openStudentListModal } = useModal();
@@ -129,3 +126,5 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
 };
 
 export default ClassCard;
+
+

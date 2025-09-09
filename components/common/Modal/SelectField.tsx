@@ -1,21 +1,6 @@
 import React from "react";
 import baseStyles from "../../../styles/BaseModal.module.css";
-
-interface Option {
-  value: string;
-  label: string;
-}
-
-interface SelectFieldProps {
-  label: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  options: Option[];
-  required?: boolean;
-  disabled?: boolean;
-  error?: string;
-}
+import { SelectFieldProps, Option } from "@/types";
 
 const SelectField: React.FC<SelectFieldProps> = ({
   label,

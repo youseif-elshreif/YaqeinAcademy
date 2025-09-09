@@ -1,12 +1,6 @@
 import React from "react";
 import styles from "./SkeletonLoading.module.css";
-
-interface SkeletonTableProps {
-  rows?: number;
-  columns?: number;
-  title?: string;
-  className?: string;
-}
+import { SkeletonTableProps } from "@/types";
 
 const SkeletonTable: React.FC<SkeletonTableProps> = ({
   rows = 5,

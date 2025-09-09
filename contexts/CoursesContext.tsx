@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import {
   createContext,
   useContext,
@@ -48,13 +48,9 @@ export const CoursesProvider = ({ children }: CoursesProviderProps) => {
       setIsLoading(true);
       setError(null);
       void token; // mark as used
-      const data = await adminSvc.getCourses();
-      console.log("Fetched courses:", data);
-      setCourses(data);
+      const data = await adminSvc.getCourses();setCourses(data);
       return data;
-    } catch (error) {
-      console.error("Error fetching courses:", error);
-      setError("فشل في جلب بيانات الدورات");
+    } catch (error) {setError("فشل في جلب بيانات الدورات");
       throw error;
     } finally {
       setIsLoading(false);
@@ -68,12 +64,8 @@ export const CoursesProvider = ({ children }: CoursesProviderProps) => {
         void token;
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.getCourseById(courseId);
-        console.log("Fetched course by ID:", data);
-        return data;
-      } catch (error) {
-        console.error("Error fetching course by ID:", error);
-        setError("فشل في جلب بيانات الدورة");
+        const data = await adminSvc.getCourseById(courseId);return data;
+      } catch (error) {setError("فشل في جلب بيانات الدورة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -87,14 +79,10 @@ export const CoursesProvider = ({ children }: CoursesProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.createCourse(courseData);
-        console.log("Created course:", data);
-        // Refresh courses list
+        const data = await adminSvc.createCourse(courseData);// Refresh courses list
         await getCourses(token);
         return data;
-      } catch (error) {
-        console.error("Error creating course:", error);
-        setError("فشل في إنشاء الدورة");
+      } catch (error) {setError("فشل في إنشاء الدورة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -108,14 +96,10 @@ export const CoursesProvider = ({ children }: CoursesProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.updateCourse(courseId, courseData);
-        console.log("Updated course:", data);
-        // Refresh courses list
+        const data = await adminSvc.updateCourse(courseId, courseData);// Refresh courses list
         await getCourses(token);
         return data;
-      } catch (error) {
-        console.error("Error updating course:", error);
-        setError("فشل في تحديث الدورة");
+      } catch (error) {setError("فشل في تحديث الدورة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -129,14 +113,10 @@ export const CoursesProvider = ({ children }: CoursesProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const result = await adminSvc.deleteCourse(courseId);
-        console.log("Deleted course:", result);
-        // Refresh courses list
+        const result = await adminSvc.deleteCourse(courseId);// Refresh courses list
         await getCourses(token);
         return result;
-      } catch (error) {
-        console.error("Error deleting course:", error);
-        setError("فشل في حذف الدورة");
+      } catch (error) {setError("فشل في حذف الدورة");
         throw error;
       } finally {
         setIsLoading(false);

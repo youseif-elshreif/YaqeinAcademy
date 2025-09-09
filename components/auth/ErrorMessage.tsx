@@ -1,11 +1,7 @@
+import React from "react";
 import styles from "./ErrorMessage.module.css";
 import { FaExclamationTriangle, FaCheck, FaInfoCircle } from "react-icons/fa";
-
-interface ErrorMessageProps {
-  message?: string;
-  type?: "error" | "success" | "info";
-  className?: string;
-}
+import { ErrorMessageProps } from "@/types";
 
 const ErrorMessage: React.FC<ErrorMessageProps> = ({
   message,

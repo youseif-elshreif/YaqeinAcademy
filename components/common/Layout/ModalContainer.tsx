@@ -91,8 +91,13 @@ const ModalContainer: React.FC = () => {
       {/* Group Complete Class Modal */}
       {groupCompleteModalOpen && selectedLesson && (
         <GroupCompleteClassModal
+          isOpen={groupCompleteModalOpen}
           lessonId={selectedLesson._id}
           onClose={closeGroupCompleteModal}
+          onSuccess={() => {
+            closeGroupCompleteModal();
+            // يمكن إضافة منطق إضافي هنا مثل تحديث البيانات
+          }}
         />
       )}
       {/* Postpone Class Modal removed */}
@@ -108,10 +113,12 @@ const ModalContainer: React.FC = () => {
       {addClassLinkModalOpen && selectedClassForLink && (
         <EditClassLinkModal
           isOpen={addClassLinkModalOpen}
+          classData={selectedClassForLink}
           classInfo={{
             ...selectedClassForLink,
             currentLink: selectedClassForLink.classLink, // Pass current link
           }}
+          onSave={handleSaveClassLink}
           onSubmit={handleSaveClassLink}
           onClose={closeAddClassLinkModal}
         />

@@ -16,14 +16,10 @@ export default function Custom404() {
             </p>
             <div className={styles.errorActions}>
               <Link href="/">
-                <Button variant="primary">
-                  العودة للصفحة الرئيسية
-                </Button>
+                <Button variant="primary">العودة للصفحة الرئيسية</Button>
               </Link>
               <Link href="/courses">
-                <Button variant="secondary">
-                  تصفح الدورات
-                </Button>
+                <Button variant="secondary">تصفح الدورات</Button>
               </Link>
             </div>
           </div>

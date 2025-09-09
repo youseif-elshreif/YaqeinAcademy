@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import {
   createContext,
   useContext,
@@ -54,9 +54,7 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
       const list: any[] = await adminSvc.getAdmins();
       setAdmins(list);
       return list;
-    } catch (error) {
-      console.error("Error fetching admins:", error);
-      setError("فشل في جلب بيانات المديرين");
+    } catch (error) {setError("فشل في جلب بيانات المديرين");
       throw error;
     } finally {
       setIsLoading(false);
@@ -67,13 +65,9 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
     try {
       setIsLoading(true);
       setError(null);
-      const data = await adminSvc.createAdmin(adminData);
-      console.log("Created admin:", data);
-      // Note: We don't refresh admins here as it needs a token, which should be handled by the calling component
+      const data = await adminSvc.createAdmin(adminData);// Note: We don't refresh admins here as it needs a token, which should be handled by the calling component
       return data;
-    } catch (error) {
-      console.error("Error creating admin:", error);
-      setError("فشل في إنشاء المدير");
+    } catch (error) {setError("فشل في إنشاء المدير");
       throw error;
     } finally {
       setIsLoading(false);
@@ -85,14 +79,10 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.updateMember(token, memberId, memberData);
-        console.log("Updated member:", data);
-        // Refresh admins after update
+        const data = await adminSvc.updateMember(token, memberId, memberData);// Refresh admins after update
         await getAdmins(token);
         return data;
-      } catch (error) {
-        console.error("Error updating member:", error);
-        setError("فشل في تحديث بيانات العضو");
+      } catch (error) {setError("فشل في تحديث بيانات العضو");
         throw error;
       } finally {
         setIsLoading(false);
@@ -106,14 +96,10 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.deleteMember(memberId);
-        console.log("Deleted member:", data);
-        // Refresh admins after deletion
+        const data = await adminSvc.deleteMember(memberId);// Refresh admins after deletion
         await getAdmins(token);
         return data;
-      } catch (error) {
-        console.error("Error deleting member:", error);
-        setError("فشل في حذف العضو");
+      } catch (error) {setError("فشل في حذف العضو");
         throw error;
       } finally {
         setIsLoading(false);

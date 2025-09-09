@@ -1,28 +1,7 @@
 import StatCard from "@/components/common/UI/StatCard";
 import styles from "./StudentSummaryCards.module.css";
 import { FaCalendarCheck, FaHourglassHalf, FaBook } from "react-icons/fa";
-
-interface User {
-  id: string;
-  email: string;
-  name: string;
-  phone?: string;
-  role?: string;
-  age?: number;
-  quranMemorized?: string;
-  numOfPartsofQuran?: number;
-  isVerified?: boolean;
-  createdAt?: string;
-  avatar?: string;
-  completedSessions?: number;
-  remainingSessions?: number;
-  attendedLessons?: number;
-  PrivitelessonCredits?: number;
-}
-
-interface StudentSummaryCardsProps {
-  studentData: User;
-}
+import { StudentSummaryCardsProps } from "@/types";
 
 const StudentSummaryCards = ({ studentData }: StudentSummaryCardsProps) => {
   const hasCredits = (studentData.PrivitelessonCredits || 0) > 0;
@@ -83,3 +62,5 @@ const StudentSummaryCards = ({ studentData }: StudentSummaryCardsProps) => {
 };
 
 export default StudentSummaryCards;
+
+

@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import { FaCalendarPlus, FaSave } from "react-icons/fa";
@@ -56,9 +56,7 @@ const AddLessonModal: React.FC = () => {
         meetingLink: formData.meetingLink,
       });
       handleClose();
-    } catch (error) {
-      console.error("Error adding lesson:", error);
-    } finally {
+    } catch (error) {} finally {
       setIsSubmitting(false);
     }
   };
@@ -81,7 +79,7 @@ const AddLessonModal: React.FC = () => {
   ];
 
   return (
-    <ModalContainer isOpen={true} isClosing={isClosing} variant="add">
+    <ModalContainer isOpen={true} isClosing={isClosing} variant="add" onClose={handleClose}>
       <ModalHeader
         title="إضافة حصة جديدة"
         icon={<FaCalendarPlus />}
@@ -130,3 +128,4 @@ const AddLessonModal: React.FC = () => {
 };
 
 export default AddLessonModal;
+

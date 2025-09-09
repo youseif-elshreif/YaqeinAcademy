@@ -51,10 +51,7 @@ const VerifyEmailPage: React.FC = () => {
           >
             الذهاب إلى لوحة التحكم
           </Button>
-          <Button
-            variant="secondary"
-            onClick={() => router.push("/")}
-          >
+          <Button variant="secondary" onClick={() => router.push("/")}>
             العودة إلى الصفحة الرئيسية
           </Button>
         </>

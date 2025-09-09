@@ -25,9 +25,7 @@ export default function Unauthorized() {
             </p>
             <div className={styles.errorActions}>
               <Link href="/login">
-                <Button variant="primary">
-                  تسجيل الدخول
-                </Button>
+                <Button variant="primary">تسجيل الدخول</Button>
               </Link>
               <Button onClick={handleGoBack} variant="secondary">
                 العودة للخلف

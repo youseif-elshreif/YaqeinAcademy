@@ -3,18 +3,7 @@ import React from "react";
 import { FiCalendar, FiX, FiClock } from "react-icons/fi";
 import styles from "./ReportsModal.module.css";
 import Button from "../../../common/Button";
-
-interface ReportsFilterProps {
-  selectedMonth: string;
-  selectedYear: string;
-  onMonthChange: (month: string) => void;
-  onYearChange: (year: string) => void;
-  onClearFilter: () => void;
-  onShowCurrentMonth: () => void;
-  filteredCount: number;
-  totalCount: number;
-  isCurrentMonthActive?: boolean;
-}
+import { ReportsFilterProps } from "@/types";
 
 const ReportsFilter: React.FC<ReportsFilterProps> = ({
   selectedMonth,
@@ -25,7 +14,7 @@ const ReportsFilter: React.FC<ReportsFilterProps> = ({
   onShowCurrentMonth,
   filteredCount,
   totalCount,
-  isCurrentMonthActive = false,
+  isCurrentMonthActive = true,
 }) => {
   const months = [
     { value: "", label: "كل الأشهر" },

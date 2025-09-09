@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useEffect, useMemo, useState } from "react";
 import { ModalContainer, ModalHeader } from "@/components/common/Modal";
 import { useReportContext } from "@/contexts/ReportContext";
@@ -9,14 +9,13 @@ import {
 } from "@/components/dashboard/shared/ReportsModal";
 import styles from "@/components/dashboard/shared/ReportsModal/ReportsModal.module.css";
 import { FiClock, FiFileText } from "react-icons/fi";
+import { UnifiedReportsModalProps } from "@/types";
 
-interface UnifiedReportsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+interface ExtendedUnifiedReportsModalProps extends UnifiedReportsModalProps {
   student?: { id: string; name?: string }; // إذا موجود يبقى للمعلم، إذا مش موجود يبقى للطالب
 }
 
-const UnifiedReportsModal: React.FC<UnifiedReportsModalProps> = ({
+const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
   isOpen,
   onClose,
   student,
@@ -24,7 +23,7 @@ const UnifiedReportsModal: React.FC<UnifiedReportsModalProps> = ({
   const [isClosing, setIsClosing] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
-  const [isCurrentMonthActive, setIsCurrentMonthActive] = useState(false);
+  const [isCurrentMonthActive, setIsCurrentMonthActive] = useState(true);
 
   const {
     studentReports,
@@ -89,16 +88,21 @@ const UnifiedReportsModal: React.FC<UnifiedReportsModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       if (isTeacherView && student?.id) {
-        getStudentReports(student.id).catch((e) => {
-          console.error("Failed to load student reports:", e);
-        });
+        getStudentReports(student.id);
       } else if (!isTeacherView) {
-        getMyReports().catch((e) => {
-          console.error("Failed to load my reports", e);
-        });
+        getMyReports();
       }
     }
   }, [isOpen, isTeacherView, student?.id, getStudentReports, getMyReports]);
+
+  // تطبيق فلتر "هذا الشهر" تلقائياً عند فتح المودال
+  useEffect(() => {
+    if (isOpen) {
+      const now = new Date();
+      setSelectedMonth((now.getMonth() + 1).toString());
+      setSelectedYear(now.getFullYear().toString());
+    }
+  }, [isOpen]);
 
   const handleClose = () => {
     setIsClosing(true);
@@ -134,7 +138,12 @@ const UnifiedReportsModal: React.FC<UnifiedReportsModalProps> = ({
   };
 
   return (
-    <ModalContainer isOpen={isOpen} isClosing={isClosing} variant="default">
+    <ModalContainer
+      isOpen={isOpen}
+      isClosing={isClosing}
+      variant="default"
+      onClose={handleClose}
+    >
       <ModalHeader title={modalTitle} onClose={handleClose} variant="default" />
       <div className={styles.modalBody}>
         {isLoading ? (

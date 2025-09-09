@@ -1,17 +1,10 @@
 "use client";
 import React, { useMemo, useState } from "react";
 import { ModalContainer, ModalHeader } from "@/components/common/Modal";
-import LessonCard, {
-  UILessonCard,
-} from "@/components/dashboard/admin/modals/lessons/components/LessonCard";
+import LessonCard from "@/components/dashboard/admin/modals/lessons/components/LessonCard";
+import { UILessonCard } from "@/types/admin.types";
 import styles from "./StudentListModal.module.css";
-
-interface StudentListModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  lesson: any; // raw lesson with groupId.members
-  onOpenStudentReports?: (student: { id: string; name?: string }) => void;
-}
+import { StudentListModalProps } from "@/types";
 
 const StudentListModal: React.FC<StudentListModalProps> = ({
   isOpen,
@@ -35,7 +28,7 @@ const StudentListModal: React.FC<StudentListModalProps> = ({
   };
 
   return (
-    <ModalContainer isOpen={isOpen} isClosing={isClosing} variant="default">
+    <ModalContainer isOpen={isOpen} isClosing={isClosing} variant="default" onClose={handleClose}>
       <ModalHeader
         title={`طلاب الحلقة: ${lesson?.groupId?.name || "-"}`}
         onClose={handleClose}
@@ -97,3 +90,5 @@ const StudentListModal: React.FC<StudentListModalProps> = ({
 };
 
 export default StudentListModal;
+
+

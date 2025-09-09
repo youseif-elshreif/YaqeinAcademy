@@ -357,19 +357,7 @@
 }
 
 .chipOld {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-}
-
-.chipNext {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-}
-
-.chipTarget {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-}
-
-.chipReview {
-  background: linear-gradient(135deg, #6b7280, #4b5563);
+  background: linear-gradient(135deg, #166534, #14532d);
 }
 
 .emptyChip {

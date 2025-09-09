@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Head from "next/head";
 import HeroSection from "@/components/common/HeroSection/HeroSection";
@@ -18,9 +18,7 @@ const CoursesPage = () => {
         // Try to fetch from API (without authentication for public access)
         const response = await api.get(`${API_BASE_URL}/api/course`);
         setCourses(response.data || []);
-      } catch (error) {
-        console.error("Error fetching courses:", error);
-        // Fallback to empty array if API fails
+      } catch (error) {// Fallback to empty array if API fails
         setCourses([]);
       } finally {
         setIsLoading(false);

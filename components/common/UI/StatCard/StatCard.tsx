@@ -1,13 +1,7 @@
 import React from "react";
 import { IconType } from "react-icons";
 import styles from "./StatCard.module.css";
-
-interface StatCardProps {
-  icon: IconType;
-  value: string | number;
-  label: string;
-  className?: string;
-}
+import { StatCardProps } from "@/types";
 
 const StatCard: React.FC<StatCardProps> = ({
   icon: Icon,

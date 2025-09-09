@@ -4,17 +4,9 @@ import {
   FaChalkboardTeacher,
   FaGraduationCap,
 } from "react-icons/fa";
-import { UserType } from "@/utils/types";
+import { UserType, SelectedUserTypeHeaderProps } from "@/types";
 import Button from "../Button";
 import baseStyles from "../../../styles/BaseModal.module.css";
-
-interface SelectedUserTypeHeaderProps {
-  userType: UserType;
-  userName?: string;
-  mode?: "add" | "edit";
-  onChangeType?: () => void;
-  disabled?: boolean;
-}
 
 const SelectedUserTypeHeader: React.FC<SelectedUserTypeHeaderProps> = ({
   userType,

@@ -1,11 +1,7 @@
 import React from "react";
 import { FaExclamationTriangle } from "react-icons/fa";
 import baseStyles from "../../../styles/BaseModal.module.css";
-
-interface WarningPanelProps {
-  title: string;
-  text?: string | React.ReactNode;
-}
+import { WarningPanelProps } from "@/types";
 
 const WarningPanel: React.FC<WarningPanelProps> = ({ title, text }) => {
   return (

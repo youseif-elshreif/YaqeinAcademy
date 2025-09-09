@@ -69,6 +69,7 @@ const UserActionsModal: React.FC = () => {
       isOpen={userActionsModalOpen}
       variant="default"
       size="medium"
+      onClose={closeUserActionsModal}
     >
       <ModalHeader
         title={`إجراءات على ${

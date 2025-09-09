@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import styles from "./Lessons.module.css";
 import { FaCalendarAlt } from "react-icons/fa";
 import { useStudentDashboard } from "@/contexts/StudentDashboardContext";
@@ -13,9 +13,7 @@ export const Lessons = () => {
       try {
         setLoading(true);
         await getUserLessons();
-      } catch (error) {
-        console.error("Failed to fetch lessons:", error);
-      } finally {
+      } catch (error) {} finally {
         setLoading(false);
       }
     };
@@ -131,3 +129,4 @@ export const Lessons = () => {
     </div>
   );
 };
+

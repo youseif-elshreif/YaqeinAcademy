@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import {
   createContext,
   useContext,
@@ -51,13 +51,9 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
     try {
       setIsLoading(true);
       setError(null);
-      const data = await adminSvc.getContactInfo();
-      console.log("Fetched contact info:", data);
-      setContactInfo(data);
+      const data = await adminSvc.getContactInfo();setContactInfo(data);
       return data;
-    } catch (error) {
-      console.error("Error fetching contact info:", error);
-      setError("فشل في جلب بيانات الاتصال");
+    } catch (error) {setError("فشل في جلب بيانات الاتصال");
       throw error;
     } finally {
       setIsLoading(false);
@@ -77,13 +73,9 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const result = await adminSvc.updateContactInfo(data);
-        console.log("Updated contact info:", result);
-        setContactInfo(result);
+        const result = await adminSvc.updateContactInfo(data);setContactInfo(result);
         return result;
-      } catch (error) {
-        console.error("Error updating contact info:", error);
-        setError("فشل في تحديث بيانات الاتصال");
+      } catch (error) {setError("فشل في تحديث بيانات الاتصال");
         throw error;
       } finally {
         setIsLoading(false);

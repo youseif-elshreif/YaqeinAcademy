@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import {
   createContext,
   useContext,
@@ -69,13 +69,9 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
       setError(null);
       // Note: token parameter kept for compatibility but not used in current API
       void token;
-      const data = await adminSvc.getGroups();
-      console.log("Fetched groups:", data);
-      setGroups(data);
+      const data = await adminSvc.getGroups();setGroups(data);
       return data;
-    } catch (error) {
-      console.error("Error fetching groups:", error);
-      setError("فشل في جلب بيانات المجموعات");
+    } catch (error) {setError("فشل في جلب بيانات المجموعات");
       throw error;
     } finally {
       setIsLoading(false);
@@ -86,12 +82,8 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
     try {
       setIsLoading(true);
       setError(null);
-      const data = await adminSvc.getGroupById(groupId);
-      console.log("Fetched group by ID:", data);
-      return data;
-    } catch (error) {
-      console.error("Error fetching group by ID:", error);
-      setError("فشل في جلب بيانات المجموعة");
+      const data = await adminSvc.getGroupById(groupId);return data;
+    } catch (error) {setError("فشل في جلب بيانات المجموعة");
       throw error;
     } finally {
       setIsLoading(false);
@@ -103,14 +95,10 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.createGroup(groupData);
-        console.log("Created group:", data);
-        // Refresh groups list
+        const data = await adminSvc.createGroup(groupData);// Refresh groups list
         await getGroups(token);
         return data;
-      } catch (error) {
-        console.error("Error creating group:", error);
-        setError("فشل في إنشاء المجموعة");
+      } catch (error) {setError("فشل في إنشاء المجموعة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -124,14 +112,10 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.updateGroup(groupId, groupData);
-        console.log("Updated group:", data);
-        // Refresh groups list
+        const data = await adminSvc.updateGroup(groupId, groupData);// Refresh groups list
         await getGroups(token);
         return data;
-      } catch (error) {
-        console.error("Error updating group:", error);
-        setError("فشل في تحديث المجموعة");
+      } catch (error) {setError("فشل في تحديث المجموعة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -145,14 +129,10 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.deleteGroup(groupId);
-        console.log("Deleted group:", data);
-        // Refresh groups list
+        const data = await adminSvc.deleteGroup(groupId);// Refresh groups list
         await getGroups(token);
         return data;
-      } catch (error) {
-        console.error("Error deleting group:", error);
-        setError("فشل في حذف المجموعة");
+      } catch (error) {setError("فشل في حذف المجموعة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -173,14 +153,10 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
         const data = await adminSvc.addGroupMember(
           groupId,
           memberData.memberId
-        );
-        console.log("Added group member:", data);
-        // Refresh groups list
+        );// Refresh groups list
         await getGroups(token);
         return data;
-      } catch (error) {
-        console.error("Error adding group member:", error);
-        setError("فشل في إضافة عضو للمجموعة");
+      } catch (error) {setError("فشل في إضافة عضو للمجموعة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -190,18 +166,14 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
   );
 
   const removeGroupMember = useCallback(
-    async (token: string, groupId: string, memberId: string) => {
+    async (groupId: string, memberId: string, token: string) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.removeGroupMember(groupId, memberId);
-        console.log("Removed group member:", data);
-        // Refresh groups list
+        const data = await adminSvc.removeGroupMember(groupId, memberId);// Refresh groups list
         await getGroups(token);
         return data;
-      } catch (error) {
-        console.error("Error removing group member:", error);
-        setError("فشل في إزالة عضو من المجموعة");
+      } catch (error) {setError("فشل في إزالة عضو من المجموعة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -219,13 +191,9 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const result = await adminSvc.addLessonToGroup(groupId, data);
-        console.log("Added lesson to group:", result);
-        setLessonsRefreshKey((prev) => prev + 1);
+        const result = await adminSvc.addLessonToGroup(groupId, data);setLessonsRefreshKey((prev) => prev + 1);
         return result;
-      } catch (error) {
-        console.error("Error adding lesson to group:", error);
-        setError("فشل في إضافة درس للمجموعة");
+      } catch (error) {setError("فشل في إضافة درس للمجموعة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -243,13 +211,9 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const result = await adminSvc.updateLesson(lessonId, data);
-        console.log("Updated lesson:", result);
-        setLessonsRefreshKey((prev) => prev + 1);
+        const result = await adminSvc.updateLesson(lessonId, data);setLessonsRefreshKey((prev) => prev + 1);
         return result;
-      } catch (error) {
-        console.error("Error updating lesson:", error);
-        setError("فشل في تحديث الدرس");
+      } catch (error) {setError("فشل في تحديث الدرس");
         throw error;
       } finally {
         setIsLoading(false);
@@ -262,13 +226,9 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
     try {
       setIsLoading(true);
       setError(null);
-      const result = await adminSvc.deleteLesson(lessonId);
-      console.log("Deleted lesson:", result);
-      setLessonsRefreshKey((prev) => prev + 1);
+      const result = await adminSvc.deleteLesson(lessonId);setLessonsRefreshKey((prev) => prev + 1);
       return result;
-    } catch (error) {
-      console.error("Error deleting lesson:", error);
-      setError("فشل في حذف الدرس");
+    } catch (error) {setError("فشل في حذف الدرس");
       throw error;
     } finally {
       setIsLoading(false);

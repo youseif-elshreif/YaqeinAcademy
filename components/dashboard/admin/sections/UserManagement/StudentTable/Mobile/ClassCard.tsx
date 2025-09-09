@@ -1,13 +1,14 @@
+import React from "react";
 import { FaCog, FaListUl } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import Button from "@/components/common/Button";
 
-interface ClassCardProps {
-  studentItem: any; // Student from API
+interface StudentCardProps {
+  studentItem: any;
 }
 
-const ClassCard = ({ studentItem }: ClassCardProps) => {
+const ClassCard: React.FC<StudentCardProps> = ({ studentItem }) => {
   const { openUserActionsModal, openStudentReportsModal } = useAdminModal();
 
   const handleActionsClick = () => {
@@ -47,16 +48,9 @@ const ClassCard = ({ studentItem }: ClassCardProps) => {
           </div>
 
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>الرقم التعريفي:</span>
+            <span className={styles.infoLabel}>الرصيد:</span>
             <span className={styles.infoValue}>
-              {studentItem._id.slice(-6)}
-            </span>
-          </div>
-
-          <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>عدد الحلقات المستحقة:</span>
-            <span className={styles.infoValue}>
-              {studentItem.PrivitelessonCredits || 0}
+              {studentItem.PrivitelessonCredits}
             </span>
           </div>
 
@@ -66,7 +60,7 @@ const ClassCard = ({ studentItem }: ClassCardProps) => {
           </div>
 
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>الدولة:</span>
+            <span className={styles.infoLabel}>البلد:</span>
             <span className={styles.infoValue}>
               {studentItem.country || "-"}
             </span>

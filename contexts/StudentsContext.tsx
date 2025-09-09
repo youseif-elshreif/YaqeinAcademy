@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import {
   createContext,
   useContext,
@@ -61,12 +61,8 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
       setError(null);
       void token; // mark as used
       const studentsOnly: any[] = await adminSvc.getStudents();
-      setStudents(studentsOnly);
-      console.log("Fetched students:", studentsOnly);
-      return studentsOnly;
-    } catch (error) {
-      console.error("Error fetching students:", error);
-      setError("فشل في جلب بيانات الطلاب");
+      setStudents(studentsOnly);return studentsOnly;
+    } catch (error) {setError("فشل في جلب بيانات الطلاب");
       throw error;
     } finally {
       setIsLoading(false);
@@ -79,14 +75,10 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
         setIsLoading(true);
         setError(null);
         void token; // mark as used
-        const data = await adminSvc.createStudent(studentData);
-        console.log("Created student:", data);
-        // Refresh students list
+        const data = await adminSvc.createStudent(studentData);// Refresh students list
         await getStudents(token);
         return data;
-      } catch (error) {
-        console.error("Error creating student:", error);
-        setError("فشل في إنشاء الطالب");
+      } catch (error) {setError("فشل في إنشاء الطالب");
         throw error;
       } finally {
         setIsLoading(false);
@@ -100,14 +92,10 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.updateMember(token, studentId, studentData);
-        console.log("Updated student:", data);
-        // Refresh students list
+        const data = await adminSvc.updateMember(token, studentId, studentData);// Refresh students list
         await getStudents(token);
         return data;
-      } catch (error) {
-        console.error("Error updating student:", error);
-        setError("فشل في تحديث بيانات الطالب");
+      } catch (error) {setError("فشل في تحديث بيانات الطالب");
         throw error;
       } finally {
         setIsLoading(false);
@@ -122,14 +110,10 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.updateMember(token, memberId, memberData);
-        console.log("Updated member:", data);
-        // Refresh students list
+        const data = await adminSvc.updateMember(token, memberId, memberData);// Refresh students list
         await getStudents(token);
         return data;
-      } catch (error) {
-        console.error("Error updating member:", error);
-        setError("فشل في تحديث بيانات العضو");
+      } catch (error) {setError("فشل في تحديث بيانات العضو");
         throw error;
       } finally {
         setIsLoading(false);
@@ -152,14 +136,10 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
           studentId,
           privateAmount,
           publicAmount || 0
-        );
-        console.log("Added credits to student:", data);
-        // Refresh students list
+        );// Refresh students list
         await getStudents(token);
         return data;
-      } catch (error) {
-        console.error("Error adding credits to student:", error);
-        setError("فشل في إضافة نقاط للطالب");
+      } catch (error) {setError("فشل في إضافة نقاط للطالب");
         throw error;
       } finally {
         setIsLoading(false);
@@ -174,14 +154,10 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
         setIsLoading(true);
         setError(null);
         void token; // mark as used
-        const data = await adminSvc.deleteMember(memberId);
-        console.log("Deleted member:", data);
-        // Refresh students list
+        const data = await adminSvc.deleteMember(memberId);// Refresh students list
         await getStudents(token);
         return data;
-      } catch (error) {
-        console.error("Error deleting member:", error);
-        setError("فشل في حذف العضو");
+      } catch (error) {setError("فشل في حذف العضو");
         throw error;
       } finally {
         setIsLoading(false);

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
@@ -29,17 +29,12 @@ const EditTeacherLinkModal = () => {
   // Populate form when modal opens
   useEffect(() => {
     if (editTeacherLinkModalOpen && selectedTeacherForLink) {
-      console.log("=== EDIT TEACHER LINK MODAL OPENED ===");
-      console.log("Selected Teacher Data:", selectedTeacherForLink);
-
       // Get meeting link from different possible locations
       const currentLink =
         selectedTeacherForLink.meetingLink ||
         selectedTeacherForLink.teacherInfo?.meetingLink ||
         selectedTeacherForLink.userId?.meetingLink ||
         "";
-
-      console.log("Current Meeting Link:", currentLink);
       setMeetingLink(currentLink);
     }
   }, [editTeacherLinkModalOpen, selectedTeacherForLink]);
@@ -78,26 +73,14 @@ const EditTeacherLinkModal = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setServerError("");
-
-    console.log("=== SUBMITTING TEACHER LINK UPDATE ===");
-    console.log("Selected Teacher Data:", selectedTeacherForLink);
-
-    // Get teacher ID from different possible locations
+    setServerError(""); // Get teacher ID from different possible locations
     const teacherId =
       selectedTeacherForLink?.id ||
       selectedTeacherForLink?._id ||
       selectedTeacherForLink?.userId?._id ||
       selectedTeacherForLink?.userId?.id;
-
-    console.log("Extracted Teacher ID:", teacherId);
-
     if (!teacherId) {
       setServerError("معرف المعلم مفقود");
-      console.error(
-        "No teacher ID found in selectedTeacherForLink:",
-        selectedTeacherForLink
-      );
       return;
     }
 
@@ -110,12 +93,14 @@ const EditTeacherLinkModal = () => {
 
     setIsSubmitting(true);
     try {
-      console.log("Final meeting link:", meetingLink);
       await updateTeacherMeetingLinkOnly(teacherId, meetingLink);
       handleClose();
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const errorObj = err as any;
       const msg =
-        err?.response?.data?.message || err?.message || "حدث خطأ أثناء التحديث";
+        errorObj?.response?.data?.message ||
+        errorObj?.message ||
+        "حدث خطأ أثناء التحديث";
       setServerError(msg);
     } finally {
       setIsSubmitting(false);
@@ -153,6 +138,7 @@ const EditTeacherLinkModal = () => {
       isClosing={isClosing}
       variant="add"
       size="medium"
+      onClose={handleClose}
     >
       <ModalHeader
         title={`تعديل رابط حلقة ${teacherName}`}

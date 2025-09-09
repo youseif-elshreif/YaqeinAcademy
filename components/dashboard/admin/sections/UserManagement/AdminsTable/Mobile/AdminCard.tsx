@@ -3,19 +3,16 @@ import { FaCog } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import Button from "@/components/common/Button";
-
-interface AdminCardProps {
-  admin: any; // Admin from API
-}
+import { AdminCardProps } from "@/types";
 
 const AdminCard: React.FC<AdminCardProps> = ({ admin }) => {
   const { openUserActionsModal } = useAdminModal();
 
   const handleActionsClick = () => {
     openUserActionsModal({
-      id: admin._id || admin.id,
+      id: admin._id,
       name: admin.name,
-      userType: "admin" as any,
+      userType: "admin",
       fullData: admin,
     });
   };
@@ -26,7 +23,7 @@ const AdminCard: React.FC<AdminCardProps> = ({ admin }) => {
   };
 
   return (
-    <div key={admin._id || admin.id} className={styles.classCard}>
+    <div key={admin._id} className={styles.classCard}>
       <div className={styles.cardHeader}>
         <div className={styles.studentInfo}>
           <h3 className={`${styles.cardStudentName} ${styles.clickableText}`}>
@@ -43,15 +40,8 @@ const AdminCard: React.FC<AdminCardProps> = ({ admin }) => {
           </div>
 
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>رقم الهاتف:</span>
-            <span className={styles.infoValue}>{admin.phone}</span>
-          </div>
-
-          <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>الرقم التعريفي:</span>
-            <span className={styles.infoValue}>
-              {(admin._id || admin.id)?.slice(-6) || "-"}
-            </span>
+            <span className={styles.infoLabel}>الدور:</span>
+            <span className={styles.infoValue}>{admin.role}</span>
           </div>
 
           <div className={styles.infoItem}>

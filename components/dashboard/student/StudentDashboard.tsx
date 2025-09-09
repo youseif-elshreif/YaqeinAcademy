@@ -1,4 +1,4 @@
-// components/StudentDashboard/StudentDashboard.tsx
+﻿// components/StudentDashboard/StudentDashboard.tsx
 
 "use client";
 
@@ -29,9 +29,7 @@ function StudentDashboard() {
     const fetchStats = async () => {
       try {
         await getUserStats();
-      } catch (error) {
-        console.error("Failed to fetch user stats:", error);
-      }
+      } catch (error) {}
     };
     fetchStats();
   }, [getUserStats]);
@@ -39,13 +37,12 @@ function StudentDashboard() {
   // Debug logging
   useEffect(() => {
     if (userStats) {
-      console.log("Current userStats:", userStats);
     }
   }, [userStats]);
 
   // Prepare student data from auth context and user stats
   const studentData = {
-    id: user?.id || "",
+    id: user?._id || "",
     name: user?.name || "الطالب",
     email: user?.email || "",
     phone: user?.phone || "",
@@ -64,9 +61,7 @@ function StudentDashboard() {
     remainingSessions: userStats?.missedLessons || 0,
     attendedLessons: userStats?.attendedLessons || 0,
     PrivitelessonCredits: userStats?.PrivitelessonCredits || 0,
-  };
-  console.log("fd" + userStats?.GroupUsualDate?.firstDay);
-  // Extract group information from userStats safely
+  }; // Extract group information from userStats safely
   const groupUsualDate = userStats?.GroupUsualDate;
   const groupMeetingLink = userStats?.GroupMeetingLink
     ? String(userStats.GroupMeetingLink)

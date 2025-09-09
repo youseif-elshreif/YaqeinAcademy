@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+﻿import { useState, useCallback, useEffect } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import { useGroupsContext } from "@/contexts/GroupsContext";
 import { useStudentsContext } from "@/contexts/StudentsContext";
@@ -12,22 +12,12 @@ import {
 } from "@/components/common/Modal";
 import { FaUserPlus, FaPlus, FaMinus, FaSave } from "react-icons/fa";
 import Button from "@/components/common/Button";
-
-interface AddMembersModalProps {
-  groupId: string;
-  groupName: string;
-  groupType: "private" | "public";
-  onSuccess?: () => void;
-}
-
-interface MemberInput {
-  id: string;
-  memberId: string;
-}
-
-interface MemberFormErrors {
-  [key: string]: string; // Dynamic keys for member inputs
-}
+import { User } from "@/types/auth.types";
+import {
+  MemberInput,
+  AddMembersModalProps,
+  MemberFormErrors,
+} from "@/types/admin.types";
 
 const AddMembersModal: React.FC<AddMembersModalProps> = ({
   groupId,
@@ -66,20 +56,14 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
       const token = localStorage.getItem("accessToken");
       if (!token) return;
 
-      const studentsData = await getStudents(token);
-      console.log("Raw students data:", studentsData);
-
-      // studentsData is already an array of users with role: "student"
+      const studentsData = await getStudents(token); // studentsData is already an array of users with role: "student"
       // No need to filter or access .students property
-      const combinedStudents = studentsData.map((student: any) => ({
+      const combinedStudents = studentsData.map((student: User) => ({
         id: student._id,
         name: student.name,
       }));
-
-      console.log("Combined students:", combinedStudents);
       setStudents(combinedStudents);
     } catch (error) {
-      console.error("Error fetching students:", error);
     } finally {
       setLoadingStudents(false);
     }
@@ -179,13 +163,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
         await addGroupMember(token, groupId, {
           memberId: input.memberId.trim(),
         });
-      }
-
-      console.log(
-        `✅ Successfully added ${filledInputs.length} members to group`
-      );
-
-      // Refresh groups data after successful operation
+      } // Refresh groups data after successful operation
       await getGroups(token);
 
       // Call success callback
@@ -194,14 +172,13 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
       }
 
       handleClose();
-    } catch (error: any) {
-      console.error("❌ Error adding members:", error);
-
+    } catch (error: unknown) {
       // Handle different types of errors
-      if (error?.response?.data?.message) {
-        setErrorMessage(error.response.data.message);
-      } else if (error?.message) {
-        setErrorMessage(error.message);
+      const errorObj = error as any;
+      if (errorObj?.response?.data?.message) {
+        setErrorMessage(errorObj.response.data.message);
+      } else if (errorObj?.message) {
+        setErrorMessage(errorObj.message);
       } else {
         setErrorMessage("حدث خطأ أثناء إضافة الأعضاء. يرجى المحاولة مرة أخرى");
       }
@@ -228,12 +205,17 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
   ];
 
   return (
-    <ModalContainer isOpen={true} isClosing={isClosing} variant="add">
+    <ModalContainer
+      isOpen={true}
+      isClosing={isClosing}
+      variant="add"
+      onClose={handleClose}
+    >
       <ModalHeader
         title="إضافة أعضاء للحلقة"
         icon={<FaUserPlus />}
         onClose={handleClose}
-        disabled={isSubmitting}
+        isOpen={true}
         variant="add"
       />
 

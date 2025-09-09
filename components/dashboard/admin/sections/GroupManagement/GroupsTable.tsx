@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { FiEdit, FiCalendar, FiUsers } from "react-icons/fi";
 import { FaListUl } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
@@ -9,6 +9,7 @@ import SkeletonTable from "@/components/dashboard/admin/components/SkeletonTable
 import SkeletonCards from "@/components/dashboard/admin/components/SkeletonCards";
 import MeetingLinkActions from "@/components/common/MeetingLinkActions";
 import Button from "@/components/common/Button";
+import { LessonForModal } from "@/types";
 
 interface ApiGroup {
   _id: string;
@@ -63,8 +64,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
         }
 
         await getGroups(token);
-      } catch (error: any) {
-        console.error("Error fetching groups:", error);
+      } catch {
         setError("حدث خطأ أثناء جلب البيانات");
       } finally {
         setLoading(false);
@@ -224,7 +224,6 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                 <thead>
                   <tr>
                     <th className={styles.firstCell}>اسم الحلقة</th>
-                    <th>الرقم التعريفي</th>
                     <th>الوصف</th>
                     <th>المعلم</th>
                     <th>عدد الطلاب</th>
@@ -255,13 +254,6 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                           <span
                             className={`${styles.studentName} ${styles.primaryColor}`}
                           >
-                            {group._id}
-                          </span>
-                        </td>
-                        <td className={styles.groupCell}>
-                          <span
-                            className={`${styles.studentName} ${styles.primaryColor}`}
-                          >
                             {group.description || "لا يوجد وصف"}
                           </span>
                         </td>
@@ -269,9 +261,9 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                           <div
                             className={`${styles.studentName} ${styles.darkColor} ${styles.tooltipContainer}`}
                           >
-                            {/* {group.teacherId._id
-                              ? group.teacherId._id */}
-                            لا يوجد معلم
+                            {group.teacherId.userId.name
+                              ? group.teacherId.userId.name
+                              : "لا يوجد معلم"}
                           </div>
                         </td>
                         <td className={styles.groupCell}>
@@ -329,7 +321,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                               onClick={() => {
                                 if (!reportableLesson) return;
                                 // Construct a raw-like lesson with groupId shape for StudentListModal
-                                const lessonForModal: any = {
+                                const lessonForModal: LessonForModal = {
                                   _id: reportableLesson._id,
                                   scheduledAt: reportableLesson.scheduledAt,
                                   meetingLink: reportableLesson.meetingLink,

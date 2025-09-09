@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+﻿import { useState, useEffect, useCallback } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import { useGroupsContext } from "@/contexts/GroupsContext";
 import { useTeachersContext } from "@/contexts/TeachersContext";
@@ -22,35 +22,14 @@ import {
   FaMinus,
 } from "react-icons/fa";
 import Button from "@/components/common/Button";
-
-interface TimeSlot {
-  day: string;
-  time: string;
-}
-
-interface GroupFormData {
-  name: string;
-  description: string;
-  type: "private" | "public";
-  teacherId: string;
-  meetingLink: string;
-  timeSlots: TimeSlot[];
-}
-
-interface GroupFormErrors {
-  name?: string;
-  description?: string;
-  teacherId?: string;
-  meetingLink?: string;
-  timeSlots?: string;
-}
-
-// removed local ErrorMessage in favor of shared ErrorDisplay
-
-interface AddGroupModalProps {
-  isEditMode?: boolean;
-  editGroupId?: string;
-}
+import {
+  TimeSlot,
+  GroupFormData,
+  GroupFormErrors,
+  AddGroupModalProps,
+  TeacherOption,
+  Teacher,
+} from "@/types";
 
 const AddGroupModal: React.FC<AddGroupModalProps> = ({
   isEditMode = false,
@@ -76,7 +55,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [fieldErrors, setFieldErrors] = useState<GroupFormErrors>({});
-  const [teachers, setTeachers] = useState<any[]>([]);
+  const [teachers, setTeachers] = useState<TeacherOption[]>([]);
   const [loadingTeachers, setLoadingTeachers] = useState(false);
 
   // Load teachers data when component mounts
@@ -91,16 +70,17 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       // Create teachers list with combined data
       const combinedTeachers = teachersData
         .filter(
-          (teacher: any) => teacher.userId && typeof teacher.userId === "object"
+          (teacher: Teacher) =>
+            teacher.userId && typeof teacher.userId === "object"
         )
-        .map((teacher: any) => ({
+        .map((teacher: Teacher) => ({
           id: teacher._id,
-          name: teacher.userId.name,
+          name: typeof teacher.userId === "object" ? teacher.userId.name : "",
         }));
 
       setTeachers(combinedTeachers);
-    } catch (error) {
-      console.error("Error fetching teachers:", error);
+    } catch {
+      // Error loading teachers
     } finally {
       setLoadingTeachers(false);
     }
@@ -173,8 +153,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       } else {
         setErrorMessage("لم يتم العثور على الحلقة");
       }
-    } catch (error: any) {
-      console.error("Error fetching group data:", error);
+    } catch {
       setErrorMessage("حدث خطأ أثناء جلب بيانات الحلقة");
     } finally {
       setIsLoading(false);
@@ -316,28 +295,14 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
     token: string
   ) => {
     try {
-      console.log("🔄 Creating lessons for group:", {
-        groupId,
-        weekdays,
-        times,
-      });
-
       // Generate lesson schedule using the date utility
       const schedule = createLessonSchedule(weekdays, times, meetingLink);
 
-      console.log("📅 Generated schedule:", schedule);
-
       // Add each lesson to the group
       for (const lesson of schedule) {
-        console.log("➕ Adding lesson:", lesson.scheduledAt);
         await addLessonToGroup(token, groupId, lesson);
       }
-
-      console.log(
-        `✅ Successfully created ${schedule.length} lessons for group ${groupId}`
-      );
-    } catch (error) {
-      console.error("❌ Error creating group lessons:", error);
+    } catch {
       // Don't throw error - group creation was successful, lesson creation is secondary
     }
   };
@@ -360,7 +325,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       }
 
       // Transform timeSlots to API format
-      const usualDate: any = {};
+      const usualDate: Record<string, string> = {};
       const weekdays: string[] = [];
       const times: string[] = [];
 
@@ -399,14 +364,10 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
 
       if (isEditMode && editGroupId) {
         // Edit existing group
-        console.log("Updating group with data:", groupData);
         response = await updateGroup(token, editGroupId, groupData);
-        console.log("Updated group response:", response);
       } else {
         // Create new group
-        console.log("Creating group with data:", groupData);
         response = await createGroup(token, groupData);
-        console.log("Created group response:", response);
       }
 
       // Refresh groups data after successful operation
@@ -416,7 +377,6 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       if (!isEditMode) {
         // Create lessons for the new group
         if (weekdays.length > 0 && times.length > 0) {
-          console.log("🔄 إنشاء الحصص للمجموعة الجديدة...");
           await createGroupLessons(
             response._id,
             formData.meetingLink,
@@ -424,8 +384,6 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
             times,
             token
           );
-        } else {
-          console.log("⚠️ لم يتم تحديد مواعيد للمجموعة - لن يتم إنشاء حصص");
         }
 
         // Close current modal
@@ -443,17 +401,13 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
         // Just close modal for edit mode
         handleClose();
       }
-    } catch (error: any) {
-      console.error(
-        `❌ Error ${isEditMode ? "updating" : "creating"} group:`,
-        error
-      );
-
+    } catch (error: unknown) {
       // Handle different types of errors
-      if (error?.response?.data?.message) {
-        setErrorMessage(error.response.data.message);
-      } else if (error?.message) {
-        setErrorMessage(error.message);
+      const errorObj = error as any;
+      if (errorObj?.response?.data?.message) {
+        setErrorMessage(errorObj.response.data.message);
+      } else if (errorObj?.message) {
+        setErrorMessage(errorObj.message);
       } else {
         setErrorMessage(
           `حدث خطأ أثناء ${
@@ -482,7 +436,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       value: "",
       label: loadingTeachers ? "جاري تحميل المدرسين..." : "اختر المدرس",
     },
-    ...teachers.map((t: any) => ({ value: t.id, label: t.name })),
+    ...teachers.map((t: TeacherOption) => ({ value: t.id, label: t.name })),
   ];
 
   const actions = [
@@ -508,12 +462,13 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       isClosing={isClosing}
       variant="add"
       size="large"
+      onClose={handleClose}
     >
       <ModalHeader
         title={isEditMode ? "تعديل الحلقة" : "إضافة حلقة جديدة"}
         icon={<FaUsers />}
         onClose={handleClose}
-        disabled={isSubmitting}
+        isOpen={true}
         variant="add"
       />
 
@@ -526,28 +481,34 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                 <div className={styles.skeletonLabel}></div>
                 <div className={styles.skeletonInput}></div>
               </div>
-              
+
               <div className={baseStyles.inputGroup}>
                 <div className={styles.skeletonLabel}></div>
                 <div className={styles.skeletonInput}></div>
               </div>
-              
+
               <div className={baseStyles.inputGroup}>
                 <div className={styles.skeletonLabel}></div>
                 <div className={styles.skeletonInput}></div>
               </div>
-              
+
               <div className={baseStyles.inputGroup}>
                 <div className={styles.skeletonLabel}></div>
                 <div className={styles.skeletonInput}></div>
               </div>
-              
-              <div className={baseStyles.inputGroup} style={{ gridColumn: "1 / -1" }}>
+
+              <div
+                className={baseStyles.inputGroup}
+                style={{ gridColumn: "1 / -1" }}
+              >
                 <div className={styles.skeletonLabel}></div>
                 <div className={styles.skeletonTextarea}></div>
               </div>
-              
-              <div className={baseStyles.inputGroup} style={{ gridColumn: "1 / -1" }}>
+
+              <div
+                className={baseStyles.inputGroup}
+                style={{ gridColumn: "1 / -1" }}
+              >
                 <div className={styles.skeletonLabel}></div>
                 <div className={baseStyles.timeSlotRow}>
                   <div className={styles.skeletonSelect}></div>
@@ -556,7 +517,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                 <div className={styles.skeletonButton}></div>
               </div>
             </div>
-            
+
             <div className={styles.loadingMessage}>
               <div className={styles.loadingSpinner}></div>
             </div>

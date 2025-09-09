@@ -1,15 +1,5 @@
 import styles from "./DashboardTabs.module.css";
-
-interface Tab {
-  id: string;
-  label: string;
-}
-
-interface DashboardTabsProps {
-  tabs: Tab[];
-  activeTab: string;
-  onTabChange: (tabId: string) => void;
-}
+import { DashboardTabsProps } from "@/types";
 
 const DashboardTabs = ({
   tabs,
@@ -36,3 +26,5 @@ const DashboardTabs = ({
 };
 
 export default DashboardTabs;
+
+

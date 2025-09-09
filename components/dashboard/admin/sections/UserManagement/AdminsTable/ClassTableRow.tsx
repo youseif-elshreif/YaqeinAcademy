@@ -3,19 +3,16 @@ import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import { FaCog } from "react-icons/fa";
 import Button from "@/components/common/Button";
+import { AdminTableRowProps } from "@/types";
 
-interface Props {
-  admin: any;
-}
-
-const ClassTableRow = ({ admin }: Props) => {
+const ClassTableRow = ({ admin }: AdminTableRowProps) => {
   const { openUserActionsModal } = useAdminModal();
 
   const handleActionsClick = () => {
     openUserActionsModal({
-      id: admin._id || admin.id,
+      id: admin._id,
       name: admin.name,
-      userType: "admin" as any,
+      userType: "admin",
       fullData: admin,
     });
   };
@@ -28,7 +25,7 @@ const ClassTableRow = ({ admin }: Props) => {
         </div>
       </td>
       <td>{admin.email}</td>
-      <td>{admin.phone}</td>
+      <td>{admin.role}</td>
       <td>
         {admin.createdAt
           ? new Date(admin.createdAt).toLocaleDateString("ar-EG")
@@ -50,3 +47,5 @@ const ClassTableRow = ({ admin }: Props) => {
 };
 
 export default ClassTableRow;
+
+

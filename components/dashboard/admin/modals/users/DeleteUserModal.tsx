@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import { useTeachersContext } from "@/contexts/TeachersContext";
 import { useStudentsContext } from "@/contexts/StudentsContext";
@@ -46,38 +46,27 @@ const DeleteUserModal: React.FC = () => {
 
     try {
       if (!token) {
-        console.error("No access token found");
         alert("لم يتم العثور على رمز المصادقة");
         return;
       }
-
-      console.log(
-        `🗑️ Deleting ${selectedUserForActions.userType}:`,
-        selectedUserForActions
-      );
-
       if (selectedUserForActions.userType === "teacher") {
         // Use deleteTeacher function for teachers
         const teacherId =
           selectedUserForActions.fullData?.teacherInfo?._id ||
           selectedUserForActions.id;
         await deleteTeacher(token, teacherId);
-        console.log("✅ Teacher deleted successfully");
       } else if (selectedUserForActions.userType === "admin") {
         // Use deleteAdminMember function for admins
         const adminId = selectedUserForActions.id;
         await deleteAdminMember(token, adminId);
-        console.log("✅ Admin deleted successfully");
       } else {
         // Use deleteStudentMember function for students
         const studentId = selectedUserForActions.id;
         await deleteStudentMember(token, studentId);
-        console.log("✅ Student deleted successfully");
       }
 
       handleClose();
-    } catch (error: any) {
-      console.error("❌ Error deleting user:", error);
+    } catch (error: unknown) {
       alert("حدث خطأ أثناء الحذف");
     } finally {
       setIsDeleting(false);
@@ -117,6 +106,7 @@ const DeleteUserModal: React.FC = () => {
       isClosing={isClosing}
       variant="delete"
       size="medium"
+      onClose={handleClose}
     >
       <ModalHeader
         title={`تأكيد حذف ${

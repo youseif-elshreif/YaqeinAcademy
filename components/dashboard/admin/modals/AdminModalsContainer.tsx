@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useEffect } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import AddUserModal from "./users/AddUserModal";
@@ -59,6 +59,7 @@ const AdminModalsContainer: React.FC = () => {
     closeGroupActionsModal,
     closeConfirmDeleteGroupModal,
     closeRemoveMemberModal,
+    closeAddMembersModal,
     openConfirmDeleteGroupModal,
     openRemoveMemberModal,
     openAddMembersModal,
@@ -128,9 +129,7 @@ const AdminModalsContainer: React.FC = () => {
     try {
       await handleDeleteGroup(groupId);
       // No need for callback since handleDeleteGroup now handles refresh internally
-    } catch (error) {
-      console.error("Error in delete group wrapper:", error);
-      throw error;
+    } catch (error) {throw error;
     }
   };
 
@@ -175,12 +174,12 @@ const AdminModalsContainer: React.FC = () => {
       {/* Add Members Modal */}
       {addMembersModalOpen && selectedGroupData && (
         <AddMembersModal
+          isOpen={addMembersModalOpen}
+          onClose={closeAddMembersModal}
           groupId={selectedGroupData.id}
           groupName={selectedGroupData.name}
           groupType={selectedGroupData.type}
-          onSuccess={() => {
-            console.log("Members added successfully!");
-          }}
+          onSuccess={() => {}}
         />
       )}
 
@@ -191,25 +190,17 @@ const AdminModalsContainer: React.FC = () => {
           onClose={closeGroupActionsModal}
           groupId={selectedGroupActionsData.id}
           groupName={selectedGroupActionsData.name}
-          onEdit={(groupId, groupName) => {
-            console.log("Edit group:", groupId, groupName);
-            openEditGroupModal({ id: groupId, name: groupName });
+          onEdit={(groupId, groupName) => {openEditGroupModal({ id: groupId, name: groupName });
           }}
-          onDelete={(groupId, groupName) => {
-            console.log("Delete group:", groupId, groupName);
-            openConfirmDeleteGroupModal({ id: groupId, name: groupName });
+          onDelete={(groupId, groupName) => {openConfirmDeleteGroupModal({ id: groupId, name: groupName });
           }}
-          onAddMember={(groupId, groupName, groupType) => {
-            console.log("Add member to group:", groupId, groupName, groupType);
-            openAddMembersModal({
+          onAddMember={(groupId, groupName, groupType) => {openAddMembersModal({
               id: groupId,
               name: groupName,
               type: groupType,
             });
           }}
-          onRemoveMember={(groupId, groupName) => {
-            console.log("Remove member from group:", groupId, groupName);
-            openRemoveMemberModal({ id: groupId, name: groupName });
+          onRemoveMember={(groupId, groupName) => {openRemoveMemberModal({ id: groupId, name: groupName });
           }}
         />
       )}
@@ -232,9 +223,7 @@ const AdminModalsContainer: React.FC = () => {
           onClose={closeRemoveMemberModal}
           groupId={selectedGroupForMemberRemoval.id}
           groupName={selectedGroupForMemberRemoval.name}
-          onSuccess={() => {
-            console.log("Member removed successfully!");
-          }}
+          onSuccess={() => {}}
         />
       )}
 
@@ -289,3 +278,4 @@ const AdminModalsContainer: React.FC = () => {
 };
 
 export default AdminModalsContainer;
+

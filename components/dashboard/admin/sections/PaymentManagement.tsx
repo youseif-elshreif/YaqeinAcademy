@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import {
   FiDollarSign,
   FiCheck,
@@ -11,7 +11,7 @@ import StatCard from "@/components/common/UI/StatCard";
 import EnhancedLoader from "@/components/common/UI/EnhancedLoader";
 import api from "@/utils/api";
 import styles from "@/styles/AdminDashboard.module.css";
-import { Payment, PaymentHistory } from "@/utils/types";
+import { Payment, PaymentHistory } from "@/types";
 import Button from "@/components/common/Button";
 
 const PaymentManagement: React.FC = () => {
@@ -62,9 +62,7 @@ const PaymentManagement: React.FC = () => {
       setLoading(true);
       const response = await api.get("/admin/payments");
       setPayments(response.data);
-    } catch (error) {
-      console.error("Error fetching payments:", error);
-      // Mock data for development
+    } catch (error) {// Mock data for development
       const mockPayments: Payment[] = [
         {
           id: "1",
@@ -113,9 +111,7 @@ const PaymentManagement: React.FC = () => {
     try {
       const response = await api.get("/admin/payments/history");
       setPaymentHistory(response.data);
-    } catch (error) {
-      console.error("Error fetching payment history:", error);
-      // Mock data
+    } catch (error) {// Mock data
       const mockHistory: PaymentHistory[] = [
         {
           id: "1",
@@ -159,9 +155,7 @@ const PaymentManagement: React.FC = () => {
           payment.id === paymentId ? { ...payment, status: newStatus } : payment
         )
       );
-    } catch (error) {
-      console.error("Error updating payment status:", error);
-      alert("فشل في تحديث حالة الدفعة");
+    } catch (error) {alert("فشل في تحديث حالة الدفعة");
     }
   };
 
@@ -211,9 +205,7 @@ const PaymentManagement: React.FC = () => {
 
       setShowPaymentModal(false);
       setSelectedPayment(null);
-    } catch (error) {
-      console.error("Error saving payment:", error);
-      alert("فشل في حفظ بيانات الدفعة");
+    } catch (error) {alert("فشل في حفظ بيانات الدفعة");
     }
   };
 
@@ -444,7 +436,10 @@ const PaymentManagement: React.FC = () => {
                     onChange={(e) =>
                       setPaymentForm({
                         ...paymentForm,
-                        paymentMethod: e.target.value as any,
+                        paymentMethod: e.target.value as
+                          | "cash"
+                          | "card"
+                          | "bank_transfer",
                       })
                     }
                     className={styles.formSelect}
@@ -546,3 +541,4 @@ const PaymentManagement: React.FC = () => {
 };
 
 export default PaymentManagement;
+

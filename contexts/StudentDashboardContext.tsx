@@ -1,4 +1,4 @@
-"use Client";
+﻿"use Client";
 import {
   createContext,
   useCallback,
@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { StudentDashboardContextType, UserStats, Lesson } from "@/utils/types";
+import { StudentDashboardContextType, UserStats, Lesson } from "@/types";
 import { getUserLessons as getUserLessonsSvc } from "@/utils/services/lesson.service";
 import { getUserStats as getUserStatsSvc } from "@/utils/services/user.service";
 
@@ -25,21 +25,15 @@ export const StudentDashboardProvider: React.FC<{
       const lessons = await getUserLessonsSvc();
       setUserLessons(lessons);
       return lessons;
-    } catch (error) {
-      console.error("Error fetching user lessons:", error);
-      throw error;
+    } catch (error) {throw error;
     }
   }, []);
 
   const getUserStats = useCallback(async () => {
     try {
-      const data = await getUserStatsSvc();
-      console.log("Fetched user stats:", data);
-      setUserStats(data);
+      const data = await getUserStatsSvc();setUserStats(data);
       return data;
-    } catch (error) {
-      console.error("Error fetching user stats:", error);
-      throw error;
+    } catch (error) {throw error;
     }
   }, []);
 

@@ -3,13 +3,7 @@ import React from "react";
 import StatCard from "@/components/common/UI/StatCard";
 import { FiFileText, FiCheckCircle, FiBookOpen, FiStar } from "react-icons/fi";
 import styles from "./ReportsModal.module.css";
-
-interface ReportsStatsProps {
-  totalReports: number;
-  attendedCount: number;
-  homeworkCount: number;
-  avgRating: number;
-}
+import { ReportsStatsProps } from "@/types";
 
 const ReportsStats: React.FC<ReportsStatsProps> = ({
   totalReports,
@@ -42,3 +36,5 @@ const ReportsStats: React.FC<ReportsStatsProps> = ({
 };
 
 export default ReportsStats;
+
+

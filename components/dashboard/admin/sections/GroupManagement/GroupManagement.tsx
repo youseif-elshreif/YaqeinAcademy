@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { FiPlus, FiDownload } from "react-icons/fi";
 import StatCard from "@/components/common/UI/StatCard";
 import styles from "@/styles/AdminDashboard.module.css";
@@ -24,9 +24,7 @@ const GroupManagement: React.FC = () => {
     openAddGroupModal();
   };
 
-  const handleExportData = () => {
-    console.log("تصدير بيانات الحلقات");
-  };
+  const handleExportData = () => {};
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);
@@ -106,3 +104,4 @@ const GroupManagement: React.FC = () => {
 };
 
 export default GroupManagement;
+

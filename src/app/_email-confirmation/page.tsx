@@ -32,9 +32,7 @@ const EmailConfirmationPage: React.FC = () => {
             فتح البريد الإلكتروني
           </Button> */}
           <Link href="/">
-            <Button variant="secondary">
-              العودة للرئيسية
-            </Button>
+            <Button variant="secondary">العودة للرئيسية</Button>
           </Link>
         </div>
       </div>

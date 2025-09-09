@@ -88,11 +88,6 @@ const GroupCard = ({ group }: GroupCardProps) => {
       <div className={styles.cardBody}>
         <div className={styles.cardInfo}>
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>الرقم التعريفي:</span>
-            <span className={styles.infoValue}>{group._id}</span>
-          </div>
-
-          <div className={styles.infoItem}>
             <span className={styles.infoLabel}>الوصف:</span>
             <span className={styles.infoValue}>
               {group.description || "لا يوجد وصف"}

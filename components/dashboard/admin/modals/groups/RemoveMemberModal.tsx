@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect, useCallback } from "react";
 import { FaUserMinus, FaUser } from "react-icons/fa";
 import { useGroupsContext } from "@/contexts/GroupsContext";
@@ -11,20 +11,7 @@ import {
   ConfirmTextInput,
 } from "@/components/common/Modal";
 import Button from "@/components/common/Button";
-
-interface Member {
-  _id: string;
-  name: string;
-  email: string;
-}
-
-interface RemoveMemberModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  groupId: string;
-  groupName: string;
-  onSuccess?: () => void;
-}
+import { Member, RemoveMemberModalProps } from "@/types/admin.types";
 
 const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
   isOpen,
@@ -33,7 +20,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
   groupName,
   onSuccess,
 }) => {
-  const { removeGroupMember, getGroups } = useGroupsContext();
+  const { removeGroupMember, getGroupById } = useGroupsContext();
   const [members, setMembers] = useState<Member[]>([]);
   const [loading, setLoading] = useState(true);
   const [removing, setRemoving] = useState(false);
@@ -52,21 +39,18 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
         return;
       }
 
-      const groupsData = await getGroups(token);
-      const targetGroup = groupsData.find((group) => group._id === groupId);
-
-      if (targetGroup) {
-        setMembers(targetGroup.members);
+      const groupData = await getGroupById(token, groupId);
+      if (groupData) {
+        setMembers(groupData.group.members);
       } else {
         setError("لم يتم العثور على الحلقة");
       }
-    } catch (error: any) {
-      console.error("Error fetching group members:", error);
+    } catch (error: unknown) {
       setError("حدث خطأ أثناء جلب أعضاء الحلقة");
     } finally {
       setLoading(false);
     }
-  }, [getGroups, groupId]);
+  }, [getGroupById, groupId]);
 
   useEffect(() => {
     if (isOpen && groupId) {
@@ -114,7 +98,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
       await Promise.all(removePromises);
 
       // Refresh groups data
-      await getGroups(token);
+      await getGroupById(token, groupId);
 
       // Call success callback
       if (onSuccess) {
@@ -123,9 +107,9 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
 
       // Close modal
       handleClose();
-    } catch (error: any) {
-      console.error("Error removing members:", error);
-      setError(error.message || "حدث خطأ أثناء حذف الأعضاء");
+    } catch (error: unknown) {
+      const errorObj = error as any;
+      setError(errorObj.message || "حدث خطأ أثناء حذف الأعضاء");
     } finally {
       setRemoving(false);
     }
@@ -159,7 +143,12 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
     !removing;
 
   return (
-    <ModalContainer isOpen={true} isClosing={isClosing} variant="delete">
+    <ModalContainer
+      isOpen={true}
+      isClosing={isClosing}
+      variant="delete"
+      onClose={handleClose}
+    >
       <ModalHeader
         title="حذف عضو من الحلقة"
         icon={<FaUserMinus />}
@@ -208,10 +197,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
         ) : error ? (
           <div className={baseStyles.errorContainer}>
             <p className={baseStyles.errorMessage}>{error}</p>
-            <Button
-              onClick={fetchGroupMembers}
-              variant="secondary"
-            >
+            <Button onClick={fetchGroupMembers} variant="secondary">
               إعادة المحاولة
             </Button>
           </div>
@@ -259,12 +245,6 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
                   />
                   <div className={baseStyles.memberInfo}>
                     <span className={baseStyles.memberName}>{member.name}</span>
-                    <span className={baseStyles.memberEmail}>
-                      {member.email}
-                    </span>
-                    <span className={baseStyles.memberId}>
-                      المعرف: {member._id}
-                    </span>
                   </div>
                 </label>
               ))}

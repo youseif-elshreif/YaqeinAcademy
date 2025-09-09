@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { FiCalendar, FiPlus } from "react-icons/fi";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import { useCoursesContext } from "@/contexts/CoursesContext";
@@ -14,8 +14,8 @@ const LessonManagement: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Transform API data to match CoursesGrid interface
-  const transformCourseData = (apiCourses: any[]) => {
-    return apiCourses.map((course) => ({
+  const transformCourseData = (apiCourses: unknown[]) => {
+    return apiCourses.map((course: any) => ({
       id: course._id, // Use _id from API response
       title: course.title,
       startDate: course.startAt
@@ -35,16 +35,12 @@ const LessonManagement: React.FC = () => {
   // Fetch courses on component mount
   useEffect(() => {
     const fetchCourses = async () => {
-      try {
-        console.log(true);
-        setIsLoading(true);
+      try {setIsLoading(true);
         const token = localStorage.getItem("accessToken");
         if (token) {
           await getCourses(token);
         }
-      } catch (error) {
-        console.error("Error fetching courses:", error);
-      } finally {
+      } catch (error) {} finally {
         setIsLoading(false);
       }
     };
@@ -95,3 +91,4 @@ const LessonManagement: React.FC = () => {
 };
 
 export default LessonManagement;
+

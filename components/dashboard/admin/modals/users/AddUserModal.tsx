@@ -1,6 +1,7 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
-import { UserFormData, UserType } from "@/utils/types";
+import { UserFormData } from "@/types/admin.types";
+import { UserType } from "@/types/auth.types";
 import { CheckboxField } from "@/components/auth";
 import CountrySelect from "@/components/auth/CountrySelect";
 import { isValidPhoneNumber, CountryCode } from "libphonenumber-js";
@@ -30,6 +31,7 @@ const AddUserModal = () => {
     phone: "",
     phoneNumber: "",
     country: "",
+    city: "",
     userType: "student",
     age: null,
     hasQuranMemorization: false,
@@ -68,6 +70,7 @@ const AddUserModal = () => {
         phone: "",
         phoneNumber: "",
         country: "",
+        city: "",
         userType: "student",
         subject: "",
         bio: "",
@@ -177,6 +180,7 @@ const AddUserModal = () => {
       phone: "",
       phoneNumber: "",
       country: "",
+      city: "",
       userType: "student",
       age: null,
       hasQuranMemorization: false,
@@ -288,6 +292,7 @@ const AddUserModal = () => {
         phone: "",
         phoneNumber: "",
         country: "",
+        city: "",
         userType: "student",
         age: null,
         hasQuranMemorization: false,
@@ -305,12 +310,12 @@ const AddUserModal = () => {
       setShowPassword(false);
       setFieldErrors({});
       setServerError("");
-    } catch (error: any) {
-      console.error(`❌ Error creating user:`, error);
+    } catch (error: unknown) {
       // عرض رسالة الخطأ من السيرفر
+      const errorObj = error as any;
       const errorMessage =
-        error?.response?.data?.message ||
-        error?.message ||
+        errorObj?.response?.data?.message ||
+        errorObj?.message ||
         `حدث خطأ أثناء إنشاء المستخدم`;
       setServerError(errorMessage);
     } finally {
@@ -348,6 +353,7 @@ const AddUserModal = () => {
       isClosing={isClosing}
       variant="add"
       size="large"
+      onClose={handleClose}
     >
       <ModalHeader
         title="إضافة مستخدم جديد"

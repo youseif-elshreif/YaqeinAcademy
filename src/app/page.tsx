@@ -42,9 +42,7 @@ export default function Home() {
             </div>
             <p>انطلق في رحلة إيمانية مع أكاديمية يقين !</p>
             <Link href="/register">
-              <Button variant="primary">
-                انضم الآن
-              </Button>
+              <Button variant="primary">انضم الآن</Button>
             </Link>
           </div>
         </section>
@@ -360,9 +358,7 @@ export default function Home() {
           <div className={styles.ctaContainer}>
             <h2 className={styles.header2}>هل أنت مستعد للانضمام إلينا؟</h2>
             <Link href="/register">
-              <Button variant="secondary">
-                انضم الآن
-              </Button>
+              <Button variant="secondary">انضم الآن</Button>
             </Link>
           </div>
         </section>

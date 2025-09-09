@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
@@ -9,14 +9,7 @@ import {
   WarningPanel,
   ConfirmTextInput,
 } from "@/components/common/Modal";
-
-interface ConfirmDeleteGroupModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  groupId: string;
-  groupName: string;
-  onConfirmDelete: (groupId: string) => void;
-}
+import { ConfirmDeleteGroupModalProps } from "@/types/admin.types";
 
 const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
   isOpen,
@@ -51,7 +44,6 @@ const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
       setConfirmText("");
       handleClose();
     } catch (error) {
-      console.error("Error deleting group:", error);
     } finally {
       setIsLoading(false);
     }
@@ -77,7 +69,12 @@ const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
   ];
 
   return (
-    <ModalContainer isOpen={true} isClosing={isClosing} variant="delete">
+    <ModalContainer
+      isOpen={true}
+      isClosing={isClosing}
+      variant="delete"
+      onClose={handleClose}
+    >
       <ModalHeader
         title="تأكيد حذف الحلقة"
         icon={<FaTrash />}

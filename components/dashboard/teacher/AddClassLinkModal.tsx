@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import styles from "./AddClassLinkModal.module.css";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import {
@@ -8,20 +8,7 @@ import {
   FormField,
   ErrorDisplay,
 } from "@/components/common/Modal";
-
-interface EditClassLinkModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (link: string) => void;
-  classInfo: {
-    id: number;
-    date: string;
-    time: string;
-    studentName?: string;
-    groupName?: string;
-    currentLink?: string; // Add current link to props
-  } | null;
-}
+import { EditClassLinkModalProps } from "@/types";
 
 const EditClassLinkModal = ({
   isOpen,
@@ -72,9 +59,7 @@ const EditClassLinkModal = ({
 
       await onSubmit(finalLink);
       onClose();
-    } catch (error) {
-      console.error("Error updating link:", error);
-      setError("حدث خطأ في تحديث الرابط");
+    } catch (error) {setError("حدث خطأ في تحديث الرابط");
     } finally {
       setIsLoading(false);
     }
@@ -105,7 +90,7 @@ const EditClassLinkModal = ({
   ];
 
   return (
-    <ModalContainer isOpen={true} variant="add">
+    <ModalContainer isOpen={true} variant="add" onClose={handleClose}>
       <ModalHeader
         title="تعديل رابط الحلقة"
         icon={<FaExternalLinkAlt />}
@@ -166,3 +151,4 @@ const EditClassLinkModal = ({
 };
 
 export default EditClassLinkModal;
+

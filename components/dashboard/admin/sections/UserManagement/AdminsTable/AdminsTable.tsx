@@ -4,17 +4,15 @@ import styles from "@/components/dashboard/admin/styles.module.css";
 import SkeletonTable from "@/components/dashboard/admin/components/SkeletonTable";
 import SkeletonCards from "@/components/dashboard/admin/components/SkeletonCards";
 import { FiUsers } from "react-icons/fi";
-import { FaCog } from "react-icons/fa";
-import { useAdminModal } from "@/contexts/AdminModalContext";
 import MobileAdminCards from "./Mobile/MobileAdminCards";
 import Button from "@/components/common/Button";
+import { AdminUser } from "@/types";
+import ClassTableRow from "./ClassTableRow";
 
 const AdminsTable: React.FC<{ searchTerm?: string }> = ({
   searchTerm = "",
 }) => {
   const { admins = [], isLoading, error } = useAdminStatsContext();
-
-  const { openUserActionsModal } = useAdminModal();
 
   // Show loading if context is loading OR if we don't have data yet
   const shouldShowLoading = isLoading || (admins.length === 0 && !error);
@@ -60,16 +58,14 @@ const AdminsTable: React.FC<{ searchTerm?: string }> = ({
   const normalized = searchTerm.trim().toLowerCase();
   const filtered = !normalized
     ? admins
-    : admins.filter((a: any) => {
+    : admins.filter((a: AdminUser) => {
         const name = (a.name || "").toLowerCase();
         const email = (a.email || "").toLowerCase();
-        const phone = (a.phone || "").toLowerCase();
-        const country = (a.country || "").toLowerCase();
+        const role = (a.role || "").toLowerCase();
         return (
           name.includes(normalized) ||
           email.includes(normalized) ||
-          phone.includes(normalized) ||
-          country.includes(normalized)
+          role.includes(normalized)
         );
       });
 
@@ -107,45 +103,8 @@ const AdminsTable: React.FC<{ searchTerm?: string }> = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {filtered.map((admin: any) => (
-                    <tr key={admin._id || admin.id} className={styles.tableRow}>
-                      <td
-                        className={`${styles.studentCell} ${styles.firstCell}`}
-                      >
-                        <div className={styles.teacherInfo}>
-                          <span className={styles.teacherName}>
-                            {admin.name}
-                          </span>
-                        </div>
-                      </td>
-                      <td>{admin.email}</td>
-                      <td>{admin.phone}</td>
-                      <td>
-                        {admin.createdAt
-                          ? new Date(admin.createdAt).toLocaleDateString(
-                              "ar-EG"
-                            )
-                          : "-"}
-                      </td>
-                      <td>
-                        <Button
-                          onClick={() =>
-                            openUserActionsModal({
-                              id: admin._id || admin.id,
-                              name: admin.name,
-                              userType: "admin" as any,
-                              fullData: admin,
-                            })
-                          }
-                          variant="primary"
-                          size="small"
-                          icon={<FaCog />}
-                          title="إجراءات المسؤول"
-                        >
-                          الإجراءات
-                        </Button>
-                      </td>
-                    </tr>
+                  {filtered.map((admin: AdminUser) => (
+                    <ClassTableRow key={admin._id} admin={admin} />
                   ))}
                 </tbody>
               </table>
@@ -163,3 +122,5 @@ const AdminsTable: React.FC<{ searchTerm?: string }> = ({
 };
 
 export default AdminsTable;
+
+

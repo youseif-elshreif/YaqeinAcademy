@@ -2,13 +2,7 @@ import countries from "@/public/data/country.json";
 import styles from "./CountrySelect.module.css";
 import React, { useState, useRef, useEffect } from "react";
 import { FiChevronDown, FiSearch } from "react-icons/fi";
-
-interface CountrySelectProps {
-  onChange: (countryName: string, countryCode: string) => void;
-  value?: string;
-  placeholder?: string;
-  disabled?: boolean;
-}
+import { CountrySelectProps } from "@/types";
 
 const CountrySelect: React.FC<CountrySelectProps> = ({
   onChange,

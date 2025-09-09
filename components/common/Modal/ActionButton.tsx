@@ -1,12 +1,6 @@
 import React from "react";
 import baseStyles from "../../../styles/BaseModal.module.css";
-
-interface ActionButtonProps {
-  label: string;
-  icon?: React.ReactNode;
-  onClick: () => void;
-  disabled?: boolean;
-}
+import { ActionButtonProps } from "@/types";
 
 const ActionButton: React.FC<ActionButtonProps> = ({
   label,

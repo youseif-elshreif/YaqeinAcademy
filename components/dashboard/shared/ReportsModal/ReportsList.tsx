@@ -3,13 +3,7 @@ import React, { useMemo } from "react";
 import { FiCalendar } from "react-icons/fi";
 import ReportCard from "./ReportCard";
 import styles from "./ReportsModal.module.css";
-
-interface ReportsListProps {
-  reports: any[];
-  selectedMonth: string;
-  selectedYear: string;
-  showLessonId?: boolean;
-}
+import { ReportsListProps } from "@/types";
 
 const ReportsList: React.FC<ReportsListProps> = ({
   reports,
@@ -72,3 +66,5 @@ const ReportsList: React.FC<ReportsListProps> = ({
 };
 
 export default ReportsList;
+
+

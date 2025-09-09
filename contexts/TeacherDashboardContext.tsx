@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, {
   createContext,
   useCallback,
@@ -8,7 +8,7 @@ import React, {
 } from "react";
 // api instance is handled inside services
 import { getTeacherLessons } from "@/utils/services/lesson.service";
-import { TeacherDashboardContextType } from "@/utils/types";
+import { TeacherDashboardContextType } from "@/types";
 import { useReportContext } from "./ReportContext";
 
 const TeacherDashboardContext = createContext<
@@ -29,9 +29,7 @@ export const TeacherDashboardProvider: React.FC<{
       const data = await getTeacherLessons();
       setTeacherLessons(data);
       return data;
-    } catch (error) {
-      console.error("Error fetching teacher lessons:", error);
-      throw error;
+    } catch (error) {throw error;
     }
   }, []);
 
@@ -41,6 +39,21 @@ export const TeacherDashboardProvider: React.FC<{
       getMyLessons,
       reportLesson: async (lessonId: string, payload: any) => {
         return createLessonReport(lessonId, payload);
+      },
+      reportForLessons: async (
+        lessonId: string,
+        reports: Array<{
+          studentId: string;
+          wantedForNextLesson: { new: string[]; old: string[] };
+          newMemorized: { new: string[]; old: string[] };
+          notes: string;
+          rating: number;
+        }>
+      ) => {
+        for (const r of reports) {
+          await createLessonReport(lessonId, r as any);
+        }
+        // Note: Lesson completion should be done separately using LessonsContext.completeLesson()
       },
       reportMultipleAndComplete: async (
         lessonId: string,

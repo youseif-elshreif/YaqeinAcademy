@@ -16,3 +16,5 @@ const MobileGroupCards = ({ groups }: MobileGroupCardsProps) => {
 };
 
 export default MobileGroupCards;
+
+

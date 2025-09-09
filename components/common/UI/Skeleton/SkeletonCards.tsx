@@ -1,11 +1,6 @@
 import React from "react";
 import styles from "./SkeletonLoading.module.css";
-
-interface SkeletonCardsProps {
-  cards?: number;
-  type?: "student" | "teacher" | "lesson";
-  className?: string;
-}
+import { SkeletonCardsProps } from "@/types";
 
 const SkeletonCards: React.FC<SkeletonCardsProps> = ({
   cards = 3,

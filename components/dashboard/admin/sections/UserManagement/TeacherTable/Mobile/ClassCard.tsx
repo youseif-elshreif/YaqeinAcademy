@@ -1,33 +1,26 @@
-import { FaCog } from "react-icons/fa";
+﻿import { FaCog } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import MeetingLinkActions from "@/components/common/MeetingLinkActions";
 import Button from "@/components/common/Button";
+import { TeacherCardProps } from "@/types";
 
-interface ClassCardProps {
-  teacher: any;
-}
-
-const ClassCard = ({ teacher }: ClassCardProps) => {
+const ClassCard = ({ teacher }: TeacherCardProps) => {
   const { openUserActionsModal } = useAdminModal();
 
-  // Debug: Log teacher structure to understand the data
-  console.log("=== Teacher Data Structure (Mobile) ===", teacher);
+  // Get user info safely
+  const userInfo = typeof teacher.userId === "object" ? teacher.userId : null;
 
-  // Try to find meetingLink in different possible locations
-  const meetingLink =
-    teacher.meetingLink ||
-    teacher.teacherInfo?.meetingLink ||
-    teacher.userId?.meetingLink ||
-    "";
+  // Debug: Log teacher structure to understand the data===", teacher);
 
-  console.log("=== Meeting Link Found (Mobile) ===", meetingLink);
+  // Get meeting link
+  const meetingLink = teacher.meetingLink || "";
 
   // Function to handle actions modal
   const handleActionsClick = () => {
     openUserActionsModal({
       id: teacher._id,
-      name: teacher.userId.name,
+      name: userInfo?.name || "غير محدد",
       userType: "teacher",
       fullData: teacher,
     });
@@ -38,7 +31,7 @@ const ClassCard = ({ teacher }: ClassCardProps) => {
       <div className={styles.cardHeader}>
         <div className={styles.studentInfo}>
           <h3 className={`${styles.cardStudentName} ${styles.clickableText}`}>
-            {teacher.userId.name}
+            {userInfo?.name || "غير محدد"}
           </h3>
         </div>
       </div>
@@ -47,12 +40,16 @@ const ClassCard = ({ teacher }: ClassCardProps) => {
         <div className={styles.cardInfo}>
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>الإيميل:</span>
-            <span className={styles.infoValue}>{teacher.userId.email}</span>
+            <span className={styles.infoValue}>
+              {userInfo?.email || "غير محدد"}
+            </span>
           </div>
 
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>رقم الهاتف:</span>
-            <span className={styles.infoValue}>{teacher.userId.phone}</span>
+            <span className={styles.infoValue}>
+              {userInfo?.phone || "غير محدد"}
+            </span>
           </div>
 
           <div className={styles.infoItem}>

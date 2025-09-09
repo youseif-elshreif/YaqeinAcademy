@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import {
   createContext,
   useContext,
@@ -70,15 +70,9 @@ export const ReportProvider = ({ children }: ReportProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await reportSvc.getStudentReports(studentId);
-        console.log("data", data);
-        const reports = Array.isArray(data) ? data : [];
-        setStudentReports(reports);
-        console.log("Fetched student reports:", reports);
-        return reports;
-      } catch (error) {
-        console.error("Error fetching student reports:", error);
-        setError("فشل في جلب تقارير الطالب");
+        const data = await reportSvc.getStudentReports(studentId);const reports = Array.isArray(data) ? data : [];
+        setStudentReports(reports);return reports;
+      } catch (error) {setError("فشل في جلب تقارير الطالب");
         throw error;
       } finally {
         setIsLoading(false);
@@ -98,12 +92,8 @@ export const ReportProvider = ({ children }: ReportProviderProps) => {
         : Array.isArray(data)
         ? data
         : [];
-      setMyReports(reports);
-      console.log("Fetched my reports:", reports);
-      return reports;
-    } catch (error) {
-      console.error("Error fetching my reports:", error);
-      setError("فشل في جلب تقاريري");
+      setMyReports(reports);return reports;
+    } catch (error) {setError("فشل في جلب تقاريري");
       throw error;
     } finally {
       setIsLoading(false);
@@ -115,12 +105,8 @@ export const ReportProvider = ({ children }: ReportProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const result = await reportSvc.postLessonReport(lessonId, payload);
-        console.log("Created lesson report:", result);
-        return result;
-      } catch (error) {
-        console.error("Error creating lesson report:", error);
-        setError("فشل في إنشاء تقرير الدرس");
+        const result = await reportSvc.postLessonReport(lessonId, payload);return result;
+      } catch (error) {setError("فشل في إنشاء تقرير الدرس");
         throw error;
       } finally {
         setIsLoading(false);

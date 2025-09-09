@@ -1,11 +1,7 @@
 import React from "react";
 import { ErrorMessage } from "@/components/auth";
 import baseStyles from "../../../styles/BaseModal.module.css";
-
-interface ErrorDisplayProps {
-  message: string;
-  variant?: "error" | "warning" | "info";
-}
+import { ErrorDisplayProps } from "@/types";
 
 const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
   message,

@@ -1,12 +1,7 @@
 "use client";
 import React from "react";
 import { UnifiedReportsModal } from "@/components/dashboard/shared/ReportsModal";
-
-interface StudentReportsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  student: { id: string; name?: string };
-}
+import { StudentReportsModalProps } from "@/types";
 
 const StudentReportsModal: React.FC<StudentReportsModalProps> = ({
   isOpen,
@@ -20,3 +15,5 @@ const StudentReportsModal: React.FC<StudentReportsModalProps> = ({
 };
 
 export default StudentReportsModal;
+
+

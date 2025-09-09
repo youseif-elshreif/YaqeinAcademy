@@ -6,12 +6,8 @@ import SkeletonTable from "@/components/common/UI/Skeleton/SkeletonTable";
 import SkeletonCards from "@/components/common/UI/Skeleton/SkeletonCards";
 import { FiUsers, FiFilter, FiCalendar, FiClock, FiX } from "react-icons/fi";
 import Button from "@/components/common/Button";
+import { MonthlyClassTableProps } from "@/types";
 // Using raw lesson items from API
-
-interface MonthlyClassTableProps {
-  initialClasses: any[];
-  loading?: boolean;
-}
 
 const MonthlyClassTable = ({
   initialClasses,
@@ -23,12 +19,19 @@ const MonthlyClassTable = ({
   const [yearFilter, setYearFilter] = useState<string>("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [isCurrentMonthActive, setIsCurrentMonthActive] =
-    useState<boolean>(false);
+    useState<boolean>(true);
 
   // Sync with external changes to initialClasses
   useEffect(() => {
     setClasses(initialClasses);
   }, [initialClasses]);
+
+  // تطبيق فلتر "هذا الشهر" تلقائياً عند تحميل المكون
+  useEffect(() => {
+    const now = new Date();
+    setMonthFilter((now.getMonth() + 1).toString());
+    setYearFilter(now.getFullYear().toString());
+  }, []); // تشغيل مرة واحدة فقط عند التحميل
 
   // Filter classes based on date, month, year and status
   const filteredClasses = useMemo(() => {

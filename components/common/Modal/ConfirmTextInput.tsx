@@ -1,13 +1,6 @@
 import React from "react";
 import baseStyles from "../../../styles/BaseModal.module.css";
-
-interface ConfirmTextInputProps {
-  label: React.ReactNode;
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-  disabled?: boolean;
-}
+import { ConfirmTextInputProps } from "@/types";
 
 const ConfirmTextInput: React.FC<ConfirmTextInputProps> = ({
   label,

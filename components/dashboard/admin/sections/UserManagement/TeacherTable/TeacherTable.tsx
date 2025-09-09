@@ -5,6 +5,7 @@ import SkeletonTable from "@/components/dashboard/admin/components/SkeletonTable
 import SkeletonCards from "@/components/dashboard/admin/components/SkeletonCards";
 import MobileClassCards from "./Mobile/MobileClassCards";
 import ClassTableRow from "./ClassTableRow";
+import { Teacher } from "@/types";
 
 const TeacherTable: React.FC<{ searchTerm?: string }> = ({
   searchTerm = "",
@@ -38,17 +39,12 @@ const TeacherTable: React.FC<{ searchTerm?: string }> = ({
   const normalized = searchTerm.trim().toLowerCase();
   const filtered = !normalized
     ? teachers
-    : teachers.filter((t: any) => {
-        const name = (t.userId?.name || t.name || "").toLowerCase();
-        const email = (t.userId?.email || t.email || "").toLowerCase();
-        const phone = (t.userId?.phone || t.phone || "").toLowerCase();
-        // Check different possible locations for meetingLink
-        const link = (
-          t.meetingLink ||
-          t.teacherInfo?.meetingLink ||
-          t.userId?.meetingLink ||
-          ""
-        ).toLowerCase();
+    : teachers.filter((t: Teacher) => {
+        const userInfo = typeof t.userId === "object" ? t.userId : null;
+        const name = (userInfo?.name || "").toLowerCase();
+        const email = (userInfo?.email || "").toLowerCase();
+        const phone = (userInfo?.phone || "").toLowerCase();
+        const link = (t.meetingLink || "").toLowerCase();
         return (
           name.includes(normalized) ||
           email.includes(normalized) ||
@@ -108,3 +104,5 @@ const TeacherTable: React.FC<{ searchTerm?: string }> = ({
 };
 
 export default TeacherTable;
+
+

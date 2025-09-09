@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Head from "next/head";
@@ -33,18 +33,19 @@ const TeacherDashboardContent = () => {
         setLoading(true);
         const token = localStorage.getItem("accessToken");
         if (!token) return;
-        const lessons = await getMyLessons(token);
-        console.log("Fetched lessons:", lessons); 
+        const lessons = await getMyLessons();
         if (!mounted) return;
         // Sort by scheduledAt ascending
-        const sorted = (lessons || []).slice().sort((a: any, b: any) => {
-          const da = new Date(a?.scheduledAt || 0).getTime();
-          const db = new Date(b?.scheduledAt || 0).getTime();
-          return da - db;
-        });
+        const sorted =
+          lessons && lessons.length > 0
+            ? lessons.slice().sort((a: any, b: any) => {
+                const da = new Date(a?.scheduledAt || 0).getTime();
+                const db = new Date(b?.scheduledAt || 0).getTime();
+                return da - db;
+              })
+            : [];
         setClasses(sorted);
       } catch (e) {
-        console.error(e);
       } finally {
         if (mounted) {
           setLoading(false);
@@ -59,7 +60,7 @@ const TeacherDashboardContent = () => {
 
   // Mock data for teacher dashboard
   const [treacherData] = useState({
-    id: user?.id || "",
+    id: user?._id || "",
     name: user?.name || "",
     avatar: user?.avatar || "/avatar.png",
     email: user?.email || "",

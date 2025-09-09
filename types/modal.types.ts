@@ -1,0 +1,181 @@
+﻿// ==================================================
+// Modal Types
+// ==================================================
+
+import { UserType } from "./auth.types";
+
+export interface ModalContextType {
+  // Modal states
+  isCompleteModalOpen: boolean;
+  isStudentDataModalOpen: boolean;
+  isGroupCompleteModalOpen: boolean;
+  isAddClassLinkModalOpen: boolean;
+  isStudentListModalOpen: boolean;
+  isStudentReportsModalOpen: boolean;
+  completeModalOpen: boolean;
+  studentAllDataModalOpen: boolean;
+  groupCompleteModalOpen: boolean;
+  addClassLinkModalOpen: boolean;
+  studentListModalOpen: boolean;
+  studentReportsModalOpen: boolean;
+
+  // Selected data
+  selectedLessonForCompletion: any;
+  selectedStudentForData: number | null;
+  selectedClassForGroupCompletion: any;
+  selectedClassForLink: any;
+  selectedLessonForStudentList: any;
+  selectedStudentForReports: { id: string; name?: string } | null;
+  selectedClass: any;
+  selectedLesson: any;
+  selectedLessonForStudents: any;
+  studentAllData: any;
+  selectedGroupClass: any;
+
+  // Actions
+  openCompleteModal: (lesson: any) => void;
+  openStudentDataModal: (studentId: number) => void;
+  openGroupCompleteModal: (classData: any) => void;
+  openAddClassLinkModal: (classData: any) => void;
+  openStudentListModal: (lesson: any) => void;
+  openStudentReportsModal: (student: { id: string; name?: string }) => void;
+  closeCompleteModal: () => void;
+  closeStudentDataModal: () => void;
+  closeGroupCompleteModal: () => void;
+  closeAddClassLinkModal: () => void;
+  closeStudentListModal: () => void;
+  closeStudentReportsModal: () => void;
+  saveClassCompletion: (completionData: any) => void;
+  saveGroupCompletion: (completionData: any) => void;
+  saveClassLink: (classLink: string, classId: number) => void;
+}
+
+export interface AdminModalContextType {
+  // Modal states
+  addUserModalOpen: boolean;
+  addCourseModalOpen: boolean;
+  editCourseModalOpen: boolean;
+  deleteCourseModalOpen: boolean;
+  addGroupModalOpen: boolean;
+  editGroupModalOpen: boolean;
+  addMembersModalOpen: boolean;
+  groupActionsModalOpen: boolean;
+  confirmDeleteGroupModalOpen: boolean;
+  removeMemberModalOpen: boolean;
+  lessonsModalOpen: boolean;
+  addLessonModalOpen: boolean;
+  editLessonModalOpen: boolean;
+  deleteLessonModalOpen: boolean;
+  userActionsModalOpen: boolean;
+  editUserModalOpen: boolean;
+  deleteUserModalOpen: boolean;
+  addCreditsModalOpen: boolean;
+  studentListModalOpen: boolean;
+  studentReportsModalOpen: boolean;
+  editTeacherLinkModalOpen: boolean;
+
+  // Selected data
+  selectedUserType: UserType | null;
+  selectedCourseId: string | null;
+  selectedGroupData: {
+    id: string;
+    name: string;
+    type: "private" | "public";
+  } | null;
+  selectedUserData: any;
+  selectedStudentForCredits: any;
+  selectedGroupActionsData: any;
+  selectedGroupForDeletion: any;
+  selectedGroupForMemberRemoval: any;
+  selectedGroupForEdit: any;
+  selectedGroupForLessons: any;
+  selectedLessonData: any;
+  selectedUserForActions: any;
+  selectedLessonForStudents: any;
+  selectedStudentForReports: any;
+  selectedTeacherForLink: any;
+
+  // Actions
+  addCreditsToStudent: (
+    studentId: string,
+    privateAmount: number,
+    publicAmount?: number
+  ) => Promise<any>;
+
+  // User modals
+  openAddUserModal: (userType: UserType) => void;
+  closeAddUserModal: () => void;
+  openEditUserModal: (userData: any) => void;
+  closeEditUserModal: () => void;
+  openUserActionsModal: (userData: any) => void;
+  closeUserActionsModal: () => void;
+  openDeleteUserModal: (userData: any) => void;
+  closeDeleteUserModal: () => void;
+  openEditTeacherLinkModal: (teacherData: any) => void;
+  closeEditTeacherLinkModal: () => void;
+
+  // Credits modal
+  openAddCreditsModal: (studentData: {
+    id?: string;
+    userId?: string;
+    name: string;
+  }) => void;
+  closeAddCreditsModal: () => void;
+
+  // Course modals
+  openAddCourseModal: () => void;
+  closeAddCourseModal: () => void;
+  openEditCourseModal: (courseId: string) => void;
+  closeEditCourseModal: () => void;
+  openDeleteCourseModal: (courseId: string) => void;
+  closeDeleteCourseModal: () => void;
+
+  // Group modals
+  openAddGroupModal: () => void;
+  closeAddGroupModal: () => void;
+  openEditGroupModal: (groupData: any) => void;
+  closeEditGroupModal: () => void;
+  openGroupActionsModal: (groupData: any) => void;
+  closeGroupActionsModal: () => void;
+  openConfirmDeleteGroupModal: (groupData: any) => void;
+  closeConfirmDeleteGroupModal: () => void;
+  openAddMembersModal: (groupData: any) => void;
+  closeAddMembersModal: () => void;
+  openRemoveMemberModal: (groupData: any) => void;
+  closeRemoveMemberModal: () => void;
+
+  // Lesson modals
+  openLessonsModal: (groupData: any) => void;
+  closeLessonsModal: () => void;
+  openAddLessonModal: () => void;
+  closeAddLessonModal: () => void;
+  openEditLessonModal: (lessonData: any) => void;
+  closeEditLessonModal: () => void;
+  openDeleteLessonModal: (lessonData: any) => void;
+  closeDeleteLessonModal: () => void;
+
+  // Student modals
+  openStudentListModal: (lessonData: any) => void;
+  closeStudentListModal: () => void;
+  openStudentReportsModal: (studentData: any) => void;
+  closeStudentReportsModal: () => void;
+
+  // Additional functions
+  handleDeleteGroup: (groupId: string) => void;
+  saveNewUser: (userData: any, userType?: any) => void;
+  updateUser: (userId: string, userData: any, userType?: any) => void;
+  updateTeacherMeetingLinkOnly: (
+    teacherId: string,
+    meetingLink: string
+  ) => void;
+  setUserType: (userType: UserType | null) => void;
+  saveNewGroup: (groupData: any) => void;
+}
+
+export interface ModalProviderProps {
+  children: React.ReactNode;
+}
+
+export interface AdminModalProviderProps {
+  children: React.ReactNode;
+}

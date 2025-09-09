@@ -1,12 +1,5 @@
 import React from "react";
-
-export interface DayFilterProps {
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-  wrapperClassName?: string;
-  selectClassName?: string;
-}
+import { DayFilterProps } from "@/types";
 
 const AR_DAYS = [
   "الأحد",

@@ -1,32 +1,21 @@
-import { FaCog } from "react-icons/fa";
+﻿import { FaCog } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import MeetingLinkActions from "@/components/common/MeetingLinkActions";
 import Button from "@/components/common/Button";
+import { TeacherTableRowProps } from "@/types";
 
-interface ClassTableRowProps {
-  teacher: any;
-}
-
-const ClassTableRow = ({ teacher }: ClassTableRowProps) => {
+const ClassTableRow = ({ teacher }: TeacherTableRowProps) => {
   const { openUserActionsModal } = useAdminModal();
 
-  // Debug: Log teacher structure to understand the data
-  console.log("=== Teacher Data Structure ===", teacher);
+  // Get user info safely
+  const userInfo = typeof teacher.userId === "object" ? teacher.userId : null;
 
-  // Try to find meetingLink in different possible locations
-  const meetingLink =
-    teacher.meetingLink ||
-    teacher.teacherInfo?.meetingLink ||
-    teacher.userId?.meetingLink ||
-    "";
-
-  console.log("=== Meeting Link Found ===", meetingLink);
-
-  const handleActionsClick = () => {
+  // Debug: Log teacher structure to understand the data// Get meeting link
+  const meetingLink = teacher.meetingLink || "";const handleActionsClick = () => {
     openUserActionsModal({
       id: teacher._id,
-      name: teacher.userId.name,
+      name: userInfo?.name || "غير محدد",
       userType: "teacher",
       fullData: teacher,
     });
@@ -36,11 +25,13 @@ const ClassTableRow = ({ teacher }: ClassTableRowProps) => {
     <tr key={teacher._id} className={styles.tableRow}>
       <td className={`${styles.studentCell} ${styles.firstCell}`}>
         <div className={styles.teacherInfo}>
-          <span className={styles.teacherName}>{teacher.userId.name}</span>
+          <span className={styles.teacherName}>
+            {userInfo?.name || "غير محدد"}
+          </span>
         </div>
       </td>
-      <td>{teacher.userId.email}</td>
-      <td>{teacher.userId.phone}</td>
+      <td>{userInfo?.email || "غير محدد"}</td>
+      <td>{userInfo?.phone || "غير محدد"}</td>
       <td className={styles.linkCell}>
         <MeetingLinkActions
           meetingLink={meetingLink}
@@ -66,3 +57,4 @@ const ClassTableRow = ({ teacher }: ClassTableRowProps) => {
 };
 
 export default ClassTableRow;
+

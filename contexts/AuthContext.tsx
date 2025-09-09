@@ -18,7 +18,7 @@ import {
   LoginCredentials,
   AuthAction,
   AuthState,
-} from "@/utils/types";
+} from "@/types";
 // import { isFloat64Array } from "node:util/types";
 
 // Reducer function
@@ -106,7 +106,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         const userData = response.data;
 
         const user: User = {
-          id: userData._id || userData.id,
+          _id: userData._id,
           email: userData.email,
           name: userData.name,
           phone: userData.phone,
@@ -137,7 +137,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           }
         }
       } catch (error: any) {
-        console.error("Error fetching user data:", error);
         if (typeof window !== "undefined") {
           localStorage.removeItem("accessToken");
         }
@@ -176,7 +175,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             const userData = response.data;
 
             const user: User = {
-              id: userData._id || userData.id,
+              _id: userData._id,
               email: userData.email,
               name: userData.name,
               phone: userData.phone,
@@ -246,7 +245,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const register = useCallback(
     async (regData: RegisterData) => {
       dispatch({ type: "LOGIN_START" });
-      console.log(regData);
       try {
         const data = await authSvc.register(regData);
         if (data.accessToken) {
@@ -266,7 +264,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         throw error;
       }
     },
-    [router]
+    [router, getUserData]
   );
 
   // verify-email
@@ -299,8 +297,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const logout = useCallback(async () => {
     try {
       await authSvc.logout();
-    } catch (error) {
-      console.error("Logout API call failed:", error);
+    } catch {
+      // Logout API call failed, continue with cleanup
     } finally {
       if (typeof window !== "undefined") {
         localStorage.removeItem("accessToken");

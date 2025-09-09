@@ -4,21 +4,7 @@ import { FaEdit, FaTrash, FaUsers, FaUserMinus } from "react-icons/fa";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import styles from "./GroupActionsModal.module.css";
 import { ModalContainer, ModalHeader } from "@/components/common/Modal";
-
-interface GroupActionsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  groupId: string;
-  groupName: string;
-  onEdit: (groupId: string, groupName: string) => void;
-  onDelete: (groupId: string, groupName: string) => void;
-  onAddMember: (
-    groupId: string,
-    groupName: string,
-    groupType: "private" | "public"
-  ) => void;
-  onRemoveMember: (groupId: string, groupName: string) => void;
-}
+import { GroupActionsModalProps } from "@/types/admin.types";
 
 const GroupActionsModal: React.FC<GroupActionsModalProps> = ({
   isOpen,
@@ -54,7 +40,7 @@ const GroupActionsModal: React.FC<GroupActionsModalProps> = ({
   };
 
   return (
-    <ModalContainer isOpen={true}>
+    <ModalContainer isOpen={true} onClose={onClose}>
       <ModalHeader title="إجراءات الحلقة" onClose={onClose} />
       <div className={styles.modalBody}>
         <div className={baseStyles.groupInfo}>
@@ -88,3 +74,5 @@ const GroupActionsModal: React.FC<GroupActionsModalProps> = ({
 };
 
 export default GroupActionsModal;
+
+

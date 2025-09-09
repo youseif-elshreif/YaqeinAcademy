@@ -12,7 +12,7 @@ import {
 } from "@/components/auth";
 import styles from "./login.module.css";
 import { useAuth } from "@/contexts/AuthContext";
-import { LoginFormData, LoginFormErrors } from "@/utils/types";
+import { LoginFormData, LoginFormErrors } from "@/types";
 
 // Type definitions
 
@@ -105,8 +105,6 @@ const LoginPage = () => {
       footerText="ليس لديك حساب؟"
       footerLinkText="إنشاء حساب جديد"
       footerLinkHref="/register"
-      pageTitle="تسجيل الدخول - أكاديمية يقين"
-      pageDescription="تسجيل الدخول إلى حسابك في أكاديمية يقين للعلوم الشرعية"
     >
       <form onSubmit={handleSubmit} className={styles.form}>
         <ErrorMessage message={errors.general} type="error" />

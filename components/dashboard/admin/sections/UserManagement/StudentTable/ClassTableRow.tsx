@@ -2,12 +2,9 @@ import { FaCog, FaListUl } from "react-icons/fa";
 import styles from "@/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import Button from "@/components/common/Button";
+import { StudentTableRowProps } from "@/types";
 
-interface ClassTableRowProps {
-  studentitem: any; // Student from API
-}
-
-const ClassTableRow = ({ studentitem }: ClassTableRowProps) => {
+const ClassTableRow = ({ studentitem }: StudentTableRowProps) => {
   const { openUserActionsModal, openStudentReportsModal } = useAdminModal();
 
   const handleActionsClick = () => {
@@ -107,3 +104,5 @@ const ClassTableRow = ({ studentitem }: ClassTableRowProps) => {
 };
 
 export default ClassTableRow;
+
+

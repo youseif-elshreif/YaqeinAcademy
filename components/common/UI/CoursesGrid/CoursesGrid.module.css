@@ -2,7 +2,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
-  margin-top: 2rem;
+  margin: auto;
+  padding: 15px 0;
 }
 
 /* Responsive adjustments */

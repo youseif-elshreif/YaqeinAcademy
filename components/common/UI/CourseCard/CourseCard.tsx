@@ -1,22 +1,10 @@
-"use client";
+﻿"use client";
 
 import styles from "./CourseCard.module.css";
 import { FaTag } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import Button from "../../Button";
-
-interface CourseCardProps {
-  id?: string; // Changed from number to string
-  title: string;
-  startDate: string;
-  duration?: string;
-  shortDescription: string;
-  showBtn?: boolean;
-  isAdminView?: boolean;
-  onEdit?: () => void;
-  onDelete?: () => void;
-  telegramLink?: string;
-}
+import { CourseCardProps } from "@/types";
 
 const CourseCard = ({
   title,
@@ -44,9 +32,7 @@ const CourseCard = ({
   const handleBookNow = () => {
     if (telegramLink) {
       window.open(telegramLink, "_blank");
-    } else {
-      console.log("لا يوجد رابط تليجرام متاح");
-    }
+    } else {}
   };
 
   return (
@@ -66,9 +52,7 @@ const CourseCard = ({
           </div>
           <div className={styles.infoItem}>
             <span className={styles.label}>مدة الدورة:</span>
-            <span className={styles.value}>
-              {duration || "غير محدد"}
-            </span>
+            <span className={styles.value}>{duration || "غير محدد"}</span>
           </div>
         </div>
       </div>

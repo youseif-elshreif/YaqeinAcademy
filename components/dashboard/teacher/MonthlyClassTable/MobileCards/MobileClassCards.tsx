@@ -1,9 +1,6 @@
 import ClassCard from "./ClassCard";
 import styles from "../MonthlyClassTable.module.css";
-
-interface MobileClassCardsProps {
-  classes: any[];
-}
+import { MobileClassCardsProps } from "@/types";
 
 const MobileClassCards = ({ classes }: MobileClassCardsProps) => {
   return (
@@ -18,3 +15,5 @@ const MobileClassCards = ({ classes }: MobileClassCardsProps) => {
 };
 
 export default MobileClassCards;
+
+

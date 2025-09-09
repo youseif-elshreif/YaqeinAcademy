@@ -3,22 +3,13 @@ import { useAuth } from "@/contexts/AuthContext";
 import styles from "./ProfileSettings.module.css";
 import { FormField, ErrorDisplay } from "@/components/common/Modal";
 import Button from "../../common/Button";
-
-interface User {
-  email: string;
-  name: string;
-  phone: string;
-}
-
-interface StudentDataProps {
-  studentData: User;
-}
+import { ProfileUser, StudentDataProps } from "@/types";
 
 const ProfileSettings = ({ studentData }: StudentDataProps) => {
   const { updateUserData } = useAuth();
   const [editState, setEditState] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [student, setStudent] = useState<User>({
+  const [student, setStudent] = useState<ProfileUser>({
     name: studentData.name,
     email: studentData.email,
     phone: studentData.phone,
@@ -53,7 +44,7 @@ const ProfileSettings = ({ studentData }: StudentDataProps) => {
 
   function handleInputChange(
     e: React.ChangeEvent<HTMLInputElement>,
-    field: keyof User
+    field: keyof ProfileUser
   ) {
     setStudent({ ...student, [field]: e.target.value });
   }
@@ -134,3 +125,5 @@ const ProfileSettings = ({ studentData }: StudentDataProps) => {
 };
 
 export default ProfileSettings;
+
+

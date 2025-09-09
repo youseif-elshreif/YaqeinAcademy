@@ -4,18 +4,10 @@ import {
   FaBook,
   FaCheck,
   FaHourglassHalf,
-  FaMoneyBillWave,
   FaTimes,
   FaCoins,
 } from "react-icons/fa";
-
-interface LessonLike {
-  status: string;
-}
-
-interface TeacherSummaryCardsProps {
-  classes: LessonLike[];
-}
+import { TeacherSummaryCardsProps } from "@/types";
 
 const TeacherSummaryCards = ({ classes }: TeacherSummaryCardsProps) => {
   const summaryCards = [
@@ -74,3 +66,5 @@ const TeacherSummaryCards = ({ classes }: TeacherSummaryCardsProps) => {
 };
 
 export default TeacherSummaryCards;
+
+

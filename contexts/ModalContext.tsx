@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { ClassData, ModalContextType } from "@/utils/types";
+import { ClassData, ModalContextType } from "@/types";
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
@@ -38,7 +38,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
   const [selectedGroupClass, setSelectedGroupClass] =
     useState<ClassData | null>(null); // legacy
   const [selectedClassForLink, setSelectedClassForLink] = useState<{
-    id: number;
+    id: string | number;
     date: string;
     time: string;
     studentName?: string;

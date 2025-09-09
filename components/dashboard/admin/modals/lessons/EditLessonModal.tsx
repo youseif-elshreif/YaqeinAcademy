@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import { FaEdit, FaSave } from "react-icons/fa";
@@ -74,9 +74,7 @@ const EditLessonModal: React.FC = () => {
         meetingLink: formData.meetingLink || undefined,
       });
       handleClose();
-    } catch (error) {
-      console.error("Error updating lesson:", error);
-    } finally {
+    } catch (error) {} finally {
       setIsSubmitting(false);
     }
   };
@@ -101,7 +99,7 @@ const EditLessonModal: React.FC = () => {
   ];
 
   return (
-    <ModalContainer isOpen={true} isClosing={isClosing} variant="add">
+    <ModalContainer isOpen={true} isClosing={isClosing} variant="add" onClose={handleClose}>
       <ModalHeader
         title="تعديل الحلقة"
         icon={<FaEdit />}
@@ -150,3 +148,4 @@ const EditLessonModal: React.FC = () => {
 };
 
 export default EditLessonModal;
+

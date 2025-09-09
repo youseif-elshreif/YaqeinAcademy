@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, {
   useEffect,
   useState,
@@ -130,9 +130,7 @@ export default function AdminContactPage() {
       // جلب البيانات المحدثة من السيرفر
       try {
         await fetchContactData();
-      } catch {
-        console.log("تم حفظ البيانات ولكن حدث خطأ في جلب البيانات المحدثة");
-        // لا نعرض خطأ للمستخدم لأن التحديث تم بنجاح
+      } catch {// لا نعرض خطأ للمستخدم لأن التحديث تم بنجاح
         setContact(payload);
         setPhoneInput(payload.phone.join(", "));
         setWhatsappInput(payload.whatsappNumber.join(", "));

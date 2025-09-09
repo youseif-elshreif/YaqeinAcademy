@@ -88,7 +88,7 @@ const UserManagement: React.FC = () => {
           <Button
             variant="primary"
             icon={<FiPlus />}
-            onClick={openAddUserModal}
+            onClick={() => openAddUserModal("student")}
           >
             إضافة مستخدم
           </Button>
@@ -139,3 +139,5 @@ const UserManagement: React.FC = () => {
 };
 
 export default UserManagement;
+
+

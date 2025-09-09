@@ -1,27 +1,8 @@
 import React from "react";
 import styles from "./InputField.module.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { InputFieldProps } from "@/types";
 
-interface InputFieldProps {
-  id: string;
-  name: string;
-  type?: string;
-  value: string | number;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder?: string;
-  label?: string;
-  required?: boolean;
-  error?: string;
-  disabled?: boolean;
-  autoComplete?: string;
-  min?: string | number;
-  max?: string | number;
-  helpText?: string;
-  showPasswordToggle?: boolean;
-  showPassword?: boolean;
-  onTogglePassword?: () => void;
-  className?: string;
-} 
 const InputField: React.FC<InputFieldProps> = ({
   id,
   name,

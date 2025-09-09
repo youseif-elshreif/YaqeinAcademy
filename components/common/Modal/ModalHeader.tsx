@@ -1,14 +1,7 @@
 import React from "react";
 import { FaTimes } from "react-icons/fa";
 import baseStyles from "../../../styles/BaseModal.module.css";
-
-interface ModalHeaderProps {
-  title: string;
-  icon?: React.ReactNode;
-  onClose: () => void;
-  disabled?: boolean;
-  variant?: "add" | "edit" | "delete" | "default";
-}
+import { ModalHeaderProps } from "@/types";
 
 const ModalHeader: React.FC<ModalHeaderProps> = ({
   title,

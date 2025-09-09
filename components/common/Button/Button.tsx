@@ -1,60 +1,32 @@
 import React from "react";
 import styles from "./Button.module.css";
+import { ButtonProps } from "@/types";
 
-export type ButtonVariant = 
-  | "primary" 
-  | "secondary" 
-  | "success" 
-  | "warning" 
-  | "danger" 
-  | "info" 
-  | "link"
-  | "outline-primary"
-  | "outline-secondary"
-  | "outline-success"
-  | "outline-warning"
-  | "outline-danger";
-
-export type ButtonSize = "small" | "medium" | "large";
-
-export interface ButtonProps {
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  fullWidth?: boolean;
-  loading?: boolean;
-  icon?: React.ReactNode;
-  iconPosition?: "left" | "right";
-  as?: "button" | "a";
-  href?: string;
-  children: React.ReactNode;
-  className?: string;
-  disabled?: boolean;
-  onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
-  type?: "button" | "submit" | "reset";
-  title?: string;
-  id?: string;
-  'data-testid'?: string;
-}
-
-const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
-  ({
-    variant = "primary",
-    size = "medium",
-    fullWidth = false,
-    loading = false,
-    icon,
-    iconPosition = "left",
-    className = "",
-    disabled = false,
-    as = "button",
-    href,
-    onClick,
-    type = "button",
-    title,
-    id,
-    children,
-    ...props
-  }, ref) => {
+const Button = React.forwardRef<
+  HTMLButtonElement | HTMLAnchorElement,
+  ButtonProps
+>(
+  (
+    {
+      variant = "primary",
+      size = "medium",
+      fullWidth = false,
+      loading = false,
+      icon,
+      iconPosition = "left",
+      className = "",
+      disabled = false,
+      as = "button",
+      href,
+      onClick,
+      type = "button",
+      title,
+      id,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const baseClasses = [
       styles.button,
       styles[variant],
@@ -62,8 +34,10 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
       fullWidth && styles.fullWidth,
       loading && styles.loading,
       disabled && styles.disabled,
-      className
-    ].filter(Boolean).join(" ");
+      className,
+    ]
+      .filter(Boolean)
+      .join(" ");
 
     const content = (
       <>
@@ -87,7 +61,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
           onClick={onClick as React.MouseEventHandler<HTMLAnchorElement>}
           title={title}
           id={id}
-          data-testid={props['data-testid']}
+          data-testid={props["data-testid"]}
         >
           {content}
         </a>
@@ -103,7 +77,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
         type={type}
         title={title}
         id={id}
-        data-testid={props['data-testid']}
+        data-testid={props["data-testid"]}
       >
         {content}
       </button>

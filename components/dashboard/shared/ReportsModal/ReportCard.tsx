@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import {
-  FiCalendar,
   FiClock,
   FiStar,
   FiFileText,
@@ -9,21 +8,11 @@ import {
   FiTarget,
 } from "react-icons/fi";
 import styles from "./ReportsModal.module.css";
-
-interface ReportCardProps {
-  report: any;
-  showLessonId?: boolean;
-}
+import { ReportCardProps } from "@/types";
 
 const ReportCard: React.FC<ReportCardProps> = ({
   report,
-  showLessonId = false,
 }) => {
-  const lessonId =
-    typeof report.lessonId === "string"
-      ? report.lessonId
-      : report.lessonId?._id || "-";
-
   const created = report.createdAt
     ? new Date(report.createdAt).toLocaleDateString("ar-EG", {
         year: "numeric",
@@ -38,12 +27,6 @@ const ReportCard: React.FC<ReportCardProps> = ({
       <div className={`${styles.reportCard} ${styles.absentCard}`}>
         <div className={styles.reportHeader}>
           <div className={styles.reportMeta}>
-            {showLessonId && (
-              <span className={styles.lessonId}>
-                <FiCalendar className={styles.metaIcon} />
-                حصة رقم: {String(lessonId).slice(-6)}
-              </span>
-            )}
             <span className={styles.reportDate}>
               <FiClock className={styles.metaIcon} />
               {created}
@@ -69,12 +52,6 @@ const ReportCard: React.FC<ReportCardProps> = ({
     <div className={styles.reportCard}>
       <div className={styles.reportHeader}>
         <div className={styles.reportMeta}>
-          {showLessonId && (
-            <span className={styles.lessonId}>
-              <FiCalendar className={styles.metaIcon} />
-              حصة رقم: {String(lessonId).slice(-6)}
-            </span>
-          )}
           <span className={styles.reportDate}>
             <FiClock className={styles.metaIcon} />
             {created}
@@ -92,26 +69,6 @@ const ReportCard: React.FC<ReportCardProps> = ({
         <div className={`${styles.statusBadge} ${styles.statusSuccess}`}>
           حضر
         </div>
-        {typeof report.completeLesson === "boolean" && (
-          <div
-            className={`${styles.statusBadge} ${
-              report.completeLesson
-                ? styles.statusSuccess
-                : styles.statusWarning
-            }`}
-          >
-            {report.completeLesson ? "مكتملة" : "غير مكتملة"}
-          </div>
-        )}
-        {typeof report.doneHomework === "boolean" && (
-          <div
-            className={`${styles.statusBadge} ${
-              report.doneHomework ? styles.statusSuccess : styles.statusWarning
-            }`}
-          >
-            {report.doneHomework ? "واجب مكتمل" : "واجب غير مكتمل"}
-          </div>
-        )}
       </div>
 
       {(report.notes || report.content) && (
@@ -189,7 +146,27 @@ const ReportCard: React.FC<ReportCardProps> = ({
             {(report.wantedForNextLesson?.new || []).length > 0 ? (
               (report.wantedForNextLesson?.new || []).map((x, idx) => (
                 <span
-                  className={`${styles.chip} ${styles.chipNext}`}
+                  className={`${styles.chip} ${styles.chipNew}`}
+                  key={`wn-${idx}`}
+                >
+                  {x}
+                </span>
+              ))
+            ) : (
+              <span className={styles.emptyChip}>لا يوجد</span>
+            )}
+          </div>
+        </div>
+        <div className={styles.memorizationGroup}>
+          <h4 className={styles.memorizationTitle}>
+            <FiBookOpen className={styles.memorizationIcon} />
+            المطلوب مراجعته للحصة القادمة
+          </h4>
+          <div className={styles.chips}>
+            {(report.wantedForNextLesson?.old || []).length > 0 ? (
+              (report.wantedForNextLesson?.old || []).map((x, idx) => (
+                <span
+                  className={`${styles.chip} ${styles.chipOld}`}
                   key={`wn-${idx}`}
                 >
                   {x}

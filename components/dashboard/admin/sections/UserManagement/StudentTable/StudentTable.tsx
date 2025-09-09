@@ -6,6 +6,7 @@ import MobileClassCards from "./Mobile/MobileClassCards";
 import { useStudentsContext } from "@/contexts/StudentsContext";
 import SkeletonTable from "@/components/dashboard/admin/components/SkeletonTable";
 import SkeletonCards from "@/components/dashboard/admin/components/SkeletonCards";
+import { User } from "@/types";
 
 const StudentTable: React.FC<{ searchTerm?: string }> = ({
   searchTerm = "",
@@ -57,11 +58,11 @@ const StudentTable: React.FC<{ searchTerm?: string }> = ({
   const normalized = searchTerm.trim().toLowerCase();
   const filtered = !normalized
     ? students
-    : students.filter((s: any) => {
+    : students.filter((s: User) => {
         const name = (s.name || "").toLowerCase();
         const email = (s.email || "").toLowerCase();
-        const phone = (s.phone || s.phoneNumber || "").toLowerCase();
-        const country = (s.country || "").toLowerCase();
+        const phone = (s.phone || "").toLowerCase();
+        const country = "".toLowerCase(); // country not available in User type
         return (
           name.includes(normalized) ||
           email.includes(normalized) ||
@@ -109,7 +110,7 @@ const StudentTable: React.FC<{ searchTerm?: string }> = ({
                 </tr>
               </thead>
               <tbody>
-                {filtered.map((student: any) => (
+                {filtered.map((student: User) => (
                   <ClassTableRow key={student._id} studentitem={student} />
                 ))}
               </tbody>

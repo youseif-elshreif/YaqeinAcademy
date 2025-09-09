@@ -1,12 +1,5 @@
 import styles from "./EnhancedLoader.module.css";
-
-interface EnhancedLoaderProps {
-  type?: "default" | "inline" | "overlay" | "minimal";
-  size?: "small" | "medium" | "large";
-  text?: string;
-  className?: string;
-  color?: "primary" | "secondary" | "white";
-}
+import { EnhancedLoaderProps } from "@/types";
 
 export default function EnhancedLoader({
   type = "default",

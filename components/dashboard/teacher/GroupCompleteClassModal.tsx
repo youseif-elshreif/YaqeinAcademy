@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import styles from "./GroupCompleteClassModal.module.css";
 import CompleteClassModal from "./CompleteClassModal";
 import { useTeacherDashboard } from "@/contexts/TeacherDashboardContext";
@@ -10,31 +10,11 @@ import {
   ModalActions,
 } from "@/components/common/Modal";
 import Button from "@/components/common/Button";
-
-interface Student {
-  id: string;
-  name: string;
-}
-
-interface CompletionData {
-  rate: number;
-  completed: {
-    newMemorization: string[];
-    review: string[];
-  };
-  nextPrep: {
-    newMemorization: string[];
-    review: string[];
-  };
-  notes: string;
-}
-
-// legacy type removed
-
-interface GroupCompleteClassModalProps {
-  lessonId: string;
-  onClose: () => void;
-}
+import {
+  Student,
+  GroupCompleteClassModalProps,
+  StudentCompletionDetails,
+} from "@/types";
 
 const GroupCompleteClassModal = ({
   lessonId,
@@ -57,7 +37,7 @@ const GroupCompleteClassModal = ({
     new Set()
   );
   const [studentCompletions, setStudentCompletions] = useState<
-    Map<string, CompletionData & { attended: boolean }>
+    Map<string, StudentCompletionDetails>
   >(new Map());
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -68,10 +48,8 @@ const GroupCompleteClassModal = ({
         setIsLoadingLesson(true);
         setLessonError("");
         const data = await getLessonById(lessonId);
-        console.log("📚 Fetched lesson data:", data);
         setLessonData(data);
       } catch (error) {
-        console.error("❌ Error fetching lesson data:", error);
         setLessonError("فشل في جلب بيانات الحصة");
       } finally {
         setIsLoadingLesson(false);
@@ -86,7 +64,8 @@ const GroupCompleteClassModal = ({
   // Extract students from lesson data
   const students: Student[] =
     lessonData?.groupId?.members?.map((member: any) => ({
-      id: member._id,
+      _id: member._id,
+      id: member._id, // تأكد من وجود id
       name: member.name,
     })) || [];
 
@@ -98,9 +77,8 @@ const GroupCompleteClassModal = ({
   };
 
   const handleStudentCompletion = (completionData: any) => {
-    const studentId = students[currentStudentIndex!].id;
-
-    // Save the completion data
+    const student = students[currentStudentIndex!];
+    const studentId = student._id; // Save the completion data
     setStudentCompletions((prev) =>
       new Map(prev).set(studentId, completionData)
     );
@@ -147,10 +125,8 @@ const GroupCompleteClassModal = ({
         await reportLesson(lessonId, payload);
       }
       await completeLesson(lessonId);
-      console.log("✅ Successfully saved group completion");
       handleClose();
     } catch (error) {
-      console.error("❌ Error saving group completion:", error);
       // TODO: Show error message to user
     } finally {
       setIsSubmitting(false);
@@ -181,7 +157,7 @@ const GroupCompleteClassModal = ({
 
   return (
     <>
-      <ModalContainer isOpen={!isClosing} variant="add">
+      <ModalContainer isOpen={!isClosing} variant="add" onClose={handleClose}>
         <ModalHeader
           title="إكمال حصة الحلقة"
           onClose={handleClose}
@@ -236,9 +212,9 @@ const GroupCompleteClassModal = ({
                   <div className={styles.studentsList}>
                     {students.map((student, index) => (
                       <div
-                        key={student.id}
+                        key={student._id}
                         className={`${styles.studentCard} ${
-                          completedStudents.has(student.id)
+                          completedStudents.has(student._id)
                             ? styles.completed
                             : ""
                         }`}
@@ -252,7 +228,7 @@ const GroupCompleteClassModal = ({
                         </div>
 
                         <div className={styles.statusIndicator}>
-                          {completedStudents.has(student.id) ? (
+                          {completedStudents.has(student._id) ? (
                             <FaCheck className={styles.checkIcon} />
                           ) : (
                             <span className={styles.pendingText}>
@@ -293,8 +269,9 @@ const GroupCompleteClassModal = ({
           mode="group"
           lessonId={lessonId}
           scheduledAt={scheduledAt}
-          student={{ id: currentStudent.id, name: currentStudent.name }}
+          student={{ id: currentStudent._id, name: currentStudent.name }}
           groupName={groupName}
+          existingData={studentCompletions.get(currentStudent._id)} // تمرير البيانات المحفوظة للتعديل
           onSave={(data) => handleStudentCompletion({ ...data })}
           onClose={handleCloseStudentModal}
         />

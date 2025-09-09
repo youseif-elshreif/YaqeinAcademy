@@ -15,38 +15,13 @@ import {
   FaStar,
 } from "react-icons/fa";
 import Button from "@/components/common/Button";
+import {
+  StudentCompletedClassData,
+  StudentViewData,
+  StudentAllDataComponentViewProps,
+} from "@/types";
 
-interface StudentCompletedClassData {
-  classId: number;
-  date: string;
-  time: string;
-  status: string;
-  rate?: number | null;
-  completed?: {
-    newMemorization: string[];
-    review: string[];
-  } | null;
-  notes?: string;
-  nextPrep?: {
-    newMemorization: string[];
-    review: string[];
-  } | null;
-}
-
-interface StudentAllData {
-  studentId: number;
-  studentName: string;
-  nickname: string;
-  classes: StudentCompletedClassData[];
-}
-
-interface StudentAllDataComponentProps {
-  studentData: StudentAllData | null;
-  onClose: () => void;
-  onViewClassDetails?: (classData: StudentCompletedClassData) => void;
-}
-
-const StudentAllDataComponent: React.FC<StudentAllDataComponentProps> = ({
+const StudentAllDataComponent: React.FC<StudentAllDataComponentViewProps> = ({
   studentData,
   onClose,
   onViewClassDetails,
@@ -255,3 +230,5 @@ const StudentAllDataComponent: React.FC<StudentAllDataComponentProps> = ({
 };
 
 export default StudentAllDataComponent;
+
+

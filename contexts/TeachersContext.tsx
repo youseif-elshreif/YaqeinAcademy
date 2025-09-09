@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import {
   createContext,
   useContext,
@@ -7,7 +7,7 @@ import {
   useCallback,
 } from "react";
 import * as adminSvc from "@/utils/services/admin.service";
-import { Teacher } from "@/utils/types";
+import { Teacher } from "@/types";
 
 type TeachersContextType = {
   teachers: Teacher[] | null;
@@ -56,26 +56,19 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const getTeachers = useCallback(
-    async (token: string): Promise<Teacher[]> => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        void token; // mark as used
-        const data = await adminSvc.getTeachers();
-        console.log("Fetched teachers:", data);
-        setTeachers(data.teachers);
-        return data.teachers;
-      } catch (error) {
-        console.error("Error fetching teachers:", error);
-        setError("فشل في جلب بيانات المعلمين");
-        throw error;
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    []
-  );
+  const getTeachers = useCallback(async (token: string): Promise<Teacher[]> => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      void token; // mark as used
+      const data = await adminSvc.getTeachers();setTeachers(data.teachers);
+      return data.teachers;
+    } catch (error) {setError("فشل في جلب بيانات المعلمين");
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   const createTeacher = useCallback(
     async (token: string, teacherData: any) => {
@@ -83,14 +76,10 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
         setIsLoading(true);
         setError(null);
         void token; // mark as used
-        const data = await adminSvc.createTeacher(teacherData);
-        console.log("Created teacher:", data);
-        // Refresh teachers list
+        const data = await adminSvc.createTeacher(teacherData);// Refresh teachers list
         await getTeachers(token);
         return data;
-      } catch (error) {
-        console.error("Error creating teacher:", error);
-        setError("فشل في إنشاء المعلم");
+      } catch (error) {setError("فشل في إنشاء المعلم");
         throw error;
       } finally {
         setIsLoading(false);
@@ -108,14 +97,10 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
           token,
           teacherId,
           teacherData
-        );
-        console.log("Updated teacher:", data);
-        // Refresh teachers list
+        );// Refresh teachers list
         await getTeachers(token);
         return data;
-      } catch (error) {
-        console.error("Error updating teacher:", error);
-        setError("فشل في تحديث بيانات المعلم");
+      } catch (error) {setError("فشل في تحديث بيانات المعلم");
         throw error;
       } finally {
         setIsLoading(false);
@@ -133,14 +118,10 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
           token,
           teacherId,
           meetingLink
-        );
-        console.log("Updated teacher meeting link:", data);
-        // Refresh teachers list
+        );// Refresh teachers list
         await getTeachers(token);
         return data;
-      } catch (error) {
-        console.error("Error updating teacher meeting link:", error);
-        setError("فشل في تحديث رابط اجتماع المعلم");
+      } catch (error) {setError("فشل في تحديث رابط اجتماع المعلم");
         throw error;
       } finally {
         setIsLoading(false);
@@ -154,14 +135,10 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.updateMember(token, memberId, memberData);
-        console.log("Updated member:", data);
-        // Refresh teachers list
+        const data = await adminSvc.updateMember(token, memberId, memberData);// Refresh teachers list
         await getTeachers(token);
         return data;
-      } catch (error) {
-        console.error("Error updating member:", error);
-        setError("فشل في تحديث بيانات العضو");
+      } catch (error) {setError("فشل في تحديث بيانات العضو");
         throw error;
       } finally {
         setIsLoading(false);
@@ -175,14 +152,10 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.deleteTeacher(teacherId);
-        console.log("Deleted teacher:", data);
-        // Refresh teachers list
+        const data = await adminSvc.deleteTeacher(teacherId);// Refresh teachers list
         await getTeachers(token);
         return data;
-      } catch (error) {
-        console.error("Error deleting teacher:", error);
-        setError("فشل في حذف المعلم");
+      } catch (error) {setError("فشل في حذف المعلم");
         throw error;
       } finally {
         setIsLoading(false);

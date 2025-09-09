@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import type { AxiosResponse } from "axios";
 import type { InternalAxiosRequestConfig } from "axios";
-import { RefreshTokenResponse } from "@/utils/types";
+import { RefreshTokenResponse } from "@/types";
 
 // Keep this as the base URL for the entire API
 export const API_BASE_URL = "http://localhost:3001";
@@ -37,7 +37,6 @@ const processQueue = (
 
 // Log network requests for debugging purposes
 const logRequest = (config: InternalAxiosRequestConfig) => {
-  console.log(`REQUEST: ${config.method?.toUpperCase()} ${config.url}`);
   return config;
 };
 
@@ -49,11 +48,6 @@ const addAuthHeader = (config: InternalAxiosRequestConfig) => {
       config.headers = new axios.AxiosHeaders();
     }
     config.headers.Authorization = `Bearer ${token}`;
-    console.log(
-      `Authorization header set: Bearer ${token.substring(0, 15)}...`
-    );
-  } else {
-    console.warn("No access token found in localStorage");
   }
   return config;
 };
@@ -65,7 +59,6 @@ api.interceptors.request.use(addAuthHeader);
 // Response interceptors
 api.interceptors.response.use(
   (response: AxiosResponse) => {
-    console.log(`RESPONSE: ${response.status} ${response.config.url}`);
     return response;
   },
   async (error: AxiosError) => {
@@ -79,8 +72,6 @@ api.interceptors.response.use(
       !originalRequest._retry &&
       originalRequest.url !== "/api/auth/refresh-token" // ✅ تحديث المسار
     ) {
-      console.log("Token expired, attempting refresh...");
-
       if (isRefreshing) {
         try {
           // Wait for the current refresh to complete
@@ -112,7 +103,6 @@ api.interceptors.response.use(
         );
 
         const newToken = data.accessToken;
-        console.log("Token refreshed successfully");
 
         // Update stored token
         localStorage.setItem("accessToken", newToken);
@@ -124,7 +114,6 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
         return api(originalRequest);
       } catch (refreshError) {
-        console.error("Token refresh failed:", refreshError);
         processQueue(refreshError as AxiosError);
 
         // ✅ تنظيف شامل للحالة

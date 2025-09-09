@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import {
   createContext,
   useContext,
@@ -58,14 +58,10 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
         setIsLoading(true);
         setError(null);
         void token; // mark as used
-        const result = await adminSvc.addLessonToGroup(groupId, data);
-        console.log("Added lesson to group:", result);
-        // Trigger refresh
+        const result = await adminSvc.addLessonToGroup(groupId, data);// Trigger refresh
         setLessonsRefreshKey((k) => k + 1);
         return result;
-      } catch (error) {
-        console.error("Error adding lesson to group:", error);
-        setError("فشل في إضافة الدرس للمجموعة");
+      } catch (error) {setError("فشل في إضافة الدرس للمجموعة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -84,14 +80,10 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
         setIsLoading(true);
         setError(null);
         void token; // mark as used
-        const result = await adminSvc.updateLesson(lessonId, data);
-        console.log("Updated lesson:", result);
-        // Trigger refresh
+        const result = await adminSvc.updateLesson(lessonId, data);// Trigger refresh
         setLessonsRefreshKey((k) => k + 1);
         return result;
-      } catch (error) {
-        console.error("Error updating lesson:", error);
-        setError("فشل في تحديث الدرس");
+      } catch (error) {setError("فشل في تحديث الدرس");
         throw error;
       } finally {
         setIsLoading(false);
@@ -105,14 +97,10 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
       setIsLoading(true);
       setError(null);
       void token; // mark as used
-      const data = await adminSvc.deleteLesson(lessonId);
-      console.log("Deleted lesson:", data);
-      // Trigger refresh
+      const data = await adminSvc.deleteLesson(lessonId);// Trigger refresh
       setLessonsRefreshKey((k) => k + 1);
       return data;
-    } catch (error) {
-      console.error("Error deleting lesson:", error);
-      setError("فشل في حذف الدرس");
+    } catch (error) {setError("فشل في حذف الدرس");
       throw error;
     } finally {
       setIsLoading(false);
@@ -123,12 +111,8 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
     try {
       setIsLoading(true);
       setError(null);
-      const data = await lessonSvc.getLessonById(lessonId);
-      console.log("Fetched lesson by ID:", data);
-      return data;
-    } catch (error) {
-      console.error("Error fetching lesson by ID:", error);
-      setError("فشل في جلب بيانات الدرس");
+      const data = await lessonSvc.getLessonById(lessonId);return data;
+    } catch (error) {setError("فشل في جلب بيانات الدرس");
       throw error;
     } finally {
       setIsLoading(false);
@@ -138,18 +122,10 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
   const completeLesson = useCallback(async (lessonId: string) => {
     try {
       setIsLoading(true);
-      setError(null);
-      console.log("Completing lesson:", lessonId);
-      console.log("success");
-      const data = await lessonSvc.completeLesson(lessonId);
-      console.log("successsuccesssuccess");
-      console.log("Completed lesson:", data);
-      // Trigger refresh
+      setError(null);const data = await lessonSvc.completeLesson(lessonId);// Trigger refresh
       setLessonsRefreshKey((k) => k + 1);
       return data;
-    } catch (error) {
-      console.error("Error completing lesson:", error);
-      setError("فشل في إتمام الدرس");
+    } catch (error) {setError("فشل في إتمام الدرس");
       throw error;
     } finally {
       setIsLoading(false);

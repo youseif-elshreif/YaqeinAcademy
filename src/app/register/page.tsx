@@ -14,7 +14,7 @@ import styles from "./register.module.css";
 import { useAuth } from "@/contexts/AuthContext";
 import CountrySelect from "@/components/auth/CountrySelect";
 import { isValidPhoneNumber, CountryCode } from "libphonenumber-js";
-import { RegisterFormData, RegisterFormErrors } from "@/utils/types";
+import { RegisterFormData, RegisterFormErrors } from "@/types";
 
 const RegisterPage = () => {
   const { register } = useAuth();
@@ -25,7 +25,7 @@ const RegisterPage = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    age: null,
+    age: 0,
     hasQuranMemorization: false,
     numOfPartsofQuran: 0,
     country: "",

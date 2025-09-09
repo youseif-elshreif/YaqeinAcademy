@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 import React, { useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
-import { CreditsFormData } from "@/utils/types";
+import { CreditsFormData } from "@/types";
 import styles from "@/styles/BaseModal.module.css";
 import {
   ModalContainer,
@@ -82,22 +82,13 @@ const AddCreditsModal: React.FC = () => {
     setError(null);
 
     try {
-      console.log("=== ADDING CREDITS ===");
-      console.log("Student ID:", selectedStudentForCredits.userId);
-      console.log("Private Amount:", formData.privateAmount);
-
       await addCreditsToStudent(
         selectedStudentForCredits.userId,
         formData.privateAmount,
         0 // publicAmount دائماً 0
-      );
-
-      console.log("✅ Credits added successfully");
-
-      // Close modal on success
+      ); // Close modal on success
       closeAddCreditsModal();
     } catch (error) {
-      console.error("❌ Error adding credits:", error);
       setError("حدث خطأ أثناء إضافة الدروس");
     } finally {
       setIsSubmitting(false);
@@ -123,11 +114,11 @@ const AddCreditsModal: React.FC = () => {
   ];
 
   return (
-    <ModalContainer isOpen={true}>
+    <ModalContainer isOpen={true} onClose={closeAddCreditsModal}>
       <ModalHeader
         title="إضافة حلقات مستحقة"
         onClose={closeAddCreditsModal}
-        disabled={isSubmitting}
+        isOpen={true}
       />
       <div className={styles.modalBody}>
         {selectedStudentForCredits && (

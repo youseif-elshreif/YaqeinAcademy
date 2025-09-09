@@ -1,16 +1,6 @@
-import Button from "../common/Button";
-
-interface AuthButtonProps {
-  type?: "button" | "submit" | "reset";
-  onClick?: () => void;
-  disabled?: boolean;
-  loading?: boolean;
-  loadingText?: string;
-  children: React.ReactNode;
-  variant?: "primary" | "secondary";
-  fullWidth?: boolean;
-  className?: string;
-}
+import React from "react";
+import Button from "../common/Button/Button";
+import { AuthButtonProps } from "@/types";
 
 const AuthButton: React.FC<AuthButtonProps> = ({
   type = "button",

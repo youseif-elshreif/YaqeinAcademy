@@ -1,8 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import { useAdminModal } from "@/contexts/AdminModalContext";
-import { UserFormData, UserType } from "@/utils/types";
+import { UserFormData, UserUpdatePayload } from "@/types/admin.types";
+import { UserType } from "@/types/auth.types";
 import { CheckboxField } from "@/components/auth";
 import { FaSave, FaEdit } from "react-icons/fa";
 import {
@@ -47,6 +48,7 @@ const EditUserModal = () => {
     phone: "",
     phoneNumber: "",
     country: "",
+    city: "",
     userType: "student",
     age: null,
     numOfPartsofQuran: 0,
@@ -79,6 +81,7 @@ const EditUserModal = () => {
         phone: userData.phone || userData.phoneNumber || "",
         phoneNumber: userData.phoneNumber || userData.phone || "",
         country: userData.country || "",
+        city: userData.city || "",
         userType: currentUserType,
         age: userData.age || null,
         numOfPartsofQuran: userData.numOfPartsofQuran || 0,
@@ -222,7 +225,7 @@ const EditUserModal = () => {
 
     setIsSubmitting(true);
     try {
-      const payload: any = {
+      const payload: UserUpdatePayload = {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
@@ -236,13 +239,14 @@ const EditUserModal = () => {
           payload.numOfPartsofQuran = formData.numOfPartsofQuran;
         }
       }
-
-      console.log("Final payload:", payload);
       await updateUser(userId, payload, currentUserType);
       handleClose();
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const errorObj = err as any;
       const msg =
-        err?.response?.data?.message || err?.message || "حدث خطأ أثناء التحديث";
+        errorObj?.response?.data?.message ||
+        errorObj?.message ||
+        "حدث خطأ أثناء التحديث";
       setServerError(msg);
     } finally {
       setIsSubmitting(false);
@@ -275,6 +279,7 @@ const EditUserModal = () => {
       isClosing={isClosing}
       variant="add"
       size="large"
+      onClose={handleClose}
     >
       <ModalHeader
         title={`تعديل بيانات ${

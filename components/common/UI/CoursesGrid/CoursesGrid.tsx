@@ -1,22 +1,7 @@
 import CourseCard from "@/components/common/UI/CourseCard/CourseCard";
 import AdminCourseCard from "@/components/common/UI/CourseCard/AdminCourseCard";
 import styles from "./CoursesGrid.module.css";
-
-interface Course {
-  id: string;
-  title: string;
-  startDate: string;
-  duration?: string;
-  shortDescription: string;
-  telegramLink?: string;
-}
-
-interface CoursesGridProps {
-  courses: Course[];
-  showBtn?: boolean;
-  isContainer?: boolean;
-  isAdminView?: boolean;
-}
+import { CoursesGridProps } from "@/types";
 
 const CoursesGrid = ({
   courses,

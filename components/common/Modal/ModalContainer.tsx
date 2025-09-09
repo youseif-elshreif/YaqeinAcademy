@@ -1,14 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import baseStyles from "../../../styles/BaseModal.module.css";
-
-interface ModalContainerProps {
-  isOpen: boolean;
-  isClosing?: boolean;
-  children: React.ReactNode;
-  variant?: "add" | "edit" | "delete" | "default";
-  size?: "small" | "medium" | "large";
-}
+import { ModalContainerProps } from "@/types";
 
 const ModalContainer: React.FC<ModalContainerProps> = ({
   isOpen,

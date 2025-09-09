@@ -1,11 +1,8 @@
 import ClassCard from "./ClassCard";
 import styles from "@/components/dashboard/admin/styles.module.css";
+import { MobileStudentCardsProps } from "@/types";
 
-interface MobileClassCardsProps {
-  Students: any[]; // Students from API
-}
-
-const MobileClassCards = ({ Students }: MobileClassCardsProps) => {
+const MobileClassCards = ({ Students }: MobileStudentCardsProps) => {
   return (
     <div className={styles.mobileCardsContainer}>
       {Students.map((studentItem) => (

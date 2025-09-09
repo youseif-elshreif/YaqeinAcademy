@@ -1,11 +1,11 @@
-"use client";
+﻿"use client";
 import React, { createContext, useContext, useState } from "react";
 import {
   UserFormData,
   UserType,
   AdminModalContextType,
   AdminModalProviderProps,
-} from "@/utils/types";
+} from "@/types";
 import { useTeachersContext } from "./TeachersContext";
 import { useStudentsContext } from "./StudentsContext";
 import { useAdminStatsContext } from "./AdminStatsContext";
@@ -379,12 +379,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
 
   // Save actions
   const saveNewUser = async (userData: UserFormData, userType: UserType) => {
-    try {
-      console.log("=== CREATING NEW USER ===");
-      console.log("User Type:", userType);
-      console.log("User Data:", userData);
-
-      let result;
+    try {let result;
 
       switch (userType) {
         case "admin":
@@ -432,20 +427,12 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
 
         default:
           throw new Error(`Unsupported user type: ${userType}`);
-      }
-
-      console.log("✅ User created successfully:", result);
-
-      // Refresh appropriate user list based on user type
+      }// Refresh appropriate user list based on user type
       if (userType === "admin") {
-        if (!token) {
-          console.warn("No authentication token available to refresh admins");
-        } else {
+        if (!token) {} else {
           try {
             await getAdmins(token);
-          } catch (e) {
-            console.error("Failed to refresh admins after creation", e);
-          }
+          } catch (e) {}
         }
       } else if (token) {
         if (userType === "student") {
@@ -472,9 +459,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
         // Close modal after successful submission for non-students
         closeAddUserModal();
       }
-    } catch (error) {
-      console.error("❌ Error creating user:", error);
-      // يمكنك إضافة رسالة خطأ هنا للمستخدم
+    } catch (error) {// يمكنك إضافة رسالة خطأ هنا للمستخدم
       throw error;
     }
   };
@@ -485,13 +470,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     userData: any,
     userType: UserType
   ) => {
-    try {
-      console.log("=== UPDATING USER ===");
-      console.log("User ID:", userId);
-      console.log("User Type:", userType);
-      console.log("User Data:", userData);
-
-      if (!token) {
+    try {if (!token) {
         throw new Error("No authentication token available");
       }
 
@@ -514,11 +493,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
 
         default:
           throw new Error(`Unsupported user type: ${userType}`);
-      }
-
-      console.log("✅ User updated successfully:", result);
-
-      // Refresh appropriate user list based on user type
+      }// Refresh appropriate user list based on user type
       if (userType === "student") {
         await getStudents(token);
       } else if (userType === "teacher") {
@@ -528,9 +503,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
       }
 
       return result;
-    } catch (error) {
-      console.error("❌ Error updating user:", error);
-      throw error;
+    } catch (error) {throw error;
     }
   };
 
@@ -539,12 +512,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     teacherId: string,
     meetingLink: string
   ) => {
-    try {
-      console.log("=== UPDATING TEACHER MEETING LINK ===");
-      console.log("Teacher ID:", teacherId);
-      console.log("Meeting Link:", meetingLink);
-
-      if (!token) {
+    try {if (!token) {
         throw new Error("No authentication token available");
       }
 
@@ -552,16 +520,11 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
         token,
         teacherId,
         meetingLink
-      );
-      console.log("✅ Teacher meeting link updated successfully:", result);
-
-      // Refresh teachers data after update
+      );// Refresh teachers data after update
       await getTeachers(token);
 
       return result;
-    } catch (error) {
-      console.error("❌ Error updating teacher meeting link:", error);
-      throw error;
+    } catch (error) {throw error;
     }
   };
 
@@ -570,23 +533,13 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     try {
       if (!token) {
         throw new Error("No authentication token available");
-      }
-
-      console.log("=== DELETING GROUP ===");
-      console.log("Group ID:", groupId);
-
-      const result = await deleteGroup(token, groupId);
-      console.log("✅ Group deleted successfully:", result);
-
-      // Close modal after successful deletion
+      }const result = await deleteGroup(token, groupId);// Close modal after successful deletion
       closeConfirmDeleteGroupModal();
       closeGroupActionsModal();
 
       // Refresh groups data directly
       await getGroups(token);
-    } catch (error) {
-      console.error("❌ Error deleting group:", error);
-      throw error;
+    } catch (error) {throw error;
     }
   };
 
@@ -599,14 +552,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     try {
       if (!token) {
         throw new Error("No authentication token available");
-      }
-
-      console.log("=== ADDING CREDITS ===");
-      console.log("Student ID:", studentId);
-      console.log("Private Amount:", privateAmount);
-      console.log("Public Amount:", publicAmount);
-
-      // Use the API from AdminDashboardContext
+      }// Use the API from AdminDashboardContext
       const result = await addCreditsAPI(
         token,
         studentId,
@@ -620,29 +566,17 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
       closeAddCreditsModal();
 
       return result;
-    } catch (error) {
-      console.error("❌ Error adding credits:", error);
-      throw error;
+    } catch (error) {throw error;
     }
   };
 
   // Save new group
   const saveNewGroup = async (groupData: any) => {
-    try {
-      console.log("=== CREATING NEW GROUP ===");
-      console.log("Group Data:", groupData);
-
-      // TODO: Add actual API call for creating groups
+    try {// TODO: Add actual API call for creating groups
       // For now, just simulate the creation
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      console.log("✅ Group created successfully:", groupData);
-
-      // Close modal after successful submission
+      await new Promise((resolve) => setTimeout(resolve, 1000));// Close modal after successful submission
       closeAddGroupModal();
-    } catch (error) {
-      console.error("❌ Error creating group:", error);
-      throw error;
+    } catch (error) {throw error;
     }
   };
 

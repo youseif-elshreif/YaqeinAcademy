@@ -1,8 +1,5 @@
 import styles from "./EmailVerificationLoader.module.css";
-
-interface EmailVerificationLoaderProps {
-  className?: string;
-}
+import { EmailVerificationLoaderProps } from "@/types";
 
 export default function EmailVerificationLoader({
   className = "",

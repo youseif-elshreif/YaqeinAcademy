@@ -4,10 +4,7 @@ import { formatDate, getStatusColor, getStatusText } from "../utils";
 import { useModal } from "@/contexts/ModalContext";
 import MeetingLinkActions from "@/components/common/MeetingLinkActions";
 import Button from "@/components/common/Button";
-
-interface ClassTableRowProps {
-  classItem: any; // raw lesson from API
-}
+import { ClassTableRowProps } from "@/types";
 
 const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
   const { openCompleteModal, openStudentListModal } = useModal();
@@ -96,7 +93,7 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
                 >
                   عرض التقارير
                 </Button>
-              ) : isUpcoming ? (
+              ) : !isUpcoming ? (
                 <span className={styles.lightColor}>
                   ميعاد الحصة لم يأتي بعد
                 </span>

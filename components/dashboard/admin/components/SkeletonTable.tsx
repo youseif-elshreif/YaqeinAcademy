@@ -73,3 +73,5 @@ const SkeletonTable: React.FC<SkeletonTableProps> = ({
 };
 
 export default SkeletonTable;
+
+

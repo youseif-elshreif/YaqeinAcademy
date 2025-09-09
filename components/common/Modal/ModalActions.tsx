@@ -1,21 +1,7 @@
 import React from "react";
 import Button from "../Button";
 import baseStyles from "../../../styles/BaseModal.module.css";
-
-interface ActionButton {
-  label: string;
-  onClick: () => void;
-  variant?: "primary" | "secondary" | "danger" | "success" | "warning" | "info";
-  disabled?: boolean;
-  loading?: boolean;
-  icon?: React.ReactNode;
-  type?: "button" | "submit";
-}
-
-interface ModalActionsProps {
-  actions: ActionButton[];
-  alignment?: "left" | "right" | "center" | "space-between";
-}
+import { ModalActionsProps, ActionButton } from "@/types";
 
 const ModalActions: React.FC<ModalActionsProps> = ({
   actions,

@@ -2,15 +2,7 @@
 
 import { useAdminModal } from "@/contexts/AdminModalContext";
 import CourseCard from "./CourseCard";
-
-interface AdminCourseCardProps {
-  id: string;
-  title: string;
-  startDate: string;
-  duration?: string;
-  shortDescription: string;
-  showBtn?: boolean;
-}
+import { AdminCourseCardProps } from "@/types";
 
 const AdminCourseCard = ({ id, ...props }: AdminCourseCardProps) => {
   const { openEditCourseModal, openDeleteCourseModal } = useAdminModal();

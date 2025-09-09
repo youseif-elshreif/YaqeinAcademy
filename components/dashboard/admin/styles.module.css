@@ -928,6 +928,18 @@
   border-color: var(--secondary-color, #63b8b1);
   background: #fafbfc;
 }
+@media (max-width: 960px) {
+  .headerRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .headerActions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}
 
 /* ==== RESPONSIVE DESIGN ==== */
 @media (max-width: 768px) {
@@ -977,11 +989,6 @@
   .groupBadge {
     top: 0;
     right: 170px;
-  }
-
-  .headerRow {
-    flex-direction: column;
-    align-items: flex-start;
   }
 
   .headerActions {
