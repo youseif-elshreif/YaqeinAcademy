@@ -1,30 +1,30 @@
-import React from 'react';
-import { TestimonialListProps } from '@/src/types';
-import styles from './TestimonialsList.module.css';
+import React from "react";
+import { TestimonialListProps } from "@/src/types";
+import styles from "./TestimonialsList.module.css";
 
 const TestimonialsList: React.FC<TestimonialListProps> = ({
   testimonials,
   onApprove,
   onReject,
-  onDelete
+  onDelete,
 }) => {
   const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString('ar-SA', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return new Date(date).toLocaleDateString("ar-SA", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'approved':
+      case "approved":
         return styles.approved;
-      case 'pending':
+      case "pending":
         return styles.pending;
-      case 'rejected':
+      case "rejected":
         return styles.rejected;
       default:
         return styles.pending;
@@ -33,14 +33,14 @@ const TestimonialsList: React.FC<TestimonialListProps> = ({
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'approved':
-        return 'موافق عليه';
-      case 'pending':
-        return 'في الانتظار';
-      case 'rejected':
-        return 'مرفوض';
+      case "approved":
+        return "موافق عليه";
+      case "pending":
+        return "في الانتظار";
+      case "rejected":
+        return "مرفوض";
       default:
-        return 'غير محدد';
+        return "غير محدد";
     }
   };
 
@@ -62,31 +62,36 @@ const TestimonialsList: React.FC<TestimonialListProps> = ({
               <span className={styles.testimonialId}>#{testimonial.id}</span>
             </div>
             <div className={styles.testimonialStatus}>
-              <span className={`${styles.statusBadge} ${getStatusColor(testimonial.status)}`}>
+              <span
+                className={`${styles.statusBadge} ${getStatusColor(
+                  testimonial.status
+                )}`}
+              >
                 {getStatusText(testimonial.status)}
               </span>
             </div>
           </div>
-          
+
           <div className={styles.testimonialContent}>
             <p>{testimonial.content}</p>
           </div>
-          
+
           <div className={styles.testimonialMeta}>
             <div className={styles.timestamps}>
               <span className={styles.timestamp}>
                 تاريخ الإنشاء: {formatDate(testimonial.createdAt)}
               </span>
-              {testimonial.updatedAt.getTime() !== testimonial.createdAt.getTime() && (
+              {testimonial.updatedAt.getTime() !==
+                testimonial.createdAt.getTime() && (
                 <span className={styles.timestamp}>
                   آخر تحديث: {formatDate(testimonial.updatedAt)}
                 </span>
               )}
             </div>
           </div>
-          
+
           <div className={styles.testimonialActions}>
-            {testimonial.status === 'pending' && (
+            {testimonial.status === "pending" && (
               <>
                 <button
                   onClick={() => onApprove(testimonial.id)}
@@ -102,7 +107,7 @@ const TestimonialsList: React.FC<TestimonialListProps> = ({
                 </button>
               </>
             )}
-            {testimonial.status === 'approved' && (
+            {testimonial.status === "approved" && (
               <button
                 onClick={() => onReject(testimonial.id)}
                 className={`${styles.actionButton} ${styles.rejectButton}`}
@@ -110,7 +115,7 @@ const TestimonialsList: React.FC<TestimonialListProps> = ({
                 إلغاء الموافقة
               </button>
             )}
-            {testimonial.status === 'rejected' && (
+            {testimonial.status === "rejected" && (
               <button
                 onClick={() => onApprove(testimonial.id)}
                 className={`${styles.actionButton} ${styles.approveButton}`}

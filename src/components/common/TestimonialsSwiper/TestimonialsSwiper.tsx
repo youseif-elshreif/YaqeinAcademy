@@ -1,18 +1,22 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import Image from 'next/image';
-import { TestimonialSwiperProps } from '@/src/types';
-import styles from './TestimonialsSwiper.module.css';
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import Image from "next/image";
+import { TestimonialSwiperProps } from "@/src/types";
+import styles from "./TestimonialsSwiper.module.css";
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
-const TestimonialsSwiper: React.FC<TestimonialSwiperProps> = ({ testimonials }) => {
+const TestimonialsSwiper: React.FC<TestimonialSwiperProps> = ({
+  testimonials,
+}) => {
   // Filter only approved testimonials
-  const approvedTestimonials = testimonials.filter(testimonial => testimonial.status === 'approved');
+  const approvedTestimonials = testimonials.filter(
+    (testimonial) => testimonial.status === "approved"
+  );
 
   if (approvedTestimonials.length === 0) {
     return (
@@ -43,7 +47,7 @@ const TestimonialsSwiper: React.FC<TestimonialSwiperProps> = ({ testimonials }) 
           width={100}
           height={100}
         />
-        
+
         <div className={styles.swiperContainer}>
           <Swiper
             modules={[Navigation, Pagination, Autoplay]}
@@ -77,7 +81,9 @@ const TestimonialsSwiper: React.FC<TestimonialSwiperProps> = ({ testimonials }) 
                   <div className={styles.testimonialAuthor}>
                     <h4>{testimonial.name}</h4>
                     <span className={styles.testimonialDate}>
-                      {new Date(testimonial.createdAt).toLocaleDateString('ar-SA')}
+                      {new Date(testimonial.createdAt).toLocaleDateString(
+                        "ar-SA"
+                      )}
                     </span>
                   </div>
                 </div>

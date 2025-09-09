@@ -1,15 +1,22 @@
 "use client";
-import React, { useState } from 'react';
-import { FiPlus, FiDownload, FiMessageSquare, FiClock, FiCheck, FiX } from 'react-icons/fi';
-import { useTestimonials } from '@/src/contexts/AppProviders';
-import TestimonialsList from '@/src/components/dashboard/TestimonialsList';
-import StatCard from '@/src/components/common/UI/StatCard';
-import Button from '@/src/components/common/Button';
-import DashboardTabs from '@/src/components/dashboard/student/DashboardTabs';
-import SearchFilter from '@/src/components/common/UI/SearchFilter';
-import AddTestimonialModal from '@/src/components/common/Modals/AddTestimonialModal';
-import styles from '@/src/styles/AdminDashboard.module.css';
-import userStyles from '@/src/components/dashboard/admin/styles.module.css';
+import React, { useState } from "react";
+import {
+  FiPlus,
+  FiDownload,
+  FiMessageSquare,
+  FiClock,
+  FiCheck,
+  FiX,
+} from "react-icons/fi";
+import { useTestimonials } from "@/src/contexts/AppProviders";
+import TestimonialsList from "@/src/components/dashboard/TestimonialsList";
+import StatCard from "@/src/components/common/UI/StatCard";
+import Button from "@/src/components/common/Button";
+import DashboardTabs from "@/src/components/dashboard/student/DashboardTabs";
+import SearchFilter from "@/src/components/common/UI/SearchFilter";
+import AddTestimonialModal from "@/src/components/common/Modals/AddTestimonialModal";
+import styles from "@/src/styles/AdminDashboard.module.css";
+import userStyles from "@/src/components/dashboard/admin/styles.module.css";
 
 const TestimonialsManagement: React.FC = () => {
   const {
@@ -20,12 +27,14 @@ const TestimonialsManagement: React.FC = () => {
     approveTestimonial,
     rejectTestimonial,
     deleteTestimonial,
-    getPendingTestimonials
+    getPendingTestimonials,
   } = useTestimonials();
 
-  const [activeTab, setActiveTab] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all');
+  const [activeTab, setActiveTab] = useState<
+    "all" | "pending" | "approved" | "rejected"
+  >("all");
   const [actionLoading, setActionLoading] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const handleExportTestimonials = () => {
@@ -37,7 +46,7 @@ const TestimonialsManagement: React.FC = () => {
     try {
       await approveTestimonial(id);
     } catch (error) {
-      console.error('Error approving testimonial:', error);
+      console.error("Error approving testimonial:", error);
     } finally {
       setActionLoading(null);
     }
@@ -48,56 +57,60 @@ const TestimonialsManagement: React.FC = () => {
     try {
       await rejectTestimonial(id);
     } catch (error) {
-      console.error('Error rejecting testimonial:', error);
+      console.error("Error rejecting testimonial:", error);
     } finally {
       setActionLoading(null);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (window.confirm('هل أنت متأكد من حذف هذا الرأي؟')) {
+    if (window.confirm("هل أنت متأكد من حذف هذا الرأي؟")) {
       setActionLoading(id);
       try {
         await deleteTestimonial(id);
       } catch (error) {
-        console.error('Error deleting testimonial:', error);
+        console.error("Error deleting testimonial:", error);
       } finally {
         setActionLoading(null);
       }
     }
   };
 
-  const handleCreateTestimonial = async (data: { name: string; content: string }) => {
+  const handleCreateTestimonial = async (data: {
+    name: string;
+    content: string;
+  }) => {
     try {
       await createTestimonial(data);
       // Modal will close automatically on success
     } catch (error) {
-      console.error('Error creating testimonial:', error);
+      console.error("Error creating testimonial:", error);
       throw error; // Re-throw to let modal handle it
     }
   };
 
   const getFilteredTestimonials = () => {
     let filtered = testimonials;
-    
+
     switch (activeTab) {
-      case 'pending':
-        filtered = testimonials.filter(t => t.status === 'pending');
+      case "pending":
+        filtered = testimonials.filter((t) => t.status === "pending");
         break;
-      case 'approved':
-        filtered = testimonials.filter(t => t.status === 'approved');
+      case "approved":
+        filtered = testimonials.filter((t) => t.status === "approved");
         break;
-      case 'rejected':
-        filtered = testimonials.filter(t => t.status === 'rejected');
+      case "rejected":
+        filtered = testimonials.filter((t) => t.status === "rejected");
         break;
       default:
         filtered = testimonials;
     }
 
     if (searchTerm) {
-      filtered = filtered.filter(t => 
-        t.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        t.content.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter(
+        (t) =>
+          t.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          t.content.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -105,8 +118,12 @@ const TestimonialsManagement: React.FC = () => {
   };
 
   const pendingCount = getPendingTestimonials().length;
-  const approvedCount = testimonials.filter(t => t.status === 'approved').length;
-  const rejectedCount = testimonials.filter(t => t.status === 'rejected').length;
+  const approvedCount = testimonials.filter(
+    (t) => t.status === "approved"
+  ).length;
+  const rejectedCount = testimonials.filter(
+    (t) => t.status === "rejected"
+  ).length;
 
   const tabs = [
     {
@@ -115,7 +132,7 @@ const TestimonialsManagement: React.FC = () => {
     },
     {
       id: "pending",
-      label: `في الانتظار ${pendingCount > 0 ? `(${pendingCount})` : ''}`,
+      label: `في الانتظار ${pendingCount > 0 ? `(${pendingCount})` : ""}`,
     },
     {
       id: "approved",
@@ -157,21 +174,9 @@ const TestimonialsManagement: React.FC = () => {
           value={testimonials.length}
           label="إجمالي الآراء"
         />
-        <StatCard
-          icon={FiClock}
-          value={pendingCount}
-          label="في الانتظار"
-        />
-        <StatCard
-          icon={FiCheck}
-          value={approvedCount}
-          label="موافق عليها"
-        />
-        <StatCard
-          icon={FiX}
-          value={rejectedCount}
-          label="مرفوضة"
-        />
+        <StatCard icon={FiClock} value={pendingCount} label="في الانتظار" />
+        <StatCard icon={FiCheck} value={approvedCount} label="موافق عليها" />
+        <StatCard icon={FiX} value={rejectedCount} label="مرفوضة" />
       </div>
 
       {/* Error Display */}

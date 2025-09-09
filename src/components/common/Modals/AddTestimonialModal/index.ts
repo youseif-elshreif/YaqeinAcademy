@@ -1,1 +1,1 @@
-export { default } from './AddTestimonialModal';
+export { default } from "./AddTestimonialModal";

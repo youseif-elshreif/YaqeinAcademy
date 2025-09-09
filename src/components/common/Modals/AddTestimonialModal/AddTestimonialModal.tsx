@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { ModalContainer, ModalHeader } from '@/src/components/common/Modal';
-import TestimonialForm from '@/src/components/dashboard/TestimonialForm';
-import { TestimonialFormData } from '@/src/types';
-import styles from './AddTestimonialModal.module.css';
+import React, { useState } from "react";
+import { ModalContainer, ModalHeader } from "@/src/components/common/Modal";
+import TestimonialForm from "@/src/components/dashboard/TestimonialForm";
+import { TestimonialFormData } from "@/src/types";
+import styles from "./AddTestimonialModal.module.css";
 
 interface AddTestimonialModalProps {
   isOpen: boolean;
@@ -15,7 +15,7 @@ const AddTestimonialModal: React.FC<AddTestimonialModalProps> = ({
   isOpen,
   onClose,
   onSubmit,
-  isLoading = false
+  isLoading = false,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -26,7 +26,7 @@ const AddTestimonialModal: React.FC<AddTestimonialModalProps> = ({
       await onSubmit(data);
       handleClose(); // Close modal on success
     } catch (error) {
-      console.error('Error submitting testimonial:', error);
+      console.error("Error submitting testimonial:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -54,7 +54,7 @@ const AddTestimonialModal: React.FC<AddTestimonialModalProps> = ({
         disabled={isSubmitting || isLoading}
         variant="add"
       />
-      
+
       <div className={styles.modalBody}>
         <TestimonialForm
           onSubmit={handleSubmit}

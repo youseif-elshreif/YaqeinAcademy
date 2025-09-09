@@ -1,1 +1,1 @@
-export { default } from './TestimonialsManagement';
+export { default } from "./TestimonialsManagement";

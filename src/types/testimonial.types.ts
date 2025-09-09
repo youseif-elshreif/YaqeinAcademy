@@ -2,7 +2,7 @@ export interface Testimonial {
   id: string;
   name: string;
   content: string;
-  status: 'pending' | 'approved' | 'rejected';
+  status: "pending" | "approved" | "rejected";
   createdAt: Date;
   updatedAt: Date;
 }
