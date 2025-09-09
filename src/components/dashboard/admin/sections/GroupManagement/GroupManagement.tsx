@@ -42,41 +42,38 @@ const GroupManagement: React.FC = () => {
   const tabs = [
     {
       id: "groups",
-      label: "???????",
+      label: "الحلقات",
     },
   ];
 
   return (
     <div className={styles.overviewContainer}>
       <div className={userStyles.headerRow}>
-        <h1 className={styles.pageTitle}>????? ???????</h1>
+        <h1 className={styles.pageTitle}>إدارة الحلقات</h1>
         <div className={userStyles.headerActions}>
           <Button
             onClick={handleExportData}
             variant="secondary"
             icon={<FiDownload />}
           >
-            ????? ????????
+            تصدير البيانات
           </Button>
           <Button onClick={handleAddGroup} variant="primary" icon={<FiPlus />}>
-            ????? ???? ?????
+            إضافة حلقة جديدة
           </Button>
         </div>
       </div>
 
-
       <div className={styles.statsGrid}>
-        <StatCard icon={FiUsers} value={groups.length} label="?????? ???????" />
+        <StatCard icon={FiUsers} value={groups.length} label="عدد الحلقات" />
       </div>
-
-
 
       <div className={styles.filterContainer}>
         <div className={styles.filterGroup}>
           <SearchFilter
             value={searchTerm}
             onChange={setSearchTerm}
-            placeholder="????? ???? ?????? ???..."
+            placeholder="البحث عن حلقة..."
             wrapperClassName={userStyles.filterInputWrapper}
             inputClassName={userStyles.formInput}
             iconClassName={userStyles.filterIcon}
@@ -86,7 +83,7 @@ const GroupManagement: React.FC = () => {
           <DayFilter
             value={dayFilter}
             onChange={setDayFilter}
-            placeholder="?? ??????"
+            placeholder="تصفية حسب اليوم"
             wrapperClassName={userStyles.filterInputWrapper}
             selectClassName={userStyles.formInput}
           />

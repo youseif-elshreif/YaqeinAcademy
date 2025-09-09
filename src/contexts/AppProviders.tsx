@@ -15,7 +15,7 @@ interface AppProvidersProps {
 }
 
 /**
- * مجموعة موحدة من جميع الـ Context Providers للتطبيق
+ * حلقة موحدة من جميع الـ Context Providers للتطبيق
  * هذا المكون يجمع جميع الـ contexts في مكان واحد لسهولة الإدارة
  */
 export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {

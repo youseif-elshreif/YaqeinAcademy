@@ -19,8 +19,8 @@ const LessonManagement: React.FC = () => {
       title: course.title,
       startDate: course.startAt
         ? new Date(course.startAt).toLocaleDateString("ar-EG")
-        : "??? ????",
-      duration: course.duration || "??? ????", // Add duration field
+        : "غير محدد",
+      duration: course.duration || "غير محدد", // Add duration field
       shortDescription:
         course.description.length > 100
           ? course.description.slice(0, 100) + "..."
@@ -51,13 +51,13 @@ const LessonManagement: React.FC = () => {
   return (
     <div className={styles.overviewContainer}>
       <div className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>????? ???????</h1>
+        <h1 className={styles.pageTitle}>إدارة الدروس</h1>
         <Button
           variant="primary"
           icon={<FiPlus />}
           onClick={openAddCourseModal}
         >
-          ????? ???? ?????
+          إضافة درس جديد
         </Button>
       </div>
 
@@ -66,14 +66,14 @@ const LessonManagement: React.FC = () => {
         <StatCard
           icon={FiCalendar}
           value={coursesData.length}
-          label="??? ???????"
+          label="عدد الدروس"
         />
       </div>
 
       {isLoading ? (
         <EnhancedLoader
           type="default"
-          text="???? ????? ???????..."
+          text="جاري تحميل الدروس..."
           size="large"
           color="primary"
         />
@@ -82,7 +82,7 @@ const LessonManagement: React.FC = () => {
       ) : (
         <div>
           <h3 style={{ textAlign: "center", color: "var(--text-light)" }}>
-            ?? ???? ?????
+            لا توجد دروس متاحة
           </h3>
         </div>
       )}
@@ -91,3 +91,4 @@ const LessonManagement: React.FC = () => {
 };
 
 export default LessonManagement;
+

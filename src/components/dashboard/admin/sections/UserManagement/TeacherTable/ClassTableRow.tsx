@@ -14,7 +14,7 @@ const ClassTableRow = ({ teacher }: TeacherTableRowProps) => {
   const handleActionsClick = () => {
     openUserActionsModal({
       id: teacher._id,
-      name: userInfo?.name || "??? ????",
+      name: userInfo?.name || "اسم المعلم غير متوفر",
       userType: "teacher",
       fullData: teacher,
     });
@@ -25,12 +25,12 @@ const ClassTableRow = ({ teacher }: TeacherTableRowProps) => {
       <td className={`${styles.studentCell} ${styles.firstCell}`}>
         <div className={styles.teacherInfo}>
           <span className={styles.teacherName}>
-            {userInfo?.name || "??? ????"}
+            {userInfo?.name || "اسم المعلم غير متوفر"}
           </span>
         </div>
       </td>
-      <td>{userInfo?.email || "??? ????"}</td>
-      <td>{userInfo?.phone || "??? ????"}</td>
+      <td>{userInfo?.email || "البريد الإلكتروني غير متوفر"}</td>
+      <td>{userInfo?.phone || "رقم الهاتف غير متوفر"}</td>
       <td className={styles.linkCell}>
         <MeetingLinkActions
           meetingLink={meetingLink}
@@ -46,9 +46,9 @@ const ClassTableRow = ({ teacher }: TeacherTableRowProps) => {
           variant="primary"
           size="small"
           icon={<FaCog />}
-          title="??????? ??????"
+          title="إعدادات المعلم"
         >
-          ?????????
+          إعدادات
         </Button>
       </td>
     </tr>
@@ -56,3 +56,4 @@ const ClassTableRow = ({ teacher }: TeacherTableRowProps) => {
 };
 
 export default ClassTableRow;
+

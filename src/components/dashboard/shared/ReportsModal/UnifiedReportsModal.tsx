@@ -12,7 +12,7 @@ import { FiClock, FiFileText } from "react-icons/fi";
 import { UnifiedReportsModalProps } from "@/src/types";
 
 interface ExtendedUnifiedReportsModalProps extends UnifiedReportsModalProps {
-  student?: { id: string; name?: string }; // ??? ????? ???? ??????? ??? ?? ????? ???? ??????
+  student?: { id: string; name?: string };
 }
 
 const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
@@ -37,8 +37,8 @@ const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
   const isTeacherView = !!student;
   const reports = isTeacherView ? studentReports : myReports;
   const modalTitle = isTeacherView
-    ? `?????? ??????: ${student?.name || "-"}`
-    : "???????";
+    ? `تقارير الطالب: ${student?.name || "-"}`
+    : "تقاريري";
 
   const reportStats = useMemo(() => {
     const totalReports = reports.length;
@@ -145,7 +145,7 @@ const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
         {isLoading ? (
           <div className={styles.empty}>
             <FiClock className={styles.emptyIcon} />
-            <h3>???? ????? ????????...</h3>
+            <h3>جاري التحميل...</h3>
           </div>
         ) : error ? (
           <div className={styles.error}>
@@ -154,11 +154,11 @@ const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
         ) : reports.length === 0 ? (
           <div className={styles.empty}>
             <FiFileText className={styles.emptyIcon} />
-            <h3>?? ???? ??????</h3>
+            <h3>لا توجد تقارير</h3>
             <p>
               {isTeacherView
-                ? "?? ??? ????? ?? ?????? ???? ?????? ???"
-                : "?? ??? ????? ?? ?????? ?? ???"}
+                ? "لا توجد تقارير متاحة للمعلم"
+                : "لا توجد تقارير متاحة للطالب"}
             </p>
           </div>
         ) : (
@@ -186,7 +186,7 @@ const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
               reports={filteredReports}
               selectedMonth={selectedMonth}
               selectedYear={selectedYear}
-              showLessonId={!isTeacherView} // ???? lesson ID ?????? ???
+              showLessonId={!isTeacherView}
             />
           </>
         )}
@@ -196,3 +196,4 @@ const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
 };
 
 export default UnifiedReportsModal;
+

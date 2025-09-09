@@ -13,7 +13,6 @@ const MeetingLinkActions = ({
   onCopyError,
   onOpenLink,
 }: MeetingLinkActionsProps) => {
-
   const handleCopyLink = async (link: string) => {
     try {
       await navigator.clipboard.writeText(link);
@@ -37,7 +36,7 @@ const MeetingLinkActions = ({
   if (!meetingLink && !disabled) {
     return (
       <div className={`${styles.linkContainer} ${containerClassName}`}>
-        <span className={styles.lightColor}>�</span>
+        <span className={styles.lightColor}>ـ</span>
       </div>
     );
   }
@@ -49,16 +48,16 @@ const MeetingLinkActions = ({
         variant="primary"
         size="small"
         icon={<FaExternalLinkAlt />}
-        title="??? ???? ??????"
+        title="فتح رابط الاجتماع"
         disabled={disabled || !meetingLink}
       >
-        {showLabels ? "???? ??????" : ""}
+        {showLabels ? "فتح الرابط" : ""}
       </Button>
       <Button
         onClick={() => handleCopyLink(meetingLink!)}
         variant="secondary"
         size="small"
-        title="??? ???? ??????"
+        title="نسخ رابط الاجتماع"
         disabled={disabled || !meetingLink}
       >
         <FaCopy />
@@ -68,5 +67,3 @@ const MeetingLinkActions = ({
 };
 
 export default MeetingLinkActions;
-
-

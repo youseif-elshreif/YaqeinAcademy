@@ -64,7 +64,7 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
       setStudents(studentsOnly);
       return studentsOnly;
     } catch (error) {
-      setError("??? ?? ??? ?????? ??????");
+      setError("خطأ في جلب قائمة الطلاب");
       throw error;
     } finally {
       setIsLoading(false);
@@ -81,7 +81,7 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
         await getStudents(token);
         return data;
       } catch (error) {
-        setError("??? ?? ????? ??????");
+        setError("خطأ في إنشاء الطالب");
         throw error;
       } finally {
         setIsLoading(false);
@@ -99,7 +99,7 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
         await getStudents(token);
         return data;
       } catch (error) {
-        setError("??? ?? ????? ?????? ??????");
+        setError("خطأ في تحديث بيانات الطالب");
         throw error;
       } finally {
         setIsLoading(false);
@@ -117,7 +117,7 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
         await getStudents(token);
         return data;
       } catch (error) {
-        setError("??? ?? ????? ?????? ?????");
+        setError("خطأ في تحديث بيانات العضو");
         throw error;
       } finally {
         setIsLoading(false);
@@ -144,7 +144,7 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
         await getStudents(token);
         return data;
       } catch (error) {
-        setError("??? ?? ????? ???? ??????");
+        setError("خطأ في إضافة حصص للطالب");
         throw error;
       } finally {
         setIsLoading(false);
@@ -163,7 +163,7 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
         await getStudents(token);
         return data;
       } catch (error) {
-        setError("??? ?? ??? ?????");
+        setError("خطأ في حذف العضو");
         throw error;
       } finally {
         setIsLoading(false);

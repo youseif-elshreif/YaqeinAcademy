@@ -16,7 +16,7 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
   isOpen,
   onClose,
   courseId,
-  courseName = "??? ??????",
+  courseName = "غير محدد",
 }) => {
   const { deleteCourse } = useCoursesContext();
   const { token } = useAuth();
@@ -35,7 +35,7 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
   };
 
   const handleDelete = async () => {
-    if (confirmText.trim().toLowerCase() !== "???") {
+    if (confirmText.trim().toLowerCase() !== "نعم") {
       return;
     }
 
@@ -55,7 +55,7 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
 
   if (!isOpen) return null;
   const isDeleteEnabled =
-    confirmText.trim().toLowerCase() === "???" && !isDeleting;
+    confirmText.trim().toLowerCase() === "نعم" && !isDeleting;
 
   return (
     <ModalContainer
@@ -66,7 +66,7 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
       onClose={handleClose}
     >
       <ModalHeader
-        title="????? ??? ??????"
+        title="حذف الدورة"
         icon={<FaTrash />}
         onClose={handleClose}
         isOpen={isOpen}
@@ -75,11 +75,11 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
 
       <div className={baseStyles.modalBody}>
         <WarningPanel
-          title={`?? ??? ????? ?? ??? "${courseName}"?`}
+          title={`هل أنت متأكد من حذف "${courseName}"؟`}
           text={
             <>
-              ???? ??? ?????? ??????? ??? ???? ?????????. ???? ????? ??? ????
-              ???????? ???????? ???.
+              سيتم حذف الدورة وجميع البيانات المرتبطة بها نهائياً. هذا الإجراء
+              لا يمكن التراجع عنه.
             </>
           }
         />
@@ -87,26 +87,26 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
         <ConfirmTextInput
           label={
             <>
-              ?????? ???? �<strong>???</strong>� ?? ?????? ?????:
+              اكتب كلمة <strong>نعم</strong> في الصندوق للتأكيد:
             </>
           }
           value={confirmText}
           onChange={setConfirmText}
           disabled={isDeleting}
-          placeholder="???"
+          placeholder="نعم"
         />
 
         <ModalActions
           alignment="right"
           actions={[
             {
-              label: "?????",
+              label: "إلغاء",
               onClick: handleClose,
               variant: "secondary",
               disabled: isDeleting,
             },
             {
-              label: "??? ??????",
+              label: "حذف الدورة",
               onClick: handleDelete,
               variant: "danger",
               disabled: !isDeleteEnabled,
@@ -120,4 +120,3 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
 };
 
 export default DeleteCourseModal;
-

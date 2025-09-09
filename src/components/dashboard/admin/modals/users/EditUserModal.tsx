@@ -69,7 +69,6 @@ const EditUserModal = () => {
 
   useEffect(() => {
     if (editUserModalOpen && selectedUserData) {
-
       const userData = selectedUserData.userId || selectedUserData; // Teachers have nested userId object
 
       setFormData({
@@ -109,31 +108,30 @@ const EditUserModal = () => {
   const validateField = (name: string, value: string): string => {
     switch (name) {
       case "name":
-        if (!value.trim()) return "????? ?????";
-        if (value.trim().length < 2)
-          return "????? ??? ?? ???? ???? ?? ??? ????";
+        if (!value.trim()) return "الاسم مطلوب";
+        if (value.trim().length < 2) return "يجب أن يكون الاسم حرفين على الأقل";
         return "";
       case "email":
-        if (!value.trim()) return "?????? ?????????? ?????";
+        if (!value.trim()) return "البريد الإلكتروني مطلوب";
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(value)) return "?????? ?????????? ??? ????";
+        if (!emailRegex.test(value)) return "البريد الإلكتروني غير صالح";
         return "";
       case "password":
         if (value && value.length < 6)
-          return "???? ?????? ??? ?? ???? 6 ???? ??? ?????";
+          return "يجب أن تكون كلمة المرور 6 أحرف على الأقل";
         return "";
       case "phone":
-        if (!value.trim()) return "??? ?????? ?????";
+        if (!value.trim()) return "رقم الهاتف مطلوب";
         return "";
       case "country":
-        if (!value.trim()) return "????? ?????";
+        if (!value.trim()) return "البلد مطلوب";
         return "";
       case "age":
         if (currentUserType === "student") {
           const ageNum = parseInt(value);
-          if (!value.trim()) return "????? ?????";
+          if (!value.trim()) return "العمر مطلوب";
           if (isNaN(ageNum) || ageNum < 5 || ageNum > 100) {
-            return "????? ??? ?? ???? ??? 5 ? 100 ???";
+            return "العمر يجب أن يكون بين 5 و 100 سنة";
           }
         }
         return "";
@@ -213,7 +211,7 @@ const EditUserModal = () => {
       selectedUserData?._id;
 
     if (!userId) {
-      setServerError("???? ???????? ?????");
+      setServerError("معرف المستخدم مفقود");
       return;
     }
     if (!validateForm()) return;
@@ -241,7 +239,7 @@ const EditUserModal = () => {
       const msg =
         errorObj?.response?.data?.message ||
         errorObj?.message ||
-        "??? ??? ????? ???????";
+        "حدث خطأ غير متوقع";
       setServerError(msg);
     } finally {
       setIsSubmitting(false);
@@ -252,13 +250,13 @@ const EditUserModal = () => {
 
   const modalActions = [
     {
-      label: "?????",
+      label: "إلغاء",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isSubmitting,
     },
     {
-      label: "??? ?????????",
+      label: "حفظ التغييرات",
       onClick: () => {},
       variant: "primary" as const,
       disabled: isSubmitting,
@@ -277,12 +275,12 @@ const EditUserModal = () => {
       onClose={handleClose}
     >
       <ModalHeader
-        title={`????? ?????? ${
+        title={`تعديل ${
           currentUserType === "teacher"
-            ? "????"
+            ? "معلم"
             : currentUserType === "admin"
-            ? "?????"
-            : "????"
+            ? "مدير"
+            : "طالب"
         }`}
         icon={<FaEdit />}
         onClose={handleClose}
@@ -303,9 +301,8 @@ const EditUserModal = () => {
             <ErrorDisplay message={serverError} />
 
             <div className={baseStyles.formGrid}>
-
               <FormField
-                label="????? ??????"
+                label="اسم المستخدم"
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
@@ -315,7 +312,7 @@ const EditUserModal = () => {
               />
 
               <FormField
-                label="?????? ??????????"
+                label="البريد الإلكتروني"
                 name="email"
                 type="email"
                 value={formData.email}
@@ -326,36 +323,32 @@ const EditUserModal = () => {
               />
 
               <FormField
-                label="??? ??????"
+                label="رقم الهاتف"
                 name="phone"
                 type="tel"
                 value={formData.phone}
                 onChange={handleInputChange}
                 error={fieldErrors.phone}
                 disabled={isSubmitting}
-                placeholder="???? ??? ??????"
+                placeholder="أدخل رقم الهاتف"
                 required
               />
-
-
-
 
               {currentUserType === "student" && (
                 <>
                   <FormField
-                    label="?????"
+                    label="العمر"
                     name="age"
                     type="number"
                     value={formData.age || ""}
                     onChange={handleInputChange}
                     error={fieldErrors.age}
                     disabled={isSubmitting}
-                    placeholder="???? ?????"
+                    placeholder="أدخل العمر"
                     min="5"
                     max="100"
                     required
                   />
-
 
                   <div
                     className={baseStyles.inputGroup}
@@ -366,25 +359,24 @@ const EditUserModal = () => {
                       name="hasQuranMemorization"
                       checked={hasQuranMemorization}
                       onChange={handleCheckboxChange}
-                      label="?? ???? ?? ?????? ???????"
+                      label="هل يحفظ الطالب القرآن؟"
                       disabled={isSubmitting}
                     />
                   </div>
 
-
                   {hasQuranMemorization && (
                     <>
                       <FormField
-                        label="?????? ???????"
+                        label="اسم السورة"
                         name="quranMemorized"
                         value={formData.quranMemorized}
                         onChange={handleInputChange}
                         disabled={isSubmitting}
-                        placeholder="????: ???????? ??????..."
+                        placeholder="أدخل اسم السورة..."
                       />
 
                       <FormField
-                        label="??? ??????? ????????"
+                        label="عدد أجزاء القرآن"
                         name="numOfPartsofQuran"
                         type="number"
                         value={formData.numOfPartsofQuran}

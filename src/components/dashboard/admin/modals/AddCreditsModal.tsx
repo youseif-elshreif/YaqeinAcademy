@@ -47,17 +47,17 @@ const AddCreditsModal: React.FC = () => {
 
   const validateForm = (): boolean => {
     if (formData.privateAmount < 0) {
-      setError("??? ?????? ?? ???? ?? ???? ??????");
+      setError("عدد الحصص لا يمكن أن يكون سالبًا");
       return false;
     }
 
     if (formData.privateAmount === 0) {
-      setError("??? ????? ??? ???? ???? ?? ???");
+      setError("يجب إدخال عدد صحيح أكبر من الصفر");
       return false;
     }
 
     if (formData.privateAmount > 31) {
-      setError("??? ?????? ?? ???? ?? ?????? 31");
+      setError("عدد الحصص لا يمكن أن يتجاوز 31");
       return false;
     }
 
@@ -68,7 +68,7 @@ const AddCreditsModal: React.FC = () => {
     e.preventDefault();
 
     if (!selectedStudentForCredits) {
-      setError("?? ???? ???? ????");
+      setError("لم يتم اختيار طالب");
       return;
     }
 
@@ -83,11 +83,11 @@ const AddCreditsModal: React.FC = () => {
       await addCreditsToStudent(
         selectedStudentForCredits.userId,
         formData.privateAmount,
-        0 // publicAmount ?????? 0
-      ); // Close modal on success
+        0
+      );
       closeAddCreditsModal();
     } catch {
-      setError("??? ??? ????? ????? ??????");
+      setError("خطأ في إضافة الرصيد للطالب");
     } finally {
       setIsSubmitting(false);
     }
@@ -97,13 +97,13 @@ const AddCreditsModal: React.FC = () => {
 
   const actions = [
     {
-      label: "?????",
+      label: "إلغاء",
       onClick: closeAddCreditsModal,
       variant: "secondary" as const,
       disabled: isSubmitting,
     },
     {
-      label: isSubmitting ? "???? ???????..." : "????? ??????",
+      label: isSubmitting ? "جاري المعالجة..." : "إضافة الرصيد",
       onClick: () => {},
       variant: "primary" as const,
       disabled: isSubmitting || formData.privateAmount <= 0,
@@ -114,7 +114,7 @@ const AddCreditsModal: React.FC = () => {
   return (
     <ModalContainer isOpen={true} onClose={closeAddCreditsModal}>
       <ModalHeader
-        title="????? ????? ??????"
+        title="إضافة رصيد للطالب"
         onClose={closeAddCreditsModal}
         isOpen={true}
       />
@@ -122,7 +122,7 @@ const AddCreditsModal: React.FC = () => {
         {selectedStudentForCredits && (
           <div className={styles.studentInfo}>
             <p>
-              <strong>??????:</strong> {selectedStudentForCredits.name}
+              <strong>الطالب:</strong> {selectedStudentForCredits.name}
             </p>
           </div>
         )}
@@ -130,7 +130,7 @@ const AddCreditsModal: React.FC = () => {
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGrid}>
             <FormField
-              label="??? ?????? ????????"
+              label="عدد الحصص الخاصة"
               name="privateAmount"
               type="number"
               value={formData.privateAmount}
@@ -138,7 +138,7 @@ const AddCreditsModal: React.FC = () => {
               min={1}
               max={100}
               disabled={isSubmitting}
-              placeholder="???? ??? ??????"
+              placeholder="أدخل عدد الحصص"
             />
           </div>
           <ErrorDisplay message={error || undefined} />

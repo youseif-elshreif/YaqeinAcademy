@@ -90,46 +90,46 @@ const AddUserModal = () => {
   const validateField = (name: string, value: string): string => {
     switch (name) {
       case "name":
-        if (!value.trim()) return "????? ?????";
+        if (!value.trim()) return "الاسم مطلوب";
         if (value.trim().length < 2)
-          return "????? ??? ?? ???? ???? ?? ??? ????";
+          return "خطأ في تحديث الحلقة: الاسم يجب أن يكون على الأقل 2 حرف";
         return "";
       case "email":
-        if (!value.trim()) return "?????? ?????????? ?????";
+        if (!value.trim()) return "البريد الإلكتروني مطلوب";
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(value)) return "?????? ?????????? ??? ????";
+        if (!emailRegex.test(value)) return "البريد الإلكتروني غير صالح";
         return "";
       case "password":
-        if (!value.trim()) return "???? ?????? ??????";
-        if (value.length < 6) return "???? ?????? ??? ?? ???? 6 ???? ??? ?????";
+        if (!value.trim()) return "كلمة المرور مطلوبة";
+        if (value.length < 6) return "كلمة المرور يجب أن تكون على الأقل 6 أحرف";
         return "";
       case "phone":
-        if (!value.trim()) return "??? ?????? ?????";
-        if (!countryCode) return "???? ?????? ????? ?????";
+        if (!value.trim()) return "رقم الهاتف مطلوب";
+        if (!countryCode) return "يرجى اختيار رمز الدولة";
         if (!isValidPhoneNumber(value, countryCode)) {
-          return "??? ?????? ??? ???? ???? ?????";
+          return "رقم الهاتف غير صالح";
         }
         return "";
       case "country":
-        if (!value.trim()) return "????? ?????";
+        if (!value.trim()) return "البلد مطلوب";
         return "";
       case "age":
         const ageNum = parseInt(value);
         if (selectedUserType === "student") {
-          if (!value.trim()) return "????? ?????";
+          if (!value.trim()) return "العمر مطلوب";
           if (isNaN(ageNum) || ageNum < 5 || ageNum > 100) {
-            return "????? ??? ?? ???? ??? 5 ? 100 ???";
+            return "العمر يجب أن يكون بين 5 و 100";
           }
         }
         return "";
       case "meetingLink":
         if (selectedUserType === "teacher") {
-          if (!value.trim()) return "???? ???????? ?????";
+          if (!value.trim()) return "رابط الاجتماع مطلوب";
           try {
             new URL(value);
             return "";
           } catch {
-            return "???? ???????? ??? ????";
+            return "رابط الاجتماع غير صالح";
           }
         }
         return "";
@@ -272,7 +272,6 @@ const AddUserModal = () => {
     setIsSubmitting(true);
 
     try {
-
       await saveNewUser(formData, selectedUserType);
 
       setFormData({
@@ -301,12 +300,11 @@ const AddUserModal = () => {
       setFieldErrors({});
       setServerError("");
     } catch (error: unknown) {
-
       const errorObj = error as any;
       const errorMessage =
         errorObj?.response?.data?.message ||
         errorObj?.message ||
-        `??? ??? ????? ????? ????????`;
+        `حدث خطأ غير متوقع`;
       setServerError(errorMessage);
     } finally {
       setIsSubmitting(false);
@@ -319,13 +317,13 @@ const AddUserModal = () => {
 
   const modalActions = [
     {
-      label: "?????",
+      label: "إلغاء",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isSubmitting,
     },
     {
-      label: "??? ????????",
+      label: "حفظ المستخدم",
       onClick: () => {}, // Will be handled by form submit
       variant: "primary" as const,
       disabled: isSubmitting,
@@ -344,7 +342,7 @@ const AddUserModal = () => {
       onClose={handleClose}
     >
       <ModalHeader
-        title="????? ?????? ????"
+        title="إضافة مستخدم جديد"
         icon={<FaPlus />}
         onClose={handleClose}
         disabled={isSubmitting}
@@ -370,9 +368,8 @@ const AddUserModal = () => {
               <ErrorDisplay message={serverError} />
 
               <div className={baseStyles.formGrid}>
-
                 <FormField
-                  label="????? ??????"
+                  label="اسم المستخدم"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
@@ -382,7 +379,7 @@ const AddUserModal = () => {
                 />
 
                 <FormField
-                  label="?????? ??????????"
+                  label="البريد الإلكتروني"
                   name="email"
                   type="email"
                   value={formData.email}
@@ -393,14 +390,14 @@ const AddUserModal = () => {
                 />
 
                 <FormField
-                  label="???? ??????"
+                  label="كلمة المرور"
                   name="password"
                   type="password"
                   value={formData.password}
                   onChange={handleInputChange}
                   error={fieldErrors.password}
                   disabled={isSubmitting}
-                  placeholder="???? ???? ??????"
+                  placeholder="أدخل كلمة المرور"
                   showPasswordToggle
                   showPassword={showPassword}
                   onTogglePassword={() => setShowPassword(!showPassword)}
@@ -409,7 +406,7 @@ const AddUserModal = () => {
 
                 <div className={baseStyles.inputGroup}>
                   <label className={baseStyles.label}>
-                    ?????
+                    الدولة
                     <span className={baseStyles.required}>*</span>
                   </label>
                   <CountrySelect onChange={handleCountryChange} />
@@ -421,7 +418,7 @@ const AddUserModal = () => {
                 </div>
 
                 <FormField
-                  label="??? ??????"
+                  label="رقم الهاتف"
                   name="phone"
                   type="tel"
                   value={formData.phone}
@@ -430,16 +427,15 @@ const AddUserModal = () => {
                   disabled={isSubmitting}
                   placeholder={
                     countryCode
-                      ? `???? ????? ?? ${formData.country}`
-                      : "???? ????? ?????"
+                      ? `رقم الهاتف الدولي ${formData.country}`
+                      : "رقم الهاتف"
                   }
                   required
                 />
 
-
                 {selectedUserType === "teacher" && (
                   <FormField
-                    label="???? ????????"
+                    label="رابط الاجتماع"
                     name="meetingLink"
                     type="url"
                     value={formData.meetingLink}
@@ -450,23 +446,21 @@ const AddUserModal = () => {
                   />
                 )}
 
-
                 {selectedUserType === "student" && (
                   <>
                     <FormField
-                      label="?????"
+                      label="العمر"
                       name="age"
                       type="number"
                       value={formData.age || ""}
                       onChange={handleInputChange}
                       error={fieldErrors.age}
                       disabled={isSubmitting}
-                      placeholder="???? ?????"
+                      placeholder="أدخل العمر"
                       min="5"
                       max="100"
                       required
                     />
-
 
                     <div
                       className={baseStyles.inputGroup}
@@ -477,25 +471,24 @@ const AddUserModal = () => {
                         name="hasQuranMemorization"
                         checked={hasQuranMemorization}
                         onChange={handleCheckboxChange}
-                        label="?? ???? ?? ?????? ???????"
+                        label="هل يحفظ القرآن الكريم؟"
                         disabled={isSubmitting}
                       />
                     </div>
 
-
                     {hasQuranMemorization && (
                       <>
                         <FormField
-                          label="?????? ???????"
+                          label="عدد الأجزاء المحفوظة"
                           name="quranMemorized"
                           value={formData.quranMemorized}
                           onChange={handleInputChange}
                           disabled={isSubmitting}
-                          placeholder="????: ???????? ??????..."
+                          placeholder="أدخل عدد الأجزاء المحفوظة..."
                         />
 
                         <FormField
-                          label="??? ??????? ????????"
+                          label="عدد الأجزاء في القرآن"
                           name="numOfPartsofQuran"
                           type="number"
                           value={formData.numOfPartsofQuran}

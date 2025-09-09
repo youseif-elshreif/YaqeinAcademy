@@ -64,13 +64,13 @@ const AddLessonModal: React.FC = () => {
 
   const actions = [
     {
-      label: "?????",
+      label: "إلغاء",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isSubmitting,
     },
     {
-      label: "????? ??????",
+      label: "إضافة الدرس",
       onClick: () => {},
       variant: "primary" as const,
       disabled: isSubmitting,
@@ -87,7 +87,7 @@ const AddLessonModal: React.FC = () => {
       onClose={handleClose}
     >
       <ModalHeader
-        title="????? ??? ?????"
+        title="إضافة درس جديد"
         icon={<FaCalendarPlus />}
         onClose={handleClose}
         disabled={isSubmitting}
@@ -97,7 +97,7 @@ const AddLessonModal: React.FC = () => {
         <form onSubmit={handleSubmit} className={baseStyles.form}>
           <div className={baseStyles.formGrid}>
             <FormField
-              label="?????"
+              label="الوقت"
               name="time"
               type="time"
               value={formData.time}
@@ -107,7 +107,7 @@ const AddLessonModal: React.FC = () => {
             />
 
             <FormField
-              label="???????"
+              label="التاريخ"
               name="date"
               type="date"
               value={formData.date}
@@ -117,7 +117,7 @@ const AddLessonModal: React.FC = () => {
             />
 
             <FormField
-              label="???? ?????"
+              label="رابط الاجتماع"
               name="meetingLink"
               type="url"
               value={formData.meetingLink}

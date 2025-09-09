@@ -51,13 +51,13 @@ const EditTeacherLinkModal = () => {
 
   const validateLink = (link: string): string => {
     if (!link.trim()) {
-      return "???? ???????? ?????";
+      return "يرجى إدخال رابط الاجتماع";
     }
     try {
       new URL(link);
       return "";
     } catch {
-      return "???? ???????? ??? ????";
+      return "رابط الاجتماع غير صالح";
     }
   };
 
@@ -79,7 +79,7 @@ const EditTeacherLinkModal = () => {
       selectedTeacherForLink?.userId?._id ||
       selectedTeacherForLink?.userId?.id;
     if (!teacherId) {
-      setServerError("???? ?????? ?????");
+      setServerError("لم يتم العثور على معرف المعلم");
       return;
     }
 
@@ -98,7 +98,7 @@ const EditTeacherLinkModal = () => {
       const msg =
         errorObj?.response?.data?.message ||
         errorObj?.message ||
-        "??? ??? ????? ???????";
+        "خطأ في تحديث رابط الاجتماع";
       setServerError(msg);
     } finally {
       setIsSubmitting(false);
@@ -109,13 +109,13 @@ const EditTeacherLinkModal = () => {
 
   const modalActions = [
     {
-      label: "?????",
+      label: "إلغاء",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isSubmitting,
     },
     {
-      label: "??? ??????",
+      label: "حفظ التغييرات",
       onClick: () => {},
       variant: "primary" as const,
       disabled: isSubmitting,
@@ -128,7 +128,7 @@ const EditTeacherLinkModal = () => {
   const teacherName =
     selectedTeacherForLink?.name ||
     selectedTeacherForLink?.userId?.name ||
-    "??????";
+    "معلم غير معروف";
 
   return (
     <ModalContainer
@@ -139,7 +139,7 @@ const EditTeacherLinkModal = () => {
       onClose={handleClose}
     >
       <ModalHeader
-        title={`????? ???? ???? ${teacherName}`}
+        title={`تعديل رابط الاجتماع ${teacherName}`}
         icon={<FaLink />}
         onClose={handleClose}
         disabled={isSubmitting}
@@ -152,14 +152,14 @@ const EditTeacherLinkModal = () => {
 
           <div className={baseStyles.formGrid}>
             <FormField
-              label="???? ????????"
+              label="رابط الاجتماع"
               name="meetingLink"
               type="url"
               value={meetingLink}
               onChange={handleInputChange}
               error={fieldError}
               disabled={isSubmitting}
-              placeholder="????: https://zoom.us/j/123456789"
+              placeholder="مثال: https://zoom.us/j/123456789"
               required
             />
           </div>
@@ -172,3 +172,4 @@ const EditTeacherLinkModal = () => {
 };
 
 export default EditTeacherLinkModal;
+

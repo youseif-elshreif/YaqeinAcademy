@@ -72,7 +72,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
         });
         if (!cancelled) setLessons(mapped);
       } catch (e) {
-        if (!cancelled) setError("??? ?? ??? ?????? ?????");
+        if (!cancelled) setError("خطأ في جلب الدروس");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -118,7 +118,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
       }
 
       if (weekdays.length === 0) {
-        setError("?? ??? ?????? ??? ???? ???? ????????");
+        setError("لا يمكن إضافة دروس جديدة بدون تحديد أيام دروس معتادة");
         return;
       }
 
@@ -129,7 +129,9 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
       );
 
       if (schedule.length === 0) {
-        setMonthLessonsInfo("?? ???? ????? ??? ????? ???? ?????.");
+        setMonthLessonsInfo(
+          "لا يمكن إضافة دروس جديدة بدون تحديد أيام دروس معتادة."
+        );
         setTimeout(() => {
           setMonthLessonsInfo("");
         }, 3000);
@@ -139,10 +141,9 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
       for (const lesson of schedule) {
         await addLessonToGroup(token, groupId, lesson);
       }
-      setMonthLessonsInfo(`??? ????? ${schedule.length} ??? ?????.`);
-
+      setMonthLessonsInfo(`تم إضافة ${schedule.length} درس جديد.`);
     } catch (error) {
-      setError("??? ?? ????? ??? ?????");
+      setError("خطأ في إضافة الدروس");
     } finally {
       setIsAddingMonthLessons(false);
     }
@@ -151,7 +152,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
   return (
     <ModalContainer isOpen={true} isClosing={isClosing} onClose={handleClose}>
       <ModalHeader
-        title={`??? ????: ${groupName}`}
+        title={`إدارة الدروس: ${groupName}`}
         icon={<FaCalendarCheck />}
         onClose={handleClose}
       />
@@ -163,20 +164,19 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
             className={`${styles.actionBtn} ${styles.addBtn}`}
           >
             <FaCalendarPlus />
-            ????? ??? ?????
+            إضافة درس جديد
           </button>
 
           <button
             onClick={handleAddMonthLessons}
             disabled={isAddingMonthLessons || loading || !groupData}
             className={`${styles.actionBtn} ${styles.monthBtn}`}
-            title="????? ???? ????? ???????? ?? ????? ????? ??? ???? ????????"
+            title="إضافة دروس جديدة لهذا الشهر"
           >
             <FaCalendarWeek />
-            {isAddingMonthLessons ? "???? ???????..." : "????? ??? ?????"}
+            {isAddingMonthLessons ? "إضافة الدروس..." : "إضافة دروس"}
           </button>
         </div>
-
 
         {monthLessonsInfo && (
           <div
@@ -195,7 +195,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
           {loading ? (
             <div className={styles.emptyState}>
               <FaCalendarDay className={styles.emptyIcon} />
-              <h3>???? ????? ?????...</h3>
+              <h3>جاري تحميل الدروس...</h3>
             </div>
           ) : error ? (
             <div className={styles.emptyState}>
@@ -204,8 +204,8 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
           ) : lessons.length === 0 ? (
             <div className={styles.emptyState}>
               <FaCalendarDay className={styles.emptyIcon} />
-              <h3>?? ???? ???</h3>
-              <p>?? ??? ????? ?? ??? ???? ?????? ???</p>
+              <h3>لا توجد دروس</h3>
+              <p>لم يتم إضافة أي دروس للحلقة بعد.</p>
             </div>
           ) : (
             <div className={styles.lessonsGrid}>
@@ -241,7 +241,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
       <ModalActions
         actions={[
           {
-            label: "?????",
+            label: "إغلاق",
             onClick: handleClose,
             variant: "secondary" as const,
           },

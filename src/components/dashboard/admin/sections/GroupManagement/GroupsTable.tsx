@@ -59,13 +59,13 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
       try {
         const token = localStorage.getItem("accessToken");
         if (!token) {
-          setError("?? ???? ??? ??????. ???? ????? ?????? ??? ????");
+          setError("رمز الوصول مفقود. يرجى تسجيل الدخول مرة أخرى");
           return;
         }
 
         await getGroups(token);
       } catch {
-        setError("??? ??? ????? ??? ????????");
+        setError("حدث خطأ أثناء تحميل الحلقات");
       } finally {
         setLoading(false);
       }
@@ -135,16 +135,14 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
   if (loading) {
     return (
       <>
-
         <div className={styles.desktopView}>
-          <SkeletonTable rows={5} columns={11} title="???????" />
+          <SkeletonTable rows={5} columns={11} title="تحميل الحلقات" />
         </div>
-
 
         <div className={styles.mobileView}>
           <div className={styles.tableContainer}>
             <div className={styles.header}>
-              <h2 className={styles.title}>???????</h2>
+              <h2 className={styles.title}>تحميل الحلقات</h2>
             </div>
             <SkeletonCards cards={3} type="student" />
           </div>
@@ -195,9 +193,8 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
   return (
     <div className={styles.tableContainer}>
       <div className={styles.header}>
-        <h2 className={styles.title}>???????</h2>
+        <h2 className={styles.title}>تحميل الحلقات</h2>
       </div>
-
 
       {filteredGroups.length === 0 ? (
         <div
@@ -208,27 +205,26 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
           }}
         >
           <FiUsers size={48} style={{ marginBottom: "1rem", opacity: 0.5 }} />
-          <h3>?? ???? ?????</h3>
-          <p>?? ??? ?????? ??? ?? ????? ?????? ?????</p>
+          <h3>لا توجد حلقات</h3>
+          <p>يرجى إضافة حلقة جديدة للبدء</p>
         </div>
       ) : (
         <>
-
           <div className={styles.desktopView}>
             <div className={styles.tableWrapper}>
               <table className={styles.classTable}>
                 <thead>
                   <tr>
-                    <th className={styles.firstCell}>??? ??????</th>
-                    <th>?????</th>
-                    <th>??????</th>
-                    <th>??? ??????</th>
-                    <th>???? ???????</th>
-                    <th>???? ??????? ??????????</th>
-                    <th>???? ?????? ???????</th>
-                    <th>???? ??????</th>
-                    <th>????????</th>
-                    <th>?????????</th>
+                    <th className={styles.firstCell}>اسم الحلقة</th>
+                    <th>الوصف</th>
+                    <th>المدرس</th>
+                    <th>عدد الأعضاء</th>
+                    <th>مواعيد الدروس</th>
+                    <th>الدرس القادم</th>
+                    <th>تاريخ الإنشاء</th>
+                    <th>رابط الحلقة</th>
+                    <th>التقارير</th>
+                    <th>الإجراءات</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -250,7 +246,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                           <span
                             className={`${styles.studentName} ${styles.primaryColor}`}
                           >
-                            {group.description || "?? ???? ???"}
+                            {group.description || "لا يوجد وصف"}
                           </span>
                         </td>
                         <td className={styles.groupCell}>
@@ -259,7 +255,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                           >
                             {group.teacherId.userId.name
                               ? group.teacherId.userId.name
-                              : "?? ???? ????"}
+                              : "لا يوجد مدرس"}
                           </div>
                         </td>
                         <td className={styles.groupCell}>
@@ -281,9 +277,9 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                             variant="primary"
                             size="small"
                             icon={<FiCalendar />}
-                            title="??? ???????"
+                            title="مواعيد الدروس"
                           >
-                            ??? ???????
+                            مواعيد الدروس
                           </Button>
                         </td>
                         <td className={styles.groupCell}>
@@ -300,15 +296,15 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                             <FiCalendar style={{ marginLeft: "0.5rem" }} />
                             {nextLesson
                               ? formatDate(nextLesson.scheduledAt)
-                              : "?? ???? ??? ????? ??? ?????"}
+                              : "لا توجد مواعيد دروس قادمة"}
                           </span>
                         </td>
                         <td className={styles.linkContainer}>
                           <MeetingLinkActions
                             meetingLink={group.meetingLink}
                             styles={styles}
-                            onCopySuccess={() => alert("?? ??? ?????? ?????")}
-                            onCopyError={() => alert("??? ?? ??? ??????")}
+                            onCopySuccess={() => alert("تم نسخ رابط الاجتماع بنجاح")}
+                            onCopyError={() => alert("خطأ في جلب التقارير")}
                           />
                         </td>
                         <td>
@@ -334,12 +330,12 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                               variant="primary"
                               size="small"
                               icon={<FaListUl />}
-                              title="??? ????????"
+                              title="قائمة الطلاب"
                               disabled={
                                 !reportableLesson || group.members.length === 0
                               }
                             >
-                              ??? ????????
+                              عرض الطلاب
                             </Button>
                           </div>
                         </td>
@@ -355,9 +351,9 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                               variant="primary"
                               size="small"
                               icon={<FiEdit />}
-                              title="?????? ?? ?????????"
+                              title="تعديل المجموعة"
                             >
-                              ???????
+                              تعديل
                             </Button>
                           </div>
                         </td>
@@ -368,7 +364,6 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
               </table>
             </div>
           </div>
-
 
           <div className={styles.mobileView}>
             <MobileGroupCards groups={filteredGroups} />

@@ -73,7 +73,7 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
       setGroups(data);
       return data;
     } catch (error) {
-      setError("??? ?? ??? ?????? ?????????");
+      setError("خطأ في جلب قائمة الحلقات");
       throw error;
     } finally {
       setIsLoading(false);
@@ -87,7 +87,7 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
       const data = await adminSvc.getGroupById(groupId);
       return data;
     } catch (error) {
-      setError("??? ?? ??? ?????? ????????");
+      setError("خطأ في جلب قائمة الحلقات");
       throw error;
     } finally {
       setIsLoading(false);
@@ -103,7 +103,7 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
         await getGroups(token);
         return data;
       } catch (error) {
-        setError("??? ?? ????? ????????");
+        setError("خطأ في إنشاء الحلقة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -121,7 +121,7 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
         await getGroups(token);
         return data;
       } catch (error) {
-        setError("??? ?? ????? ????????");
+        setError("خطأ في تحديث الحلقة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -139,7 +139,7 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
         await getGroups(token);
         return data;
       } catch (error) {
-        setError("??? ?? ??? ????????");
+        setError("خطأ في حذف الحلقة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -164,7 +164,7 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
         await getGroups(token);
         return data;
       } catch (error) {
-        setError("??? ?? ????? ??? ????????");
+        setError("خطأ في جلب بيانات الحلقات");
         throw error;
       } finally {
         setIsLoading(false);
@@ -182,7 +182,7 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
         await getGroups(token);
         return data;
       } catch (error) {
-        setError("??? ?? ????? ??? ?? ????????");
+        setError("خطأ في تحديث بيانات الحلقة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -204,7 +204,7 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
         setLessonsRefreshKey((prev) => prev + 1);
         return result;
       } catch (error) {
-        setError("??? ?? ????? ??? ????????");
+        setError("خطأ في إضافة الدرس للحلقة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -226,7 +226,7 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
         setLessonsRefreshKey((prev) => prev + 1);
         return result;
       } catch (error) {
-        setError("??? ?? ????? ?????");
+        setError("خطأ في تحديث الدرس");
         throw error;
       } finally {
         setIsLoading(false);
@@ -243,7 +243,7 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
       setLessonsRefreshKey((prev) => prev + 1);
       return result;
     } catch (error) {
-      setError("??? ?? ??? ?????");
+      setError("خطأ في حذف الدرس");
       throw error;
     } finally {
       setIsLoading(false);

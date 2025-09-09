@@ -35,7 +35,6 @@ export default function AdminContactPage() {
   const [whatsappInput, setWhatsappInput] = useState<string>("");
 
   const parseNumbers = (value: string): string[] => {
-
     const parts = value
       .split(",")
       .map((s) => s.trim())
@@ -64,7 +63,7 @@ export default function AdminContactPage() {
       setWhatsappInput(contactData.whatsappNumber.join(", "));
       return contactData;
     } catch (err: any) {
-      throw new Error(err?.message || "??? ??? ????? ????? ??????? ???????");
+      throw new Error(err?.message || "خطأ في تحميل بيانات التواصل");
     }
   }, [token, getContactInfo]);
 
@@ -102,7 +101,7 @@ export default function AdminContactPage() {
         setErrorMessage(null);
         await fetchContactData();
       } catch (err: any) {
-        setErrorMessage(err?.message || "??? ??? ????? ????? ??????? ???????");
+        setErrorMessage(err?.message || "خطأ في تحميل بيانات التواصل");
       } finally {
         setIsLoading(false);
       }
@@ -130,7 +129,6 @@ export default function AdminContactPage() {
       try {
         await fetchContactData();
       } catch {
-
         setContact(payload);
         setPhoneInput(payload.phone.join(", "));
         setWhatsappInput(payload.whatsappNumber.join(", "));
@@ -138,7 +136,7 @@ export default function AdminContactPage() {
 
       setEditMode(false);
     } catch (err: any) {
-      setErrorMessage(err?.message || "??? ??? ????? ??? ????????");
+      setErrorMessage(err?.message || "خطأ في تحديث بيانات التواصل");
     } finally {
       setIsSubmitting(false);
     }
@@ -147,7 +145,7 @@ export default function AdminContactPage() {
   return (
     <div className={styles.profileContainer}>
       <div className={styles.profileEditeHeader}>
-        <h2 className={styles.profileTitle}>??????? ???????</h2>
+        <h2 className={styles.profileTitle}>معلومات التواصل</h2>
         <div>
           {!editMode ? (
             <Button
@@ -156,7 +154,7 @@ export default function AdminContactPage() {
               onClick={() => setEditMode(true)}
               disabled={isLoading}
             >
-              ?????
+              تعديل
             </Button>
           ) : (
             <Button
@@ -165,7 +163,7 @@ export default function AdminContactPage() {
               onClick={() => setEditMode(false)}
               disabled={isSubmitting}
             >
-              ?????
+              حفظ التغييرات
             </Button>
           )}
         </div>
@@ -176,7 +174,7 @@ export default function AdminContactPage() {
         <form onSubmit={onSubmit}>
           <div className={styles.formGrid}>
             <FormField
-              label="?????? ??????????"
+              label="البريد الإلكتروني"
               name="email"
               type="email"
               value={contact.email}
@@ -185,7 +183,7 @@ export default function AdminContactPage() {
             />
 
             <FormField
-              label="????? ?????? (???? ????? ?? , )"
+              label="أرقام الهاتف (يمكن فصلها بـ , )"
               name="phone"
               value={phoneInput}
               onChange={(e) => handleChange(e, "phone")}
@@ -193,7 +191,7 @@ export default function AdminContactPage() {
             />
 
             <FormField
-              label="?????? (???? ????? ???? ?? ???? ???? ????? ?? , )"
+              label="واتساب (يمكن إدخال أكثر من رقم بـ , )"
               name="whatsapp"
               value={whatsappInput}
               onChange={(e) => handleChange(e, "whatsappNumber")}
@@ -201,7 +199,7 @@ export default function AdminContactPage() {
             />
 
             <FormField
-              label="???? ???????"
+              label="رابط تليجرام"
               name="telegramLink"
               type="url"
               value={contact.telegramLink}
@@ -210,7 +208,7 @@ export default function AdminContactPage() {
             />
 
             <FormField
-              label="??????"
+              label="فيسبوك"
               name="facebook"
               type="url"
               value={contact.facebook}
@@ -219,7 +217,7 @@ export default function AdminContactPage() {
             />
 
             <FormField
-              label="???????"
+              label="لينكدإن"
               name="linkedin"
               type="url"
               value={contact.linkedin}
@@ -228,7 +226,7 @@ export default function AdminContactPage() {
             />
 
             <FormField
-              label="???????"
+              label="العنوان"
               name="address"
               type="textarea"
               value={contact.address || ""}
@@ -246,7 +244,7 @@ export default function AdminContactPage() {
               disabled={isSubmitting}
               loading={isSubmitting}
             >
-              ??? ?????????
+              حفظ التغييرات
             </Button>
           )}
         </form>

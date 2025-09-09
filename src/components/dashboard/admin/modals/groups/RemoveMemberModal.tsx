@@ -35,7 +35,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
       setError("");
       const token = localStorage.getItem("accessToken");
       if (!token) {
-        setError("?? ???? ??? ??????");
+        setError("لم يتم العثور على التوقيع");
         return;
       }
 
@@ -43,10 +43,10 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
       if (groupData) {
         setMembers(groupData.group.members);
       } else {
-        setError("?? ??? ?????? ??? ??????");
+        setError("لم يتم العثور على الحلقة");
       }
     } catch (error: unknown) {
-      setError("??? ??? ????? ??? ????? ??????");
+      setError("خطأ في تحميل قائمة أعضاء الحلقة");
     } finally {
       setLoading(false);
     }
@@ -71,12 +71,12 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
 
   const handleRemoveMember = async () => {
     if (selectedMemberIds.length === 0) {
-      setError("???? ?????? ??? ?? ???? ?????");
+      setError("يجب اختيار عضو واحد على الأقل");
       return;
     }
 
-    if (confirmText.trim().toLowerCase() !== "???") {
-      setError("???? ????? '???' ???????");
+    if (confirmText.trim().toLowerCase() !== "نعم") {
+      setError("يجب كتابة 'نعم' للتأكيد");
       return;
     }
 
@@ -86,7 +86,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
       const token = localStorage.getItem("accessToken");
 
       if (!token) {
-        setError("?? ???? ??? ??????");
+        setError("لم يتم العثور على التوقيع");
         return;
       }
 
@@ -105,7 +105,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
       handleClose();
     } catch (error: unknown) {
       const errorObj = error as any;
-      setError(errorObj.message || "??? ??? ????? ??? ???????");
+      setError(errorObj.message || "خطأ في حذف الأعضاء");
     } finally {
       setRemoving(false);
     }
@@ -133,7 +133,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
 
   const isDeleteEnabled =
     selectedMemberIds.length > 0 &&
-    confirmText.trim().toLowerCase() === "???" &&
+    confirmText.trim().toLowerCase() === "نعم" &&
     !removing;
 
   return (
@@ -144,7 +144,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
       onClose={handleClose}
     >
       <ModalHeader
-        title="??? ??? ?? ??????"
+        title="حذف عضو من الحلقة"
         icon={<FaUserMinus />}
         onClose={handleClose}
         variant="delete"
@@ -153,21 +153,21 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
 
       <div className={baseStyles.modalBody}>
         <WarningPanel
-          title={`?? ??? ????? ?? ??? ${
+          title={`هل أنت متأكد من حذف ${
             selectedMemberIds.length > 1
-              ? `${selectedMemberIds.length} ?????`
-              : "??? ?????"
-          } ?? ???????`}
-          text="?? ???? ??????? ?? ??? ???????. ???? ????? ?????/??????? ??????? ?? ??????."
+              ? `${selectedMemberIds.length} أعضاء`
+              : "هذا العضو"
+          } من الحلقة؟`}
+          text="لا يمكن التراجع عن هذا الإجراء. سيتم حذف العضو/الأعضاء نهائياً من الحلقة."
         />
 
         <div className={baseStyles.groupInfo}>
-          <h4 className={baseStyles.groupName}>??????: {groupName}</h4>
-          <p className={baseStyles.groupId}>??????: {groupId}</p>
+          <h4 className={baseStyles.groupName}>الحلقة: {groupName}</h4>
+          <p className={baseStyles.groupId}>المعرف: {groupId}</p>
           {selectedMemberIds.length > 0 && (
             <div className={baseStyles.selectedMembersInfo}>
               <p className={baseStyles.warningText}>
-                <strong>??????? ????????? ?????:</strong>
+                <strong>الأعضاء المحددون للحذف:</strong>
               </p>
               <ul className={baseStyles.selectedMembersList}>
                 {selectedMemberIds.map((id) => {
@@ -186,19 +186,19 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
         {loading ? (
           <div className={baseStyles.loadingContainer}>
             <div className={baseStyles.spinner}></div>
-            <p>???? ????? ???????...</p>
+            <p>جاري تحميل الأعضاء...</p>
           </div>
         ) : error ? (
           <div className={baseStyles.errorContainer}>
             <p className={baseStyles.errorMessage}>{error}</p>
             <Button onClick={fetchGroupMembers} variant="secondary">
-              ????? ????????
+              إعادة المحاولة
             </Button>
           </div>
         ) : members.length === 0 ? (
           <div className={baseStyles.emptyContainer}>
             <FaUser className={baseStyles.emptyIcon} />
-            <p className={baseStyles.emptyText}>?? ???? ????? ?? ??? ??????</p>
+            <p className={baseStyles.emptyText}>لا يوجد أعضاء في الحلقة</p>
           </div>
         ) : (
           <div className={baseStyles.membersContainer}>
@@ -213,12 +213,12 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
                   onChange={handleSelectAll}
                   className={baseStyles.checkboxInput}
                 />
-                ????? ???? ({selectedMemberIds.length} ?? {members.length})
+                اختيار الكل ({selectedMemberIds.length} من {members.length})
               </label>
             </div>
 
             <p className={baseStyles.instructionText}>
-              ???? ??????? ????? ???? ????? ?? ??????:
+              اختر الأعضاء الذين تريد حذفهم من الحلقة:
             </p>
 
             <div className={baseStyles.formGrid}>
@@ -250,12 +250,12 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
           <ConfirmTextInput
             label={
               <>
-                ?????? ???? &quot;<strong>???</strong>&quot; ?? ?????? ?????:
+                اكتب كلمة &quot;<strong>نعم</strong>&quot; في الصندوق للتأكيد:
               </>
             }
             value={confirmText}
             onChange={setConfirmText}
-            placeholder="???"
+            placeholder="نعم"
             disabled={removing}
           />
         )}
@@ -263,17 +263,17 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
         <ModalActions
           actions={[
             {
-              label: "?????",
+              label: "إلغاء",
               onClick: handleClose,
               variant: "secondary" as const,
               disabled: removing,
             },
             {
               label: removing
-                ? "???? ?????..."
+                ? "جاري الحذف..."
                 : selectedMemberIds.length > 1
-                ? `??? ${selectedMemberIds.length} ?????`
-                : "??? ?????",
+                ? `حذف ${selectedMemberIds.length} أعضاء`
+                : "حذف العضو",
               onClick: handleRemoveMember,
               variant: "danger" as const,
               disabled: !isDeleteEnabled || members.length === 0,

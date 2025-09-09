@@ -55,7 +55,7 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
       setContactInfo(data);
       return data;
     } catch (error) {
-      setError("??? ?? ??? ?????? ???????");
+      setError("خطأ في جلب معلومات التواصل");
       throw error;
     } finally {
       setIsLoading(false);
@@ -79,7 +79,7 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
         setContactInfo(result);
         return result;
       } catch (error) {
-        setError("??? ?? ????? ?????? ???????");
+        setError("خطأ في تحديث معلومات التواصل");
         throw error;
       } finally {
         setIsLoading(false);
@@ -98,9 +98,7 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
         ? localStorage.getItem("accessToken")
         : null;
     if (token) {
-      getContactInfo().catch(() => {
-
-      });
+      getContactInfo().catch(() => {});
     }
   }, [getContactInfo]);
 

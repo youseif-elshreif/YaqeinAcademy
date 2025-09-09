@@ -66,9 +66,9 @@ const TeacherDashboardContent = () => {
   const tabs = [
     {
       id: "monthly-classes",
-      label: "??? ?????",
+      label: "جدول الحصص",
     },
-    { id: "edit-profile", label: "????? ????? ??????" },
+    { id: "edit-profile", label: "تعديل البيانات الشخصية" },
   ];
 
   const handleselectedtab = (tabId: string) => {
@@ -89,24 +89,24 @@ const TeacherDashboardContent = () => {
   return (
     <ModalProvider classes={classes} onClassesUpdate={setClasses}>
       <Head>
-        <title>???? ???? ??????</title>
+        <title>لوحة تحكم المعلم</title>
         <meta
           name="description"
-          content="???? ???? ?????? ?????? ??????? ???????"
+          content="لوحة تحكم المعلم لإدارة الحصص والطلاب"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="keywords"
-          content="????, ???? ????, ???, ????, ?????, ?????"
+          content="معلم, لوحة تحكم, حصص, طلاب, تعليم, أكاديمية"
         />
       </Head>
 
       <main className={styles.main}>
         <div className={`${styles.mainCont} container`}>
           <div className={styles.header}>
-            <h1 className={styles.pageTitle}>???? ???? ??????</h1>
+            <h1 className={styles.pageTitle}>لوحة تحكم المعلم</h1>
             <p className={styles.welcomeText}>
-              ????? ?????? {treacherData.name}
+              أهلاً وسهلاً {treacherData.name}
             </p>
           </div>
 

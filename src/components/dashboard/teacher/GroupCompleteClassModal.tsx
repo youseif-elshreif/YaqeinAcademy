@@ -47,7 +47,7 @@ const GroupCompleteClassModal = ({
         const data = await getLessonById(lessonId);
         setLessonData(data);
       } catch (error) {
-        setLessonError("??? ?? ??? ?????? ?????");
+        setLessonError("خطأ في جلب بيانات الدرس");
       } finally {
         setIsLoadingLesson(false);
       }
@@ -61,7 +61,7 @@ const GroupCompleteClassModal = ({
   const students: Student[] =
     lessonData?.groupId?.members?.map((member: any) => ({
       _id: member._id,
-      id: member._id, // ???? ?? ???? id
+      id: member._id, // تأكد من وجود id
       name: member.name,
     })) || [];
 
@@ -99,7 +99,6 @@ const GroupCompleteClassModal = ({
     setIsSubmitting(true);
 
     try {
-
       const entries = Array.from(studentCompletions.entries());
       for (const [studentId, completion] of entries) {
         const payload = {
@@ -121,7 +120,6 @@ const GroupCompleteClassModal = ({
       await completeLesson(lessonId);
       handleClose();
     } catch (error) {
-
     } finally {
       setIsSubmitting(false);
     }
@@ -133,13 +131,13 @@ const GroupCompleteClassModal = ({
 
   const actions = [
     {
-      label: "?????",
+      label: "إلغاء",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isSubmitting,
     },
     {
-      label: allStudentsCompleted ? "????? ?????" : "???? ?????? ??????",
+      label: allStudentsCompleted ? "حفظ النتائج" : "إتمام جميع الطلاب",
       onClick: handleSubmitAll,
       variant: "primary" as const,
       disabled: !allStudentsCompleted || isSubmitting,
@@ -151,7 +149,7 @@ const GroupCompleteClassModal = ({
     <>
       <ModalContainer isOpen={!isClosing} variant="add" onClose={handleClose}>
         <ModalHeader
-          title="????? ??? ??????"
+          title="تقرير عن الحلقة"
           onClose={handleClose}
           disabled={isSubmitting || isLoadingLesson}
           variant="add"
@@ -160,7 +158,7 @@ const GroupCompleteClassModal = ({
           {isLoadingLesson ? (
             <div className={styles.loadingContainer}>
               <div className={styles.loadingSpinner}></div>
-              <p>???? ????? ?????? ?????...</p>
+              <p>يتم تحميل بيانات الطلبة...</p>
             </div>
           ) : lessonError ? (
             <div className={styles.errorContainer}>
@@ -169,7 +167,7 @@ const GroupCompleteClassModal = ({
                 onClick={() => window.location.reload()}
                 variant="primary"
               >
-                ????? ????????
+                تحديث الحلقة
               </Button>
             </div>
           ) : (
@@ -178,7 +176,7 @@ const GroupCompleteClassModal = ({
                 <h3 className={styles.groupName}>{groupName}</h3>
                 <div className={styles.classDetails}>
                   <p>
-                    <strong>??????:</strong>{" "}
+                    <strong>الحلقة:</strong>{" "}
                     {scheduledAt &&
                       new Date(scheduledAt).toLocaleString("ar-EG", {
                         year: "numeric",
@@ -198,7 +196,7 @@ const GroupCompleteClassModal = ({
               >
                 <div className={styles.studentsSection}>
                   <h4 className={styles.sectionTitle}>
-                    ?????? ({completedStudents.size}/{students.length})
+                    الطلاب ({completedStudents.size}/{students.length})
                   </h4>
 
                   <div className={styles.studentsList}>
@@ -224,7 +222,7 @@ const GroupCompleteClassModal = ({
                             <FaCheck className={styles.checkIcon} />
                           ) : (
                             <span className={styles.pendingText}>
-                              ???? ???????
+                              تمت المراجعة
                             </span>
                           )}
                         </div>
@@ -245,7 +243,7 @@ const GroupCompleteClassModal = ({
                     />
                   </div>
                   <span className={styles.progressText}>
-                    ?? ????? {completedStudents.size} ?? {students.length} ????
+                    تم تحديد {completedStudents.size} من {students.length} طالب
                   </span>
                 </div>
               </div>
@@ -255,7 +253,6 @@ const GroupCompleteClassModal = ({
         <ModalActions actions={actions} alignment="right" />
       </ModalContainer>
 
-
       {currentStudentIndex !== null && currentStudent && (
         <CompleteClassModal
           mode="group"
@@ -263,7 +260,7 @@ const GroupCompleteClassModal = ({
           scheduledAt={scheduledAt}
           student={{ id: currentStudent._id, name: currentStudent.name }}
           groupName={groupName}
-          existingData={studentCompletions.get(currentStudent._id)} // ????? ???????? ???????? ???????
+          existingData={studentCompletions.get(currentStudent._id)} // تحديث البيانات الموجودة مسبقاً
           onSave={(data) => handleStudentCompletion({ ...data })}
           onClose={handleCloseStudentModal}
         />

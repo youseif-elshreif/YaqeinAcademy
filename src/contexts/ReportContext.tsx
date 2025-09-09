@@ -75,7 +75,7 @@ export const ReportProvider = ({ children }: ReportProviderProps) => {
         setStudentReports(reports);
         return reports;
       } catch (error) {
-        setError("??? ?? ??? ?????? ??????");
+        setError("خطأ في جلب قائمة التقارير");
         throw error;
       } finally {
         setIsLoading(false);
@@ -98,7 +98,7 @@ export const ReportProvider = ({ children }: ReportProviderProps) => {
       setMyReports(reports);
       return reports;
     } catch (error) {
-      setError("??? ?? ??? ???????");
+      setError("خطأ في جلب التقارير?");
       throw error;
     } finally {
       setIsLoading(false);
@@ -113,7 +113,7 @@ export const ReportProvider = ({ children }: ReportProviderProps) => {
         const result = await reportSvc.postLessonReport(lessonId, payload);
         return result;
       } catch (error) {
-        setError("??? ?? ????? ????? ?????");
+        setError("خطأ في تحديث حالة التقرير");
         throw error;
       } finally {
         setIsLoading(false);

@@ -27,7 +27,6 @@ const EditLessonModal: React.FC = () => {
 
   useEffect(() => {
     if (selectedLessonData) {
-
       const rawDate = selectedLessonData.date;
       const d = new Date(rawDate);
       const yyyy = d.getFullYear();
@@ -74,6 +73,7 @@ const EditLessonModal: React.FC = () => {
       });
       handleClose();
     } catch (error) {
+      console.error("Error updating lesson:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -83,13 +83,13 @@ const EditLessonModal: React.FC = () => {
 
   const actions = [
     {
-      label: "?????",
+      label: "إلغاء",
       onClick: handleClose,
       variant: "secondary" as const,
       disabled: isSubmitting,
     },
     {
-      label: "??? ?????????",
+      label: "حفظ التغييرات",
       onClick: () => {},
       variant: "primary" as const,
       disabled: isSubmitting,
@@ -106,7 +106,7 @@ const EditLessonModal: React.FC = () => {
       onClose={handleClose}
     >
       <ModalHeader
-        title="????? ??????"
+        title="تعديل الدرس"
         icon={<FaEdit />}
         onClose={handleClose}
         disabled={isSubmitting}
@@ -116,7 +116,7 @@ const EditLessonModal: React.FC = () => {
         <form onSubmit={handleSubmit} className={baseStyles.form}>
           <div className={baseStyles.formGrid}>
             <FormField
-              label="?????"
+              label="الوقت"
               name="time"
               type="time"
               value={formData.time}
@@ -126,7 +126,7 @@ const EditLessonModal: React.FC = () => {
             />
 
             <FormField
-              label="???????"
+              label="التاريخ"
               name="date"
               type="date"
               value={formData.date}
@@ -136,7 +136,7 @@ const EditLessonModal: React.FC = () => {
             />
 
             <FormField
-              label="???? ?????"
+              label="رابط الاجتماع"
               name="meetingLink"
               type="url"
               value={formData.meetingLink}
