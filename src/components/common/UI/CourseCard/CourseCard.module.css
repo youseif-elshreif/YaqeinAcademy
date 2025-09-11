@@ -97,6 +97,8 @@
   line-height: 1.6;
   margin-bottom: 1.5rem;
   font-size: 0.95rem;
+  word-break: break-word;
+  white-space: wrap;
 }
 .courseInfo {
   display: flex;
