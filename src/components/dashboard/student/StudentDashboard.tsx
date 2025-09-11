@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Image from "next/image";
 import DashboardTabs from "@/src/components/dashboard/student/DashboardTabs";
 
@@ -16,27 +16,14 @@ import StudentMyReportsModal from "./StudentMyReportsModal";
 import MeetingLinkActions from "@/src/components/common/MeetingLinkActions";
 import Button from "@/src/components/common/Button";
 import AddTestimonialModal from "@/src/components/common/Modals/AddTestimonialModal";
+import EnhancedLoader from "@/src/components/common/UI/EnhancedLoader";
 
 function StudentDashboard() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("next-session");
-  const { getUserStats, userStats } = useStudentDashboard();
+  const { userStats, isInitialLoading } = useStudentDashboard();
   const [myReportsOpen, setMyReportsOpen] = useState(false);
   const [addTestimonialOpen, setAddTestimonialOpen] = useState(false);
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        await getUserStats();
-      } catch (error) {}
-    };
-    fetchStats();
-  }, [getUserStats]);
-
-  useEffect(() => {
-    if (userStats) {
-    }
-  }, [userStats]);
 
   const studentData = {
     id: user?._id || "",
@@ -121,6 +108,18 @@ function StudentDashboard() {
     }
   };
 
+  // إظهار الـ loader أثناء التحميل الأولي
+  if (isInitialLoading) {
+    return (
+      <EnhancedLoader
+        type="overlay"
+        text="جاري تحميل لوحة التحكم..."
+        size="large"
+        color="white"
+      />
+    );
+  }
+
   return (
     <>
       {/* Page Head */}
@@ -171,13 +170,15 @@ function StudentDashboard() {
                   justifyContent: "flex-end",
                 }}
               >
-                <Button
-                  onClick={() => setAddTestimonialOpen(true)}
-                  variant="secondary"
-                  size="small"
-                >
-                  شاركنا رأيك
-                </Button>
+                {(userStats?.PrivitelessonCredits || 0) > 0 && (
+                  <Button
+                    onClick={() => setAddTestimonialOpen(true)}
+                    variant="secondary"
+                    size="small"
+                  >
+                    شاركنا رأيك
+                  </Button>
+                )}
                 <Button
                   onClick={() => setMyReportsOpen(true)}
                   variant="primary"

@@ -94,3 +94,54 @@ export interface StudentINClassData {
     review: string[];
   } | null;
 }
+
+// Next Lesson API Response Types
+export interface NextLessonData {
+  _id: string;
+  groupId: string;
+  reportId: string[];
+  subject: string;
+  scheduledAt: string;
+  meetingLink: string;
+  status: 'scheduled' | 'completed' | 'cancelled';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface LastReport {
+  newMemorized: {
+    new: string[];
+    old: string[];
+  };
+  wantedForNextLesson: {
+    new: string[];
+    old: string[];
+  };
+  _id: string;
+  lessonId: string;
+  sudentId: string;
+  attended: boolean;
+  content: string;
+  completeLesson: boolean;
+  doneHomework: boolean;
+  notes: string;
+  rating: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface NextLessonResponse {
+  success: boolean;
+  message: string;
+  nextLesson: NextLessonData | null;
+  lastSession: NextLessonData | null;
+  lastReport: LastReport | null;
+  wantedForNextLesson: {
+    new: string[];
+    old: string[];
+  };
+  newMemorized: {
+    new: string[];
+    old: string[];
+  };
+}

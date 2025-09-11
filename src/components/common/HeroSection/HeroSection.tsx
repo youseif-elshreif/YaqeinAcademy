@@ -9,7 +9,7 @@ const HeroSection = () => {
           <div className={styles.textContent}>
             <h1 className={styles.title}>تصفح دوراتنا</h1>
             <p className={styles.subtitle}>
-              حلقة من الدورات المتخصصة في العلوم الشرعية تناسب كل المستويات.
+              مجموعة من الدورات المتخصصة في العلوم الشرعية تناسب كل المستويات.
             </p>
           </div>
           <div className={styles.illustration}>

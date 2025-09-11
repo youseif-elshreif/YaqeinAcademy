@@ -10,22 +10,18 @@ import { useStudentDashboard } from "@/src/contexts/StudentDashboardContext";
 import { useEffect } from "react";
 import MeetingLinkActions from "@/src/components/common/MeetingLinkActions";
 const NextSessionTasks = () => {
-  const { userStats, userLessons, getUserLessons } = useStudentDashboard();
+  const { userStats, nextLessonData, getNextLesson } = useStudentDashboard();
+  
   useEffect(() => {
-    getUserLessons();
-  }, []);
-  const getNextLesson = () => {
-    if (!userLessons || userLessons.length === 0) return null;
-    const now = new Date();
-    const futureLessons = userLessons
-      .filter((lesson) => new Date(lesson.scheduledAt) > now)
-      .sort(
-        (a, b) =>
-          new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime()
-      );
-    if (futureLessons.length === 0) return null;
-    const nextLesson = futureLessons[0];
-    const lessonDate = new Date(nextLesson.scheduledAt);
+    if (!nextLessonData) {
+      getNextLesson();
+    }
+  }, [getNextLesson, nextLessonData]);
+
+  const getNextLessonFormatted = () => {
+    if (!nextLessonData?.nextLesson) return null;
+    
+    const lessonDate = new Date(nextLessonData.nextLesson.scheduledAt);
     return {
       date: lessonDate.toLocaleDateString("ar-EG", {
         year: "numeric",
@@ -39,6 +35,7 @@ const NextSessionTasks = () => {
       dayName: lessonDate.toLocaleDateString("ar-EG", {
         weekday: "long",
       }),
+      meetingLink: nextLessonData.nextLesson.meetingLink,
     };
   };
   const availableCredits = userStats?.PrivitelessonCredits || 0;
@@ -96,39 +93,58 @@ const NextSessionTasks = () => {
       </div>
     );
   }
+
+  // إذا لم يتم تحميل البيانات بعد
+  if (!nextLessonData) {
+    return (
+      <div className={styles.tasksContainer}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>المطلوب للحصة القادمة</h2>
+        </div>
+        <div className={styles.tasksContent}>
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            جاري تحميل البيانات...
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // إذا لم توجد حصة قادمة
+  if (!nextLessonData.nextLesson) {
+    return (
+      <div className={styles.tasksContainer}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>المطلوب للحصة القادمة</h2>
+        </div>
+        <div className={styles.tasksContent}>
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            لا توجد حصة قادمة في الوقت الحالي
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // استخراج البيانات من nextLessonData
+  const newMemorization = nextLessonData?.newMemorized?.new || [];
+  const reviewMemorization = nextLessonData?.wantedForNextLesson?.old || [];
+  
+  // تحويل البيانات إلى نفس تنسيق nextSessionData الأصلي
   const nextSessionData = {
-    sessionDate: "2025-01-20",
-    sessionTime: "09:00 ص",
-    courseName: "تحفيظ القرآن الكريم",
-    teacherName: "الأستاذ محمد أحمد",
-    classLink:
-      "https://teams.microsoft.com/l/meetup-join/19%3amjmwt-sb%40thread.tacv2/",
-    newMemorization: [
-      {
-        id: 1,
-        content: "سورة الكهف من الآية 1 إلى الآية 20",
-        notes: "التركيز على التجويد وأحكام النون الساكنة والتنوين",
-      },
-      {
-        id: 2,
-        content: "حفظ الآيات الجديدة مع فهم المعاني",
-        notes: "مراجعة التفسير الميسر للآيات المطلوبة",
-      },
-    ],
-    review: [
-      {
-        id: 1,
-        content: "مراجعة سورة البقرة من الآية 250 إلى الآية 286",
-        notes: "التأكد من الحفظ المتقن والتجويد الصحيح",
-      },
-      {
-        id: 2,
-        content: "مراجعة سورة آل عمران من الآية 100 إلى الآية 120",
-        notes: "هذه الآيات تحتاج إعادة حفظ حسب التقييم السابق",
-      },
-    ],
+    newMemorization: newMemorization.map((item, index) => ({
+      id: index + 1,
+      content: item,
+      notes: "", // يمكن إضافة ملاحظات لاحقاً
+    })),
+    review: reviewMemorization.map((item, index) => ({
+      id: index + 1,
+      content: item,
+      notes: "", // يمكن إضافة ملاحظات لاحقاً
+    })),
   };
-  const nextDate = getNextLesson();
+  const nextDate = getNextLessonFormatted();
+  
   return (
     <div className={styles.tasksContainer}>
       <div className={styles.header}>
@@ -145,10 +161,10 @@ const NextSessionTasks = () => {
               <FaClock /> {nextDate?.time || "--:--"}
             </span>
           </div>
-          {userStats?.GroupMeetingLink && (
+          {nextDate?.meetingLink && (
             <div className={styles.sessionLinkSection}>
               <MeetingLinkActions
-                meetingLink={userStats?.GroupMeetingLink}
+                meetingLink={nextDate.meetingLink}
                 styles={styles}
                 containerClassName={styles.sessionLinkButtons}
               />
@@ -157,7 +173,7 @@ const NextSessionTasks = () => {
         </div>
       </div>
       <div className={styles.tasksContent}>
-        {nextSessionData.newMemorization.length > 0 && (
+        {nextSessionData.newMemorization.length > 0 ? (
           <div className={styles.taskSection}>
             <div className={styles.sectionHeader}>
               <h3 className={styles.sectionTitle}>
@@ -186,8 +202,19 @@ const NextSessionTasks = () => {
               ))}
             </div>
           </div>
+        ) : (
+          <div className={styles.taskSection}>
+            <div className={styles.sectionHeader}>
+              <h3 className={styles.sectionTitle}>
+                <FaBook /> الجديد المطلوب حفظه وتسميعه
+              </h3>
+            </div>
+            <div className={styles.emptyState}>
+              <p>لا يوجد حفظ جديد مطلوب للحصة القادمة</p>
+            </div>
+          </div>
         )}
-        {nextSessionData.review.length > 0 && (
+        {nextSessionData.review.length > 0 ? (
           <div className={styles.taskSection}>
             <div className={styles.sectionHeader}>
               <h3 className={styles.sectionTitle}>
@@ -214,6 +241,17 @@ const NextSessionTasks = () => {
                   )}
                 </div>
               ))}
+            </div>
+          </div>
+        ) : (
+          <div className={styles.taskSection}>
+            <div className={styles.sectionHeader}>
+              <h3 className={styles.sectionTitle}>
+                <FaRedoAlt /> المراجعة المطلوبة
+              </h3>
+            </div>
+            <div className={styles.emptyState}>
+              <p>لا يوجد مراجعة مطلوبة للحصة القادمة</p>
             </div>
           </div>
         )}

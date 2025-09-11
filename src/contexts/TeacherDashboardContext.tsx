@@ -5,6 +5,7 @@ import React, {
   useContext,
   useMemo,
   useState,
+  useEffect,
 } from "react";
 
 import { getTeacherLessons } from "@/src/utils/services/lesson.service";
@@ -19,15 +20,21 @@ export const TeacherDashboardProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [teacherLessons, setTeacherLessons] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const { createLessonReport } = useReportContext();
 
   const getMyLessons = useCallback(async () => {
     try {
+      setIsLoading(true);
       const data = await getTeacherLessons();
       setTeacherLessons(data);
       return data;
     } catch (error) {
       throw error;
+    } finally {
+      setIsLoading(false);
+      setIsInitialLoading(false);
     }
   }, []);
 
@@ -69,9 +76,24 @@ export const TeacherDashboardProvider: React.FC<{
         }
 
       },
+      isLoading,
+      isInitialLoading,
     }),
-    [teacherLessons, getMyLessons, createLessonReport]
+    [teacherLessons, getMyLessons, createLessonReport, isLoading, isInitialLoading]
   );
+
+  // تحميل البيانات تلقائياً عند تحميل المكون
+  useEffect(() => {
+    const loadInitialData = async () => {
+      try {
+        await getMyLessons();
+      } catch (error) {
+        // تجاهل الأخطاء في التحميل الأولي
+        setIsInitialLoading(false);
+      }
+    };
+    loadInitialData();
+  }, [getMyLessons]);
 
   return (
     <TeacherDashboardContext.Provider value={value}>

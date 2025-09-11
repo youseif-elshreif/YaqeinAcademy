@@ -53,8 +53,6 @@ const CoursesPage = () => {
           name="keywords"
           content="دورات قرآن, تحفيظ قرآن, تعلم تجويد, دروس إسلامية, أكاديمية, تعليم إسلامي, حفظ القرآن"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>

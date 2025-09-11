@@ -38,10 +38,16 @@ export interface TeacherDashboardContextType {
       rating: number;
     }>
   ) => Promise<void>;
+  isLoading: boolean;
+  isInitialLoading: boolean;
 }
 export interface StudentDashboardContextType {
   getUserStats: () => Promise<any>;
   userStats: any;
   getUserLessons: () => Promise<any>;
   userLessons: any[];
+  getNextLesson: () => Promise<any>;
+  nextLessonData: any;
+  isLoading: boolean;
+  isInitialLoading: boolean;
 }

@@ -82,7 +82,7 @@ const TestimonialsSwiper: React.FC<TestimonialSwiperProps> = ({
                     <h4>{testimonial.name}</h4>
                     <span className={styles.testimonialDate}>
                       {new Date(testimonial.createdAt).toLocaleDateString(
-                        "ar-SA"
+                        "ar-EG"
                       )}
                     </span>
                   </div>

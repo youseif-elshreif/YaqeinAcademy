@@ -26,7 +26,6 @@ export default function Home() {
           content="أكاديمية يقين للعلوم الشرعية - مؤسسة تعليمية متخصصة في تدريس العلوم الشرعية"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
         <section className={styles.hero}>

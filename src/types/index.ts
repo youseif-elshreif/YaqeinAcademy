@@ -4,7 +4,6 @@ export * from "./teacher.types";
 export * from "./student.types";
 export * from "./lesson.types";
 export * from "./group.types";
-export * from "./payment.types";
 export * from "./modal.types";
 export * from "./testimonial.types";
 export type {

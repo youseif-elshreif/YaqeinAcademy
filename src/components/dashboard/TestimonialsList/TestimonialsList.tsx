@@ -9,7 +9,7 @@ const TestimonialsList: React.FC<TestimonialListProps> = ({
   onDelete,
 }) => {
   const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString("ar-SA", {
+    return new Date(date).toLocaleDateString("ar-EG", {
       year: "numeric",
       month: "long",
       day: "numeric",

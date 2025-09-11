@@ -16,7 +16,6 @@ const Footer = () => {
     <footer className={`${styles.footer} custom-bg`}>
       <div className="container z-1">
         <div className={styles.footerContent}>
-
           <div className={styles.footerSection}>
             <h3 className={styles.sectionTitle}>أكاديمية يقين</h3>
             <p className={styles.description}>
@@ -24,7 +23,6 @@ const Footer = () => {
               الصحيح والموثوق.
             </p>
           </div>
-
 
           <div className={styles.footerSection}>
             <h4 className={styles.sectionTitle}>روابط سريعة</h4>
@@ -35,24 +33,12 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/about" className={styles.footerLink}>
-                  عن الأكاديمية
-                </Link>
-              </li>
-              <li>
                 <Link href="/courses" className={styles.footerLink}>
                   دوراتنا
                 </Link>
               </li>
-              <li>
-                <Link href="/contact" className={styles.footerLink}>
-                  اتصل بنا
-                </Link>
-              </li>
             </ul>
           </div>
-
-
           <div className={styles.footerSection}>
             <h4 className={styles.sectionTitle}>أقسام الدورات</h4>
             <ul className={styles.linksList}>
@@ -78,7 +64,6 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-
 
           <div className={styles.footerSection}>
             <h4 className={styles.sectionTitle}>تواصل معنا</h4>
@@ -140,7 +125,6 @@ const Footer = () => {
               )}
             </div>
 
-
             <div className={styles.socialMedia}>
               <h5 className={styles.socialTitle}>تابعنا على:</h5>
               <div className={styles.socialLinks}>
@@ -188,13 +172,10 @@ const Footer = () => {
                       <FaWhatsapp />
                     </a>
                   )}
-
-
               </div>
             </div>
           </div>
         </div>
-
 
         <div className={styles.footerBottom}>
           <p className={styles.copyright}>

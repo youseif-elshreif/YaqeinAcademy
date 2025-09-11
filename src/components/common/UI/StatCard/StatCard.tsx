@@ -12,7 +12,7 @@ const StatCard: React.FC<StatCardProps> = ({
 
   const formatValue = (val: string | number): string => {
     if (typeof val === "number") {
-      return val.toLocaleString("ar-SA");
+      return val.toLocaleString("ar-EG");
     }
     return val;
   };

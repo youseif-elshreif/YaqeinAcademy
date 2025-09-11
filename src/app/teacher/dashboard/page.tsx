@@ -15,45 +15,27 @@ import {
   TeacherDashboardProvider,
   useTeacherDashboard,
 } from "@/src/contexts/TeacherDashboardContext";
+import EnhancedLoader from "@/src/components/common/UI/EnhancedLoader";
 
 const TeacherDashboardContent = () => {
   const { user } = useAuth();
-  const { getMyLessons } = useTeacherDashboard();
+  const { isInitialLoading, teacherLessons } = useTeacherDashboard();
   const [classes, setClasses] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState("monthly-classes");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let mounted = true;
-    const fetchLessons = async () => {
-      try {
-        setLoading(true);
-        const token = localStorage.getItem("accessToken");
-        if (!token) return;
-        const lessons = await getMyLessons();
-        if (!mounted) return;
-
-        const sorted =
-          lessons && lessons.length > 0
-            ? lessons.slice().sort((a: any, b: any) => {
-                const da = new Date(a?.scheduledAt || 0).getTime();
-                const db = new Date(b?.scheduledAt || 0).getTime();
-                return da - db;
-              })
-            : [];
-        setClasses(sorted);
-      } catch {
-      } finally {
-        if (mounted) {
-          setLoading(false);
-        }
-      }
-    };
-    fetchLessons();
-    return () => {
-      mounted = false;
-    };
-  }, [getMyLessons]);
+    // ترتيب الدروس حسب التاريخ عند تحديث البيانات من context
+    if (teacherLessons && teacherLessons.length > 0) {
+      const sorted = teacherLessons.slice().sort((a: any, b: any) => {
+        const da = new Date(a?.scheduledAt || 0).getTime();
+        const db = new Date(b?.scheduledAt || 0).getTime();
+        return da - db;
+      });
+      setClasses(sorted);
+    }
+    setLoading(false);
+  }, [teacherLessons]);
 
   const [treacherData] = useState({
     id: user?._id || "",
@@ -85,6 +67,18 @@ const TeacherDashboardContent = () => {
         return <MonthlyClassTable initialClasses={classes} loading={loading} />;
     }
   };
+
+  // إظهار الـ loader أثناء التحميل الأولي
+  if (isInitialLoading) {
+    return (
+      <EnhancedLoader
+        type="overlay"
+        text="جاري تحميل لوحة التحكم..."
+        size="large"
+        color="white"
+      />
+    );
+  }
 
   return (
     <ModalProvider classes={classes} onClassesUpdate={setClasses}>

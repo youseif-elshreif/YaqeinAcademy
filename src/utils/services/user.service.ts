@@ -6,3 +6,5 @@ export const updateProfile = (payload: any) =>
   api.put(`/api/user/profile`, payload).then((r) => r.data);
 export const getUserStats = () =>
   api.get(`/api/user/user-stats`).then((r) => r.data?.data ?? r.data);
+export const getNextLesson = () =>
+  api.get(`/api/user/next-lesson`).then((r) => r.data);

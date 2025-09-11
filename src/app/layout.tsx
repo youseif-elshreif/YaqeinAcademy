@@ -12,6 +12,16 @@ const cairo = Cairo({
 export const metadata = {
   title: "Yaqeen Academy",
   description: "Learn with excellence.",
+  icons: {
+    icon: [
+      {
+        url: "/img/favIcon.png",
+        type: "image/png",
+      },
+    ],
+    shortcut: "/img/favIcon.png",
+    apple: "/img/favIcon.png",
+  },
 };
 
 export default function RootLayout({
@@ -21,10 +31,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ar" dir="rtl">
-      <head>
-        {/* Favicon */}
-        <link rel="icon" href="/img/favIcon.png" />
-      </head>
       <body className={cairo.className}>
         <AuthProvider>
           <AppContent>{children}</AppContent>

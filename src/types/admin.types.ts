@@ -373,3 +373,7 @@ export interface EditTeacherLinkModalProps {
     currentLink: string;
   } | null;
 }
+
+export interface CreditsFormData {
+  privateAmount: number;
+}
