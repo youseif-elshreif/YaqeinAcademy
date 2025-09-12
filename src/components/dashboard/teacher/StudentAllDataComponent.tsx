@@ -16,8 +16,6 @@ import {
 } from "react-icons/fa";
 import Button from "@/src/components/common/Button";
 import {
-  StudentCompletedClassData,
-  StudentViewData,
   StudentAllDataComponentViewProps,
 } from "@/src/types";
 

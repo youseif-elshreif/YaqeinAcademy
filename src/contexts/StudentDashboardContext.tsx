@@ -10,7 +10,10 @@ import {
 import { StudentDashboardContextType, UserStats, Lesson } from "@/src/types";
 import { NextLessonResponse } from "@/src/types/student.types";
 import { getUserLessons as getUserLessonsSvc } from "@/src/utils/services/lesson.service";
-import { getUserStats as getUserStatsSvc, getNextLesson as getNextLessonSvc } from "@/src/utils/services/user.service";
+import {
+  getUserStats as getUserStatsSvc,
+  getNextLesson as getNextLessonSvc,
+} from "@/src/utils/services/user.service";
 
 const StudentDashboardContext = createContext<
   StudentDashboardContextType | undefined
@@ -21,7 +24,8 @@ export const StudentDashboardProvider: React.FC<{
 }> = ({ children }) => {
   const [userStats, setUserStats] = useState<UserStats | null>(null);
   const [userLessons, setUserLessons] = useState<Lesson[]>([]);
-  const [nextLessonData, setNextLessonData] = useState<NextLessonResponse | null>(null);
+  const [nextLessonData, setNextLessonData] =
+    useState<NextLessonResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
@@ -76,7 +80,16 @@ export const StudentDashboardProvider: React.FC<{
       isLoading,
       isInitialLoading,
     }),
-    [getUserStats, userStats, getUserLessons, userLessons, getNextLesson, nextLessonData, isLoading, isInitialLoading]
+    [
+      getUserStats,
+      userStats,
+      getUserLessons,
+      userLessons,
+      getNextLesson,
+      nextLessonData,
+      isLoading,
+      isInitialLoading,
+    ]
   );
 
   // تحميل البيانات تلقائياً عند تحميل المكون

@@ -5,6 +5,7 @@ import HeroSection from "@/src/components/common/HeroSection/HeroSection";
 import CoursesGrid from "@/src/components/common/UI/CoursesGrid/CoursesGrid";
 import { useEffect, useState } from "react";
 import api, { API_BASE_URL } from "@/src/utils/api";
+import styles from "./page.module.css";
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState<any[]>([]);
@@ -55,39 +56,13 @@ const CoursesPage = () => {
         />
       </Head>
 
-      <main>
+      <main className={styles.main}>
         <HeroSection />
         {isLoading ? (
-          <div
-            style={{
-              textAlign: "center",
-              padding: "3rem 0",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            <div style={{ marginBottom: "1rem" }}>
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  fontSize: "16px",
-                  color: "var(--text-light)",
-                }}
-              >
-                <div
-                  style={{
-                    width: "20px",
-                    height: "20px",
-                    border: "2px solid #e3f2fd",
-                    borderTop: "2px solid #2196f3",
-                    borderRadius: "50%",
-                    animation: "spin 1s linear infinite",
-                  }}
-                ></div>
+          <div className={styles.loadingContainer}>
+            <div className={styles.loadingContent}>
+              <div className={styles.loadingText}>
+                <div className={styles.spinner}></div>
                 يتم تحميل الدورات...
               </div>
             </div>
@@ -101,15 +76,11 @@ const CoursesPage = () => {
             />
           </>
         ) : (
-          <div
-            style={{
-              textAlign: "center",
-              padding: "3rem 0",
-              color: "var(--text-light)",
-            }}
-          >
-            <h3>لا توجد دورات في الوقت الحالي</h3>
-            <p>تحقق مرة أخرى أو تواصل مع الإدارة</p>
+          <div className={styles.emptyState}>
+            <h3 className={styles.emptyTitle}>لا توجد دورات في الوقت الحالي</h3>
+            <p className={styles.emptyDescription}>
+              تحقق مرة أخرى أو تواصل مع الإدارة
+            </p>
           </div>
         )}
       </main>

@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import DashboardTabs from "@/src/components/dashboard/student/DashboardTabs";
 
@@ -142,9 +142,6 @@ function StudentDashboard() {
           {/* Page Header */}
           <header className={styles.pageHeader}>
             <h1 className={styles.pageTitle}>لوحة تحكم الطالب</h1>
-            <p className={styles.pageSubtitle}>
-              تابع تقدمك الأكاديمي وحقق أهدافك
-            </p>
           </header>
 
           {/* Student Info Section */}
@@ -170,15 +167,13 @@ function StudentDashboard() {
                   justifyContent: "flex-end",
                 }}
               >
-                {(userStats?.PrivitelessonCredits || 0) > 0 && (
-                  <Button
-                    onClick={() => setAddTestimonialOpen(true)}
-                    variant="secondary"
-                    size="small"
-                  >
-                    شاركنا رأيك
-                  </Button>
-                )}
+                <Button
+                  onClick={() => setAddTestimonialOpen(true)}
+                  variant="secondary"
+                  size="small"
+                >
+                  شاركنا رأيك
+                </Button>
                 <Button
                   onClick={() => setMyReportsOpen(true)}
                   variant="primary"

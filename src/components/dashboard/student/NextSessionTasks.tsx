@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import MeetingLinkActions from "@/src/components/common/MeetingLinkActions";
 const NextSessionTasks = () => {
   const { userStats, nextLessonData, getNextLesson } = useStudentDashboard();
-  
+
   useEffect(() => {
     if (!nextLessonData) {
       getNextLesson();
@@ -20,7 +20,7 @@ const NextSessionTasks = () => {
 
   const getNextLessonFormatted = () => {
     if (!nextLessonData?.nextLesson) return null;
-    
+
     const lessonDate = new Date(nextLessonData.nextLesson.scheduledAt);
     return {
       date: lessonDate.toLocaleDateString("ar-EG", {
@@ -102,7 +102,7 @@ const NextSessionTasks = () => {
           <h2 className={styles.title}>المطلوب للحصة القادمة</h2>
         </div>
         <div className={styles.tasksContent}>
-          <div style={{ textAlign: 'center', padding: '2rem' }}>
+          <div style={{ textAlign: "center", padding: "2rem" }}>
             جاري تحميل البيانات...
           </div>
         </div>
@@ -118,7 +118,7 @@ const NextSessionTasks = () => {
           <h2 className={styles.title}>المطلوب للحصة القادمة</h2>
         </div>
         <div className={styles.tasksContent}>
-          <div style={{ textAlign: 'center', padding: '2rem' }}>
+          <div style={{ textAlign: "center", padding: "2rem" }}>
             لا توجد حصة قادمة في الوقت الحالي
           </div>
         </div>
@@ -129,7 +129,7 @@ const NextSessionTasks = () => {
   // استخراج البيانات من nextLessonData
   const newMemorization = nextLessonData?.newMemorized?.new || [];
   const reviewMemorization = nextLessonData?.wantedForNextLesson?.old || [];
-  
+
   // تحويل البيانات إلى نفس تنسيق nextSessionData الأصلي
   const nextSessionData = {
     newMemorization: newMemorization.map((item, index) => ({
@@ -144,7 +144,7 @@ const NextSessionTasks = () => {
     })),
   };
   const nextDate = getNextLessonFormatted();
-  
+
   return (
     <div className={styles.tasksContainer}>
       <div className={styles.header}>

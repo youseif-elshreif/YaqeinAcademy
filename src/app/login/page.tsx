@@ -138,21 +138,6 @@ const LoginPage = () => {
           onTogglePassword={togglePasswordVisibility}
         />
 
-        <div className={styles.options}>
-          <CheckboxField
-            id="rememberMe"
-            name="rememberMe"
-            checked={rememberMe}
-            onChange={handleRememberMeChange}
-            label="تذكرني"
-            disabled={isSubmitting}
-            className={styles.rememberMe}
-          />
-          <Link href="/forgot-password" className={styles.forgotLink}>
-            نسيت كلمة المرور؟
-          </Link>
-        </div>
-
         <AuthButton
           type="submit"
           disabled={isSubmitting}

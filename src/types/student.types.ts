@@ -103,7 +103,7 @@ export interface NextLessonData {
   subject: string;
   scheduledAt: string;
   meetingLink: string;
-  status: 'scheduled' | 'completed' | 'cancelled';
+  status: "scheduled" | "completed" | "cancelled";
   createdAt: string;
   updatedAt: string;
 }

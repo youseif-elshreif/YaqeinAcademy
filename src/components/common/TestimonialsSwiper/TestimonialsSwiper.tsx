@@ -55,11 +55,23 @@ const TestimonialsSwiper: React.FC<TestimonialSwiperProps> = ({
             slidesPerView={1}
             loop={true}
             navigation
-            pagination={{ clickable: true }}
+            pagination={{ 
+              clickable: true,
+              dynamicBullets: true,
+              dynamicMainBullets: 3,
+            }}
             autoplay={{
               delay: 5000,
               disableOnInteraction: false,
+              pauseOnMouseEnter: true,
             }}
+            grabCursor={true}
+            touchRatio={1}
+            touchAngle={45}
+            threshold={5}
+            simulateTouch={true}
+            watchSlidesProgress={true}
+            speed={600}
             breakpoints={{
               768: {
                 slidesPerView: 2,

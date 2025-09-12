@@ -58,7 +58,6 @@ export const TeacherDashboardProvider: React.FC<{
         for (const r of reports) {
           await createLessonReport(lessonId, r as any);
         }
-
       },
       reportMultipleAndComplete: async (
         lessonId: string,
@@ -74,12 +73,17 @@ export const TeacherDashboardProvider: React.FC<{
         for (const r of reports) {
           await createLessonReport(lessonId, r as any);
         }
-
       },
       isLoading,
       isInitialLoading,
     }),
-    [teacherLessons, getMyLessons, createLessonReport, isLoading, isInitialLoading]
+    [
+      teacherLessons,
+      getMyLessons,
+      createLessonReport,
+      isLoading,
+      isInitialLoading,
+    ]
   );
 
   // تحميل البيانات تلقائياً عند تحميل المكون

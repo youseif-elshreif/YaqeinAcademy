@@ -6,7 +6,7 @@ import Button from "../../common/Button";
 import { ProfileUser, StudentDataProps } from "@/src/types";
 
 const ProfileSettings = ({ studentData }: StudentDataProps) => {
-  const { updateUserData } = useAuth();
+  const { updateUserData, getUserData } = useAuth();
   const [editState, setEditState] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [student, setStudent] = useState<ProfileUser>({
@@ -26,6 +26,8 @@ const ProfileSettings = ({ studentData }: StudentDataProps) => {
       await updateUserData(student);
       setEditState(false);
       setErrorMessage(null);
+      // تحديث بيانات المستخدم في الـ context لتحديث الاسم في navbar وباقي المكونات
+      await getUserData(true);
     } catch (error: any) {
       if (error.response.data.message === "Internal server error") {
         setErrorMessage("تأكد من ان البينات صحيحية و غير مكررة من قبل");
