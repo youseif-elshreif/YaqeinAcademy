@@ -11,6 +11,8 @@ import styles from "@/src/styles/StudentDashboard.module.css";
 import Head from "next/head";
 import { useAuth } from "@/src/contexts/AuthContext";
 import { useStudentDashboard } from "@/src/contexts/StudentDashboardContext";
+import { useTestimonialsContext } from "@/src/contexts/AppProviders";
+import { TestimonialFormData } from "@/src/types";
 import { Lessons } from "./Lessons";
 import StudentMyReportsModal from "./StudentMyReportsModal";
 import MeetingLinkActions from "@/src/components/common/MeetingLinkActions";
@@ -22,6 +24,8 @@ function StudentDashboard() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("next-session");
   const { userStats, isInitialLoading } = useStudentDashboard();
+  const { createTestimonial, isLoading: testimonialLoading } =
+    useTestimonialsContext();
   const [myReportsOpen, setMyReportsOpen] = useState(false);
   const [addTestimonialOpen, setAddTestimonialOpen] = useState(false);
 
@@ -69,14 +73,11 @@ function StudentDashboard() {
     : [];
 
   // Handle testimonial submission
-  const handleTestimonialSubmit = async (formData: any) => {
+  const handleTestimonialSubmit = async (formData: TestimonialFormData) => {
     try {
-      console.log("Testimonial submitted:", formData);
-      // Here you would typically send the data to your API
+      await createTestimonial(formData);
       setAddTestimonialOpen(false);
-    } catch (error) {
-      console.error("Error submitting testimonial:", error);
-    }
+    } catch (error) {}
   };
 
   const tabs = [
@@ -276,6 +277,7 @@ function StudentDashboard() {
             isOpen={addTestimonialOpen}
             onClose={() => setAddTestimonialOpen(false)}
             onSubmit={handleTestimonialSubmit}
+            isLoading={testimonialLoading}
           />
         </div>
       </main>

@@ -55,7 +55,7 @@ const AddTestimonialModal: React.FC<AddTestimonialModalProps> = ({
         variant="add"
       />
 
-      <div className={styles.modalBody}>
+      <div style={{ overflowY: "auto" }}>
         <TestimonialForm
           onSubmit={handleSubmit}
           isLoading={isSubmitting || isLoading}

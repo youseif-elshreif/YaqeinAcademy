@@ -1,15 +1,22 @@
+// Testimonial interface matching API response
 export interface Testimonial {
-  id: string;
+  _id: string;
   name: string;
-  content: string;
-  status: "pending" | "approved" | "rejected";
-  createdAt: Date;
-  updatedAt: Date;
+  rating: number;
+  txt: string;
+  hide: boolean;
+  adminAccepted: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
+// Form data interface for creating testimonials
 export interface TestimonialFormData {
   name: string;
-  content: string;
+  rating: number;
+  txt: string;
+  hide: boolean;
 }
 
 export interface TestimonialListProps {
@@ -20,10 +27,19 @@ export interface TestimonialListProps {
 }
 
 export interface TestimonialFormProps {
-  onSubmit: (data: TestimonialFormData) => void;
+  onSubmit: (data: TestimonialFormData) => Promise<void>;
   isLoading?: boolean;
 }
 
 export interface TestimonialSwiperProps {
   testimonials: Testimonial[];
+}
+
+// Rating component interface
+export interface RatingComponentProps {
+  value: number;
+  onChange: (rating: number) => void;
+  size?: "small" | "medium" | "large";
+  disabled?: boolean;
+  label?: string;
 }

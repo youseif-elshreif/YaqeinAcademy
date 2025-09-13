@@ -8,6 +8,7 @@ import {
   useCallback,
 } from "react";
 import * as adminSvc from "@/src/utils/services/admin.service";
+import * as contactSvc from "@/src/utils/services/contact.service";
 
 export type ContactInfo = {
   email?: string;
@@ -24,6 +25,7 @@ type ContactContextType = {
   isLoading: boolean;
   error: string | null;
   getContactInfo: () => Promise<ContactInfo | null>;
+  getPublicContactInfo: () => Promise<ContactInfo | null>;
   updateContactInfo: (data: ContactInfo) => Promise<ContactInfo>;
   refreshContactInfo: () => Promise<void>;
 };
@@ -62,6 +64,22 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
     }
   }, []);
 
+  const getPublicContactInfo =
+    useCallback(async (): Promise<ContactInfo | null> => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const data = await contactSvc.getPublicContactInfo();
+        setContactInfo(data);
+        return data;
+      } catch (error) {
+        setError("خطأ في جلب معلومات التواصل");
+        throw error;
+      } finally {
+        setIsLoading(false);
+      }
+    }, []);
+
   const updateContactInfo = useCallback(
     async (data: {
       email: string;
@@ -93,20 +111,25 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
   }, [getContactInfo]);
 
   useEffect(() => {
-    const token =
-      typeof window !== "undefined"
-        ? localStorage.getItem("accessToken")
-        : null;
-    if (token) {
-      getContactInfo().catch(() => {});
-    }
-  }, [getContactInfo]);
+    // Load public contact info on component mount (no authentication required)
+    getPublicContactInfo().catch(() => {
+      // If public API fails, try the admin API if user is authenticated
+      const token =
+        typeof window !== "undefined"
+          ? localStorage.getItem("accessToken")
+          : null;
+      if (token) {
+        getContactInfo().catch(() => {});
+      }
+    });
+  }, [getPublicContactInfo, getContactInfo]);
 
   const contextValue: ContactContextType = {
     contactInfo,
     isLoading,
     error,
     getContactInfo,
+    getPublicContactInfo,
     updateContactInfo,
     refreshContactInfo,
   };

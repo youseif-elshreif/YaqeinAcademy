@@ -1,166 +1,152 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
-import { Testimonial, TestimonialFormData } from "@/src/types";
-import { mockTestimonials } from "@/src/utils/mockData/testimonials";
+"use client";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useCallback,
+} from "react";
+import * as testimonialSvc from "@/src/utils/services/testimonial.service";
+import { TestimonialFormData } from "@/src/types/testimonial.types";
 
-interface TestimonialsContextType {
-  testimonials: Testimonial[];
-  loading: boolean;
+type TestimonialsContextType = {
+  isLoading: boolean;
   error: string | null;
-  createTestimonial: (data: TestimonialFormData) => Promise<void>;
-  approveTestimonial: (id: string) => Promise<void>;
-  rejectTestimonial: (id: string) => Promise<void>;
-  deleteTestimonial: (id: string) => Promise<void>;
-  getApprovedTestimonials: () => Testimonial[];
-  getPendingTestimonials: () => Testimonial[];
-}
+  createTestimonial: (payload: TestimonialFormData) => Promise<any>;
+  getAllTestimonials: (page?: number, limit?: number) => Promise<any>;
+  getPublicTestimonials: (page?: number, limit?: number) => Promise<any>;
+  approveTestimonial: (id: string) => Promise<any>;
+  rejectTestimonial: (id: string) => Promise<any>;
+  deleteTestimonial: (id: string) => Promise<any>;
+};
 
 const TestimonialsContext = createContext<TestimonialsContextType | undefined>(
   undefined
 );
 
-export const useTestimonials = () => {
+export const useTestimonialsContext = () => {
   const context = useContext(TestimonialsContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error(
-      "useTestimonials must be used within a TestimonialsProvider"
+      "useTestimonialsContext must be used within TestimonialsProvider"
     );
   }
   return context;
 };
 
-interface TestimonialsProviderProps {
-  children: React.ReactNode;
-}
+type TestimonialsProviderProps = {
+  children: ReactNode;
+};
 
-export const TestimonialsProvider: React.FC<TestimonialsProviderProps> = ({
+export const TestimonialsProvider = ({
   children,
-}) => {
-  const [testimonials, setTestimonials] =
-    useState<Testimonial[]>(mockTestimonials);
-  const [loading, setLoading] = useState(false);
+}: TestimonialsProviderProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const createTestimonial = useCallback(async (data: TestimonialFormData) => {
-    setLoading(true);
-    setError(null);
+  const createTestimonial = useCallback(
+    async (payload: TestimonialFormData): Promise<any> => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const data = await testimonialSvc.createTestimonial(payload);
+        return data;
+      } catch (error) {
+        setError("خطأ في إرسال التوصية");
+        throw error;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
 
+  const getAllTestimonials = useCallback(
+    async (page = 1, limit = 10): Promise<any> => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const data = await testimonialSvc.getAllTestimonials(page, limit);
+        return data;
+      } catch (error) {
+        setError("خطأ في جلب التوصيات");
+        throw error;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
+
+  const getPublicTestimonials = useCallback(
+    async (page = 1, limit = 10): Promise<any> => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const data = await testimonialSvc.getPublicTestimonials(page, limit);
+        console.log("Public Testimonials Data:", data);
+        return data;
+      } catch (error) {
+        setError("خطأ في جلب آراء الطلاب");
+        throw error;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
+
+  const approveTestimonial = useCallback(async (id: string): Promise<any> => {
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      const newTestimonial: Testimonial = {
-        id: Date.now().toString(),
-        name: data.name,
-        content: data.content,
-        status: "pending",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-
-      setTestimonials((prev) => [newTestimonial, ...prev]);
-    } catch (err) {
-      setError("حدث خطأ أثناء إضافة الرأي");
-      throw err;
+      setIsLoading(true);
+      setError(null);
+      const data = await testimonialSvc.approveTestimonial(id);
+      return data;
+    } catch (error) {
+      setError("خطأ في قبول التوصية");
+      throw error;
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }, []);
 
-  const approveTestimonial = useCallback(async (id: string) => {
-    setLoading(true);
-    setError(null);
-
+  const rejectTestimonial = useCallback(async (id: string): Promise<any> => {
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      setTestimonials((prev) =>
-        prev.map((testimonial) =>
-          testimonial.id === id
-            ? {
-                ...testimonial,
-                status: "approved" as const,
-                updatedAt: new Date(),
-              }
-            : testimonial
-        )
-      );
-    } catch (err) {
-      setError("حدث خطأ أثناء الموافقة على الرأي");
-      throw err;
+      setIsLoading(true);
+      setError(null);
+      const data = await testimonialSvc.rejectTestimonial(id);
+      return data;
+    } catch (error) {
+      setError("خطأ في رفض التوصية");
+      throw error;
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }, []);
 
-  const rejectTestimonial = useCallback(async (id: string) => {
-    setLoading(true);
-    setError(null);
-
+  const deleteTestimonial = useCallback(async (id: string): Promise<any> => {
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      setTestimonials((prev) =>
-        prev.map((testimonial) =>
-          testimonial.id === id
-            ? {
-                ...testimonial,
-                status: "rejected" as const,
-                updatedAt: new Date(),
-              }
-            : testimonial
-        )
-      );
-    } catch (err) {
-      setError("حدث خطأ أثناء رفض الرأي");
-      throw err;
+      setIsLoading(true);
+      setError(null);
+      const data = await testimonialSvc.deleteTestimonial(id);
+      return data;
+    } catch (error) {
+      setError("خطأ في حذف التوصية");
+      throw error;
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }, []);
-
-  const deleteTestimonial = useCallback(async (id: string) => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      setTestimonials((prev) =>
-        prev.filter((testimonial) => testimonial.id !== id)
-      );
-    } catch (err) {
-      setError("حدث خطأ أثناء حذف الرأي");
-      throw err;
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const getApprovedTestimonials = useCallback(() => {
-    return testimonials.filter(
-      (testimonial) => testimonial.status === "approved"
-    );
-  }, [testimonials]);
-
-  const getPendingTestimonials = useCallback(() => {
-    return testimonials.filter(
-      (testimonial) => testimonial.status === "pending"
-    );
-  }, [testimonials]);
 
   const value: TestimonialsContextType = {
-    testimonials,
-    loading,
+    isLoading,
     error,
     createTestimonial,
+    getAllTestimonials,
+    getPublicTestimonials,
     approveTestimonial,
     rejectTestimonial,
     deleteTestimonial,
-    getApprovedTestimonials,
-    getPendingTestimonials,
   };
 
   return (

@@ -68,12 +68,14 @@
   height: 100%;
   display: flex !important;
   align-items: center !important;
+  width: 100%;
 }
 
 .swiperContainer :global(.swiper-wrapper) {
   height: fit-content !important;
   align-items: center !important;
   display: flex !important;
+  justify-content: center;
 }
 
 .swiperSlide {
@@ -158,6 +160,48 @@
   font-size: 0.9rem;
   color: var(--text-light);
   font-weight: 500;
+}
+
+.rating {
+  font-size: 1rem;
+  color: #ffd700;
+  margin: 0.5rem 0;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* View Button for Swiper */
+.viewButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--primary-color);
+  border: 1px solid rgba(var(--primary-color-rgb), 0.3);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+}
+
+.viewButton:hover {
+  background: rgba(var(--primary-color-rgb), 0.1);
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(var(--primary-color-rgb), 0.2);
+}
+
+.viewIcon {
+  width: 12px;
+  height: 12px;
 }
 
 .noTestimonials {

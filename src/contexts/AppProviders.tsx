@@ -48,6 +48,6 @@ export { useGroupsContext } from "./GroupsContext";
 export { useLessonsContext } from "./LessonsContext";
 export { useAdminStatsContext } from "./AdminStatsContext";
 export { useReportContext } from "./ReportContext";
-export { useTestimonials } from "./TestimonialsContext";
+export { useTestimonialsContext } from "./TestimonialsContext";
 
 export type { ContactInfo } from "./ContactContext";

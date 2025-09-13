@@ -7,10 +7,10 @@ import {
   FaWhatsapp,
 } from "react-icons/fa";
 import Link from "next/link";
-import { useContactContext } from "@/src/contexts/ContactContext";
+import { useFooterContactInfo } from "@/src/hooks/useFooterContactInfo";
 
 const Footer = () => {
-  const { contactInfo } = useContactContext();
+  const { contactInfo, isLoading, error } = useFooterContactInfo();
 
   return (
     <footer className={`${styles.footer} custom-bg`}>
@@ -68,60 +68,83 @@ const Footer = () => {
           <div className={styles.footerSection}>
             <h4 className={styles.sectionTitle}>تواصل معنا</h4>
             <div className={styles.contactInfo}>
-              {contactInfo?.email && (
+              {isLoading ? (
                 <p className={styles.contactItem}>
-                  <span className={styles.contactLabel}>
-                    البريد الإلكتروني:
+                  <span className={styles.loadingText}>
+                    جاري تحميل معلومات التواصل...
                   </span>
-                  <a
-                    href={`mailto:${contactInfo.email}`}
-                    className={styles.contactLink}
-                  >
-                    {contactInfo.email}
-                  </a>
                 </p>
-              )}
-              {contactInfo?.phone && contactInfo.phone.length > 0 && (
+              ) : error ? (
                 <p className={styles.contactItem}>
-                  <span className={styles.contactLabel}>الهاتف:</span>
-                  {contactInfo.phone.map((p, i) => (
-                    <a key={i} href={`tel:${p}`} className={styles.contactLink}>
-                      {p}
-                      {i < contactInfo.phone!.length - 1 ? " ، " : ""}
-                    </a>
-                  ))}
+                  <span className={styles.errorText}>
+                    خطأ في تحميل معلومات التواصل
+                  </span>
                 </p>
-              )}
-              {contactInfo?.whatsappNumber &&
-                contactInfo.whatsappNumber.length > 0 && (
-                  <p className={styles.contactItem}>
-                    <span className={styles.contactLabel}>واتساب:</span>
-                    {contactInfo.whatsappNumber.map((w, i) => {
-                      const digits = (w || "").replace(/[^\d+]/g, "");
-                      const wa = `https://wa.me/${digits.replace(/^\+/, "")}`;
-                      return (
+              ) : (
+                <>
+                  {contactInfo?.email && (
+                    <p className={styles.contactItem}>
+                      <span className={styles.contactLabel}>
+                        البريد الإلكتروني:
+                      </span>
+                      <a
+                        href={`mailto:${contactInfo.email}`}
+                        className={styles.contactLink}
+                      >
+                        {contactInfo.email}
+                      </a>
+                    </p>
+                  )}
+                  {contactInfo?.phone && contactInfo.phone.length > 0 && (
+                    <p className={styles.contactItem}>
+                      <span className={styles.contactLabel}>الهاتف:</span>
+                      {contactInfo.phone.map((p, i) => (
                         <a
                           key={i}
-                          href={wa}
-                          target="_blank"
+                          href={`tel:${p}`}
                           className={styles.contactLink}
                         >
-                          {w}
-                          {i < contactInfo.whatsappNumber!.length - 1
-                            ? " ، "
-                            : ""}
+                          {p}
+                          {i < contactInfo.phone!.length - 1 ? " ، " : ""}
                         </a>
-                      );
-                    })}
-                  </p>
-                )}
-              {contactInfo?.address && (
-                <p className={styles.contactItem}>
-                  <span className={styles.contactLabel}>العنوان:</span>
-                  <span className={styles.contactLink}>
-                    {contactInfo.address}
-                  </span>
-                </p>
+                      ))}
+                    </p>
+                  )}
+                  {contactInfo?.whatsappNumber &&
+                    contactInfo.whatsappNumber.length > 0 && (
+                      <p className={styles.contactItem}>
+                        <span className={styles.contactLabel}>واتساب:</span>
+                        {contactInfo.whatsappNumber.map((w, i) => {
+                          const digits = (w || "").replace(/[^\d+]/g, "");
+                          const wa = `https://wa.me/${digits.replace(
+                            /^\+/,
+                            ""
+                          )}`;
+                          return (
+                            <a
+                              key={i}
+                              href={wa}
+                              target="_blank"
+                              className={styles.contactLink}
+                            >
+                              {w}
+                              {i < contactInfo.whatsappNumber!.length - 1
+                                ? " ، "
+                                : ""}
+                            </a>
+                          );
+                        })}
+                      </p>
+                    )}
+                  {contactInfo?.address && (
+                    <p className={styles.contactItem}>
+                      <span className={styles.contactLabel}>العنوان:</span>
+                      <span className={styles.contactLink}>
+                        {contactInfo.address}
+                      </span>
+                    </p>
+                  )}
+                </>
               )}
             </div>
 

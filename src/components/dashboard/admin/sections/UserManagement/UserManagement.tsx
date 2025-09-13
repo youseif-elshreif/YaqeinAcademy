@@ -26,10 +26,6 @@ const UserManagement: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("students");
 
-  const handleExportUsers = () => {
-    alert("تصدير البيانات غير متاح في هذا الوضع التجريبي.");
-  };
-
   const handleselectedtab = (tabId: string) => {
     setActiveTab(tabId);
   };
@@ -76,13 +72,6 @@ const UserManagement: React.FC = () => {
       <div className={userStyles.headerRow}>
         <h1 className={styles.pageTitle}>إدارة المستخدمين</h1>
         <div className={userStyles.headerActions}>
-          <Button
-            variant="secondary"
-            icon={<FiDownload />}
-            onClick={handleExportUsers}
-          >
-            تصدير البيانات
-          </Button>
           <Button
             variant="primary"
             icon={<FiPlus />}

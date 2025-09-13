@@ -51,13 +51,6 @@ const GroupManagement: React.FC = () => {
       <div className={userStyles.headerRow}>
         <h1 className={styles.pageTitle}>إدارة الحلقات</h1>
         <div className={userStyles.headerActions}>
-          <Button
-            onClick={handleExportData}
-            variant="secondary"
-            icon={<FiDownload />}
-          >
-            تصدير البيانات
-          </Button>
           <Button onClick={handleAddGroup} variant="primary" icon={<FiPlus />}>
             إضافة حلقة جديدة
           </Button>

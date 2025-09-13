@@ -1,0 +1,206 @@
+/* Skeleton Animation */
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.testimonials {
+  padding: 80px 0;
+  background: var(--main-bg);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    var(--separator-bg) 0%,
+    var(--base-bg) 100%
+  );
+}
+
+.testimonials::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23013137' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  z-index: 1;
+}
+
+.header {
+  text-align: center;
+  margin: 0 auto 1rem;
+  height: 2.5rem;
+  width: 200px;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--primary-color-rgb), 0.1) 25%,
+    rgba(var(--primary-color-rgb), 0.2) 50%,
+    rgba(var(--primary-color-rgb), 0.1) 75%
+  );
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.logo {
+  margin: 0 auto 3rem;
+  height: 100px;
+  width: 100px;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--primary-color-rgb), 0.1) 25%,
+    rgba(var(--primary-color-rgb), 0.2) 50%,
+    rgba(var(--primary-color-rgb), 0.1) 75%
+  );
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+}
+
+.swiperContainer {
+  position: relative;
+  z-index: 2;
+  height: 500px;
+  display: flex;
+  align-items: center;
+}
+
+.swiper {
+  padding-bottom: 3rem;
+  height: 100%;
+  display: flex !important;
+  align-items: center !important;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.swiperSlide {
+  height: auto;
+  width: 300px;
+  flex-shrink: 0;
+}
+
+.testimonialCard {
+  background: var(--base-bg);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 2rem;
+  height: 100%;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonialContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.textLine {
+  height: 16px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--primary-color-rgb), 0.1) 25%,
+    rgba(var(--primary-color-rgb), 0.2) 50%,
+    rgba(var(--primary-color-rgb), 0.1) 75%
+  );
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.textLineShort {
+  height: 16px;
+  width: 70%;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--primary-color-rgb), 0.1) 25%,
+    rgba(var(--primary-color-rgb), 0.2) 50%,
+    rgba(var(--primary-color-rgb), 0.1) 75%
+  );
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.testimonialAuthor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.name {
+  height: 20px;
+  width: 120px;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--primary-color-rgb), 0.1) 25%,
+    rgba(var(--primary-color-rgb), 0.2) 50%,
+    rgba(var(--primary-color-rgb), 0.1) 75%
+  );
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.rating {
+  height: 16px;
+  width: 80px;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--primary-color-rgb), 0.1) 25%,
+    rgba(var(--primary-color-rgb), 0.2) 50%,
+    rgba(var(--primary-color-rgb), 0.1) 75%
+  );
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.date {
+  height: 14px;
+  width: 60px;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--primary-color-rgb), 0.1) 25%,
+    rgba(var(--primary-color-rgb), 0.2) 50%,
+    rgba(var(--primary-color-rgb), 0.1) 75%
+  );
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .swiper {
+    flex-direction: column;
+    height: auto;
+    gap: 1rem;
+  }
+
+  .swiperSlide {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .testimonials {
+    padding: 60px 0;
+  }
+}

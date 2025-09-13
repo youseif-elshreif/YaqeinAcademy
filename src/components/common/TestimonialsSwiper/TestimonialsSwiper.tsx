@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import Image from "next/image";
+import { FiEye } from "react-icons/fi";
 import { TestimonialSwiperProps } from "@/src/types";
+import ViewTestimonialModal from "@/src/components/common/Modals/ViewTestimonialModal";
 import styles from "./TestimonialsSwiper.module.css";
 
 // Import Swiper styles
@@ -13,12 +15,28 @@ import "swiper/css/pagination";
 const TestimonialsSwiper: React.FC<TestimonialSwiperProps> = ({
   testimonials,
 }) => {
-  // Filter only approved testimonials
-  const approvedTestimonials = testimonials.filter(
-    (testimonial) => testimonial.status === "approved"
-  );
+  const [selectedTestimonial, setSelectedTestimonial] = useState<any>(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
-  if (approvedTestimonials.length === 0) {
+  const truncateText = (text: string, maxWords: number = 8) => {
+    const words = text.split(" ");
+    if (words.length <= maxWords) {
+      return text;
+    }
+    return words.slice(0, maxWords).join(" ") + "...";
+  };
+
+  const handleViewTestimonial = (testimonial: any) => {
+    setSelectedTestimonial(testimonial);
+    setIsViewModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsViewModalOpen(false);
+    setSelectedTestimonial(null);
+  };
+
+  if (testimonials.length === 0) {
     return (
       <section className={styles.testimonials}>
         <div className="container">
@@ -55,7 +73,7 @@ const TestimonialsSwiper: React.FC<TestimonialSwiperProps> = ({
             slidesPerView={1}
             loop={true}
             navigation
-            pagination={{ 
+            pagination={{
               clickable: true,
               dynamicBullets: true,
               dynamicMainBullets: 3,
@@ -84,14 +102,29 @@ const TestimonialsSwiper: React.FC<TestimonialSwiperProps> = ({
             }}
             className={styles.swiper}
           >
-            {approvedTestimonials.map((testimonial) => (
-              <SwiperSlide key={testimonial.id} className={styles.swiperSlide}>
+            {testimonials.map((testimonial) => (
+              <SwiperSlide key={testimonial._id} className={styles.swiperSlide}>
                 <div className={styles.testimonialCard}>
                   <blockquote className={styles.testimonialContent}>
-                    <p>{testimonial.content}</p>
+                    <p>{truncateText(testimonial.txt)}</p>
+                    {testimonial.txt.split(" ").length > 15 && (
+                      <button
+                        onClick={() => handleViewTestimonial(testimonial)}
+                        className={styles.viewButton}
+                      >
+                        <FiEye className={styles.viewIcon} />
+                        عرض كاملاً
+                      </button>
+                    )}
                   </blockquote>
                   <div className={styles.testimonialAuthor}>
                     <h4>{testimonial.name}</h4>
+                    {testimonial.rating && (
+                      <div className={styles.rating}>
+                        {"★".repeat(testimonial.rating)}
+                        {"☆".repeat(5 - testimonial.rating)}
+                      </div>
+                    )}
                     <span className={styles.testimonialDate}>
                       {new Date(testimonial.createdAt).toLocaleDateString(
                         "ar-EG"
@@ -104,6 +137,15 @@ const TestimonialsSwiper: React.FC<TestimonialSwiperProps> = ({
           </Swiper>
         </div>
       </div>
+
+      {/* View Testimonial Modal */}
+      {selectedTestimonial && (
+        <ViewTestimonialModal
+          isOpen={isViewModalOpen}
+          onClose={handleCloseModal}
+          testimonial={selectedTestimonial}
+        />
+      )}
     </section>
   );
 };

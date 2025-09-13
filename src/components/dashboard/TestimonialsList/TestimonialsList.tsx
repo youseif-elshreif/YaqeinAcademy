@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import { FiEye } from "react-icons/fi";
 import { TestimonialListProps } from "@/src/types";
+import ViewTestimonialModal from "@/src/components/common/Modals/ViewTestimonialModal";
 import styles from "./TestimonialsList.module.css";
 
 const TestimonialsList: React.FC<TestimonialListProps> = ({
@@ -8,8 +10,32 @@ const TestimonialsList: React.FC<TestimonialListProps> = ({
   onReject,
   onDelete,
 }) => {
-  const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString("ar-EG", {
+  const [selectedTestimonial, setSelectedTestimonial] = useState<any>(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+
+  const truncateText = (text: string, maxLines: number = 3) => {
+    const words = text.split(" ");
+    const wordsPerLine = 12; // تقريبياً
+    const maxWords = maxLines * wordsPerLine;
+
+    if (words.length <= maxWords) {
+      return text;
+    }
+
+    return words.slice(0, maxWords).join(" ") + "...";
+  };
+
+  const handleViewTestimonial = (testimonial: any) => {
+    setSelectedTestimonial(testimonial);
+    setIsViewModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsViewModalOpen(false);
+    setSelectedTestimonial(null);
+  };
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("ar-EG", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -18,30 +44,12 @@ const TestimonialsList: React.FC<TestimonialListProps> = ({
     });
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "approved":
-        return styles.approved;
-      case "pending":
-        return styles.pending;
-      case "rejected":
-        return styles.rejected;
-      default:
-        return styles.pending;
-    }
+  const getStatusColor = (adminAccepted: boolean) => {
+    return adminAccepted ? styles.approved : styles.pending;
   };
 
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case "approved":
-        return "موافق عليه";
-      case "pending":
-        return "في الانتظار";
-      case "rejected":
-        return "مرفوض";
-      default:
-        return "غير محدد";
-    }
+  const getStatusText = (adminAccepted: boolean) => {
+    return adminAccepted ? "موافق عليه" : "في الانتظار";
   };
 
   if (testimonials.length === 0) {
@@ -55,25 +63,34 @@ const TestimonialsList: React.FC<TestimonialListProps> = ({
   return (
     <div className={styles.testimonialsList}>
       {testimonials.map((testimonial) => (
-        <div key={testimonial.id} className={styles.testimonialCard}>
+        <div key={testimonial._id} className={styles.testimonialCard}>
           <div className={styles.testimonialHeader}>
             <div className={styles.testimonialInfo}>
               <h3 className={styles.testimonialName}>{testimonial.name}</h3>
-              <span className={styles.testimonialId}>#{testimonial.id}</span>
+              <span className={styles.rating}>⭐ {testimonial.rating}/5</span>
             </div>
             <div className={styles.testimonialStatus}>
               <span
                 className={`${styles.statusBadge} ${getStatusColor(
-                  testimonial.status
+                  testimonial.adminAccepted
                 )}`}
               >
-                {getStatusText(testimonial.status)}
+                {getStatusText(testimonial.adminAccepted)}
               </span>
             </div>
           </div>
 
           <div className={styles.testimonialContent}>
-            <p>{testimonial.content}</p>
+            <p>{truncateText(testimonial.txt)}</p>
+            {testimonial.txt.split(" ").length > 36 && (
+              <button
+                onClick={() => handleViewTestimonial(testimonial)}
+                className={styles.viewButton}
+              >
+                <FiEye className={styles.viewIcon} />
+                عرض الرأي كاملاً
+              </button>
+            )}
           </div>
 
           <div className={styles.testimonialMeta}>
@@ -81,50 +98,30 @@ const TestimonialsList: React.FC<TestimonialListProps> = ({
               <span className={styles.timestamp}>
                 تاريخ الإنشاء: {formatDate(testimonial.createdAt)}
               </span>
-              {testimonial.updatedAt.getTime() !==
-                testimonial.createdAt.getTime() && (
-                <span className={styles.timestamp}>
-                  آخر تحديث: {formatDate(testimonial.updatedAt)}
-                </span>
-              )}
             </div>
           </div>
 
           <div className={styles.testimonialActions}>
-            {testimonial.status === "pending" && (
+            {!testimonial.adminAccepted && (
               <>
                 <button
-                  onClick={() => onApprove(testimonial.id)}
+                  onClick={() => onApprove(testimonial._id)}
                   className={`${styles.actionButton} ${styles.approveButton}`}
                 >
                   موافقة
                 </button>
-                <button
-                  onClick={() => onReject(testimonial.id)}
-                  className={`${styles.actionButton} ${styles.rejectButton}`}
-                >
-                  رفض
-                </button>
               </>
             )}
-            {testimonial.status === "approved" && (
+            {testimonial.adminAccepted && (
               <button
-                onClick={() => onReject(testimonial.id)}
+                onClick={() => onReject(testimonial._id)}
                 className={`${styles.actionButton} ${styles.rejectButton}`}
               >
                 إلغاء الموافقة
               </button>
             )}
-            {testimonial.status === "rejected" && (
-              <button
-                onClick={() => onApprove(testimonial.id)}
-                className={`${styles.actionButton} ${styles.approveButton}`}
-              >
-                موافقة
-              </button>
-            )}
             <button
-              onClick={() => onDelete(testimonial.id)}
+              onClick={() => onDelete(testimonial._id)}
               className={`${styles.actionButton} ${styles.deleteButton}`}
             >
               حذف
@@ -132,6 +129,15 @@ const TestimonialsList: React.FC<TestimonialListProps> = ({
           </div>
         </div>
       ))}
+
+      {/* View Testimonial Modal */}
+      {selectedTestimonial && (
+        <ViewTestimonialModal
+          isOpen={isViewModalOpen}
+          onClose={handleCloseModal}
+          testimonial={selectedTestimonial}
+        />
+      )}
     </div>
   );
 };
