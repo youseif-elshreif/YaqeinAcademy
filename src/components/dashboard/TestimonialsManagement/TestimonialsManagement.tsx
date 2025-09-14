@@ -21,8 +21,6 @@ const TestimonialsManagement: React.FC = () => {
   } = useTestimonialsContext();
 
   const [testimonials, setTestimonials] = useState<any[]>([]);
-  const [pagination, setPagination] = useState<any>({});
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [initialLoading, setInitialLoading] = useState(true);
@@ -36,12 +34,10 @@ const TestimonialsManagement: React.FC = () => {
   const [dateFilter, setDateFilter] = useState("");
 
   // Load testimonials
-  const loadTestimonials = async (page = 1) => {
+  const loadTestimonials = async () => {
     try {
-      const response = await getAllTestimonials(page, 10);
+      const response = await getAllTestimonials();
       setTestimonials(response.reviews || []);
-      setPagination(response.pagination || {});
-      setCurrentPage(page);
     } catch (error) {
       console.error("Error loading testimonials:", error);
     }
@@ -51,10 +47,8 @@ const TestimonialsManagement: React.FC = () => {
     const loadInitialData = async () => {
       try {
         setInitialLoading(true);
-        const response = await getAllTestimonials(1, 10);
+        const response = await getAllTestimonials();
         setTestimonials(response.reviews || []);
-        setPagination(response.pagination || {});
-        setCurrentPage(1);
       } catch (error) {
         console.error("Error loading testimonials:", error);
       } finally {
@@ -69,7 +63,7 @@ const TestimonialsManagement: React.FC = () => {
     setActionLoading(id);
     try {
       await approveTestimonial(id);
-      await loadTestimonials(currentPage); // Refresh data
+      await loadTestimonials(); // Refresh data
     } catch (error) {
       console.error("Error approving testimonial:", error);
     } finally {
@@ -81,7 +75,7 @@ const TestimonialsManagement: React.FC = () => {
     setActionLoading(id);
     try {
       await rejectTestimonial(id);
-      await loadTestimonials(currentPage); // Refresh data
+      await loadTestimonials(); // Refresh data
     } catch (error) {
       console.error("Error rejecting testimonial:", error);
     } finally {
@@ -102,7 +96,7 @@ const TestimonialsManagement: React.FC = () => {
     setActionLoading(id);
     try {
       await deleteTestimonial(id);
-      await loadTestimonials(currentPage); // Refresh data
+      await loadTestimonials(); // Refresh data
       setIsDeleteModalOpen(false);
       setTestimonialToDelete(null);
     } catch (error) {
@@ -237,26 +231,6 @@ const TestimonialsManagement: React.FC = () => {
           )}
         </div>
       </div>
-
-      {/* Pagination */}
-      {pagination.totalPages > 1 && (
-        <div className={styles.pagination}>
-          {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(
-            (page) => (
-              <button
-                key={page}
-                onClick={() => loadTestimonials(page)}
-                className={`${styles.pageButton} ${
-                  currentPage === page ? styles.activePage : ""
-                }`}
-                disabled={isLoading}
-              >
-                {page}
-              </button>
-            )
-          )}
-        </div>
-      )}
 
       {/* Delete Confirmation Modal */}
       {testimonialToDelete && (

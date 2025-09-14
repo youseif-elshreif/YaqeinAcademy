@@ -13,8 +13,8 @@ type TestimonialsContextType = {
   isLoading: boolean;
   error: string | null;
   createTestimonial: (payload: TestimonialFormData) => Promise<any>;
-  getAllTestimonials: (page?: number, limit?: number) => Promise<any>;
-  getPublicTestimonials: (page?: number, limit?: number) => Promise<any>;
+  getAllTestimonials: () => Promise<any>;
+  getPublicTestimonials: () => Promise<any>;
   approveTestimonial: (id: string) => Promise<any>;
   rejectTestimonial: (id: string) => Promise<any>;
   deleteTestimonial: (id: string) => Promise<any>;
@@ -61,40 +61,34 @@ export const TestimonialsProvider = ({
     []
   );
 
-  const getAllTestimonials = useCallback(
-    async (page = 1, limit = 10): Promise<any> => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const data = await testimonialSvc.getAllTestimonials(page, limit);
-        return data;
-      } catch (error) {
-        setError("خطأ في جلب التوصيات");
-        throw error;
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    []
-  );
+  const getAllTestimonials = useCallback(async (): Promise<any> => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const data = await testimonialSvc.getAllTestimonials();
+      return data;
+    } catch (error) {
+      setError("خطأ في جلب التوصيات");
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
-  const getPublicTestimonials = useCallback(
-    async (page = 1, limit = 10): Promise<any> => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const data = await testimonialSvc.getPublicTestimonials(page, limit);
-        console.log("Public Testimonials Data:", data);
-        return data;
-      } catch (error) {
-        setError("خطأ في جلب آراء الطلاب");
-        throw error;
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    []
-  );
+  const getPublicTestimonials = useCallback(async (): Promise<any> => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const data = await testimonialSvc.getPublicTestimonials();
+      console.log("Public Testimonials Data:", data);
+      return data;
+    } catch (error) {
+      setError("خطأ في جلب آراء الطلاب");
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   const approveTestimonial = useCallback(async (id: string): Promise<any> => {
     try {

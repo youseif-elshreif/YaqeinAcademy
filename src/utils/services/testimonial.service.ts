@@ -4,15 +4,13 @@ import api from "@/src/utils/api";
 export const createTestimonial = (payload: any) =>
   api.post(`/api/reviews`, payload).then((r) => r.data);
 
-// Get all testimonials with pagination (for admin)
-export const getAllTestimonials = (page = 1, limit = 10) =>
-  api.get(`/api/reviews?page=${page}&limit=${limit}`).then((r) => r.data);
+// Get all testimonials (for admin)
+export const getAllTestimonials = () =>
+  api.get(`/api/reviews/all`).then((r) => r.data);
 
 // Get public approved testimonials (for main page)
-export const getPublicTestimonials = (page = 1, limit = 10) =>
-  api
-    .get(`/api/reviews/public?page=${page}&limit=${limit}`)
-    .then((r) => r.data);
+export const getPublicTestimonials = () =>
+  api.get(`/api/reviews/public`).then((r) => r.data);
 
 // Approve testimonial (for admin)
 export const approveTestimonial = (id: string) =>

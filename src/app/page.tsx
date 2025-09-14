@@ -16,6 +16,17 @@ import {
 import Button from "@/src/components/common/Button";
 import TestimonialsSwiperContainer from "@/src/components/common/TestimonialsSwiperContainer";
 
+export const metadata = {
+  title: "أكاديمية يقين - تعلم القرآن الكريم والتجويد",
+  description:
+    "أكاديمية يقين لتعليم القرآن الكريم والتجويد أونلاين. انضم إلينا لتعلم تلاوة القرآن بالطريقة الصحيحة مع معلمين مؤهلين.",
+  keywords:
+    "أكاديمية يقين, تعليم القرآن, تجويد, قرآن كريم, تعليم أونلاين, تحفيظ القرآن",
+  icons: {
+    icon: "/img/favIcon.png",
+  },
+};
+
 export default function Home() {
   return (
     <>

@@ -16,7 +16,7 @@ const TestimonialsSwiperContainer: React.FC = () => {
     const loadPublicTestimonials = async () => {
       try {
         console.log("Loading public testimonials...");
-        const response = await getPublicTestimonials(1, 10);
+        const response = await getPublicTestimonials();
         console.log("Full response:", response);
         console.log("Reviews array:", response.reviews);
         setTestimonials(response.reviews || []);
