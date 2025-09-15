@@ -95,7 +95,7 @@ const AddCreditsModal: React.FC = () => {
 
     try {
       // إضافة الحصص للطالب
-       await addCreditsToStudent(
+      await addCreditsToStudent(
         selectedStudentForCredits.fullData._id,
         formData.privateAmount
       );

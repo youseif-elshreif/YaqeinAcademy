@@ -42,7 +42,6 @@ const LoginPage = () => {
     }
   };
 
-
   const validateForm = (): boolean => {
     const newErrors: LoginFormErrors = {};
 

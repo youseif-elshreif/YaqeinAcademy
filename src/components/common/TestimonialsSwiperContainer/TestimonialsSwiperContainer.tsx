@@ -7,18 +7,21 @@ import { useTestimonialsContext } from "@/src/contexts/AppProviders";
 const TestimonialsSwiperContainer: React.FC = () => {
   const { getPublicTestimonials, isLoading, error } = useTestimonialsContext();
   const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [localError, setLocalError] = useState<string>("");
 
-  useEffect(() => {
-  }, [testimonials]);
+  useEffect(() => {}, [testimonials]);
 
   useEffect(() => {
     const loadPublicTestimonials = async () => {
       try {
-
+        setLocalError(""); // Clear previous errors
         const response = await getPublicTestimonials();
-
         setTestimonials(response.reviews || []);
-      } catch {
+      } catch (error: any) {
+        // Set local error for this component
+        const errorMessage = error?.message || "حدث خطأ في تحميل آراء الطلاب";
+        setLocalError(errorMessage);
+        console.error("Failed to load public testimonials:", error);
       }
     };
 
@@ -29,10 +32,10 @@ const TestimonialsSwiperContainer: React.FC = () => {
     return <TestimonialsSwiperSkeleton />;
   }
 
-  if (error) {
+  if (error || localError) {
     return (
       <div style={{ textAlign: "center", padding: "2rem" }}>
-        <p>حدث خطأ في تحميل آراء الطلاب</p>
+        <p>{localError || "حدث خطأ في تحميل آراء الطلاب"}</p>
       </div>
     );
   }

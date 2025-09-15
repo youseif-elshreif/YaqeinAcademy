@@ -440,7 +440,10 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
         } else {
           try {
             await getAdmins(token);
-          } catch {}
+          } catch (error) {
+            // Log error but don't fail the user creation process
+            console.warn("Failed to refresh admin list after user creation:", error);
+          }
         }
       } else if (token) {
         if (userType === "student") {

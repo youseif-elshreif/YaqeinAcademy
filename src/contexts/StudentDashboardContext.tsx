@@ -28,14 +28,17 @@ export const StudentDashboardProvider: React.FC<{
     useState<NextLessonResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const getUserLessons = useCallback(async () => {
     try {
       setIsLoading(true);
+      setError(null); // Clear previous errors
       const lessons = await getUserLessonsSvc();
       setUserLessons(lessons);
       return lessons;
     } catch (error) {
+      setError("خطأ في جلب قائمة الدروس");
       throw error;
     } finally {
       setIsLoading(false);
@@ -45,10 +48,12 @@ export const StudentDashboardProvider: React.FC<{
   const getUserStats = useCallback(async () => {
     try {
       setIsLoading(true);
+      setError(null); // Clear previous errors
       const data = await getUserStatsSvc();
       setUserStats(data);
       return data;
     } catch (error) {
+      setError("خطأ في جلب إحصائيات المستخدم");
       throw error;
     } finally {
       setIsLoading(false);
@@ -59,10 +64,12 @@ export const StudentDashboardProvider: React.FC<{
   const getNextLesson = useCallback(async () => {
     try {
       setIsLoading(true);
+      setError(null); // Clear previous errors
       const data = await getNextLessonSvc();
       setNextLessonData(data);
       return data;
     } catch (error) {
+      setError("خطأ في جلب بيانات الدرس القادم");
       throw error;
     } finally {
       setIsLoading(false);
@@ -79,6 +86,7 @@ export const StudentDashboardProvider: React.FC<{
       nextLessonData,
       isLoading,
       isInitialLoading,
+      error, // Add error to context value
     }),
     [
       getUserStats,
@@ -89,6 +97,7 @@ export const StudentDashboardProvider: React.FC<{
       nextLessonData,
       isLoading,
       isInitialLoading,
+      error, // Add error to dependencies
     ]
   );
 
@@ -97,8 +106,9 @@ export const StudentDashboardProvider: React.FC<{
     const loadInitialData = async () => {
       try {
         await Promise.all([getUserStats(), getNextLesson()]);
-      } catch (error) {
-        // تجاهل الأخطاء في التحميل الأولي
+      } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
+        // Set error state for initial loading failure
+        setError("خطأ في تحميل بيانات لوحة التحكم");
         setIsInitialLoading(false);
       }
     };

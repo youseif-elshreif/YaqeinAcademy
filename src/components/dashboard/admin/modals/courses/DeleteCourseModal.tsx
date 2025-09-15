@@ -7,6 +7,7 @@ import {
   ModalActions,
   WarningPanel,
   ConfirmTextInput,
+  ErrorDisplay,
 } from "@/src/components/common/Modal";
 import { useCoursesContext } from "@/src/contexts/CoursesContext";
 import { useAuth } from "@/src/contexts/AuthContext";
@@ -24,6 +25,7 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
   const [isClosing, setIsClosing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [confirmText, setConfirmText] = useState("");
+  const [deleteError, setDeleteError] = useState<string>("");
 
   const handleClose = () => {
     setIsClosing(true);
@@ -31,6 +33,7 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
       onClose();
       setIsClosing(false);
       setConfirmText("");
+      setDeleteError(""); // Clear error when closing
     }, 300);
   };
 
@@ -44,12 +47,18 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
     }
 
     setIsDeleting(true);
+    setDeleteError(""); // Clear previous errors
     try {
       await deleteCourse(token, courseId);
       handleClose();
     } catch (error) {
-      // TODO: إضافة error handling مناسب
-      console.error("Delete course error:", error); // TODO: استبدال بنظام التسجيل المناسب
+      // Set user-friendly error message
+      const errorObj = error as any;
+      const errorMessage =
+        errorObj?.response?.data?.message ||
+        errorObj?.message ||
+        "حدث خطأ أثناء حذف الدورة. يرجى المحاولة مرة أخرى.";
+      setDeleteError(errorMessage);
     } finally {
       setIsDeleting(false);
     }
@@ -97,6 +106,13 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
           disabled={isDeleting}
           placeholder="نعم"
         />
+
+        {/* Error Display */}
+        {deleteError && (
+          <div style={{ marginTop: "1rem" }}>
+            <ErrorDisplay message={deleteError} />
+          </div>
+        )}
 
         <ModalActions
           alignment="right"

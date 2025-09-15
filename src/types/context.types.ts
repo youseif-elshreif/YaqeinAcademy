@@ -50,4 +50,5 @@ export interface StudentDashboardContextType {
   nextLessonData: any;
   isLoading: boolean;
   isInitialLoading: boolean;
+  error: string | null;
 }

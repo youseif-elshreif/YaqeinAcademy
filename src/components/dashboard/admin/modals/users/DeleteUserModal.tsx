@@ -12,6 +12,7 @@ import {
   ModalActions,
   WarningPanel,
   ConfirmTextInput,
+  ErrorDisplay,
 } from "@/src/components/common/Modal";
 
 const DeleteUserModal: React.FC = () => {
@@ -25,6 +26,7 @@ const DeleteUserModal: React.FC = () => {
   const [confirmText, setConfirmText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [deleteError, setDeleteError] = useState<string>("");
 
   if (!deleteUserModalOpen || !selectedUserForActions) return null;
 
@@ -34,6 +36,7 @@ const DeleteUserModal: React.FC = () => {
       closeDeleteUserModal();
       setIsClosing(false);
       setConfirmText("");
+      setDeleteError(""); // Clear error when closing
     }, 300);
   };
 
@@ -43,9 +46,11 @@ const DeleteUserModal: React.FC = () => {
     }
 
     setIsDeleting(true);
+    setDeleteError(""); // Clear previous errors
 
     try {
       if (!token) {
+        setDeleteError("لا يوجد رمز مصادقة. يرجى تسجيل الدخول مرة أخرى");
         return;
       }
       if (selectedUserForActions.userType === "teacher") {
@@ -63,9 +68,15 @@ const DeleteUserModal: React.FC = () => {
 
       handleClose();
     } catch (error: unknown) {
-      // TODO: استبدال alert بنظام toast notifications مناسب
-      // alert("خطأ في حذف المستخدم");
-      console.error("Delete user error:", error);
+      // Set user-friendly error message
+      const errorObj = error as any;
+      const userType = selectedUserForActions.userType;
+      const userTypeAr = userType === "teacher" ? "المعلم" : userType === "admin" ? "المسؤول" : "الطالب";
+      const errorMessage =
+        errorObj?.response?.data?.message ||
+        errorObj?.message ||
+        `حدث خطأ أثناء حذف ${userTypeAr}. يرجى المحاولة مرة أخرى.`;
+      setDeleteError(errorMessage);
     } finally {
       setIsDeleting(false);
     }
@@ -156,6 +167,13 @@ const DeleteUserModal: React.FC = () => {
           placeholder="نعم"
           disabled={isDeleting}
         />
+
+        {/* Error Display */}
+        {deleteError && (
+          <div style={{ marginTop: "1rem" }}>
+            <ErrorDisplay message={deleteError} />
+          </div>
+        )}
 
         <ModalActions actions={actions} alignment="right" />
       </div>

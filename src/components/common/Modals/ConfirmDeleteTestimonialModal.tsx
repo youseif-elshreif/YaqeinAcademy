@@ -55,7 +55,6 @@ const ConfirmDeleteTestimonialModal: React.FC<
       setConfirmText("");
       handleClose();
     } catch {
-
     } finally {
       setIsLoading(false);
     }

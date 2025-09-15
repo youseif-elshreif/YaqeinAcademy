@@ -285,7 +285,12 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       for (const lesson of schedule) {
         await addLessonToGroup(token, groupId, lesson);
       }
-    } catch {}
+    } catch (error: any) {
+      // Log error but don't fail the group creation process
+      console.warn("Failed to create lessons for group:", error);
+      // Optionally, you could set a warning message
+      throw new Error("تم إنشاء الحلقة بنجاح ولكن فشل في إضافة بعض الدروس");
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
