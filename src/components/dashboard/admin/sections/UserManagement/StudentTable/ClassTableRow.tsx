@@ -42,6 +42,11 @@ const ClassTableRow = ({ studentitem }: StudentTableRowProps) => {
       </td>
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
+          {studentitem.money}
+        </span>
+      </td>
+      <td className={styles.groupCell}>
+        <span className={`${styles.studentName} ${styles.primaryColor}`}>
           {studentitem.PrivitelessonCredits}
         </span>
       </td>

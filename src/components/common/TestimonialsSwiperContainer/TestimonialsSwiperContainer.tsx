@@ -9,19 +9,16 @@ const TestimonialsSwiperContainer: React.FC = () => {
   const [testimonials, setTestimonials] = useState<any[]>([]);
 
   useEffect(() => {
-    console.log("Testimonials state updated:", testimonials);
   }, [testimonials]);
 
   useEffect(() => {
     const loadPublicTestimonials = async () => {
       try {
-        console.log("Loading public testimonials...");
+
         const response = await getPublicTestimonials();
-        console.log("Full response:", response);
-        console.log("Reviews array:", response.reviews);
+
         setTestimonials(response.reviews || []);
-      } catch (error) {
-        console.error("Error loading public testimonials:", error);
+      } catch {
       }
     };
 

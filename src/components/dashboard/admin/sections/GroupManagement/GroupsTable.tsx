@@ -303,8 +303,6 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                           <MeetingLinkActions
                             meetingLink={group.meetingLink}
                             styles={styles}
-                            onCopySuccess={() => alert("تم نسخ رابط الاجتماع بنجاح")}
-                            onCopyError={() => alert("خطأ في جلب التقارير")}
                           />
                         </td>
                         <td>

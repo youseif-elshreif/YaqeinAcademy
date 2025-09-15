@@ -151,8 +151,6 @@ const GroupCard = ({ group }: GroupCardProps) => {
               <MeetingLinkActions
                 meetingLink={group.meetingLink}
                 styles={styles}
-                onCopySuccess={() => alert("تم نسخ الرابط بنجاح")}
-                onCopyError={() => alert("فشل في نسخ الرابط")}
               />
             </span>
           </div>

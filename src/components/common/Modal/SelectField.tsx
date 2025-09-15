@@ -1,6 +1,6 @@
 ﻿import React from "react";
 import baseStyles from "../../../styles/BaseModal.module.css";
-import { SelectFieldProps, Option } from "@/src/types";
+import { SelectFieldProps } from "@/src/types";
 
 const SelectField: React.FC<SelectFieldProps> = ({
   label,

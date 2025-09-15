@@ -47,16 +47,12 @@ export const createAdmin = (payload: any) =>
 export const getAdmins = () =>
   api.get(`/api/admin/admins`).then((r) => r.data ?? []);
 
-export const addCreditsToStudent = (
-  studentId: string,
-  privateAmount: number,
-  publicAmount: number = 0
-) =>
+export const addCreditsToStudent = (userId: string, privateAmount: number) =>
   api
     .patch(`/api/admin/credits`, {
-      userId: studentId,
+      userId: userId,
       privateAmount,
-      publicAmount,
+      publicAmount: 0,
     })
     .then((r) => r.data);
 

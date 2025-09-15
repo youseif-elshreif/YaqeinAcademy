@@ -48,9 +48,21 @@ const ClassCard = ({ teacher }: TeacherCardProps) => {
           </div>
 
           <div className={styles.infoItem}>
+            <span className={styles.infoLabel}>ثمن الحصة:</span>
+            <span className={styles.infoValue}>{userInfo.money}</span>
+          </div>
+
+          <div className={styles.infoItem}>
             <span className={styles.infoLabel}>عدد الحصص:</span>
             <span className={styles.infoValue}>
-              {teacher.numberOflessonsCridets}
+              {-1 * teacher.numberOflessonsCridets}
+            </span>
+          </div>
+
+          <div className={styles.infoItem}>
+            <span className={styles.infoLabel}>المستحق:</span>
+            <span className={styles.infoValue}>
+              {userInfo.money * -1 * teacher.numberOflessonsCridets}
             </span>
           </div>
 
@@ -93,4 +105,3 @@ const ClassCard = ({ teacher }: TeacherCardProps) => {
 };
 
 export default ClassCard;
-

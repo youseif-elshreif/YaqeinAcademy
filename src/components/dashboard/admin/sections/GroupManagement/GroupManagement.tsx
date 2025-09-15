@@ -1,5 +1,5 @@
 ﻿import React, { useState } from "react";
-import { FiPlus, FiDownload } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 import StatCard from "@/src/components/common/UI/StatCard";
 import styles from "@/src/styles/AdminDashboard.module.css";
 import userStyles from "@/src/components/dashboard/admin/styles.module.css";
@@ -23,8 +23,6 @@ const GroupManagement: React.FC = () => {
   const handleAddGroup = () => {
     openAddGroupModal();
   };
-
-  const handleExportData = () => {};
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);

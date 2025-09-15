@@ -156,6 +156,7 @@ export interface AdminTableRowProps {
 }
 export interface StudentTableRowProps {
   studentitem: User & {
+    money?: string;
     _id?: string;
     phoneNumber?: string;
     country?: string;
@@ -376,4 +377,5 @@ export interface EditTeacherLinkModalProps {
 
 export interface CreditsFormData {
   privateAmount: number;
+  money?: number;
 }

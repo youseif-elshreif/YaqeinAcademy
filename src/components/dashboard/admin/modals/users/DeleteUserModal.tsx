@@ -46,7 +46,6 @@ const DeleteUserModal: React.FC = () => {
 
     try {
       if (!token) {
-        alert("لم يتم العثور على توقيع تسجيل الدخول");
         return;
       }
       if (selectedUserForActions.userType === "teacher") {
@@ -64,7 +63,6 @@ const DeleteUserModal: React.FC = () => {
 
       handleClose();
     } catch (error: unknown) {
-      alert("خطأ في حذف المستخدم");
     } finally {
       setIsDeleting(false);
     }

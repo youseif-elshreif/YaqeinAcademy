@@ -28,8 +28,7 @@ type StudentsContextType = {
   addCreditsToStudent: (
     token: string,
     studentId: string,
-    privateAmount: number,
-    publicAmount?: number
+    privateAmount: number
   ) => Promise<any>;
   refreshStudents: (token: string) => Promise<void>;
 };
@@ -127,21 +126,11 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
   );
 
   const addCreditsToStudent = useCallback(
-    async (
-      token: string,
-      studentId: string,
-      privateAmount: number,
-      publicAmount?: number
-    ) => {
+    async (token: string, userId: string, privateAmount: number) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.addCreditsToStudent(
-          studentId,
-          privateAmount,
-          publicAmount || 0
-        ); // Refresh students list
-        await getStudents(token);
+        const data = await adminSvc.addCreditsToStudent(userId, privateAmount); // Refresh students list
         return data;
       } catch (error) {
         setError("خطأ في إضافة حصص للطالب");
@@ -150,7 +139,7 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
         setIsLoading(false);
       }
     },
-    [getStudents]
+    [] // Removed getStudents dependency to fix eslint warning
   );
 
   const deleteMember = useCallback(

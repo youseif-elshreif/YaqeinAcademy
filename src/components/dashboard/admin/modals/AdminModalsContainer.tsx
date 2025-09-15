@@ -4,6 +4,7 @@ import { useAdminModal } from "@/src/contexts/AdminModalContext";
 import AddUserModal from "./users/AddUserModal";
 import EditUserModal from "./users/EditUserModal";
 import EditTeacherLinkModal from "./users/EditTeacherLinkModal";
+import SetTeacherPriceModal from "./SetTeacherPriceModal";
 import AddCourseModal from "./courses/AddCourseModal";
 import DeleteCourseModal from "./courses/DeleteCourseModal";
 import AddGroupModal from "./groups/AddGroupModal";
@@ -46,6 +47,7 @@ const AdminModalsContainer: React.FC = () => {
     studentListModalOpen,
     studentReportsModalOpen,
     editTeacherLinkModalOpen,
+    setTeacherPriceModalOpen,
     selectedCourseId,
     selectedLessonForStudents,
     selectedStudentForReports,
@@ -126,7 +128,6 @@ const AdminModalsContainer: React.FC = () => {
   const handleDeleteGroupWithRefresh = async (groupId: string) => {
     try {
       await handleDeleteGroup(groupId);
-
     } catch (error) {
       throw error;
     }
@@ -134,13 +135,10 @@ const AdminModalsContainer: React.FC = () => {
 
   return (
     <>
-
       {addUserModalOpen && <AddUserModal />}
       {editUserModalOpen && <EditUserModal />}
 
-
       {addCourseModalOpen && <AddCourseModal />}
-
 
       {editCourseModalOpen && (
         <AddCourseModal
@@ -148,7 +146,6 @@ const AdminModalsContainer: React.FC = () => {
           editCourseId={selectedCourseId?.toString()}
         />
       )}
-
 
       {deleteCourseModalOpen && (
         <DeleteCourseModal
@@ -159,9 +156,7 @@ const AdminModalsContainer: React.FC = () => {
         />
       )}
 
-
       {addGroupModalOpen && <AddGroupModal />}
-
 
       {editGroupModalOpen && selectedGroupForEdit && (
         <AddGroupModal
@@ -169,7 +164,6 @@ const AdminModalsContainer: React.FC = () => {
           editGroupId={selectedGroupForEdit.id}
         />
       )}
-
 
       {addMembersModalOpen && selectedGroupData && (
         <AddMembersModal
@@ -181,7 +175,6 @@ const AdminModalsContainer: React.FC = () => {
           onSuccess={() => {}}
         />
       )}
-
 
       {groupActionsModalOpen && selectedGroupActionsData && (
         <GroupActionsModal
@@ -208,7 +201,6 @@ const AdminModalsContainer: React.FC = () => {
         />
       )}
 
-
       {confirmDeleteGroupModalOpen && selectedGroupForDeletion && (
         <ConfirmDeleteGroupModal
           isOpen={confirmDeleteGroupModalOpen}
@@ -218,7 +210,6 @@ const AdminModalsContainer: React.FC = () => {
           onConfirmDelete={handleDeleteGroupWithRefresh}
         />
       )}
-
 
       {removeMemberModalOpen && selectedGroupForMemberRemoval && (
         <RemoveMemberModal
@@ -230,7 +221,6 @@ const AdminModalsContainer: React.FC = () => {
         />
       )}
 
-
       {lessonsModalOpen && selectedGroupForLessons && (
         <LessonsModal
           groupId={selectedGroupForLessons.groupId}
@@ -238,24 +228,17 @@ const AdminModalsContainer: React.FC = () => {
         />
       )}
 
-
       {addLessonModalOpen && <AddLessonModal />}
-
 
       {editLessonModalOpen && <EditLessonModal />}
 
-
       {deleteLessonModalOpen && <DeleteLessonModal />}
-
 
       {userActionsModalOpen && <UserActionsModal />}
 
-
       {deleteUserModalOpen && <DeleteUserModal />}
 
-
       {addCreditsModalOpen && <AddCreditsModal />}
-
 
       {studentListModalOpen && selectedLessonForStudents && (
         <StudentListModal
@@ -274,8 +257,9 @@ const AdminModalsContainer: React.FC = () => {
         />
       )}
 
-
       {editTeacherLinkModalOpen && <EditTeacherLinkModal />}
+
+      {setTeacherPriceModalOpen && <SetTeacherPriceModal />}
     </>
   );
 };

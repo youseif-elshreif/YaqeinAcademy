@@ -1,6 +1,7 @@
 ﻿import { BaseUser } from "./base.types";
 export interface Teacher {
   numberOflessonsCridets: number;
+  money?: number;
   _id: string;
   userId: string | null | UserTeacher;
   specialization: string[];
@@ -11,6 +12,7 @@ export interface Teacher {
   __v: number;
 }
 export interface UserTeacher extends BaseUser {
+  money?: number;
   country: string;
   city: string;
   role: string;

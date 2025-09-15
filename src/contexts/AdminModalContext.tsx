@@ -29,7 +29,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     updateMember,
   } = useStudentsContext();
   const { createAdmin, getAdmins } = useAdminStatsContext();
-  const { deleteGroup, getGroups } = useGroupsContext();
+  const { getGroups } = useGroupsContext();
 
   const { token } = useAuth();
 
@@ -56,6 +56,8 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   const [studentListModalOpen, setStudentListModalOpen] = useState(false);
   const [studentReportsModalOpen, setStudentReportsModalOpen] = useState(false);
   const [editTeacherLinkModalOpen, setEditTeacherLinkModalOpen] =
+    useState(false);
+  const [setTeacherPriceModalOpen, setSetTeacherPriceModalOpen] =
     useState(false);
 
   const [selectedUserType, setSelectedUserType] = useState<UserType | null>(
@@ -111,9 +113,12 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   const [selectedUserData, setSelectedUserData] = useState<any>(null);
   const [selectedTeacherForLink, setSelectedTeacherForLink] =
     useState<any>(null);
+  const [selectedTeacherForPrice, setSelectedTeacherForPrice] =
+    useState<any>(null);
   const [selectedStudentForCredits, setSelectedStudentForCredits] = useState<{
     userId: string;
     name: string;
+    fullData?: any;
   } | null>(null);
   const [selectedLessonForStudents, setSelectedLessonForStudents] = useState<
     any | null
@@ -314,6 +319,16 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     setSelectedTeacherForLink(null);
   };
 
+  const openSetTeacherPriceModal = (teacherData: any) => {
+    setSelectedTeacherForPrice(teacherData);
+    setSetTeacherPriceModalOpen(true);
+  };
+
+  const closeSetTeacherPriceModal = () => {
+    setSetTeacherPriceModalOpen(false);
+    setSelectedTeacherForPrice(null);
+  };
+
   const openDeleteUserModal = (userData: {
     id: string;
     name: string;
@@ -326,6 +341,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   const openAddCreditsModal = (studentData: {
     userId: string;
     name: string;
+    fullData?: any;
   }) => {
     setSelectedStudentForCredits(studentData);
     setAddCreditsModalOpen(true);
@@ -424,7 +440,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
         } else {
           try {
             await getAdmins(token);
-          } catch (e) {}
+          } catch {}
         }
       } else if (token) {
         if (userType === "student") {
@@ -445,12 +461,35 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
             name: userData.name,
           });
         }, 500);
+      } else if (userType === "teacher" && result) {
+        const teacherId = result.teacher?._id || result._id;
+        const userId = result.user?._id || result.user?.id;
+        if (teacherId && userId) {
+          setTimeout(() => {
+            openSetTeacherPriceModal({
+              _id: teacherId,
+              userId: userId,
+              name: userData.name,
+              phone: userData.phone,
+              email: userData.email,
+              fullData: {
+                userId: {
+                  _id: userId,
+                  name: userData.name,
+                  phone: userData.phone,
+                  email: userData.email,
+                  money: 0,
+                },
+              },
+            });
+          }, 500);
+        } else {
+          closeAddUserModal();
+        }
       } else {
-
         closeAddUserModal();
       }
     } catch (error) {
-
       throw error;
     }
   };
@@ -469,12 +508,10 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
 
       switch (userType) {
         case "admin":
-
           result = await updateMember(token, userId, userData);
           break;
 
         case "teacher":
-
           result = await updateMember(token, userId, userData);
           break;
 
@@ -521,12 +558,11 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     }
   };
 
-  const handleDeleteGroup = async (groupId: string) => {
+  const handleDeleteGroup = async () => {
     try {
       if (!token) {
         throw new Error("No authentication token available");
       }
-      const result = await deleteGroup(token, groupId); // Close modal after successful deletion
       closeConfirmDeleteGroupModal();
       closeGroupActionsModal();
 
@@ -536,24 +572,16 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     }
   };
 
-  const addCreditsToStudent = async (
-    studentId: string,
-    privateAmount: number,
-    publicAmount: number = 0
-  ) => {
+  const addCreditsToStudent = async (userId: string, privateAmount: number) => {
     try {
       if (!token) {
         throw new Error("No authentication token available");
-      } // Use the API from AdminDashboardContext
-      const result = await addCreditsAPI(
-        token,
-        studentId,
-        privateAmount,
-        publicAmount
-      );
+      }
 
-      getStudents(token);
+      // إضافة الحصص للطالب
+      const result = await addCreditsAPI(token, userId, privateAmount);
 
+      await getStudents(token);
       closeAddCreditsModal();
 
       return result;
@@ -562,9 +590,8 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     }
   };
 
-  const saveNewGroup = async (groupData: any) => {
+  const saveNewGroup = async () => {
     try {
-
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Close modal after successful submission
       closeAddGroupModal();
     } catch (error) {
@@ -573,7 +600,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   };
 
   const value: AdminModalContextType = {
-
     addUserModalOpen,
     addCourseModalOpen,
     editCourseModalOpen,
@@ -595,6 +621,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     studentListModalOpen,
     studentReportsModalOpen,
     editTeacherLinkModalOpen,
+    setTeacherPriceModalOpen,
 
     selectedUserType,
     selectedCourseId,
@@ -611,6 +638,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     selectedLessonForStudents,
     selectedStudentForReports,
     selectedTeacherForLink,
+    selectedTeacherForPrice,
 
     openAddUserModal,
     openAddCourseModal,
@@ -664,6 +692,8 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     addCreditsToStudent,
     openEditTeacherLinkModal,
     closeEditTeacherLinkModal,
+    openSetTeacherPriceModal,
+    closeSetTeacherPriceModal,
   };
 
   return (

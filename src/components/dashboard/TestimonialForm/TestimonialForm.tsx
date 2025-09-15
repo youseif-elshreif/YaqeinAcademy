@@ -53,8 +53,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({
       // Reset form on success
       setFormData({ name: "", rating: 5, txt: "", hide: false });
       setErrors({});
-    } catch (error) {
-      console.error("Error submitting testimonial:", error);
+    } catch {
     }
   };
 

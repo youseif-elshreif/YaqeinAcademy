@@ -38,8 +38,7 @@ const TestimonialsManagement: React.FC = () => {
     try {
       const response = await getAllTestimonials();
       setTestimonials(response.reviews || []);
-    } catch (error) {
-      console.error("Error loading testimonials:", error);
+    } catch  {
     }
   };
 
@@ -49,8 +48,7 @@ const TestimonialsManagement: React.FC = () => {
         setInitialLoading(true);
         const response = await getAllTestimonials();
         setTestimonials(response.reviews || []);
-      } catch (error) {
-        console.error("Error loading testimonials:", error);
+      } catch {
       } finally {
         setInitialLoading(false);
       }
@@ -64,8 +62,6 @@ const TestimonialsManagement: React.FC = () => {
     try {
       await approveTestimonial(id);
       await loadTestimonials(); // Refresh data
-    } catch (error) {
-      console.error("Error approving testimonial:", error);
     } finally {
       setActionLoading(null);
     }
@@ -76,8 +72,7 @@ const TestimonialsManagement: React.FC = () => {
     try {
       await rejectTestimonial(id);
       await loadTestimonials(); // Refresh data
-    } catch (error) {
-      console.error("Error rejecting testimonial:", error);
+    } catch {
     } finally {
       setActionLoading(null);
     }
@@ -99,9 +94,7 @@ const TestimonialsManagement: React.FC = () => {
       await loadTestimonials(); // Refresh data
       setIsDeleteModalOpen(false);
       setTestimonialToDelete(null);
-    } catch (error) {
-      console.error("Error deleting testimonial:", error);
-    } finally {
+    }finally {
       setActionLoading(null);
     }
   };

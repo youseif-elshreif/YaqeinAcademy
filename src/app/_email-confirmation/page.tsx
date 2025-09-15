@@ -1,7 +1,8 @@
 ﻿import React from "react";
 import Link from "next/link";
 import styles from "@/src/styles/EmailConfirmationPage.module.css";
-import { withGuestProtection } from "@/src/components/auth";
+// TODO: إزالة unused imports
+// import { withGuestProtection } from "@/src/components/auth";
 import { FaEnvelope } from "react-icons/fa6";
 import { MdVerifiedUser } from "react-icons/md";
 import Button from "@/src/components/common/Button";

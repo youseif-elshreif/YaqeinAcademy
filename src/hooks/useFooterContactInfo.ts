@@ -15,8 +15,7 @@ export const useFooterContactInfo = () => {
         setError(null);
         const data = await getPublicContactInfo();
         setContactInfo(data);
-      } catch (error) {
-        console.error("Error loading footer contact info:", error);
+      } catch {
         setError("خطأ في تحميل معلومات التواصل");
       } finally {
         setIsLoading(false);

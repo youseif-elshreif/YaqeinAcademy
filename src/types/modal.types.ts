@@ -61,6 +61,7 @@ export interface AdminModalContextType {
   studentListModalOpen: boolean;
   studentReportsModalOpen: boolean;
   editTeacherLinkModalOpen: boolean;
+  setTeacherPriceModalOpen: boolean;
   selectedUserType: UserType | null;
   selectedCourseId: string | null;
   selectedGroupData: {
@@ -80,11 +81,8 @@ export interface AdminModalContextType {
   selectedLessonForStudents: any;
   selectedStudentForReports: any;
   selectedTeacherForLink: any;
-  addCreditsToStudent: (
-    studentId: string,
-    privateAmount: number,
-    publicAmount?: number
-  ) => Promise<any>;
+  selectedTeacherForPrice: any;
+  addCreditsToStudent: (userId: string, privateAmount: number) => Promise<any>;
   openAddUserModal: (userType: UserType) => void;
   closeAddUserModal: () => void;
   openEditUserModal: (userData: any) => void;
@@ -95,10 +93,13 @@ export interface AdminModalContextType {
   closeDeleteUserModal: () => void;
   openEditTeacherLinkModal: (teacherData: any) => void;
   closeEditTeacherLinkModal: () => void;
+  openSetTeacherPriceModal: (teacherData: any) => void;
+  closeSetTeacherPriceModal: () => void;
   openAddCreditsModal: (studentData: {
     id?: string;
     userId?: string;
     name: string;
+    fullData?: any;
   }) => void;
   closeAddCreditsModal: () => void;
   openAddCourseModal: () => void;
