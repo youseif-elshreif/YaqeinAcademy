@@ -102,7 +102,7 @@ const TestimonialsManagement: React.FC = () => {
       await loadTestimonials(); // Refresh data
       setIsDeleteModalOpen(false);
       setTestimonialToDelete(null);
-    }finally {
+    } finally {
       setActionLoading(null);
     }
   };

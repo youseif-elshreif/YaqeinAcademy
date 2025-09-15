@@ -106,7 +106,8 @@ export const StudentDashboardProvider: React.FC<{
     const loadInitialData = async () => {
       try {
         await Promise.all([getUserStats(), getNextLesson()]);
-      } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
+      } catch (error) {
+        // eslint-disable-line @typescript-eslint/no-unused-vars
         // Set error state for initial loading failure
         setError("خطأ في تحميل بيانات لوحة التحكم");
         setIsInitialLoading(false);

@@ -71,7 +71,12 @@ const DeleteUserModal: React.FC = () => {
       // Set user-friendly error message
       const errorObj = error as any;
       const userType = selectedUserForActions.userType;
-      const userTypeAr = userType === "teacher" ? "المعلم" : userType === "admin" ? "المسؤول" : "الطالب";
+      const userTypeAr =
+        userType === "teacher"
+          ? "المعلم"
+          : userType === "admin"
+          ? "المسؤول"
+          : "الطالب";
       const errorMessage =
         errorObj?.response?.data?.message ||
         errorObj?.message ||

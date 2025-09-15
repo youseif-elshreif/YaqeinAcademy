@@ -280,14 +280,14 @@ function StudentDashboard() {
 
           {/* Tab Content */}
           <div className={styles.tabContent}>{renderTabContent()}</div>
-          
+
           {/* Error Display for Testimonial */}
           {testimonialError && (
             <div style={{ margin: "1rem 0" }}>
               <ErrorDisplay message={testimonialError} />
             </div>
           )}
-          
+
           <StudentMyReportsModal
             isOpen={myReportsOpen}
             onClose={() => setMyReportsOpen(false)}
