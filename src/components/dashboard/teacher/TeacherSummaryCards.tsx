@@ -1,15 +1,9 @@
 ﻿import StatCard from "@/src/components/common/UI/StatCard";
 import styles from "./TeacherSummaryCards.module.css";
-import {
-  FaBook,
-  FaCheck,
-  FaHourglassHalf,
-  FaTimes,
-  FaCoins,
-} from "react-icons/fa";
+import { FaBook, FaCheck, FaHourglassHalf, FaCoins } from "react-icons/fa";
 import { TeacherSummaryCardsProps } from "@/src/types";
 
-const TeacherSummaryCards = ({ classes }: TeacherSummaryCardsProps) => {
+const TeacherSummaryCards = ({ classes, money }: TeacherSummaryCardsProps) => {
   const summaryCards = [
     {
       id: 1,
@@ -33,18 +27,20 @@ const TeacherSummaryCards = ({ classes }: TeacherSummaryCardsProps) => {
       color: "warning",
     },
     {
-      id: 5,
-      title: "الحلقات الملغية",
-      value: classes.filter((cls) => cls.status === "cancelled").length,
-      icon: FaTimes,
-      color: "danger",
-    },
-    {
       id: 4,
       title: "سعر الحلقة",
-      value: `500 جنية`,
+      value: `${money} ج.م`,
       icon: FaCoins,
       color: "info",
+    },
+    {
+      id: 5,
+      title: "إجمالي الأرباح",
+      value: `${
+        classes.filter((cls) => cls.status === "completed").length * money
+      } ج.م`,
+      icon: FaCoins,
+      color: "success",
     },
   ];
 

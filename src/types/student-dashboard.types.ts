@@ -1,4 +1,5 @@
 ﻿export interface User {
+  money?: number;
   id: string;
   email: string;
   name: string;

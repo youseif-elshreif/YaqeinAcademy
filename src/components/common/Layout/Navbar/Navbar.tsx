@@ -8,7 +8,7 @@ import { FaTimes } from "react-icons/fa";
 import { useAuth } from "@/src/contexts/AuthContext";
 
 const Navbar = () => {
-  const { logout, user, isAuthenticated, isLoading } = useAuth(); // ✅ إضافة isLoading
+  const { logout, user, isAuthenticated, isLoading } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();

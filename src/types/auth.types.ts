@@ -6,6 +6,7 @@ export interface User extends BaseUser {
   numOfPartsofQuran?: number;
   isVerified?: boolean;
   avatar?: string;
+  money?: number;
 }
 export interface RegisterData extends BaseFormData {
   name: string;

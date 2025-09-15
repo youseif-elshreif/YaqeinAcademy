@@ -1,5 +1,4 @@
 ﻿import React from "react";
-import { IconType } from "react-icons";
 import styles from "./StatCard.module.css";
 import { StatCardProps } from "@/src/types";
 

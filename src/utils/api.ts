@@ -70,7 +70,7 @@ api.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
-      originalRequest.url !== "/api/auth/refresh-token" // ✅ تحديث المسار
+      originalRequest.url !== "/api/auth/refresh-token"
     ) {
       if (isRefreshing) {
         try {
@@ -89,14 +89,12 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        // ✅ استخدام axios instance بدلاً من axios منفصل
         const { data } = await api.post<RefreshTokenResponse>(
           `/api/auth/refresh-token`,
           {},
           {
             withCredentials: true,
             headers: {
-              // ✅ إزالة Authorization header للـ refresh request
               Authorization: undefined,
             },
           }
@@ -116,10 +114,8 @@ api.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError as AxiosError);
 
-        // ✅ تنظيف شامل للحالة
         localStorage.removeItem("accessToken");
 
-        // ✅ إعادة توجيه لصفحة تسجيل الدخول إذا كنا في البراوزر
         if (typeof window !== "undefined") {
           window.location.href = "/login";
         }

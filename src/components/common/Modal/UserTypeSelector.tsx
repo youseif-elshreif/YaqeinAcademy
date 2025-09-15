@@ -4,7 +4,7 @@ import {
   FaChalkboardTeacher,
   FaGraduationCap,
 } from "react-icons/fa";
-import { UserType, UserTypeSelectorProps, UserTypeOption } from "@/src/types";
+import { UserTypeSelectorProps, UserTypeOption } from "@/src/types";
 import baseStyles from "../../../styles/BaseModal.module.css";
 import { ActionButton } from ".";
 

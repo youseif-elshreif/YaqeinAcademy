@@ -61,22 +61,22 @@ export interface LessonsModalProps {
 export interface UILesson {
   id: string;
   day: string;
-  time: string; // HH:mm 24h
-  date: string; // ISO string
+  time: string;
+  date: string;
   meetingLink?: string;
   status?: string;
 }
 export interface UILessonCard {
   id: string;
   day: string;
-  time: string; // HH:mm 24h
-  date: string; // ISO string
+  time: string;
+  date: string;
   meetingLink?: string;
   status?: string;
 }
 export interface LessonCardProps {
   lesson: UILessonCard;
-  showActions?: boolean; // default true
+  showActions?: boolean;
   onEdit?: (l: UILessonCard) => void;
   onDelete?: (l: UILessonCard) => void;
 }
@@ -156,7 +156,7 @@ export interface AdminTableRowProps {
 }
 export interface StudentTableRowProps {
   studentitem: User & {
-    money?: string;
+    money?: number;
     _id?: string;
     phoneNumber?: string;
     country?: string;
@@ -305,23 +305,23 @@ export interface UserFormData {
   name: string;
   email: string;
   phone: string;
-  phoneNumber?: string; // Alternative field name for phone
+  phoneNumber?: string; 
   password?: string;
-  role?: "student" | "teacher" | "admin"; // Made optional
-  userType?: string; // Current user type for editing
+  role?: "student" | "teacher" | "admin"; 
+  userType?: string;
   country?: string;
   city?: string;
   age?: number | null;
   quranMemorized?: string;
   numOfPartsofQuran?: number;
-  meetingLink?: string; // For teacher users
-  hasQuranMemorization?: boolean; // For student users
-  subject?: string; // For courses or subjects
-  quranLevel?: string; // For student Quran level
-  bio?: string; // User biography
-  address?: string; // User address
-  privateCredits?: number; // Private credits for user
-  publicCredits?: number; // Public credits for user
+  meetingLink?: string;
+  hasQuranMemorization?: boolean;
+  subject?: string;
+  quranLevel?: string;
+  bio?: string;
+  address?: string;
+  privateCredits?: number;
+  publicCredits?: number; 
 }
 export interface UserFormErrors {
   name?: string;

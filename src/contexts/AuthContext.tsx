@@ -101,7 +101,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           isVerified: userData.isVerified,
           createdAt: userData.createdAt,
           avatar: userData.avatar || "/avatar.png",
+          money: userData.money || 0,
         };
+        console.log("userData", userData);
         dispatch({
           type: "LOGIN_SUCCESS",
           payload: { user, token },
@@ -183,7 +185,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => {
       isMounted = false;
     };
-  }, []); // ✅ بدون dependencies
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const login = useCallback(
     async (credentials: LoginCredentials) => {
       dispatch({ type: "LOGIN_START" });
