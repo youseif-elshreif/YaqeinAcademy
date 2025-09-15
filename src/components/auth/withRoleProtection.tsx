@@ -44,7 +44,7 @@ function withRoleProtection<P extends object>(
           setShowLoader(false);
         }
       }
-    }, [isLoading, isAuthenticated, user, router, startTime]);
+    }, [isLoading, isAuthenticated, user, router, startTime, allowedRoles, redirectTo]);
 
     if (showLoader) {
       return <LoadingSpinner />;

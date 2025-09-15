@@ -63,6 +63,9 @@ const DeleteUserModal: React.FC = () => {
 
       handleClose();
     } catch (error: unknown) {
+      // TODO: استبدال alert بنظام toast notifications مناسب
+      // alert("خطأ في حذف المستخدم");
+      console.error("Delete user error:", error);
     } finally {
       setIsDeleting(false);
     }

@@ -48,6 +48,8 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
       await deleteCourse(token, courseId);
       handleClose();
     } catch (error) {
+      // TODO: إضافة error handling مناسب
+      console.error("Delete course error:", error); // TODO: استبدال بنظام التسجيل المناسب
     } finally {
       setIsDeleting(false);
     }

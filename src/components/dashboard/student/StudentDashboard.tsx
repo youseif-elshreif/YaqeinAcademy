@@ -77,7 +77,10 @@ function StudentDashboard() {
     try {
       await createTestimonial(formData);
       setAddTestimonialOpen(false);
-    } catch (error) {}
+    } catch (error) {
+      // TODO: إضافة error handling مناسب
+      console.error('Create testimonial error:', error); // TODO: استبدال بنظام التسجيل المناسب
+    }
   };
 
   const tabs = [
