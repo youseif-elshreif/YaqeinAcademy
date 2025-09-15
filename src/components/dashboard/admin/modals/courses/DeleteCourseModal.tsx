@@ -51,14 +51,8 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
     try {
       await deleteCourse(token, courseId);
       handleClose();
-    } catch (error) {
-      // Set user-friendly error message
-      const errorObj = error as any;
-      const errorMessage =
-        errorObj?.response?.data?.message ||
-        errorObj?.message ||
-        "حدث خطأ أثناء حذف الدورة. يرجى المحاولة مرة أخرى.";
-      setDeleteError(errorMessage);
+    } catch {
+      setDeleteError("حدث خطأ أثناء حذف الدورة. يرجى المحاولة مرة أخرى.");
     } finally {
       setIsDeleting(false);
     }

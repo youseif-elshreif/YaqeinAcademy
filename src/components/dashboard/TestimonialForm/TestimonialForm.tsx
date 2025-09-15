@@ -56,13 +56,12 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({
       // Reset form on success
       setFormData({ name: "", rating: 5, txt: "", hide: false });
       setErrors({});
-    } catch (error: any) {
-      // Set user-friendly error message
-      const errorMessage =
-        error?.response?.data?.message ||
-        error?.message ||
-        "حدث خطأ أثناء إرسال رأيك. يرجى المحاولة مرة أخرى.";
-      setSubmitError(errorMessage);
+    } catch (error) {
+      {
+        // Set user-friendly error message
+        setSubmitError("حدث خطأ أثناء إرسال رأيك. يرجى المحاولة مرة أخرى.");
+        throw error;
+      }
     }
   };
 
@@ -80,7 +79,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({
   return (
     <form onSubmit={handleSubmit} className={styles.testimonialForm}>
       <ErrorDisplay message={submitError} />
-      
+
       {/* Checkbox للإخفاء */}
       <div className={styles.formGroup}>
         <div className={styles.checkboxGroup}>

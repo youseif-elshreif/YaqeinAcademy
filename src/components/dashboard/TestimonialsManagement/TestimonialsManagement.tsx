@@ -41,10 +41,9 @@ const TestimonialsManagement: React.FC = () => {
       setLoadError(""); // Clear previous errors
       const response = await getAllTestimonials();
       setTestimonials(response.reviews || []);
-    } catch (error: any) {
-      const errorMessage = error?.message || "حدث خطأ في تحميل آراء الطلاب";
-      setLoadError(errorMessage);
-      console.error("Failed to load testimonials:", error);
+    } catch (error) {
+      setLoadError("حدث خطأ في تحميل آراء الطلاب");
+      throw error;
     }
   };
 
@@ -55,10 +54,9 @@ const TestimonialsManagement: React.FC = () => {
         setLoadError(""); // Clear previous errors
         const response = await getAllTestimonials();
         setTestimonials(response.reviews || []);
-      } catch (error: any) {
-        const errorMessage = error?.message || "حدث خطأ في تحميل آراء الطلاب";
-        setLoadError(errorMessage);
-        console.error("Failed to load testimonials:", error);
+      } catch (error) {
+        setLoadError("حدث خطأ في تحميل آراء الطلاب");
+        throw error;
       } finally {
         setInitialLoading(false);
       }

@@ -182,13 +182,8 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
       setFieldErrors({});
       setServerError("");
       handleClose();
-    } catch (error: unknown) {
-      const errorObj = error as any;
-      const errorMessage =
-        errorObj?.response?.data?.message ||
-        errorObj?.message ||
-        "حدث خطأ أثناء حفظ الدورة";
-      setServerError(errorMessage);
+    } catch {
+      setServerError("حدث خطأ أثناء حفظ الدورة");
     } finally {
       setIsSubmitting(false);
     }

@@ -27,13 +27,9 @@ const AddTestimonialModal: React.FC<AddTestimonialModalProps> = ({
     try {
       await onSubmit(data);
       handleClose(); // Close modal on success
-    } catch (error: any) {
+    } catch {
       // Set user-friendly error message
-      const errorMessage =
-        error?.response?.data?.message ||
-        error?.message ||
-        "حدث خطأ أثناء إرسال رأيك. يرجى المحاولة مرة أخرى.";
-      setSubmitError(errorMessage);
+      setSubmitError("حدث خطأ أثناء إرسال رأيك. يرجى المحاولة مرة أخرى.");
     } finally {
       setIsSubmitting(false);
     }

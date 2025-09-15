@@ -1,4 +1,5 @@
 ﻿"use client";
+// REMOVED LOGS BY cleanup (safe) — original lines commented for review
 import React, { createContext, useContext, useState } from "react";
 import {
   UserFormData,
@@ -441,8 +442,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
           try {
             await getAdmins(token);
           } catch (error) {
-            // Log error but don't fail the user creation process
-            console.warn("Failed to refresh admin list after user creation:", error);
+            throw error;
           }
         }
       } else if (token) {

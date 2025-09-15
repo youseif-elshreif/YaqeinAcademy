@@ -62,8 +62,8 @@ export default function AdminContactPage() {
       setPhoneInput(contactData.phone.join(", "));
       setWhatsappInput(contactData.whatsappNumber.join(", "));
       return contactData;
-    } catch (err: any) {
-      throw new Error(err?.message || "خطأ في تحميل بيانات التواصل");
+    } catch {
+      throw new Error("خطأ في تحميل بيانات التواصل");
     }
   }, [token, getContactInfo]);
 
@@ -100,8 +100,8 @@ export default function AdminContactPage() {
         setIsLoading(true);
         setErrorMessage(null);
         await fetchContactData();
-      } catch (err: any) {
-        setErrorMessage(err?.message || "خطأ في تحميل بيانات التواصل");
+      } catch {
+        setErrorMessage("خطأ في تحميل بيانات التواصل");
       } finally {
         setIsLoading(false);
       }
@@ -135,8 +135,8 @@ export default function AdminContactPage() {
       }
 
       setEditMode(false);
-    } catch (err: any) {
-      setErrorMessage(err?.message || "خطأ في تحديث بيانات التواصل");
+    } catch {
+      setErrorMessage("خطأ في تحديث بيانات التواصل");
     } finally {
       setIsSubmitting(false);
     }
