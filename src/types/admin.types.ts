@@ -305,9 +305,9 @@ export interface UserFormData {
   name: string;
   email: string;
   phone: string;
-  phoneNumber?: string; 
+  phoneNumber?: string;
   password?: string;
-  role?: "student" | "teacher" | "admin"; 
+  role?: "student" | "teacher" | "admin";
   userType?: string;
   country?: string;
   city?: string;
@@ -321,7 +321,7 @@ export interface UserFormData {
   bio?: string;
   address?: string;
   privateCredits?: number;
-  publicCredits?: number; 
+  publicCredits?: number;
 }
 export interface UserFormErrors {
   name?: string;

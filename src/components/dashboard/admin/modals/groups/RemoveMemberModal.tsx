@@ -47,6 +47,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
       }
     } catch (error: unknown) {
       setError("خطأ في تحميل قائمة أعضاء الحلقة");
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -75,8 +76,8 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
       return;
     }
 
-    if (confirmText.trim().toLowerCase() !== "نعم") {
-      setError("يجب كتابة 'نعم' للتأكيد");
+    if (confirmText.trim().toLowerCase() !== "حذف") {
+      setError("يجب كتابة 'حذف' للتأكيد");
       return;
     }
 
@@ -133,7 +134,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
 
   const isDeleteEnabled =
     selectedMemberIds.length > 0 &&
-    confirmText.trim().toLowerCase() === "نعم" &&
+    confirmText.trim().toLowerCase() === "حذف" &&
     !removing;
 
   return (
@@ -250,12 +251,12 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
           <ConfirmTextInput
             label={
               <>
-                اكتب كلمة &quot;<strong>نعم</strong>&quot; في الصندوق للتأكيد:
+                اكتب كلمة &quot;<strong>حذف</strong>&quot; في الصندوق للتأكيد:
               </>
             }
             value={confirmText}
             onChange={setConfirmText}
-            placeholder="نعم"
+            placeholder="حذف"
             disabled={removing}
           />
         )}

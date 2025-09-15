@@ -1,8 +1,8 @@
 ﻿"use client";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { ModalContainer, ModalHeader } from "@/src/components/common/Modal";
-import LessonCard from "@/src/components/dashboard/admin/modals/lessons/components/LessonCard";
-import { UILessonCard } from "@/src/types/admin.types";
+import { useGroupsContext } from "@/src/contexts/GroupsContext";
+import { useAuth } from "@/src/contexts/AuthContext";
 import styles from "./StudentListModal.module.css";
 import { StudentListModalProps } from "@/src/types";
 
@@ -12,12 +12,37 @@ const StudentListModal: React.FC<StudentListModalProps> = ({
   lesson,
   onOpenStudentReports,
 }) => {
+  const { getGroupById } = useGroupsContext();
+  const { token } = useAuth();
   const [isClosing, setIsClosing] = useState(false);
-  const members = useMemo(
-    () =>
-      Array.isArray(lesson?.groupId?.members) ? lesson.groupId.members : [],
-    [lesson]
-  );
+  const [groupData, setGroupData] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+
+  // جلب بيانات الجروب الحقيقية
+  useEffect(() => {
+    const fetchGroupData = async () => {
+      if (!isOpen || !lesson?.groupId?._id || !token) return;
+
+      try {
+        setLoading(true);
+        const data = await getGroupById(token, lesson.groupId._id);
+        setGroupData(data);
+      } catch (error) {
+        console.error("Error fetching group data:", error);
+        // في حالة الخطأ، استخدم البيانات الموجودة
+        setGroupData(lesson.groupId);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGroupData();
+  }, [isOpen, lesson?.groupId?._id, lesson?.groupId, token, getGroupById]);
+
+  const members = useMemo(() => {
+    const data = groupData?.group || lesson?.groupId;
+    return Array.isArray(data?.members) ? data.members : [];
+  }, [groupData, lesson]);
 
   const handleClose = () => {
     setIsClosing(true);
@@ -35,33 +60,16 @@ const StudentListModal: React.FC<StudentListModalProps> = ({
       onClose={handleClose}
     >
       <ModalHeader
-        title={`طلاب الحلقة: ${lesson?.groupId?.name || "-"}`}
+        title={`طلاب الحلقة: ${
+          groupData?.group?.name || lesson?.groupId?.name || "-"
+        }`}
         onClose={handleClose}
         variant="default"
       />
       <div className={styles.modalBody}>
-
-        <LessonCard
-          showActions={false}
-          lesson={
-            {
-              id: lesson?._id,
-              day: new Date(lesson?.scheduledAt).toLocaleDateString("ar-EG", {
-                weekday: "long",
-              }),
-              time: `${String(
-                new Date(lesson?.scheduledAt).getHours()
-              ).padStart(2, "0")}:${String(
-                new Date(lesson?.scheduledAt).getMinutes()
-              ).padStart(2, "0")}`,
-              date: new Date(lesson?.scheduledAt).toISOString(),
-              meetingLink: lesson?.meetingLink || lesson?.groupId?.meetingLink,
-              status: lesson?.status,
-            } as UILessonCard
-          }
-        />
-
-        {members.length === 0 ? (
+        {loading ? (
+          <div className={styles.loading}>جاري تحميل بيانات الطلاب...</div>
+        ) : members.length === 0 ? (
           <div className={styles.empty}>لا يوجد طلاب</div>
         ) : (
           <ul className={styles.studentList}>
@@ -71,14 +79,14 @@ const StudentListModal: React.FC<StudentListModalProps> = ({
                 className={styles.studentItem}
                 style={{ marginTop: "0.5rem" }}
               >
-                <div className={styles.studentName}>{m?._id || m}</div>
+                <div className={styles.studentName}>{m?.name || m}</div>
                 <button
                   className={styles.viewBtn}
                   onClick={() => {
                     if (onOpenStudentReports) {
                       onOpenStudentReports({
                         id: m?._id || m?.id || "",
-                        name: " m?.name",
+                        name: m?.name || "طالب غير محدد",
                       });
                     }
                   }}

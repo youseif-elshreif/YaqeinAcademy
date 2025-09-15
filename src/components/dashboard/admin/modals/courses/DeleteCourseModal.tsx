@@ -38,7 +38,7 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
   };
 
   const handleDelete = async () => {
-    if (confirmText.trim().toLowerCase() !== "نعم") {
+    if (confirmText.trim().toLowerCase() !== "حذف") {
       return;
     }
 
@@ -60,7 +60,7 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
 
   if (!isOpen) return null;
   const isDeleteEnabled =
-    confirmText.trim().toLowerCase() === "نعم" && !isDeleting;
+    confirmText.trim().toLowerCase() === "حذف" && !isDeleting;
 
   return (
     <ModalContainer
@@ -92,13 +92,13 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
         <ConfirmTextInput
           label={
             <>
-              اكتب كلمة <strong>نعم</strong> في الصندوق للتأكيد:
+              اكتب كلمة <strong>حذف</strong> في الصندوق للتأكيد:
             </>
           }
           value={confirmText}
           onChange={setConfirmText}
           disabled={isDeleting}
-          placeholder="نعم"
+          placeholder="حذف"
         />
 
         {/* Error Display */}

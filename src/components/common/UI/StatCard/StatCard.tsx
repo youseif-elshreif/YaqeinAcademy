@@ -8,7 +8,6 @@ const StatCard: React.FC<StatCardProps> = ({
   label,
   className = "",
 }) => {
-
   const formatValue = (val: string | number): string => {
     if (typeof val === "number") {
       return val.toLocaleString("ar-EG");

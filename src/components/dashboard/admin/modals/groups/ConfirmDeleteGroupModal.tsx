@@ -34,7 +34,7 @@ const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
   };
 
   const handleConfirmDelete = async () => {
-    if (confirmText.trim().toLowerCase() !== "نعم") {
+    if (confirmText.trim().toLowerCase() !== "حذف") {
       return;
     }
 
@@ -44,13 +44,14 @@ const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
       setConfirmText("");
       handleClose();
     } catch (error) {
+      throw error;
     } finally {
       setIsLoading(false);
     }
   };
 
   const isDeleteEnabled =
-    confirmText.trim().toLowerCase() === "نعم" && !isLoading;
+    confirmText.trim().toLowerCase() === "حذف" && !isLoading;
 
   const actions = [
     {
@@ -99,7 +100,7 @@ const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
         <ConfirmTextInput
           label={
             <>
-              اكتب كلمة &quot;<strong>نعم</strong>&quot; في الصندوق للتأكيد:
+              اكتب كلمة &quot;<strong>حذف</strong>&quot; في الصندوق للتأكيد:
             </>
           }
           value={confirmText}

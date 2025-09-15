@@ -88,7 +88,7 @@ const TeacherDashboardContent = () => {
           </div>
 
           {/* Summary Cards */}
-          <TeacherSummaryCards classes={classes} money={user.money} />
+          <TeacherSummaryCards classes={classes} money={user?.money || 0} />
 
           <DashboardTabs
             tabs={tabs}

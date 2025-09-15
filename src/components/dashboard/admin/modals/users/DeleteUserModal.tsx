@@ -41,7 +41,7 @@ const DeleteUserModal: React.FC = () => {
   };
 
   const handleDelete = async () => {
-    if (confirmText.trim().toLowerCase() !== "نعم") {
+    if (confirmText.trim().toLowerCase() !== "حذف") {
       return;
     }
 
@@ -88,7 +88,7 @@ const DeleteUserModal: React.FC = () => {
   };
 
   const isDeleteEnabled =
-    confirmText.trim().toLowerCase() === "نعم" && !isDeleting;
+    confirmText.trim().toLowerCase() === "حذف" && !isDeleting;
 
   const actions = [
     {
@@ -164,12 +164,12 @@ const DeleteUserModal: React.FC = () => {
         <ConfirmTextInput
           label={
             <>
-              اكتب كلمة <strong>نعم</strong> في الصندوق للتأكيد:
+              اكتب كلمة <strong>حذف</strong> في الصندوق للتأكيد:
             </>
           }
           value={confirmText}
           onChange={setConfirmText}
-          placeholder="نعم"
+          placeholder="حذف"
           disabled={isDeleting}
         />
 

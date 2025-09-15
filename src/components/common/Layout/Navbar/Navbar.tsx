@@ -44,7 +44,6 @@ const Navbar = () => {
         ...baseItems,
         { label: "تسجيل الدخول", href: "/login" },
         { label: "تسجيل حساب", href: "/register" },
-
       ];
     }
   };
@@ -110,14 +109,21 @@ const Navbar = () => {
           <div className={styles.navContent}>
             <div className={styles.logo}>
               <Link href="/">
-                <Image
-                  src="/img/logo/logo.webp"
-                  alt="أكاديمية يقين للعلوم الشرعية"
-                  className={styles.logoImage}
-                  width={60}
-                  height={60}
-                  priority
-                />
+                {isMounted ? (
+                  <Image
+                    src="/img/logo/logo.webp"
+                    alt="أكاديمية يقين للعلوم الشرعية"
+                    className={styles.logoImage}
+                    width={60}
+                    height={60}
+                    priority
+                  />
+                ) : (
+                  <div
+                    className={styles.logoImage}
+                    style={{ width: 60, height: 60 }}
+                  />
+                )}
               </Link>
             </div>
             <div className={styles.authLoader}>
@@ -134,7 +140,6 @@ const Navbar = () => {
     <nav className={styles.navbar}>
       <div className="container">
         <div className={styles.navContent}>
-
           <div className={styles.logo}>
             <Link href="/">
               <Image
@@ -159,7 +164,6 @@ const Navbar = () => {
               </li>
             )}
           </div>
-
 
           <ul className={`${styles.navMenu} mobile-hidden`}>
             {menuItems.map((item, index) => (
@@ -187,7 +191,6 @@ const Navbar = () => {
             )}
           </ul>
 
-
           <button
             className={`${styles.menuToggle} desktop-hidden`}
             onClick={toggleMenu}
@@ -205,11 +208,9 @@ const Navbar = () => {
           </button>
         </div>
 
-
         {isMenuOpen && (
           <div className={styles.mobileOverlay} onClick={closeMenu}></div>
         )}
-
 
         <div
           className={`${styles.mobileMenu} ${
@@ -226,7 +227,6 @@ const Navbar = () => {
               <FaTimes />
             </button>
           </div>
-
 
           {isAuthenticated && user?.name && (
             <div className={styles.userInfo}>

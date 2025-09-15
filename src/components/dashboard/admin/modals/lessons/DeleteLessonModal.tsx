@@ -32,7 +32,7 @@ const DeleteLessonModal: React.FC = () => {
   };
 
   const handleDelete = async () => {
-    if (confirmText.trim().toLowerCase() !== "نعم") {
+    if (confirmText.trim().toLowerCase() !== "حذف") {
       return;
     }
 
@@ -45,6 +45,7 @@ const DeleteLessonModal: React.FC = () => {
       await deleteLesson(token, selectedLessonData.id);
       handleClose();
     } catch (error) {
+      throw error;
     } finally {
       setIsDeleting(false);
     }
@@ -62,7 +63,7 @@ const DeleteLessonModal: React.FC = () => {
   if (!selectedLessonData) return null;
 
   const isDeleteEnabled =
-    confirmText.trim().toLowerCase() === "نعم" && !isDeleting;
+    confirmText.trim().toLowerCase() === "حذف" && !isDeleting;
 
   const actions = [
     {
@@ -127,7 +128,7 @@ const DeleteLessonModal: React.FC = () => {
         <ConfirmTextInput
           label={
             <>
-              اكتب كلمة &quot;<strong>نعم</strong>&quot; في الصندوق للتأكيد:
+              اكتب كلمة &quot;<strong>حذف</strong>&quot; في الصندوق للتأكيد:
             </>
           }
           value={confirmText}

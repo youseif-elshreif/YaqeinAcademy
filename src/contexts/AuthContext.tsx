@@ -103,7 +103,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           avatar: userData.avatar || "/avatar.png",
           money: userData.money || 0,
         };
-        console.log("userData", userData);
         dispatch({
           type: "LOGIN_SUCCESS",
           payload: { user, token },
@@ -163,6 +162,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
               isVerified: userData.isVerified,
               createdAt: userData.createdAt,
               avatar: userData.avatar || "/avatar.png",
+              money: userData.money || 0,
             };
             dispatch({
               type: "LOGIN_SUCCESS",
@@ -218,7 +218,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           localStorage.setItem("accessToken", data.accessToken);
           await getUserData(true);
         }
-        router.push("/");
+        router.push("/student/dashboard");
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.message ||
