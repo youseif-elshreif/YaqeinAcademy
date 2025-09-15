@@ -46,7 +46,6 @@ const TeacherSummaryCards = ({ classes, money }: TeacherSummaryCardsProps) => {
 
   return (
     <div className={styles.summaryContainer}>
-      <h2 className={styles.sectionTitle}>ملخص الأداء</h2>
       <div className={styles.cardsGrid}>
         {summaryCards.map((card) => (
           <StatCard
