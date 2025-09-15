@@ -48,6 +48,7 @@ const GroupCompleteClassModal = ({
         setLessonData(data);
       } catch (error) {
         setLessonError("خطأ في جلب بيانات الدرس");
+        throw error;
       } finally {
         setIsLoadingLesson(false);
       }
@@ -61,8 +62,9 @@ const GroupCompleteClassModal = ({
   const students: Student[] =
     lessonData?.groupId?.members?.map((member: any) => ({
       _id: member._id,
-      id: member._id, // تأكد من وجود id
+      id: member._id,
       name: member.name,
+      PrivitelessonCredits: member.PrivitelessonCredits,
     })) || [];
 
   const groupName = lessonData?.groupId?.name || "";
@@ -120,6 +122,7 @@ const GroupCompleteClassModal = ({
       await completeLesson(lessonId);
       handleClose();
     } catch (error) {
+      throw error;
     } finally {
       setIsSubmitting(false);
     }

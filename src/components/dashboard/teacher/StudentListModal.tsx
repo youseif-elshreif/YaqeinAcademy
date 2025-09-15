@@ -79,14 +79,21 @@ const StudentListModal: React.FC<StudentListModalProps> = ({
                 className={styles.studentItem}
                 style={{ marginTop: "0.5rem" }}
               >
-                <div className={styles.studentName}>{m?.name || m}</div>
+                <div className={styles.studentName}>
+                  {typeof m === "string"
+                    ? m
+                    : m?.name || m?.username || "طالب غير محدد"}
+                </div>
                 <button
                   className={styles.viewBtn}
                   onClick={() => {
                     if (onOpenStudentReports) {
                       onOpenStudentReports({
-                        id: m?._id || m?.id || "",
-                        name: m?.name || "طالب غير محدد",
+                        id: typeof m === "string" ? "" : m?._id || m?.id || "",
+                        name:
+                          typeof m === "string"
+                            ? m
+                            : m?.name || m?.username || "طالب غير محدد",
                       });
                     }
                   }}

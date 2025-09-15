@@ -27,7 +27,6 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
 
   return (
     <tr key={classItem._id} className={styles.tableRow}>
-
       <td className={styles.studentCell}>
         <div className={styles.studentInfo}>
           <div className={styles.groupContainer}>
@@ -49,7 +48,6 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
         </div>
       </td>
 
-
       <td className={styles.dateTimeCell}>
         <div className={styles.dateTimeContent}>
           <span className={styles.dateText}>{formatDate(scheduledAt)}</span>
@@ -63,7 +61,6 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
         </div>
       </td>
 
-
       <td>
         <span
           className={`${styles.statusBadge} ${getStatusColor(
@@ -74,11 +71,9 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
         </span>
       </td>
 
-
       <td className={styles.linkCell}>
         <MeetingLinkActions meetingLink={meetingLink} styles={styles} />
       </td>
-
 
       <td className={styles.actionsCell}>
         <div className={styles.actionButtons}>
@@ -92,7 +87,7 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
                 >
                   عرض التقارير
                 </Button>
-              ) : !isUpcoming ? (
+              ) : isUpcoming ? (
                 <span className={styles.lightColor}>
                   ميعاد الحصة لم يأتي بعد
                 </span>
