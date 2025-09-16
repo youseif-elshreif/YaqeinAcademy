@@ -8,7 +8,6 @@ import { useAdminModal } from "@/src/contexts/AdminModalContext";
 import { useTeachersContext } from "@/src/contexts/TeachersContext";
 import { useStudentsContext } from "@/src/contexts/StudentsContext";
 import { useAdminStatsContext } from "@/src/contexts/AdminStatsContext";
-import { useAuth } from "@/src/contexts/AuthContext";
 import StudentTable from "./StudentTable/StudentTable";
 import TeacherTable from "./TeacherTable/TeacherTable";
 import DashboardTabs from "@/src/components/dashboard/student/DashboardTabs";

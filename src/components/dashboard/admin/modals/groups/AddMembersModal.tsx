@@ -61,6 +61,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
       }));
       setStudents(combinedStudents);
     } catch (error) {
+      throw error;
     } finally {
       setLoadingStudents(false);
     }
@@ -141,7 +142,6 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
     setIsSubmitting(true);
 
     try {
-
       const filledInputs = memberInputs.filter(
         (input) => input.memberId.trim() !== ""
       );

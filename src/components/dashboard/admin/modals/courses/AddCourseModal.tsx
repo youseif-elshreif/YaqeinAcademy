@@ -79,7 +79,7 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
     if (isEditMode && editCourseId) {
       fetchCourseData();
     }
-  }, [isEditMode, editCourseId]);
+  }, [isEditMode, editCourseId]); // eslint-disable-line react-hooks/exhaustive-deps
   const validateField = (name: string, value: string): string => {
     switch (name) {
       case "title":

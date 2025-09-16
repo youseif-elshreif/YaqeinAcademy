@@ -37,6 +37,7 @@ const LessonManagement: React.FC = () => {
         setIsLoading(true);
         await getCourses();
       } catch (error) {
+        throw error;
       } finally {
         setIsLoading(false);
       }
@@ -57,7 +58,6 @@ const LessonManagement: React.FC = () => {
           إضافة درس جديد
         </Button>
       </div>
-
 
       <div className={styles.statsGrid}>
         <StatCard
@@ -88,4 +88,3 @@ const LessonManagement: React.FC = () => {
 };
 
 export default LessonManagement;
-

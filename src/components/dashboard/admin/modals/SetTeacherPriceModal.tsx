@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { useAdminModal } from "@/src/contexts/AdminModalContext";
 import { useTeachersContext } from "@/src/contexts/TeachersContext";
-import { useAuth } from "@/src/contexts/AuthContext";
 import styles from "@/src/styles/BaseModal.module.css";
 import {
   ModalContainer,

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useAdminModal } from "@/src/contexts/AdminModalContext";
 import { useAdminStatsContext } from "@/src/contexts/AdminStatsContext";
 import { useStudentsContext } from "@/src/contexts/StudentsContext";
-import { useAuth } from "@/src/contexts/AuthContext";
 import { CreditsFormData } from "@/src/types";
 import styles from "@/src/styles/BaseModal.module.css";
 import {

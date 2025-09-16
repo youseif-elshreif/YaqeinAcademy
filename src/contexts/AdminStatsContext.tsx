@@ -61,7 +61,7 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
     try {
       setIsLoading(true);
       setError(null);
-      const data = await adminSvc.createAdmin(adminData); 
+      const data = await adminSvc.createAdmin(adminData);
       return data;
     } catch (error) {
       setError("خطأ في إنشاء المسؤول");
@@ -77,7 +77,7 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
         setIsLoading(true);
         setError(null);
         const data = await adminSvc.updateMember(memberId, memberData); // Refresh admins after update
-        await getAdmins("");
+        await getAdmins();
         return data;
       } catch (error) {
         setError("خطأ في تحديث بيانات العضو");
@@ -107,12 +107,9 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
     [getAdmins]
   );
 
-  const refreshAdmins = useCallback(
-    async () => {
-      await getAdmins();
-    },
-    [getAdmins]
-  );
+  const refreshAdmins = useCallback(async () => {
+    await getAdmins();
+  }, [getAdmins]);
 
   const contextValue: AdminStatsContextType = {
     admins,

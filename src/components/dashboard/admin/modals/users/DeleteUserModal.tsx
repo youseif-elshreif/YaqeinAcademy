@@ -47,7 +47,6 @@ const DeleteUserModal: React.FC = () => {
     setDeleteError(""); // Clear previous errors
 
     try {
-
       if (selectedUserForActions.userType === "teacher") {
         const teacherId =
           selectedUserForActions.fullData?.teacherInfo?._id ||

@@ -55,6 +55,7 @@ const AddLessonModal: React.FC = () => {
       });
       handleClose();
     } catch (error) {
+      throw error;
     } finally {
       setIsSubmitting(false);
     }
