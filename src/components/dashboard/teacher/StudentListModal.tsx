@@ -2,7 +2,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { ModalContainer, ModalHeader } from "@/src/components/common/Modal";
 import { useGroupsContext } from "@/src/contexts/GroupsContext";
-import { useAuth } from "@/src/contexts/AuthContext";
 import styles from "./StudentListModal.module.css";
 import { StudentListModalProps } from "@/src/types";
 
@@ -13,7 +12,6 @@ const StudentListModal: React.FC<StudentListModalProps> = ({
   onOpenStudentReports,
 }) => {
   const { getGroupById } = useGroupsContext();
-  const { token } = useAuth();
   const [isClosing, setIsClosing] = useState(false);
   const [groupData, setGroupData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -21,11 +19,11 @@ const StudentListModal: React.FC<StudentListModalProps> = ({
   // جلب بيانات الجروب الحقيقية
   useEffect(() => {
     const fetchGroupData = async () => {
-      if (!isOpen || !lesson?.groupId?._id || !token) return;
+      if (!isOpen || !lesson?.groupId?._id) return;
 
       try {
         setLoading(true);
-        const data = await getGroupById(token, lesson.groupId._id);
+        const data = await getGroupById(lesson.groupId._id);
         setGroupData(data);
       } catch (error) {
         console.error("Error fetching group data:", error);
@@ -37,7 +35,7 @@ const StudentListModal: React.FC<StudentListModalProps> = ({
     };
 
     fetchGroupData();
-  }, [isOpen, lesson?.groupId?._id, lesson?.groupId, token, getGroupById]);
+  }, [isOpen, lesson?.groupId?._id, lesson?.groupId, getGroupById]);
 
   const members = useMemo(() => {
     const data = groupData?.group || lesson?.groupId;

@@ -52,10 +52,8 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
   const fetchStudents = useCallback(async () => {
     try {
       setLoadingStudents(true);
-      const token = localStorage.getItem("accessToken");
-      if (!token) return;
 
-      const studentsData = await getStudents(token); // studentsData is already an array of users with role: "student"
+      const studentsData = await getStudents(); // studentsData is already an array of users with role: "student"
 
       const combinedStudents = studentsData.map((student: User) => ({
         id: student._id,
@@ -143,24 +141,17 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
     setIsSubmitting(true);
 
     try {
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        setErrorMessage(
-          "لم يتم العثور على التوقيع. يرجى تسجيل الدخول مرة أخرى"
-        );
-        return;
-      }
 
       const filledInputs = memberInputs.filter(
         (input) => input.memberId.trim() !== ""
       );
 
       for (const input of filledInputs) {
-        await addGroupMember(token, groupId, {
+        await addGroupMember(groupId, {
           memberId: input.memberId.trim(),
         });
       } // Refresh groups data after successful operation
-      await getGroups(token);
+      await getGroups();
 
       if (onSuccess) {
         onSuccess();

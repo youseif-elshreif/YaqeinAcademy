@@ -3,26 +3,12 @@
 export const createTeacher = (payload: any) =>
   api.post(`/api/teacher`, payload).then((r) => r.data);
 export const getTeachers = () => api.get(`/api/teacher`).then((r) => r.data);
-export const updateTeacher = (token: string, teacherId: string, data: any) =>
-  api
-    .put(`/api/teacher/${teacherId}`, data, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-    .then((r) => r.data);
+export const updateTeacher = (teacherId: string, data: any) =>
+  api.put(`/api/teacher/${teacherId}`, data).then((r) => r.data);
 export const updateTeacherMeetingLink = (
-  token: string,
   teacherId: string,
   meetingLink: string
-) =>
-  api
-    .put(
-      `/api/teacher/${teacherId}`,
-      { meetingLink },
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    )
-    .then((r) => r.data);
+) => api.put(`/api/teacher/${teacherId}`, { meetingLink }).then((r) => r.data);
 export const deleteTeacher = (teacherId: string) =>
   api.delete(`/api/teacher/${teacherId}`).then((r) => r.data);
 
@@ -30,12 +16,8 @@ export const createStudent = (payload: any) =>
   api
     .post(`/api/admin/members`, { role: "student", ...payload })
     .then((r) => r.data);
-export const updateMember = (token: string, memberId: string, data: any) =>
-  api
-    .put(`/api/admin/members/${memberId}`, data, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-    .then((r) => r.data);
+export const updateMember = (memberId: string, data: any) =>
+  api.put(`/api/admin/members/${memberId}`, data).then((r) => r.data);
 export const deleteMember = (memberId: string) =>
   api.delete(`/api/admin/member/${memberId}`).then((r) => r.data);
 

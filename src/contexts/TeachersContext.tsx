@@ -14,25 +14,16 @@ type TeachersContextType = {
   isLoading: boolean;
   error: string | null;
 
-  getTeachers: (token: string) => Promise<Teacher[]>;
-  createTeacher: (token: string, teacherData: any) => Promise<any>;
-  updateTeacher: (
-    token: string,
-    teacherId: string,
-    teacherData: any
-  ) => Promise<any>;
-  updateMember: (
-    token: string,
-    memberId: string,
-    memberData: any
-  ) => Promise<any>;
+  getTeachers: () => Promise<Teacher[]>;
+  createTeacher: (teacherData: any) => Promise<any>;
+  updateTeacher: (teacherId: string, teacherData: any) => Promise<any>;
+  updateMember: (memberId: string, memberData: any) => Promise<any>;
   updateTeacherMeetingLink: (
-    token: string,
     teacherId: string,
     meetingLink: string
   ) => Promise<any>;
-  deleteTeacher: (token: string, teacherId: string) => Promise<any>;
-  refreshTeachers: (token: string) => Promise<void>;
+  deleteTeacher: (teacherId: string) => Promise<any>;
+  refreshTeachers: () => Promise<void>;
 };
 
 const TeachersContext = createContext<TeachersContextType | undefined>(
@@ -56,11 +47,10 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const getTeachers = useCallback(async (token: string): Promise<Teacher[]> => {
+  const getTeachers = useCallback(async (): Promise<Teacher[]> => {
     try {
       setIsLoading(true);
       setError(null);
-      void token; // mark as used
       const data = await adminSvc.getTeachers();
       setTeachers(data.teachers);
       return data.teachers;
@@ -73,13 +63,12 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
   }, []);
 
   const createTeacher = useCallback(
-    async (token: string, teacherData: any) => {
+    async (teacherData: any) => {
       try {
         setIsLoading(true);
         setError(null);
-        void token; // mark as used
         const data = await adminSvc.createTeacher(teacherData); // Refresh teachers list
-        await getTeachers(token);
+        await getTeachers();
         return data;
       } catch (error) {
         setError("خطأ في إنشاء المعلم");
@@ -92,16 +81,12 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
   );
 
   const updateTeacher = useCallback(
-    async (token: string, teacherId: string, teacherData: any) => {
+    async (teacherId: string, teacherData: any) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.updateTeacher(
-          token,
-          teacherId,
-          teacherData
-        ); // Refresh teachers list
-        await getTeachers(token);
+        const data = await adminSvc.updateTeacher(teacherId, teacherData); // Refresh teachers list
+        await getTeachers();
         return data;
       } catch (error) {
         setError("خطأ في تحديث بيانات المعلم");
@@ -114,16 +99,15 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
   );
 
   const updateTeacherMeetingLink = useCallback(
-    async (token: string, teacherId: string, meetingLink: string) => {
+    async (teacherId: string, meetingLink: string) => {
       try {
         setIsLoading(true);
         setError(null);
         const data = await adminSvc.updateTeacherMeetingLink(
-          token,
           teacherId,
           meetingLink
         ); // Refresh teachers list
-        await getTeachers(token);
+        await getTeachers();
         return data;
       } catch (error) {
         setError("خطأ في تحديث رابط اجتماع المعلم");
@@ -136,12 +120,12 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
   );
 
   const updateMember = useCallback(
-    async (token: string, memberId: string, memberData: any) => {
+    async (memberId: string, memberData: any) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.updateMember(token, memberId, memberData); // Refresh teachers list
-        await getTeachers(token);
+        const data = await adminSvc.updateMember(memberId, memberData); // Refresh teachers list
+        await getTeachers();
         return data;
       } catch (error) {
         setError("خطأ في تحديث بيانات العضو");
@@ -154,12 +138,12 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
   );
 
   const deleteTeacher = useCallback(
-    async (token: string, teacherId: string) => {
+    async (teacherId: string) => {
       try {
         setIsLoading(true);
         setError(null);
         const data = await adminSvc.deleteTeacher(teacherId); // Refresh teachers list
-        await getTeachers(token);
+        await getTeachers();
         return data;
       } catch (error) {
         setError("خطأ في حذف المعلم");
@@ -171,12 +155,9 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
     [getTeachers]
   );
 
-  const refreshTeachers = useCallback(
-    async (token: string) => {
-      await getTeachers(token);
-    },
-    [getTeachers]
-  );
+  const refreshTeachers = useCallback(async () => {
+    await getTeachers();
+  }, [getTeachers]);
 
   const contextValue: TeachersContextType = {
     teachers,

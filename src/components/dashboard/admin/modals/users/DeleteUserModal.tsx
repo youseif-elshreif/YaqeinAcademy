@@ -3,7 +3,6 @@ import { useAdminModal } from "@/src/contexts/AdminModalContext";
 import { useTeachersContext } from "@/src/contexts/TeachersContext";
 import { useStudentsContext } from "@/src/contexts/StudentsContext";
 import { useAdminStatsContext } from "@/src/contexts/AdminStatsContext";
-import { useAuth } from "@/src/contexts/AuthContext";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import { FaTrash } from "react-icons/fa";
 import {
@@ -21,7 +20,6 @@ const DeleteUserModal: React.FC = () => {
   const { deleteTeacher } = useTeachersContext();
   const { deleteMember: deleteStudentMember } = useStudentsContext();
   const { deleteMember: deleteAdminMember } = useAdminStatsContext();
-  const { token } = useAuth();
 
   const [confirmText, setConfirmText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -49,21 +47,18 @@ const DeleteUserModal: React.FC = () => {
     setDeleteError(""); // Clear previous errors
 
     try {
-      if (!token) {
-        setDeleteError("لا يوجد رمز مصادقة. يرجى تسجيل الدخول مرة أخرى");
-        return;
-      }
+
       if (selectedUserForActions.userType === "teacher") {
         const teacherId =
           selectedUserForActions.fullData?.teacherInfo?._id ||
           selectedUserForActions.id;
-        await deleteTeacher(token, teacherId);
+        await deleteTeacher(teacherId);
       } else if (selectedUserForActions.userType === "admin") {
         const adminId = selectedUserForActions.id;
-        await deleteAdminMember(token, adminId);
+        await deleteAdminMember(adminId);
       } else {
         const studentId = selectedUserForActions.id;
-        await deleteStudentMember(token, studentId);
+        await deleteStudentMember(studentId);
       }
 
       handleClose();

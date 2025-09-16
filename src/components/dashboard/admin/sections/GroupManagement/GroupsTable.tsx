@@ -57,13 +57,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
-        if (!token) {
-          setError("رمز الوصول مفقود. يرجى تسجيل الدخول مرة أخرى");
-          return;
-        }
-
-        await getGroups(token);
+        await getGroups();
       } catch {
         setError("حدث خطأ أثناء تحميل الحلقات");
       } finally {

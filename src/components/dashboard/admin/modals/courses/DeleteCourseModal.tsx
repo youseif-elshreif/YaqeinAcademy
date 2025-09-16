@@ -10,7 +10,6 @@ import {
   ErrorDisplay,
 } from "@/src/components/common/Modal";
 import { useCoursesContext } from "@/src/contexts/CoursesContext";
-import { useAuth } from "@/src/contexts/AuthContext";
 import { DeleteCourseModalProps } from "@/src/types";
 
 const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
@@ -20,7 +19,6 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
   courseName = "غير محدد",
 }) => {
   const { deleteCourse } = useCoursesContext();
-  const { token } = useAuth();
 
   const [isClosing, setIsClosing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -42,14 +40,14 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
       return;
     }
 
-    if (!courseId || !token) {
+    if (!courseId) {
       return;
     }
 
     setIsDeleting(true);
     setDeleteError(""); // Clear previous errors
     try {
-      await deleteCourse(token, courseId);
+      await deleteCourse(courseId);
       handleClose();
     } catch {
       setDeleteError("حدث خطأ أثناء حذف الدورة. يرجى المحاولة مرة أخرى.");

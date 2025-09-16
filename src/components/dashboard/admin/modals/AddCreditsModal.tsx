@@ -23,7 +23,6 @@ const AddCreditsModal: React.FC = () => {
   } = useAdminModal();
   const { getStudents } = useStudentsContext();
   const { updateMember } = useAdminStatsContext();
-  const { token } = useAuth();
 
   const [formData, setFormData] = useState<CreditsFormData>({
     privateAmount: 0,
@@ -100,8 +99,8 @@ const AddCreditsModal: React.FC = () => {
         formData.privateAmount
       );
 
-      if (formData.money !== undefined && token) {
-        await updateMember(token, selectedStudentForCredits.userId, {
+      if (formData.money !== undefined) {
+        await updateMember(selectedStudentForCredits.userId, {
           name: selectedStudentForCredits.fullData.name,
           phone: selectedStudentForCredits.fullData.phone,
           email: selectedStudentForCredits.fullData.email,
@@ -113,7 +112,7 @@ const AddCreditsModal: React.FC = () => {
     } catch {
       setError("خطأ في إضافة الرصيد للطالب");
     } finally {
-      await getStudents(token);
+      await getStudents();
       setIsSubmitting(false);
     }
   };

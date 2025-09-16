@@ -33,13 +33,8 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
     try {
       setLoading(true);
       setError("");
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        setError("لم يتم العثور على التوقيع");
-        return;
-      }
 
-      const groupData = await getGroupById(token, groupId);
+      const groupData = await getGroupById(groupId);
       if (groupData) {
         setMembers(groupData.group.members);
       } else {
@@ -84,20 +79,14 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
     try {
       setRemoving(true);
       setError("");
-      const token = localStorage.getItem("accessToken");
-
-      if (!token) {
-        setError("لم يتم العثور على التوقيع");
-        return;
-      }
 
       const removePromises = selectedMemberIds.map((memberId) =>
-        removeGroupMember(groupId, memberId, token)
+        removeGroupMember(groupId, memberId)
       );
 
       await Promise.all(removePromises);
 
-      await getGroupById(token, groupId);
+      await getGroupById(groupId);
 
       if (onSuccess) {
         onSuccess();

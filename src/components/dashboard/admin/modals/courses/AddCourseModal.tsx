@@ -55,13 +55,9 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
     if (!isEditMode || !editCourseId) return;
     try {
       setIsLoading(true);
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        setServerError("لا يوجد رمز مصادقة. يرجى تسجيل الدخول مرة أخرى");
-        return;
-      }
+
       try {
-        const courseData = await getCourseByIdAPI(token, editCourseId);
+        const courseData = await getCourseByIdAPI(editCourseId);
         setFormData({
           _id: courseData._id || courseData.id,
           title: courseData.title || "",
@@ -157,17 +153,12 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
     }
     setIsSubmitting(true);
     try {
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        setServerError("لا يوجد رمز مصادقة. يرجى تسجيل الدخول مرة أخرى");
-        return;
-      }
       if (isEditMode && editCourseId) {
-        await updateCourse(token, editCourseId, {
+        await updateCourse(editCourseId, {
           ...formData,
         });
       } else {
-        await createCourse(token, {
+        await createCourse({
           ...formData,
         });
       }

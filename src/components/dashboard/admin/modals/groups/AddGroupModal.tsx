@@ -61,10 +61,8 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
   const fetchTeachers = useCallback(async () => {
     try {
       setLoadingTeachers(true);
-      const token = localStorage.getItem("accessToken");
-      if (!token) return;
 
-      const teachersData = await getTeachers(token);
+      const teachersData = await getTeachers();
 
       const combinedTeachers = teachersData
         .filter(
@@ -93,13 +91,8 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
     try {
       setIsLoading(true);
       setErrorMessage("");
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        setErrorMessage("لم يتم العثور على التوقيع");
-        return;
-      }
 
-      const groupsData = await getGroups(token);
+      const groupsData = await getGroups();
       const targetGroup = groupsData.find((group) => group._id === editGroupId);
 
       if (targetGroup) {
@@ -276,14 +269,13 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
     groupId: string,
     meetingLink: string,
     weekdays: string[],
-    times: string[],
-    token: string
+    times: string[]
   ) => {
     try {
       const schedule = createLessonSchedule(weekdays, times, meetingLink);
 
       for (const lesson of schedule) {
-        await addLessonToGroup(token, groupId, lesson);
+        await addLessonToGroup(groupId, lesson);
       }
     } catch {}
   };
@@ -299,13 +291,6 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
     setErrorMessage(""); // Clear any previous errors
 
     try {
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        setErrorMessage(
-          "لم يتم العثور على التوقيع. يرجى تسجيل الدخول مرة أخرى"
-        );
-        return;
-      }
 
       const usualDate: Record<string, string> = {};
       const weekdays: string[] = [];
@@ -343,12 +328,12 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       let response;
 
       if (isEditMode && editGroupId) {
-        response = await updateGroup(token, editGroupId, groupData);
+        response = await updateGroup(editGroupId, groupData);
       } else {
-        response = await createGroup(token, groupData);
+        response = await createGroup(groupData);
       }
 
-      await getGroups(token);
+      await getGroups();
 
       if (!isEditMode) {
         if (weekdays.length > 0 && times.length > 0) {
@@ -356,8 +341,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
             response._id,
             formData.meetingLink,
             weekdays,
-            times,
-            token
+            times
           );
         }
 

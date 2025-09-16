@@ -12,25 +12,16 @@ type StudentsContextType = {
   students: any[];
   isLoading: boolean;
   error: string | null;
-  getStudents: (token: string) => Promise<any[]>;
-  createStudent: (token: string, studentData: any) => Promise<any>;
-  updateStudent: (
-    token: string,
-    studentId: string,
-    studentData: any
-  ) => Promise<any>;
-  updateMember: (
-    token: string,
-    memberId: string,
-    memberData: any
-  ) => Promise<any>;
-  deleteMember: (token: string, memberId: string) => Promise<any>;
+  getStudents: () => Promise<any[]>;
+  createStudent: (studentData: any) => Promise<any>;
+  updateStudent: (studentId: string, studentData: any) => Promise<any>;
+  updateMember: (memberId: string, memberData: any) => Promise<any>;
+  deleteMember: (memberId: string) => Promise<any>;
   addCreditsToStudent: (
-    token: string,
     studentId: string,
     privateAmount: number
   ) => Promise<any>;
-  refreshStudents: (token: string) => Promise<void>;
+  refreshStudents: () => Promise<void>;
 };
 
 const StudentsContext = createContext<StudentsContextType | undefined>(
@@ -54,11 +45,10 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const getStudents = useCallback(async (token: string): Promise<any[]> => {
+  const getStudents = useCallback(async (): Promise<any[]> => {
     try {
       setIsLoading(true);
       setError(null);
-      void token; // mark as used
       const studentsOnly: any[] = await adminSvc.getStudents();
       setStudents(studentsOnly);
       return studentsOnly;
@@ -71,13 +61,12 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
   }, []);
 
   const createStudent = useCallback(
-    async (token: string, studentData: any) => {
+    async (studentData: any) => {
       try {
         setIsLoading(true);
         setError(null);
-        void token; // mark as used
         const data = await adminSvc.createStudent(studentData); // Refresh students list
-        await getStudents(token);
+        await getStudents();
         return data;
       } catch (error) {
         setError("خطأ في إنشاء الطالب");
@@ -90,12 +79,12 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
   );
 
   const updateStudent = useCallback(
-    async (token: string, studentId: string, studentData: any) => {
+    async (studentId: string, studentData: any) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.updateMember(token, studentId, studentData); // Refresh students list
-        await getStudents(token);
+        const data = await adminSvc.updateMember(studentId, studentData); // Refresh students list
+        await getStudents();
         return data;
       } catch (error) {
         setError("خطأ في تحديث بيانات الطالب");
@@ -108,12 +97,12 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
   );
 
   const updateMember = useCallback(
-    async (token: string, memberId: string, memberData: any) => {
+    async (memberId: string, memberData: any) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.updateMember(token, memberId, memberData); // Refresh students list
-        await getStudents(token);
+        const data = await adminSvc.updateMember(memberId, memberData); // Refresh students list
+        await getStudents();
         return data;
       } catch (error) {
         setError("خطأ في تحديث بيانات العضو");
@@ -126,7 +115,7 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
   );
 
   const addCreditsToStudent = useCallback(
-    async (token: string, userId: string, privateAmount: number) => {
+    async (userId: string, privateAmount: number) => {
       try {
         setIsLoading(true);
         setError(null);
@@ -143,13 +132,12 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
   );
 
   const deleteMember = useCallback(
-    async (token: string, memberId: string) => {
+    async (memberId: string) => {
       try {
         setIsLoading(true);
         setError(null);
-        void token; // mark as used
         const data = await adminSvc.deleteMember(memberId); // Refresh students list
-        await getStudents(token);
+        await getStudents();
         return data;
       } catch (error) {
         setError("خطأ في حذف العضو");
@@ -161,12 +149,9 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
     [getStudents]
   );
 
-  const refreshStudents = useCallback(
-    async (token: string) => {
-      await getStudents(token);
-    },
-    [getStudents]
-  );
+  const refreshStudents = useCallback(async () => {
+    await getStudents();
+  }, [getStudents]);
 
   const contextValue: StudentsContextType = {
     students,

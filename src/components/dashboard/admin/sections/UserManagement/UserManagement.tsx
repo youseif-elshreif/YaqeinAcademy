@@ -29,7 +29,6 @@ const UserManagement: React.FC = () => {
   const { admins, getAdmins } = useAdminStatsContext();
   const { teachers, getTeachers } = useTeachersContext();
   const { students, getStudents } = useStudentsContext();
-  const { token } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("students");
 
@@ -66,14 +65,10 @@ const UserManagement: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!token) return;
-
-    Promise.allSettled([
-      getTeachers?.(token),
-      getStudents?.(token),
-      getAdmins?.(token),
-    ]).catch(() => {});
-  }, [token, getTeachers, getStudents, getAdmins]);
+    Promise.allSettled([getTeachers?.(), getStudents?.(), getAdmins?.()]).catch(
+      () => {}
+    );
+  }, [getTeachers, getStudents, getAdmins]);
 
   const getTabContent = () => {
     switch (activeTab) {

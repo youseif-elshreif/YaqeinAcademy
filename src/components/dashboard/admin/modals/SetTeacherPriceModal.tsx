@@ -23,7 +23,6 @@ const SetTeacherPriceModal: React.FC = () => {
     selectedTeacherForPrice,
   } = useAdminModal();
   const { getTeachers, updateMember } = useTeachersContext();
-  const { token } = useAuth();
 
   const [formData, setFormData] = useState<TeacherPriceFormData>({
     money: 0,
@@ -84,8 +83,8 @@ const SetTeacherPriceModal: React.FC = () => {
 
     try {
       // تحديث سعر الحصة للمعلم
-      if (token && selectedTeacherForPrice.userId) {
-        await updateMember(token, selectedTeacherForPrice.userId._id, {
+      if (selectedTeacherForPrice.userId) {
+        await updateMember(selectedTeacherForPrice.userId._id, {
           name: selectedTeacherForPrice.userId.name,
           phone: selectedTeacherForPrice.userId.phone,
           email: selectedTeacherForPrice.userId.email,
@@ -97,7 +96,7 @@ const SetTeacherPriceModal: React.FC = () => {
     } catch {
       setError("خطأ في تحديث سعر الحصة للمعلم");
     } finally {
-      await getTeachers(token);
+      await getTeachers();
       setIsSubmitting(false);
     }
   };

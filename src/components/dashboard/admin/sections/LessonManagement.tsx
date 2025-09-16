@@ -35,10 +35,7 @@ const LessonManagement: React.FC = () => {
     const fetchCourses = async () => {
       try {
         setIsLoading(true);
-        const token = localStorage.getItem("accessToken");
-        if (token) {
-          await getCourses(token);
-        }
+        await getCourses();
       } catch (error) {
       } finally {
         setIsLoading(false);

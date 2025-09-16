@@ -17,7 +17,6 @@ import LessonCard from "./components/LessonCard";
 import ConfirmAddMonthLessonsModal from "./ConfirmAddMonthLessonsModal";
 import { useGroupsContext } from "@/src/contexts/GroupsContext";
 import { useLessonsContext } from "@/src/contexts/LessonsContext";
-import { useAuth } from "@/src/contexts/AuthContext";
 import { createLessonSchedule } from "@/src/utils/date";
 import {
   LessonsModalProps,
@@ -44,7 +43,6 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
 
   const { getGroupById } = useGroupsContext();
   const { lessonsRefreshKey, addLessonToGroup } = useLessonsContext();
-  const { token } = useAuth();
 
   useEffect(() => {
     let cancelled = false;
@@ -52,8 +50,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
       try {
         setLoading(true);
         setError(null);
-        if (!token || !getGroupById) throw new Error("no token");
-        const data = await getGroupById(token, groupId);
+        const data = await getGroupById(groupId);
 
         setGroupData(data?.group);
 
@@ -83,7 +80,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
     return () => {
       cancelled = true;
     };
-  }, [groupId, token, getGroupById, lessonsRefreshKey]);
+  }, [groupId, getGroupById, lessonsRefreshKey]);
 
   const handleClose = () => {
     setIsClosing(true);
@@ -98,7 +95,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
   };
 
   const handleConfirmAddMonthLessons = async () => {
-    if (!token || !groupData || !addLessonToGroup) return;
+    if (!groupData || !addLessonToGroup) return;
 
     try {
       setIsAddingMonthLessons(true);
@@ -145,7 +142,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
       }
 
       for (const lesson of schedule) {
-        await addLessonToGroup(token, groupId, lesson);
+        await addLessonToGroup(groupId, lesson);
       }
       setMonthLessonsInfo(`تم إضافة ${schedule.length} درس جديد.`);
     } catch (error) {

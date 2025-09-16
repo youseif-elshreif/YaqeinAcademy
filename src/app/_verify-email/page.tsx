@@ -21,7 +21,6 @@ const VerifyEmailPage: React.FC = () => {
     const verify = async () => {
       try {
         await verifyEmail(token);
-        localStorage.setItem("accessToken", token);
         setStatus("success");
       } catch {
         setStatus("error");
