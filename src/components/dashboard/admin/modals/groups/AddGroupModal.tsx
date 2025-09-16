@@ -72,6 +72,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
         .map((teacher: Teacher) => ({
           id: teacher._id,
           name: typeof teacher.userId === "object" ? teacher.userId.name : "",
+          meetingLink: teacher.meetingLink || "",
         }));
 
       setTeachers(combinedTeachers);
@@ -194,6 +195,40 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       setFieldErrors((prev) => ({
         ...prev,
         [name]: "",
+      }));
+    }
+  };
+
+  const handleTeacherChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { value } = e.target;
+    
+    // Find the selected teacher and get their meeting link
+    const selectedTeacher = teachers.find(teacher => teacher.id === value);
+    const meetingLink = selectedTeacher?.meetingLink || "";
+    
+    setFormData((prev) => ({
+      ...prev,
+      teacherId: value,
+      meetingLink: meetingLink,
+    }));
+
+    if (errorMessage) {
+      setErrorMessage("");
+    }
+
+    if (fieldErrors.teacherId) {
+      setFieldErrors((prev) => ({
+        ...prev,
+        teacherId: "",
+      }));
+    }
+
+    if (fieldErrors.meetingLink) {
+      setFieldErrors((prev) => ({
+        ...prev,
+        meetingLink: "",
       }));
     }
   };
@@ -507,7 +542,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                 label="اسم المعلم"
                 name="teacherId"
                 value={formData.teacherId}
-                onChange={handleInputChange as any}
+                onChange={handleTeacherChange}
                 options={teacherOptions}
                 disabled={isSubmitting || loadingTeachers}
                 error={fieldErrors.teacherId}
@@ -521,7 +556,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                 onChange={handleInputChange}
                 error={fieldErrors.meetingLink}
                 disabled={isSubmitting}
-                placeholder="https://zoom.us/j/..."
+                placeholder={formData.teacherId && !formData.meetingLink ? "لم يتم تحديد رابط للمعلم المختار" : "https://zoom.us/j/..."}
               />
 
               <FormField

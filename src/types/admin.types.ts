@@ -266,6 +266,7 @@ export interface GroupActionsModalProps {
 export interface TeacherOption {
   id: string;
   name: string;
+  meetingLink?: string;
   userId?: {
     name: string;
     _id: string;
