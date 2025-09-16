@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "@/src/styles/Home.module.css";
@@ -30,14 +29,6 @@ export const metadata = {
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>أكاديمية يقين - التعليم الشرعي المتميز</title>
-        <meta
-          name="description"
-          content="أكاديمية يقين للعلوم الشرعية - مؤسسة تعليمية متخصصة في تدريس العلوم الشرعية"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
       <main>
         <section className={styles.hero}>
           <div className={styles.heroContainer}>

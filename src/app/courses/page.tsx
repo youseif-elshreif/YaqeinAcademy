@@ -1,6 +1,5 @@
 ﻿"use client";
 
-import Head from "next/head";
 import HeroSection from "@/src/components/common/HeroSection/HeroSection";
 import CoursesGrid from "@/src/components/common/UI/CoursesGrid/CoursesGrid";
 import { useEffect, useState } from "react";
@@ -44,18 +43,6 @@ const CoursesPage = () => {
 
   return (
     <>
-      <Head>
-        <title>جميع الدورات - أكاديمية يقين</title>
-        <meta
-          name="description"
-          content="استكشف جميع الدورات في أكاديمية يقين المخصصة لتعليم القرآن في أكاديمية يقين. انضم إلى دوراتنا الفريدة لتحفيظ القرآن الكريم."
-        />
-        <meta
-          name="keywords"
-          content="دورات قرآن, تحفيظ قرآن, تعلم تجويد, دروس إسلامية, أكاديمية, تعليم إسلامي, حفظ القرآن"
-        />
-      </Head>
-
       <main className={styles.main}>
         <HeroSection />
         {isLoading ? (
