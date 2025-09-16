@@ -52,7 +52,13 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({
 
     setSubmitError(""); // Clear previous errors
     try {
-      await onSubmit(formData);
+      // Prepare data to send
+      const dataToSend = {
+        ...formData,
+        name: formData.hide ? "شخص مجهول" : formData.name,
+      };
+
+      await onSubmit(dataToSend);
       // Reset form on success
       setFormData({ name: "", rating: 5, txt: "", hide: false });
       setErrors({});
