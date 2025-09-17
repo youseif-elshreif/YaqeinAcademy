@@ -26,9 +26,9 @@ const StudentListModal: React.FC<StudentListModalProps> = ({
         const data = await getGroupById(lesson.groupId._id);
         setGroupData(data);
       } catch (error) {
-        console.error("Error fetching group data:", error);
         // في حالة الخطأ، استخدم البيانات الموجودة
         setGroupData(lesson.groupId);
+        throw error;
       } finally {
         setLoading(false);
       }

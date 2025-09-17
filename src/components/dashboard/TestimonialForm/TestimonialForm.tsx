@@ -63,9 +63,9 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({
       setFormData({ name: "", rating: 5, txt: "", hide: false });
       setErrors({});
     } catch (error) {
-      console.error("Error submitting testimonial:", error);
       // Set user-friendly error message
       setSubmitError("حدث خطأ أثناء إرسال رأيك. يرجى المحاولة مرة أخرى.");
+      throw error;
     }
   };
 

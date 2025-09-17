@@ -16,9 +16,9 @@ const TestimonialsSwiperContainer: React.FC = () => {
         const response = await getPublicTestimonials();
         setTestimonials(response.reviews || []);
       } catch (error) {
-        console.error("Error loading testimonials:", error);
         // Set local error for this component
         setLocalError("حدث خطأ في تحميل آراء الطلاب");
+        throw error;
       }
     };
 

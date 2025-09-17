@@ -76,8 +76,7 @@ export const parseJwt = (token: string): any => {
     );
     return JSON.parse(jsonPayload);
   } catch (e) {
-    console.error("Error parsing JWT token", e);
-    return null;
+    throw e;
   }
 };
 
@@ -119,9 +118,8 @@ export const refreshToken = async (): Promise<string | null> => {
     saveAccessToken(newToken);
     return newToken;
   } catch (error) {
-    console.error("Failed to refresh token:", error);
     logout();
-    return null;
+    throw error;
   }
 };
 

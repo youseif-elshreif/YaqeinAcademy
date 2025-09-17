@@ -71,7 +71,7 @@ const EditLessonModal: React.FC = () => {
       });
       handleClose();
     } catch (error) {
-      console.error("Error updating lesson:", error);
+      throw error;
     } finally {
       setIsSubmitting(false);
     }

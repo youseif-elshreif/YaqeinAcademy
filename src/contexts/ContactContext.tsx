@@ -129,9 +129,8 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
         try {
           // Fallback to admin API if public fails
           await getContactInfo();
-        } catch {
-          // Both failed, but that's ok - user might not be authenticated
-          console.log("Could not load contact info");
+        } catch (error) {
+          throw error;
         }
       }
     };
