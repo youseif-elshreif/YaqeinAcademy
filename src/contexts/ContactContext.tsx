@@ -30,7 +30,7 @@ type ContactContextType = {
     email: string;
     phone: string[];
     address: string;
-    whatsapp: string[];
+    whatsappNumber: string[];
     telegramLink: string;
     facebook: string;
     linkedin: string;
@@ -93,7 +93,7 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
       email: string;
       phone: string[];
       address: string;
-      whatsapp: string[];
+      whatsappNumber: string[];
       telegramLink: string;
       facebook: string;
       linkedin: string;

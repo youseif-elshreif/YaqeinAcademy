@@ -10,11 +10,12 @@ import {
   useContactContext,
   type ContactInfo,
 } from "@/src/contexts/ContactContext";
+import { withAdminProtection } from "@/src/components/auth/withRoleProtection";
 import styles from "./contact.module.css";
 import { FormField, ErrorDisplay } from "@/src/components/common/Modal";
 import Button from "@/src/components/common/Button";
 
-export default function AdminContactPage() {
+function AdminContactPage() {
   const [editMode, setEditMode] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -62,7 +63,7 @@ export default function AdminContactPage() {
     } catch {
       throw new Error("خطأ في تحميل بيانات التواصل");
     }
-  }, [ getContactInfo]);
+  }, [getContactInfo]);
 
   type ContactField =
     | "email"
@@ -85,7 +86,7 @@ export default function AdminContactPage() {
     }
     if (field === "whatsappNumber") {
       setWhatsappInput(value);
-      setContact((prev) => ({ ...prev, whatsapp: parseNumbers(value) }));
+      setContact((prev) => ({ ...prev, whatsappNumber: parseNumbers(value) }));
       return;
     }
     setContact((prev) => ({ ...prev, [field]: value } as ContactInfo));
@@ -111,7 +112,7 @@ export default function AdminContactPage() {
     try {
       setIsSubmitting(true);
       setErrorMessage(null);
-      const payload: ContactInfo = {
+      const payload = {
         email: contact.email || "",
         phone: parseNumbers(phoneInput),
         address: contact.address || "",
@@ -125,7 +126,15 @@ export default function AdminContactPage() {
       try {
         await fetchContactData();
       } catch {
-        setContact(payload);
+        setContact({
+          email: payload.email,
+          phone: payload.phone,
+          address: payload.address,
+          whatsappNumber: payload.whatsappNumber,
+          telegramLink: payload.telegramLink,
+          facebook: payload.facebook,
+          linkedin: payload.linkedin,
+        });
         setPhoneInput(payload.phone.join(", "));
         setWhatsappInput(payload.whatsappNumber.join(", "));
       }
@@ -159,7 +168,7 @@ export default function AdminContactPage() {
               onClick={() => setEditMode(false)}
               disabled={isSubmitting}
             >
-              حفظ التغييرات
+              إلغاء التعديل
             </Button>
           )}
         </div>
@@ -188,7 +197,7 @@ export default function AdminContactPage() {
 
             <FormField
               label="واتساب (يمكن إدخال أكثر من رقم بـ , )"
-              name="whatsapp"
+              name="whatsappNumber"
               value={whatsappInput}
               onChange={(e) => handleChange(e, "whatsappNumber")}
               disabled={!editMode || isSubmitting || isLoading}
@@ -248,3 +257,5 @@ export default function AdminContactPage() {
     </div>
   );
 }
+
+export default withAdminProtection(AdminContactPage);
