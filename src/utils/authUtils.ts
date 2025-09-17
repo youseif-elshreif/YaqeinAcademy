@@ -1,40 +1,38 @@
 ﻿// authUtils.ts - Helper functions for authentication
 import api from "./api";
+import {
+  getSecureToken,
+  setSecureToken,
+  removeSecureToken,
+  hasValidToken,
+} from "./secureTokenStorage";
 
 /**
- * Get the access token from localStorage
+ * Get the access token from secure storage
  */
 export const getAccessToken = (): string | null => {
-  if (typeof window !== "undefined") {
-    return localStorage.getItem("accessToken");
-  }
-  return null;
+  return getSecureToken();
 };
 
 /**
- * Save the access token to localStorage
+ * Save the access token to secure storage
  */
 export const saveAccessToken = (token: string): void => {
-  if (typeof window !== "undefined") {
-    localStorage.setItem("accessToken", token);
-  }
+  setSecureToken(token);
 };
 
 /**
- * Remove the access token from localStorage
+ * Remove the access token from secure storage
  */
 export const removeAccessToken = (): void => {
-  if (typeof window !== "undefined") {
-    localStorage.removeItem("accessToken");
-  }
+  removeSecureToken();
 };
 
 /**
  * Check if user is authenticated
  */
 export const isAuthenticated = (): boolean => {
-  const token = getAccessToken();
-  return !!token && !isTokenExpired(token);
+  return hasValidToken();
 };
 
 /**

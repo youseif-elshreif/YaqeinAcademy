@@ -111,17 +111,7 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
   }, [getContactInfo]);
 
   useEffect(() => {
-    // Load public contact info on component mount (no authentication required)
-    getPublicContactInfo().catch(() => {
-      // If public API fails, try the admin API if user is authenticated
-      const token =
-        typeof window !== "undefined"
-          ? localStorage.getItem("accessToken")
-          : null;
-      if (token) {
-        getContactInfo().catch(() => {});
-      }
-    });
+    getContactInfo().catch(() => {});
   }, [getPublicContactInfo, getContactInfo]);
 
   const contextValue: ContactContextType = {

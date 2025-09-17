@@ -8,7 +8,12 @@ import React, {
   useMemo,
 } from "react";
 import * as authSvc from "@/src/utils/services/auth.service";
-import { isAuthenticated } from "@/src/utils/authUtils";
+import {
+  isAuthenticated,
+  getAccessToken,
+  saveAccessToken,
+  removeAccessToken,
+} from "@/src/utils/authUtils";
 import { useRouter } from "next/navigation";
 import {
   AuthContextType,
@@ -83,7 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         if (typeof window === "undefined") {
           throw new Error("Not running in browser environment");
         }
-        const token = localStorage.getItem("accessToken");
+        const token = getAccessToken();
         if (!token) {
           throw new Error("No access token found");
         }
@@ -120,7 +125,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       } catch (error: any) {
         if (typeof window !== "undefined") {
-          localStorage.removeItem("accessToken");
+          removeAccessToken();
         }
         dispatch({
           type: "LOGIN_FAILURE",
@@ -143,7 +148,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         }
         return;
       }
-      const token = localStorage.getItem("accessToken");
+      const token = getAccessToken();
       if (token && !state.user) {
         try {
           if (isMounted) {
@@ -171,7 +176,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           }
         } catch {
           if (isMounted) {
-            localStorage.removeItem("accessToken");
+            removeAccessToken();
             dispatch({ type: "SET_LOADING", payload: false });
           }
         }
@@ -195,7 +200,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           credentials.password
         );
         if (data.accessToken) {
-          localStorage.setItem("accessToken", data.accessToken);
+          saveAccessToken(data.accessToken);
           await getUserData(true);
         }
       } catch {
@@ -215,7 +220,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       try {
         const data = await authSvc.register(regData);
         if (data.accessToken) {
-          localStorage.setItem("accessToken", data.accessToken);
+          saveAccessToken(data.accessToken);
           await getUserData(true);
         }
         router.push("/student/dashboard");
@@ -237,7 +242,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       try {
         const data = await authSvc.verifyEmail(token);
         if (typeof window !== "undefined") {
-          localStorage.setItem("accessToken", data.accessToken);
+          saveAccessToken(data.accessToken);
         }
         await getUserData(true);
       } catch (error: any) {
@@ -259,7 +264,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     } catch {
     } finally {
       if (typeof window !== "undefined") {
-        localStorage.removeItem("accessToken");
+        removeAccessToken();
       }
       dispatch({ type: "LOGOUT" });
       router.push("/");
@@ -274,7 +279,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       try {
         const data = await authSvc.updateUserProfile(userData);
         if (typeof window !== "undefined") {
-          localStorage.setItem("accessToken", data.accessToken);
+          saveAccessToken(data.accessToken);
         }
         await getUserData(true); // Refresh user data after update
       } catch (error: any) {

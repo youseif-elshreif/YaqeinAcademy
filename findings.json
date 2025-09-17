@@ -1,0 +1,184 @@
+{
+  "assessment_metadata": {
+    "date": "2025-09-17",
+    "repository": "YaqeinAcademy",
+    "branch": "chore/remove-logs-20250915",
+    "assessment_type": "Static Security Code Review",
+    "total_findings": 8,
+    "critical": 0,
+    "high": 2,
+    "medium": 3,
+    "low": 3
+  },
+  "findings": [
+    {
+      "id": "YAK-2025-001",
+      "title": "Insecure Token Storage in localStorage",
+      "severity": "HIGH",
+      "cvss_score": 7.5,
+      "file": "src/utils/authUtils.ts",
+      "line": 9,
+      "description": "JWT access tokens are stored in localStorage, making them vulnerable to XSS attacks. localStorage is accessible to any JavaScript code, including malicious scripts.",
+      "poc": "const token = localStorage.getItem('accessToken'); // Vulnerable to XSS",
+      "remediation": "Replace localStorage with httpOnly cookies with secure flags (Secure, SameSite=Strict). Implement proper cookie-based token storage.",
+      "references": [
+        "OWASP-A03:2021 – Injection",
+        "CWE-922: Insecure Storage of Sensitive Information"
+      ],
+      "effort": "Medium",
+      "impact": "Session hijacking, privilege escalation"
+    },
+    {
+      "id": "YAK-2025-002",
+      "title": "Missing Security Headers",
+      "severity": "HIGH",
+      "cvss_score": 7.0,
+      "file": "next.config.ts",
+      "line": 1,
+      "description": "The Next.js configuration lacks essential security headers including CSP, HSTS, X-Frame-Options, and X-Content-Type-Options.",
+      "poc": "const nextConfig: NextConfig = {}; // No security headers configured",
+      "remediation": "Add comprehensive security headers in next.config.ts including CSP, HSTS, X-Frame-Options, X-Content-Type-Options, and Referrer-Policy.",
+      "references": [
+        "OWASP Security Headers",
+        "CWE-693: Protection Mechanism Failure"
+      ],
+      "effort": "Low",
+      "impact": "Clickjacking, MIME-type confusion, XSS attacks"
+    },
+    {
+      "id": "YAK-2025-003",
+      "title": "Missing CSRF Protection",
+      "severity": "MEDIUM",
+      "cvss_score": 6.1,
+      "file": "src/utils/api.ts",
+      "line": 12,
+      "description": "The application uses withCredentials: true but lacks CSRF token implementation, making it vulnerable to Cross-Site Request Forgery attacks.",
+      "poc": "withCredentials: true // Sends cookies but no CSRF protection",
+      "remediation": "Implement CSRF token generation and validation. Add X-CSRF-Token header to all state-changing requests.",
+      "references": [
+        "OWASP-A01:2021 – Broken Access Control",
+        "CWE-352: Cross-Site Request Forgery"
+      ],
+      "effort": "Medium",
+      "impact": "Unauthorized actions on behalf of authenticated users"
+    },
+    {
+      "id": "YAK-2025-004",
+      "title": "Lack of Rate Limiting Implementation",
+      "severity": "MEDIUM",
+      "cvss_score": 5.3,
+      "file": "src/utils/api.ts",
+      "line": 1,
+      "description": "No client-side rate limiting or retry logic with exponential backoff implemented, potentially enabling abuse scenarios.",
+      "poc": "No rate limiting implementation found in API configuration",
+      "remediation": "Implement client-side rate limiting and proper retry mechanisms with exponential backoff using axios-retry.",
+      "references": [
+        "OWASP API Security Top 10 - API4:2023 Unrestricted Resource Consumption",
+        "CWE-770: Allocation of Resources Without Limits"
+      ],
+      "effort": "Low",
+      "impact": "API abuse, denial of service attacks"
+    },
+    {
+      "id": "YAK-2025-005",
+      "title": "Information Disclosure in Error Handling",
+      "severity": "MEDIUM",
+      "cvss_score": 5.0,
+      "file": "src/contexts/AuthContext.tsx",
+      "line": 195,
+      "description": "Some error handling blocks may leak sensitive information about system internals or user existence through inconsistent error messages.",
+      "poc": "catch (error: any) { // Generic handling may expose system details }",
+      "remediation": "Implement consistent, generic error messages. Log detailed errors server-side only. Avoid exposing stack traces to users.",
+      "references": [
+        "OWASP-A09:2021 – Security Logging and Monitoring Failures",
+        "CWE-209: Information Exposure Through Error Messages"
+      ],
+      "effort": "Low",
+      "impact": "User enumeration, system information disclosure"
+    },
+    {
+      "id": "YAK-2025-006",
+      "title": "Weak Password Policy",
+      "severity": "LOW",
+      "cvss_score": 3.1,
+      "file": "src/app/register/page.tsx",
+      "line": 94,
+      "description": "Password validation only requires 6 characters minimum with no complexity requirements.",
+      "poc": "} else if (formData.password.length < 6) { // Only length check",
+      "remediation": "Implement stronger password policy: minimum 8 characters, require uppercase, lowercase, numbers, and special characters. Add password strength meter.",
+      "references": [
+        "OWASP Authentication Cheat Sheet",
+        "CWE-521: Weak Password Requirements"
+      ],
+      "effort": "Low",
+      "impact": "Brute force attacks, weak authentication"
+    },
+    {
+      "id": "YAK-2025-007",
+      "title": "JWT Token Expiration Not Consistently Validated",
+      "severity": "LOW",
+      "cvss_score": 3.9,
+      "file": "src/utils/authUtils.ts",
+      "line": 67,
+      "description": "While JWT expiration checking exists, it's not consistently applied across all token usage scenarios.",
+      "poc": "Token expiration validation present but not consistently used",
+      "remediation": "Ensure all API calls validate token expiration before making requests. Implement consistent token validation middleware.",
+      "references": [
+        "RFC 7519 - JSON Web Token",
+        "CWE-613: Insufficient Session Expiration"
+      ],
+      "effort": "Low",
+      "impact": "Extended unauthorized access with expired tokens"
+    },
+    {
+      "id": "YAK-2025-008",
+      "title": "Missing Input Length Limits",
+      "severity": "LOW",
+      "cvss_score": 2.1,
+      "file": "Multiple form components",
+      "line": 0,
+      "description": "Some input fields lack maximum length validation, potentially enabling buffer overflow attacks or excessive resource consumption.",
+      "poc": "Input fields without maxLength attributes",
+      "remediation": "Add maxLength attributes to all text inputs and implement server-side validation. Define reasonable limits for all user inputs.",
+      "references": [
+        "OWASP Input Validation Cheat Sheet",
+        "CWE-120: Buffer Copy without Checking Size of Input"
+      ],
+      "effort": "Low",
+      "impact": "Potential buffer overflow or resource exhaustion"
+    }
+  ],
+  "positive_findings": [
+    "Comprehensive client-side input validation with proper regex patterns",
+    "Email validation using proper regex",
+    "Phone validation with libphonenumber-js",
+    "Zero npm audit vulnerabilities",
+    "TypeScript usage for type safety",
+    "Proper controlled form components",
+    "No hardcoded secrets found in repository"
+  ],
+  "recommendations": {
+    "immediate": [
+      "Implement secure token storage with httpOnly cookies",
+      "Add comprehensive security headers to Next.js configuration",
+      "Implement CSRF protection for state-changing operations"
+    ],
+    "short_term": [
+      "Add client-side rate limiting and request throttling",
+      "Standardize error handling to prevent information disclosure",
+      "Strengthen password policy requirements"
+    ],
+    "long_term": [
+      "Implement security monitoring and logging",
+      "Conduct periodic penetration testing",
+      "Provide security training for development team"
+    ]
+  },
+  "testing_gaps": [
+    "Missing authentication flow security tests",
+    "No XSS prevention test coverage",
+    "Lack of authorization boundary testing",
+    "No CSRF protection validation tests"
+  ],
+  "overall_security_score": "6.5/10"
+}

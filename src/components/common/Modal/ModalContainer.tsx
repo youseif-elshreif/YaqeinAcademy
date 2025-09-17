@@ -9,6 +9,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
   children,
   variant = "default",
   size = "medium",
+  onClose,
 }) => {
   if (!isOpen) {
     return null;
@@ -43,6 +44,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
       className={`${baseStyles.modalOverlay} ${
         isClosing ? baseStyles.fadeOut : ""
       }`}
+      onClick={onClose}
       role="dialog"
       aria-modal="true"
     >

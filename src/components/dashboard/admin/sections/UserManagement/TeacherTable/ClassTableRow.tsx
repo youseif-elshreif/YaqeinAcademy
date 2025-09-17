@@ -40,7 +40,7 @@ const ClassTableRow = ({ teacher }: TeacherTableRowProps) => {
       </td>
       <td>{userInfo.money}</td>
       <td>{-1 * teacher.numberOflessonsCridets}</td>
-      <td>{userInfo.money * -1 * teacher.numberOflessonsCridets}</td>
+      <td>{userInfo.money  * teacher.numberOflessonsCridets}</td>
       <td>{new Date(teacher.createdAt).toLocaleDateString("ar-EG")}</td>
       <td>
         <Button

@@ -62,7 +62,7 @@ const ClassCard = ({ teacher }: TeacherCardProps) => {
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>المستحق:</span>
             <span className={styles.infoValue}>
-              {userInfo.money * -1 * teacher.numberOflessonsCridets}
+              {userInfo.money * teacher.numberOflessonsCridets}
             </span>
           </div>
 

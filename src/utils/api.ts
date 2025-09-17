@@ -2,6 +2,11 @@
 import type { AxiosResponse } from "axios";
 import type { InternalAxiosRequestConfig } from "axios";
 import { RefreshTokenResponse } from "@/src/types";
+import {
+  getAccessToken,
+  saveAccessToken,
+  removeAccessToken,
+} from "@/src/utils/authUtils";
 
 // Keep this as the base URL for the entire API
 export const API_BASE_URL = "http://localhost:3001";
@@ -42,7 +47,7 @@ const logRequest = (config: InternalAxiosRequestConfig) => {
 
 // Add auth header to requests if token exists
 const addAuthHeader = (config: InternalAxiosRequestConfig) => {
-  const token = localStorage.getItem("accessToken");
+  const token = getAccessToken();
   if (token) {
     if (!config.headers) {
       config.headers = new axios.AxiosHeaders();
@@ -103,7 +108,7 @@ api.interceptors.response.use(
         const newToken = data.accessToken;
 
         // Update stored token
-        localStorage.setItem("accessToken", newToken);
+        saveAccessToken(newToken);
 
         // Process queue with new token
         processQueue(null, newToken);
@@ -114,7 +119,7 @@ api.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError as AxiosError);
 
-        localStorage.removeItem("accessToken");
+        removeAccessToken();
 
         if (typeof window !== "undefined") {
           window.location.href = "/login";
