@@ -7,10 +7,10 @@ import {
   FaWhatsapp,
 } from "react-icons/fa";
 import Link from "next/link";
-import { useFooterContactInfo } from "@/src/hooks/useFooterContactInfo";
+import { useContactContext } from "@/src/contexts/ContactContext";
 
 const Footer = () => {
-  const { contactInfo, isLoading, error } = useFooterContactInfo();
+  const { contactInfo, isLoading, error } = useContactContext();
 
   return (
     <footer className={`${styles.footer} custom-bg`}>
