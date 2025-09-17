@@ -9,9 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@types/crypto-js": "^4.2.2",
     "axios": "^1.10.0",
-    "crypto-js": "^4.2.0",
     "libphonenumber-js": "^1.12.10",
     "next": "^15.5.3",
     "react": "19.1.0",

@@ -1,48 +1,67 @@
 ﻿// authUtils.ts - Helper functions for authentication
 import api from "./api";
-import {
-  getSecureToken,
-  setSecureToken,
-  removeSecureToken,
-  hasValidToken,
-} from "./secureTokenStorage";
 
 /**
- * Get the access token from secure storage
+ * Get the access token from cookies
  */
 export const getAccessToken = (): string | null => {
-  return getSecureToken();
+  if (typeof window === "undefined") return null;
+
+  const cookies = document.cookie.split(";");
+  const tokenCookie = cookies.find((cookie) =>
+    cookie.trim().startsWith("accessToken=")
+  );
+
+  if (tokenCookie) {
+    return tokenCookie.split("=")[1];
+  }
+
+  return null;
 };
 
 /**
- * Save the access token to secure storage
+ * Save the access token to cookies
  */
 export const saveAccessToken = (token: string): void => {
-  setSecureToken(token);
+  if (typeof window === "undefined") return;
+
+  // Set cookie with security options
+  const isSecure = window.location.protocol === "https:";
+  const cookieOptions = [
+    `accessToken=${token}`,
+    "Path=/",
+    "SameSite=Strict",
+    ...(isSecure ? ["Secure"] : []),
+    // Set expiration to 7 days
+    `Max-Age=${7 * 24 * 60 * 60}`,
+  ];
+
+  document.cookie = cookieOptions.join("; ");
 };
 
 /**
- * Remove the access token from secure storage
+ * Remove the access token from cookies
  */
 export const removeAccessToken = (): void => {
-  removeSecureToken();
+  if (typeof window === "undefined") return;
+
+  // Set expiration date to past to delete cookie
+  document.cookie =
+    "accessToken=; Path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 };
 
 /**
  * Check if user is authenticated
  */
 export const isAuthenticated = (): boolean => {
-  return hasValidToken();
+  const token = getAccessToken();
+  return !!token && !isTokenExpired(token);
 };
 
 /**
  * Parse JWT token (without validation - client-side only)
  */
 export const parseJwt = (token: string): any => {
-  if (typeof window === "undefined") {
-    return null;
-  }
-
   try {
     // Split the token and get the payload
     const base64Url = token.split(".")[1];
@@ -56,7 +75,8 @@ export const parseJwt = (token: string): any => {
         .join("")
     );
     return JSON.parse(jsonPayload);
-  } catch {
+  } catch (e) {
+    console.error("Error parsing JWT token", e);
     return null;
   }
 };
@@ -82,9 +102,7 @@ export const isTokenExpired = (token: string): boolean => {
  */
 export const logout = (): void => {
   removeAccessToken();
-  if (typeof window !== "undefined") {
-    window.location.href = "/login";
-  }
+  window.location.href = "/login";
 };
 
 /**
@@ -100,7 +118,8 @@ export const refreshToken = async (): Promise<string | null> => {
     const newToken = response.data.accessToken;
     saveAccessToken(newToken);
     return newToken;
-  } catch {
+  } catch (error) {
+    console.error("Failed to refresh token:", error);
     logout();
     return null;
   }
