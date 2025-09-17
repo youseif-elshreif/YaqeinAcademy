@@ -138,11 +138,28 @@ const RegisterPage = () => {
         country: formData.country,
         quranLevel: formData.quranLevel,
       });
-    } catch {
-      setErrors((prev) => ({
-        ...prev,
-        general: "حدث خطأ أثناء إنشاء الحساب. يرجى المحاولة مرة أخرى.",
-      }));
+    } catch (error: any) {
+      // Check for specific error status codes
+      if (error?.response?.status === 409) {
+        setErrors((prev) => ({
+          ...prev,
+          email: "هذا البريد الإلكتروني موجود بالفعل",
+          general: "",
+        }));
+      } else if (error?.response?.status === 400) {
+        // Handle bad request errors
+        const errorMessage = error?.response?.data?.message || "بيانات غير صحيحة";
+        setErrors((prev) => ({
+          ...prev,
+          general: errorMessage,
+        }));
+      } else {
+        // Generic error handling
+        setErrors((prev) => ({
+          ...prev,
+          general: "حدث خطأ أثناء إنشاء الحساب. يرجى المحاولة مرة أخرى.",
+        }));
+      }
     } finally {
       setIsSubmitting(false);
     }
