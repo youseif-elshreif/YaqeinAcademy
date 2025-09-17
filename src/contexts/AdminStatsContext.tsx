@@ -12,15 +12,11 @@ type AdminStatsContextType = {
   admins: any[];
   isLoading: boolean;
   error: string | null;
-  getAdmins: (token: string) => Promise<any[]>;
+  getAdmins: () => Promise<any[]>;
   createAdmin: (adminData: any) => Promise<any>;
-  updateMember: (
-    token: string,
-    memberId: string,
-    memberData: any
-  ) => Promise<any>;
-  deleteMember: (token: string, memberId: string) => Promise<any>;
-  refreshAdmins: (token: string) => Promise<void>;
+  updateMember: (memberId: string, memberData: any) => Promise<any>;
+  deleteMember: (memberId: string) => Promise<any>;
+  refreshAdmins: () => Promise<void>;
 };
 
 const AdminStatsContext = createContext<AdminStatsContextType | undefined>(
@@ -46,11 +42,10 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const getAdmins = useCallback(async (token: string): Promise<any[]> => {
+  const getAdmins = useCallback(async (): Promise<any[]> => {
     try {
       setIsLoading(true);
       setError(null);
-      void token; // mark param as used to satisfy TS unused var check
       const list: any[] = await adminSvc.getAdmins();
       setAdmins(list);
       return list;
@@ -66,7 +61,7 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
     try {
       setIsLoading(true);
       setError(null);
-      const data = await adminSvc.createAdmin(adminData); // Note: We don't refresh admins here as it needs a token, which should be handled by the calling component
+      const data = await adminSvc.createAdmin(adminData);
       return data;
     } catch (error) {
       setError("خطأ في إنشاء المسؤول");
@@ -77,12 +72,12 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
   }, []);
 
   const updateMember = useCallback(
-    async (token: string, memberId: string, memberData: any) => {
+    async (memberId: string, memberData: any) => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await adminSvc.updateMember(token, memberId, memberData); // Refresh admins after update
-        await getAdmins(token);
+        const data = await adminSvc.updateMember(memberId, memberData); // Refresh admins after update
+        await getAdmins();
         return data;
       } catch (error) {
         setError("خطأ في تحديث بيانات العضو");
@@ -95,12 +90,12 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
   );
 
   const deleteMember = useCallback(
-    async (token: string, memberId: string) => {
+    async (memberId: string) => {
       try {
         setIsLoading(true);
         setError(null);
         const data = await adminSvc.deleteMember(memberId); // Refresh admins after deletion
-        await getAdmins(token);
+        await getAdmins();
         return data;
       } catch (error) {
         setError("خطأ في حذف العضو");
@@ -112,12 +107,9 @@ export const AdminStatsProvider = ({ children }: AdminStatsProviderProps) => {
     [getAdmins]
   );
 
-  const refreshAdmins = useCallback(
-    async (token: string) => {
-      await getAdmins(token);
-    },
-    [getAdmins]
-  );
+  const refreshAdmins = useCallback(async () => {
+    await getAdmins();
+  }, [getAdmins]);
 
   const contextValue: AdminStatsContextType = {
     admins,

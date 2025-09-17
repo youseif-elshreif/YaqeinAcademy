@@ -12,16 +12,12 @@ type CoursesContextType = {
   courses: any[];
   isLoading: boolean;
   error: string | null;
-  getCourses: (token: string) => Promise<any[]>;
-  getCourseByIdAPI: (token: string, courseId: string) => Promise<any>;
-  createCourse: (token: string, courseData: any) => Promise<any>;
-  updateCourse: (
-    token: string,
-    courseId: string,
-    courseData: any
-  ) => Promise<any>;
-  deleteCourse: (token: string, courseId: string) => Promise<any>;
-  refreshCourses: (token: string) => Promise<void>;
+  getCourses: () => Promise<any[]>;
+  getCourseByIdAPI: (courseId: string) => Promise<any>;
+  createCourse: (courseData: any) => Promise<any>;
+  updateCourse: (courseId: string, courseData: any) => Promise<any>;
+  deleteCourse: (courseId: string) => Promise<any>;
+  refreshCourses: () => Promise<void>;
 };
 
 const CoursesContext = createContext<CoursesContextType | undefined>(undefined);
@@ -43,11 +39,10 @@ export const CoursesProvider = ({ children }: CoursesProviderProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const getCourses = useCallback(async (token: string): Promise<any[]> => {
+  const getCourses = useCallback(async (): Promise<any[]> => {
     try {
       setIsLoading(true);
       setError(null);
-      void token; // mark as used
       const data = await adminSvc.getCourses();
       setCourses(data);
       return data;
@@ -59,31 +54,27 @@ export const CoursesProvider = ({ children }: CoursesProviderProps) => {
     }
   }, []);
 
-  const getCourseByIdAPI = useCallback(
-    async (token: string, courseId: string) => {
-      try {
-        void token;
-        setIsLoading(true);
-        setError(null);
-        const data = await adminSvc.getCourseById(courseId);
-        return data;
-      } catch (error) {
-        setError("خطأ في جلب قائمة الدورات");
-        throw error;
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    []
-  );
+  const getCourseByIdAPI = useCallback(async (courseId: string) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const data = await adminSvc.getCourseById(courseId);
+      return data;
+    } catch (error) {
+      setError("خطأ في جلب قائمة الدورات");
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   const createCourse = useCallback(
-    async (token: string, courseData: any) => {
+    async (courseData: any) => {
       try {
         setIsLoading(true);
         setError(null);
         const data = await adminSvc.createCourse(courseData); // Refresh courses list
-        await getCourses(token);
+        await getCourses();
         return data;
       } catch (error) {
         setError("خطأ في إنشاء الدورة");
@@ -96,12 +87,12 @@ export const CoursesProvider = ({ children }: CoursesProviderProps) => {
   );
 
   const updateCourse = useCallback(
-    async (token: string, courseId: string, courseData: any) => {
+    async (courseId: string, courseData: any) => {
       try {
         setIsLoading(true);
         setError(null);
         const data = await adminSvc.updateCourse(courseId, courseData); // Refresh courses list
-        await getCourses(token);
+        await getCourses();
         return data;
       } catch (error) {
         setError("خطأ في تحديث الدورة");
@@ -114,12 +105,12 @@ export const CoursesProvider = ({ children }: CoursesProviderProps) => {
   );
 
   const deleteCourse = useCallback(
-    async (token: string, courseId: string) => {
+    async (courseId: string) => {
       try {
         setIsLoading(true);
         setError(null);
         const result = await adminSvc.deleteCourse(courseId); // Refresh courses list
-        await getCourses(token);
+        await getCourses();
         return result;
       } catch (error) {
         setError("خطأ في جلب التقارير");
@@ -131,12 +122,9 @@ export const CoursesProvider = ({ children }: CoursesProviderProps) => {
     [getCourses]
   );
 
-  const refreshCourses = useCallback(
-    async (token: string) => {
-      await getCourses(token);
-    },
-    [getCourses]
-  );
+  const refreshCourses = useCallback(async () => {
+    await getCourses();
+  }, [getCourses]);
 
   const contextValue: CoursesContextType = {
     courses,

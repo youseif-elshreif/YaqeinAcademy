@@ -14,16 +14,14 @@ type LessonsContextType = {
   isLoading: boolean;
   error: string | null;
   addLessonToGroup: (
-    token: string,
     groupId: string,
     data: { scheduledAt: string; subject: string; meetingLink: string }
   ) => Promise<any>;
   updateLesson: (
-    token: string,
     lessonId: string,
     data: { scheduledAt?: string; subject: string; meetingLink?: string }
   ) => Promise<any>;
-  deleteLesson: (token: string, lessonId: string) => Promise<any>;
+  deleteLesson: (lessonId: string) => Promise<any>;
   getLessonById: (lessonId: string) => Promise<any>;
   completeLesson: (lessonId: string) => Promise<any>;
   triggerLessonsRefresh: () => void;
@@ -50,14 +48,12 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
 
   const addLessonToGroup = useCallback(
     async (
-      token: string,
       groupId: string,
       data: { scheduledAt: string; subject: string; meetingLink: string }
     ) => {
       try {
         setIsLoading(true);
         setError(null);
-        void token; // mark as used
         const result = await adminSvc.addLessonToGroup(groupId, data); // Trigger refresh
         setLessonsRefreshKey((k) => k + 1);
         return result;
@@ -73,14 +69,12 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
 
   const updateLesson = useCallback(
     async (
-      token: string,
       lessonId: string,
       data: { scheduledAt: string; subject: string; meetingLink?: string }
     ) => {
       try {
         setIsLoading(true);
         setError(null);
-        void token; // mark as used
         const result = await adminSvc.updateLesson(lessonId, data); // Trigger refresh
         setLessonsRefreshKey((k) => k + 1);
         return result;
@@ -94,11 +88,10 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
     []
   );
 
-  const deleteLesson = useCallback(async (token: string, lessonId: string) => {
+  const deleteLesson = useCallback(async (lessonId: string) => {
     try {
       setIsLoading(true);
       setError(null);
-      void token; // mark as used
       const data = await adminSvc.deleteLesson(lessonId); // Trigger refresh
       setLessonsRefreshKey((k) => k + 1);
       return data;

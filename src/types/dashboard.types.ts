@@ -55,9 +55,7 @@ export interface LessonLike {
   id: number;
   status: string;
 }
-export interface TeacherSummaryCardsProps {
-  classes: LessonLike[];
-}
+
 export interface MobileClassCardsProps {
   classes: any[];
 }

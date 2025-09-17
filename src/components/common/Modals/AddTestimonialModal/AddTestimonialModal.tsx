@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import { ModalContainer, ModalHeader } from "@/src/components/common/Modal";
+import {
+  ModalContainer,
+  ModalHeader,
+  ErrorDisplay,
+} from "@/src/components/common/Modal";
 import TestimonialForm from "@/src/components/dashboard/TestimonialForm";
 import { TestimonialFormData } from "@/src/types";
-import styles from "./AddTestimonialModal.module.css";
+// import styles from "./AddTestimonialModal.module.css"; // Unused import
 
 interface AddTestimonialModalProps {
   isOpen: boolean;
@@ -19,14 +23,17 @@ const AddTestimonialModal: React.FC<AddTestimonialModalProps> = ({
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [submitError, setSubmitError] = useState<string>("");
 
   const handleSubmit = async (data: TestimonialFormData) => {
     setIsSubmitting(true);
+    setSubmitError(""); // Clear previous errors
     try {
       await onSubmit(data);
       handleClose(); // Close modal on success
-    } catch (error) {
-      console.error("Error submitting testimonial:", error);
+    } catch {
+      // Set user-friendly error message
+      setSubmitError("حدث خطأ أثناء إرسال رأيك. يرجى المحاولة مرة أخرى.");
     } finally {
       setIsSubmitting(false);
     }
@@ -36,6 +43,7 @@ const AddTestimonialModal: React.FC<AddTestimonialModalProps> = ({
     setIsClosing(true);
     setTimeout(() => {
       setIsClosing(false);
+      setSubmitError(""); // Clear error when closing
       onClose();
     }, 300);
   };
@@ -56,6 +64,7 @@ const AddTestimonialModal: React.FC<AddTestimonialModalProps> = ({
       />
 
       <div style={{ overflowY: "auto" }}>
+        <ErrorDisplay message={submitError} />
         <TestimonialForm
           onSubmit={handleSubmit}
           isLoading={isSubmitting || isLoading}

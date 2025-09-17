@@ -11,12 +11,10 @@ import {
   ConfirmTextInput,
 } from "@/src/components/common/Modal";
 import { useLessonsContext } from "@/src/contexts/LessonsContext";
-import { useAuth } from "@/src/contexts/AuthContext";
 
 const DeleteLessonModal: React.FC = () => {
   const { closeDeleteLessonModal, selectedLessonData } = useAdminModal();
   const { deleteLesson } = useLessonsContext();
-  const { token } = useAuth();
 
   const [isClosing, setIsClosing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -32,19 +30,20 @@ const DeleteLessonModal: React.FC = () => {
   };
 
   const handleDelete = async () => {
-    if (confirmText.trim().toLowerCase() !== "نعم") {
+    if (confirmText.trim().toLowerCase() !== "حذف") {
       return;
     }
 
     setIsDeleting(true);
 
     try {
-      if (!token || !deleteLesson || !selectedLessonData) {
-        throw new Error("Missing token or lesson context");
+      if (!deleteLesson || !selectedLessonData) {
+        throw new Error("Missing lesson context");
       }
-      await deleteLesson(token, selectedLessonData.id);
+      await deleteLesson(selectedLessonData.id);
       handleClose();
     } catch (error) {
+      throw error;
     } finally {
       setIsDeleting(false);
     }
@@ -62,7 +61,7 @@ const DeleteLessonModal: React.FC = () => {
   if (!selectedLessonData) return null;
 
   const isDeleteEnabled =
-    confirmText.trim().toLowerCase() === "نعم" && !isDeleting;
+    confirmText.trim().toLowerCase() === "حذف" && !isDeleting;
 
   const actions = [
     {
@@ -127,7 +126,7 @@ const DeleteLessonModal: React.FC = () => {
         <ConfirmTextInput
           label={
             <>
-              اكتب كلمة &quot;<strong>نعم</strong>&quot; في الصندوق للتأكيد:
+              اكتب كلمة &quot;<strong>حذف</strong>&quot; في الصندوق للتأكيد:
             </>
           }
           value={confirmText}

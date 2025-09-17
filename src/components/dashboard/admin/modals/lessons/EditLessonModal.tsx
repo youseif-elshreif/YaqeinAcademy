@@ -9,12 +9,10 @@ import {
   ModalActions,
 } from "@/src/components/common/Modal";
 import { useLessonsContext } from "@/src/contexts/LessonsContext";
-import { useAuth } from "@/src/contexts/AuthContext";
 
 const EditLessonModal: React.FC = () => {
   const { closeEditLessonModal, selectedLessonData } = useAdminModal();
   const { updateLesson } = useLessonsContext();
-  const { token } = useAuth();
 
   const [isClosing, setIsClosing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -61,19 +59,18 @@ const EditLessonModal: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      if (!token || !updateLesson || !selectedLessonData) {
-        throw new Error("Missing token or lesson context");
+      if (!updateLesson || !selectedLessonData) {
+        throw new Error("Missing lesson context");
       }
       const { date, time } = formData;
       const scheduledAt = new Date(`${date}T${time}:00`).toISOString();
-      await updateLesson(token, selectedLessonData.id, {
+      await updateLesson(selectedLessonData.id, {
         scheduledAt,
         subject: " ",
         meetingLink: formData.meetingLink || undefined,
       });
       handleClose();
-    } catch (error) {
-      console.error("Error updating lesson:", error);
+    } catch {
     } finally {
       setIsSubmitting(false);
     }

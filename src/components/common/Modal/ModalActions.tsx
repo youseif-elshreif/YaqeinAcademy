@@ -1,7 +1,7 @@
 ﻿import React from "react";
 import Button from "../Button";
 import baseStyles from "../../../styles/BaseModal.module.css";
-import { ModalActionsProps, ActionButton } from "@/src/types";
+import { ModalActionsProps } from "@/src/types";
 
 const ModalActions: React.FC<ModalActionsProps> = ({
   actions,

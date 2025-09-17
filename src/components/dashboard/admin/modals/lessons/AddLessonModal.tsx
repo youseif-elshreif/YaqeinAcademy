@@ -9,12 +9,10 @@ import {
   ModalActions,
 } from "@/src/components/common/Modal";
 import { useLessonsContext } from "@/src/contexts/LessonsContext";
-import { useAuth } from "@/src/contexts/AuthContext";
 
 const AddLessonModal: React.FC = () => {
   const { closeAddLessonModal, selectedGroupForLessons } = useAdminModal();
   const { addLessonToGroup } = useLessonsContext();
-  const { token } = useAuth();
 
   const [isClosing, setIsClosing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,19 +42,20 @@ const AddLessonModal: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      if (!token || !addLessonToGroup || !selectedGroupForLessons) {
-        throw new Error("Missing token or group context");
+      if (!addLessonToGroup || !selectedGroupForLessons) {
+        throw new Error("Missing group context");
       }
       const { date, time } = formData;
 
       const scheduledAt = new Date(`${date}T${time}:00`).toISOString();
-      await addLessonToGroup(token, selectedGroupForLessons.groupId, {
+      await addLessonToGroup(selectedGroupForLessons.groupId, {
         scheduledAt,
         subject: " ",
         meetingLink: formData.meetingLink,
       });
       handleClose();
     } catch (error) {
+      throw error;
     } finally {
       setIsSubmitting(false);
     }

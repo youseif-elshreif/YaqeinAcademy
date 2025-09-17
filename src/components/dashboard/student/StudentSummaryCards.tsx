@@ -40,7 +40,6 @@ const StudentSummaryCards = ({ studentData }: StudentSummaryCardsProps) => {
 
   return (
     <div className={styles.summaryContainer}>
-      <h2 className={styles.sectionTitle}>ملخص الأداء</h2>
       {!hasCredits && (
         <div className={styles.warningMessage}>
           <p>⚠️ لا توجد حلقات مستحقة حالياً. يرجى التواصل مع الإدارة.</p>

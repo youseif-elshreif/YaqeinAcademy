@@ -13,33 +13,26 @@ type GroupsContextType = {
   isLoading: boolean;
   error: string | null;
   lessonsRefreshKey: number;
-  getGroups: (token: string) => Promise<any[]>;
-  getGroupById: (token: string, groupId: string) => Promise<any>;
-  createGroup: (token: string, groupData: any) => Promise<any>;
-  updateGroup: (token: string, groupId: string, groupData: any) => Promise<any>;
-  deleteGroup: (token: string, groupId: string) => Promise<any>;
+  getGroups: () => Promise<any[]>;
+  getGroupById: (groupId: string) => Promise<any>;
+  createGroup: (groupData: any) => Promise<any>;
+  updateGroup: (groupId: string, groupData: any) => Promise<any>;
+  deleteGroup: (groupId: string) => Promise<any>;
   addGroupMember: (
-    token: string,
     groupId: string,
     memberData: { memberId: string }
   ) => Promise<any>;
-  removeGroupMember: (
-    token: string,
-    groupId: string,
-    memberId: string
-  ) => Promise<any>;
+  removeGroupMember: (groupId: string, memberId: string) => Promise<any>;
   addLessonToGroup: (
-    token: string,
     groupId: string,
     data: { scheduledAt: string; subject: string; meetingLink: string }
   ) => Promise<any>;
   updateLesson: (
-    token: string,
     lessonId: string,
     data: { scheduledAt: string; subject: string; meetingLink: string }
   ) => Promise<any>;
-  deleteLesson: (token: string, lessonId: string) => Promise<any>;
-  refreshGroups: (token: string) => Promise<void>;
+  deleteLesson: (lessonId: string) => Promise<any>;
+  refreshGroups: () => Promise<void>;
   triggerLessonsRefresh: () => void;
 };
 
@@ -63,12 +56,11 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
   const [error, setError] = useState<string | null>(null);
   const [lessonsRefreshKey, setLessonsRefreshKey] = useState(0);
 
-  const getGroups = useCallback(async (token: string): Promise<any[]> => {
+  const getGroups = useCallback(async (): Promise<any[]> => {
     try {
       setIsLoading(true);
       setError(null);
 
-      void token;
       const data = await adminSvc.getGroups();
       setGroups(data);
       return data;
@@ -80,7 +72,7 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
     }
   }, []);
 
-  const getGroupById = useCallback(async (token: string, groupId: string) => {
+  const getGroupById = useCallback(async (groupId: string) => {
     try {
       setIsLoading(true);
       setError(null);
@@ -95,12 +87,12 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
   }, []);
 
   const createGroup = useCallback(
-    async (token: string, groupData: any) => {
+    async (groupData: any) => {
       try {
         setIsLoading(true);
         setError(null);
         const data = await adminSvc.createGroup(groupData); // Refresh groups list
-        await getGroups(token);
+        await getGroups();
         return data;
       } catch (error) {
         setError("خطأ في إنشاء الحلقة");
@@ -113,12 +105,12 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
   );
 
   const updateGroup = useCallback(
-    async (token: string, groupId: string, groupData: any) => {
+    async (groupId: string, groupData: any) => {
       try {
         setIsLoading(true);
         setError(null);
         const data = await adminSvc.updateGroup(groupId, groupData); // Refresh groups list
-        await getGroups(token);
+        await getGroups();
         return data;
       } catch (error) {
         setError("خطأ في تحديث الحلقة");
@@ -131,12 +123,12 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
   );
 
   const deleteGroup = useCallback(
-    async (token: string, groupId: string) => {
+    async (groupId: string) => {
       try {
         setIsLoading(true);
         setError(null);
         const data = await adminSvc.deleteGroup(groupId); // Refresh groups list
-        await getGroups(token);
+        await getGroups();
         return data;
       } catch (error) {
         setError("خطأ في حذف الحلقة");
@@ -149,11 +141,7 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
   );
 
   const addGroupMember = useCallback(
-    async (
-      token: string,
-      groupId: string,
-      memberData: { memberId: string }
-    ) => {
+    async (groupId: string, memberData: { memberId: string }) => {
       try {
         setIsLoading(true);
         setError(null);
@@ -161,7 +149,7 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
           groupId,
           memberData.memberId
         ); // Refresh groups list
-        await getGroups(token);
+        await getGroups();
         return data;
       } catch (error) {
         setError("خطأ في جلب بيانات الحلقات");
@@ -174,12 +162,12 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
   );
 
   const removeGroupMember = useCallback(
-    async (groupId: string, memberId: string, token: string) => {
+    async (groupId: string, memberId: string) => {
       try {
         setIsLoading(true);
         setError(null);
         const data = await adminSvc.removeGroupMember(groupId, memberId); // Refresh groups list
-        await getGroups(token);
+        await getGroups();
         return data;
       } catch (error) {
         setError("خطأ في تحديث بيانات الحلقة");
@@ -193,7 +181,6 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
 
   const addLessonToGroup = useCallback(
     async (
-      token: string,
       groupId: string,
       data: { scheduledAt: string; subject: string; meetingLink: string }
     ) => {
@@ -215,7 +202,6 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
 
   const updateLesson = useCallback(
     async (
-      token: string,
       lessonId: string,
       data: { scheduledAt: string; subject: string; meetingLink: string }
     ) => {
@@ -235,7 +221,7 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
     []
   );
 
-  const deleteLesson = useCallback(async (token: string, lessonId: string) => {
+  const deleteLesson = useCallback(async (lessonId: string) => {
     try {
       setIsLoading(true);
       setError(null);
@@ -250,12 +236,9 @@ export const GroupsProvider = ({ children }: GroupsProviderProps) => {
     }
   }, []);
 
-  const refreshGroups = useCallback(
-    async (token: string) => {
-      await getGroups(token);
-    },
-    [getGroups]
-  );
+  const refreshGroups = useCallback(async () => {
+    await getGroups();
+  }, [getGroups]);
 
   const triggerLessonsRefresh = useCallback(() => {
     setLessonsRefreshKey((prev) => prev + 1);

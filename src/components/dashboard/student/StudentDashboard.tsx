@@ -8,7 +8,6 @@ import ProfileSettings from "@/src/components/dashboard/student/ProfileSettings"
 import NextSessionTasks from "@/src/components/dashboard/student/NextSessionTasks";
 import StudentSummaryCards from "@/src/components/dashboard/student/StudentSummaryCards";
 import styles from "@/src/styles/StudentDashboard.module.css";
-import Head from "next/head";
 import { useAuth } from "@/src/contexts/AuthContext";
 import { useStudentDashboard } from "@/src/contexts/StudentDashboardContext";
 import { useTestimonialsContext } from "@/src/contexts/AppProviders";
@@ -19,6 +18,7 @@ import MeetingLinkActions from "@/src/components/common/MeetingLinkActions";
 import Button from "@/src/components/common/Button";
 import AddTestimonialModal from "@/src/components/common/Modals/AddTestimonialModal";
 import EnhancedLoader from "@/src/components/common/UI/EnhancedLoader";
+import ErrorDisplay from "@/src/components/common/Modal/ErrorDisplay";
 
 function StudentDashboard() {
   const { user } = useAuth();
@@ -28,6 +28,7 @@ function StudentDashboard() {
     useTestimonialsContext();
   const [myReportsOpen, setMyReportsOpen] = useState(false);
   const [addTestimonialOpen, setAddTestimonialOpen] = useState(false);
+  const [testimonialError, setTestimonialError] = useState<string>("");
 
   const studentData = {
     id: user?._id || "",
@@ -75,9 +76,18 @@ function StudentDashboard() {
   // Handle testimonial submission
   const handleTestimonialSubmit = async (formData: TestimonialFormData) => {
     try {
+      setTestimonialError(""); // Clear previous errors
       await createTestimonial(formData);
       setAddTestimonialOpen(false);
-    } catch (error) {}
+    } catch (error) {
+      // Set user-friendly error message
+      const errorObj = error as any;
+      const errorMessage =
+        errorObj?.response?.data?.message ||
+        errorObj?.message ||
+        "حدث خطأ أثناء إرسال التقييم. يرجى المحاولة مرة أخرى.";
+      setTestimonialError(errorMessage);
+    }
   };
 
   const tabs = [
@@ -123,21 +133,6 @@ function StudentDashboard() {
 
   return (
     <>
-      {/* Page Head */}
-      <Head>
-        <title>لوحة تحكم الطالب</title>
-        <meta
-          name="description"
-          content="لوحة تحكم الطالب لمتابعة التقدم الدراسي"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#ffffff" />
-        <meta
-          name="keywords"
-          content="طالب, لوحة تحكم, دروس, تعلم, قرآن, تعليم"
-        />
-      </Head>
-
       <main className={styles.main}>
         <div className={styles.dashboardContainer}>
           {/* Page Header */}
@@ -168,13 +163,15 @@ function StudentDashboard() {
                   justifyContent: "flex-end",
                 }}
               >
-                <Button
-                  onClick={() => setAddTestimonialOpen(true)}
-                  variant="secondary"
-                  size="small"
-                >
-                  شاركنا رأيك
-                </Button>
+                {userStats?.PrivitelessonCredits && (
+                  <Button
+                    onClick={() => setAddTestimonialOpen(true)}
+                    variant="secondary"
+                    size="small"
+                  >
+                    شاركنا رأيك
+                  </Button>
+                )}
                 <Button
                   onClick={() => setMyReportsOpen(true)}
                   variant="primary"
@@ -269,13 +266,24 @@ function StudentDashboard() {
 
           {/* Tab Content */}
           <div className={styles.tabContent}>{renderTabContent()}</div>
+
+          {/* Error Display for Testimonial */}
+          {testimonialError && (
+            <div style={{ margin: "1rem 0" }}>
+              <ErrorDisplay message={testimonialError} />
+            </div>
+          )}
+
           <StudentMyReportsModal
             isOpen={myReportsOpen}
             onClose={() => setMyReportsOpen(false)}
           />
           <AddTestimonialModal
             isOpen={addTestimonialOpen}
-            onClose={() => setAddTestimonialOpen(false)}
+            onClose={() => {
+              setAddTestimonialOpen(false);
+              setTestimonialError(""); // Clear error when closing modal
+            }}
             onSubmit={handleTestimonialSubmit}
             isLoading={testimonialLoading}
           />

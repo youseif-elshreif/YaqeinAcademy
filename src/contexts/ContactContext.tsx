@@ -26,7 +26,15 @@ type ContactContextType = {
   error: string | null;
   getContactInfo: () => Promise<ContactInfo | null>;
   getPublicContactInfo: () => Promise<ContactInfo | null>;
-  updateContactInfo: (data: ContactInfo) => Promise<ContactInfo>;
+  updateContactInfo: (data: {
+    email: string;
+    phone: string[];
+    address: string;
+    whatsapp: string[];
+    telegramLink: string;
+    facebook: string;
+    linkedin: string;
+  }) => Promise<ContactInfo>;
   refreshContactInfo: () => Promise<void>;
 };
 
@@ -95,6 +103,7 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
         setError(null);
         const result = await adminSvc.updateContactInfo(data);
         setContactInfo(result);
+
         return result;
       } catch (error) {
         setError("خطأ في تحديث معلومات التواصل");
@@ -111,18 +120,25 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
   }, [getContactInfo]);
 
   useEffect(() => {
-    // Load public contact info on component mount (no authentication required)
-    getPublicContactInfo().catch(() => {
-      // If public API fails, try the admin API if user is authenticated
-      const token =
-        typeof window !== "undefined"
-          ? localStorage.getItem("accessToken")
-          : null;
-      if (token) {
-        getContactInfo().catch(() => {});
+    // Load contact info only once on mount
+    const loadInitialContactInfo = async () => {
+      try {
+        // Try public API first (no auth required)
+        await getPublicContactInfo();
+      } catch {
+        try {
+          // Fallback to admin API if public fails
+          await getContactInfo();
+        } catch {
+          // Both failed, but that's ok - user might not be authenticated
+          console.log("Could not load contact info");
+        }
       }
-    });
-  }, [getPublicContactInfo, getContactInfo]);
+    };
+
+    loadInitialContactInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty dependency array - run only once on mount
 
   const contextValue: ContactContextType = {
     contactInfo,

@@ -1,6 +1,13 @@
 ﻿import { useAdminModal } from "@/src/contexts/AdminModalContext";
 import styles from "./UserActionsModal.module.css";
-import { FaEdit, FaTrash, FaCoins, FaListUl, FaLink } from "react-icons/fa";
+import {
+  FaEdit,
+  FaTrash,
+  FaCoins,
+  FaListUl,
+  FaLink,
+  FaDollarSign,
+} from "react-icons/fa";
 import {
   ModalContainer,
   ModalHeader,
@@ -16,6 +23,7 @@ const UserActionsModal: React.FC = () => {
     openDeleteUserModal,
     openAddCreditsModal,
     openEditTeacherLinkModal,
+    openSetTeacherPriceModal,
   } = useAdminModal();
 
   if (!userActionsModalOpen || !selectedUserForActions) return null;
@@ -28,7 +36,6 @@ const UserActionsModal: React.FC = () => {
     closeUserActionsModal();
 
     setTimeout(() => {
-
       const dataToPass =
         selectedUserForActions.fullData || selectedUserForActions;
       openEditUserModal(dataToPass);
@@ -50,6 +57,7 @@ const UserActionsModal: React.FC = () => {
       openAddCreditsModal({
         userId: selectedUserForActions.id,
         name: selectedUserForActions.name,
+        fullData: selectedUserForActions.fullData, // تمرير البيانات الكاملة
       });
     }, 300);
   };
@@ -61,6 +69,16 @@ const UserActionsModal: React.FC = () => {
       const dataToPass =
         selectedUserForActions.fullData || selectedUserForActions;
       openEditTeacherLinkModal(dataToPass);
+    }, 300);
+  };
+
+  const handleSetTeacherPrice = () => {
+    closeUserActionsModal();
+
+    setTimeout(() => {
+      const dataToPass =
+        selectedUserForActions.fullData || selectedUserForActions;
+      openSetTeacherPriceModal(dataToPass);
     }, 300);
   };
 
@@ -107,6 +125,13 @@ const UserActionsModal: React.FC = () => {
               label="تعديل رابط الحلقة"
               icon={<FaLink className={styles.btnIcon} />}
               onClick={handleEditTeacherLink}
+            />
+          )}
+          {selectedUserForActions.userType === "teacher" && (
+            <ActionButton
+              label="تعديل سعر الحصة"
+              icon={<FaDollarSign className={styles.btnIcon} />}
+              onClick={handleSetTeacherPrice}
             />
           )}
           {selectedUserForActions.userType === "student" && (

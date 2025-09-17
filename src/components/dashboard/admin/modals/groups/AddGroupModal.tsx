@@ -61,10 +61,8 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
   const fetchTeachers = useCallback(async () => {
     try {
       setLoadingTeachers(true);
-      const token = localStorage.getItem("accessToken");
-      if (!token) return;
 
-      const teachersData = await getTeachers(token);
+      const teachersData = await getTeachers();
 
       const combinedTeachers = teachersData
         .filter(
@@ -74,6 +72,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
         .map((teacher: Teacher) => ({
           id: teacher._id,
           name: typeof teacher.userId === "object" ? teacher.userId.name : "",
+          meetingLink: teacher.meetingLink || "",
         }));
 
       setTeachers(combinedTeachers);
@@ -93,13 +92,8 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
     try {
       setIsLoading(true);
       setErrorMessage("");
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        setErrorMessage("لم يتم العثور على التوقيع");
-        return;
-      }
 
-      const groupsData = await getGroups(token);
+      const groupsData = await getGroups();
       const targetGroup = groupsData.find((group) => group._id === editGroupId);
 
       if (targetGroup) {
@@ -205,6 +199,40 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
     }
   };
 
+  const handleTeacherChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { value } = e.target;
+    
+    // Find the selected teacher and get their meeting link
+    const selectedTeacher = teachers.find(teacher => teacher.id === value);
+    const meetingLink = selectedTeacher?.meetingLink || "";
+    
+    setFormData((prev) => ({
+      ...prev,
+      teacherId: value,
+      meetingLink: meetingLink,
+    }));
+
+    if (errorMessage) {
+      setErrorMessage("");
+    }
+
+    if (fieldErrors.teacherId) {
+      setFieldErrors((prev) => ({
+        ...prev,
+        teacherId: "",
+      }));
+    }
+
+    if (fieldErrors.meetingLink) {
+      setFieldErrors((prev) => ({
+        ...prev,
+        meetingLink: "",
+      }));
+    }
+  };
+
   const handleTimeSlotChange = (
     index: number,
     field: "day" | "time",
@@ -276,14 +304,13 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
     groupId: string,
     meetingLink: string,
     weekdays: string[],
-    times: string[],
-    token: string
+    times: string[]
   ) => {
     try {
       const schedule = createLessonSchedule(weekdays, times, meetingLink);
 
       for (const lesson of schedule) {
-        await addLessonToGroup(token, groupId, lesson);
+        await addLessonToGroup(groupId, lesson);
       }
     } catch {}
   };
@@ -299,13 +326,6 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
     setErrorMessage(""); // Clear any previous errors
 
     try {
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        setErrorMessage(
-          "لم يتم العثور على التوقيع. يرجى تسجيل الدخول مرة أخرى"
-        );
-        return;
-      }
 
       const usualDate: Record<string, string> = {};
       const weekdays: string[] = [];
@@ -343,12 +363,12 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       let response;
 
       if (isEditMode && editGroupId) {
-        response = await updateGroup(token, editGroupId, groupData);
+        response = await updateGroup(editGroupId, groupData);
       } else {
-        response = await createGroup(token, groupData);
+        response = await createGroup(groupData);
       }
 
-      await getGroups(token);
+      await getGroups();
 
       if (!isEditMode) {
         if (weekdays.length > 0 && times.length > 0) {
@@ -356,8 +376,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
             response._id,
             formData.meetingLink,
             weekdays,
-            times,
-            token
+            times
           );
         }
 
@@ -523,7 +542,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                 label="اسم المعلم"
                 name="teacherId"
                 value={formData.teacherId}
-                onChange={handleInputChange as any}
+                onChange={handleTeacherChange}
                 options={teacherOptions}
                 disabled={isSubmitting || loadingTeachers}
                 error={fieldErrors.teacherId}
@@ -537,7 +556,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                 onChange={handleInputChange}
                 error={fieldErrors.meetingLink}
                 disabled={isSubmitting}
-                placeholder="https://zoom.us/j/..."
+                placeholder={formData.teacherId && !formData.meetingLink ? "لم يتم تحديد رابط للمعلم المختار" : "https://zoom.us/j/..."}
               />
 
               <FormField

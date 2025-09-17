@@ -1,13 +1,11 @@
 ﻿"use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import {
   AuthButton,
   AuthLayout,
   InputField,
   ErrorMessage,
-  CheckboxField,
   withGuestProtection,
 } from "@/src/components/auth";
 import styles from "./login.module.css";
@@ -25,7 +23,6 @@ const LoginPage = () => {
   const [errors, setErrors] = useState<LoginFormErrors>({});
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [rememberMe, setRememberMe] = useState<boolean>(false);
 
   // Input handler for regular inputs
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,11 +40,6 @@ const LoginPage = () => {
         [name]: "",
       }));
     }
-  };
-
-  // Checkbox handler
-  const handleRememberMeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRememberMe(e.target.checked);
   };
 
   const validateForm = (): boolean => {

@@ -1,7 +1,6 @@
 ﻿"use client";
 
 import { useState, useEffect } from "react";
-import Head from "next/head";
 import styles from "@/src/styles/TeacherDashboard.module.css";
 import TeacherSummaryCards from "@/src/components/dashboard/teacher/TeacherSummaryCards";
 import MonthlyClassTable from "@/src/components/dashboard/teacher/MonthlyClassTable/index";
@@ -82,30 +81,14 @@ const TeacherDashboardContent = () => {
 
   return (
     <ModalProvider classes={classes} onClassesUpdate={setClasses}>
-      <Head>
-        <title>لوحة تحكم المعلم</title>
-        <meta
-          name="description"
-          content="لوحة تحكم المعلم لإدارة الحصص والطلاب"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta
-          name="keywords"
-          content="معلم, لوحة تحكم, حصص, طلاب, تعليم, أكاديمية"
-        />
-      </Head>
-
       <main className={styles.main}>
         <div className={`${styles.mainCont} container`}>
           <div className={styles.header}>
             <h1 className={styles.pageTitle}>لوحة تحكم المعلم</h1>
-            <p className={styles.welcomeText}>
-              أهلاً وسهلاً {treacherData.name}
-            </p>
           </div>
 
           {/* Summary Cards */}
-          <TeacherSummaryCards classes={classes} />
+          <TeacherSummaryCards classes={classes} money={user?.money || 0} />
 
           <DashboardTabs
             tabs={tabs}

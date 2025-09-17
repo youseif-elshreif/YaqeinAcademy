@@ -1,7 +1,7 @@
 ﻿"use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { BsCheckCircle, BsXCircle, BsClockHistory } from "react-icons/bs";
+import { BsCheckCircle, BsXCircle } from "react-icons/bs";
 import { useAuth } from "@/src/contexts/AuthContext";
 import EmailVerificationLoader from "@/src/components/common/UI/EmailVerificationLoader";
 import Button from "@/src/components/common/Button";
@@ -21,14 +21,13 @@ const VerifyEmailPage: React.FC = () => {
     const verify = async () => {
       try {
         await verifyEmail(token);
-        localStorage.setItem("accessToken", token);
         setStatus("success");
       } catch {
         setStatus("error");
       }
     };
     verify();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const renderContent = () => {
     if (status === "loading") {
       return <EmailVerificationLoader />;

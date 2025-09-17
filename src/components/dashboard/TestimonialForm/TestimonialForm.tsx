@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { TestimonialFormProps } from "@/src/types";
 import RatingComponent from "@/src/components/common/UI/RatingComponent";
+import { ErrorDisplay } from "@/src/components/common/Modal";
 import styles from "./TestimonialForm.module.css";
 
 const TestimonialForm: React.FC<TestimonialFormProps> = ({
@@ -15,6 +16,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [submitError, setSubmitError] = useState<string>("");
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
@@ -48,13 +50,24 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({
       return;
     }
 
+    setSubmitError(""); // Clear previous errors
     try {
-      await onSubmit(formData);
+      // Prepare data to send
+      const dataToSend = {
+        ...formData,
+        name: formData.hide ? "شخص مجهول" : formData.name,
+      };
+
+      await onSubmit(dataToSend);
       // Reset form on success
       setFormData({ name: "", rating: 5, txt: "", hide: false });
       setErrors({});
     } catch (error) {
-      console.error("Error submitting testimonial:", error);
+      {
+        // Set user-friendly error message
+        setSubmitError("حدث خطأ أثناء إرسال رأيك. يرجى المحاولة مرة أخرى.");
+        throw error;
+      }
     }
   };
 
@@ -71,6 +84,8 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit} className={styles.testimonialForm}>
+      <ErrorDisplay message={submitError} />
+
       {/* Checkbox للإخفاء */}
       <div className={styles.formGroup}>
         <div className={styles.checkboxGroup}>

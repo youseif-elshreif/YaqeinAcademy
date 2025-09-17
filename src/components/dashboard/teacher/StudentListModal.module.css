@@ -3,6 +3,14 @@
   max-height: 60vh;
   overflow: auto;
 }
+
+.loading {
+  color: var(--text-light);
+  text-align: center;
+  padding: 2rem 0;
+  font-style: italic;
+}
+
 .empty {
   color: var(--text-light);
   text-align: center;

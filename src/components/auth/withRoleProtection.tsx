@@ -44,7 +44,15 @@ function withRoleProtection<P extends object>(
           setShowLoader(false);
         }
       }
-    }, [isLoading, isAuthenticated, user, router, startTime]);
+    }, [
+      isLoading,
+      isAuthenticated,
+      user,
+      router,
+      startTime,
+      allowedRoles,
+      redirectTo,
+    ]);
 
     if (showLoader) {
       return <LoadingSpinner />;
@@ -86,7 +94,7 @@ export const withGuestProtection = <P extends object>(
   Component: React.ComponentType<P>
 ) => {
   const GuestProtectedComponent: React.FC<P> = (props) => {
-    const { isLoading, isAuthenticated } = useAuth();
+    const { isLoading, isAuthenticated, user } = useAuth();
     const router = useRouter();
     const [showLoader, setShowLoader] = useState(true);
     const [startTime] = useState(Date.now());
@@ -94,7 +102,7 @@ export const withGuestProtection = <P extends object>(
     useEffect(() => {
       if (!isLoading) {
         if (isAuthenticated) {
-          router.push("/");
+          router.push(`/${user?.role}/dashboard`);
           return;
         }
 
@@ -110,7 +118,7 @@ export const withGuestProtection = <P extends object>(
           setShowLoader(false);
         }
       }
-    }, [isLoading, isAuthenticated, router, startTime]);
+    }, [isLoading, isAuthenticated, router, startTime, user]);
 
     if (showLoader) {
       return <LoadingSpinner />;

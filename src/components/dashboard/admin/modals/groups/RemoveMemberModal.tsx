@@ -33,13 +33,8 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
     try {
       setLoading(true);
       setError("");
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        setError("لم يتم العثور على التوقيع");
-        return;
-      }
 
-      const groupData = await getGroupById(token, groupId);
+      const groupData = await getGroupById(groupId);
       if (groupData) {
         setMembers(groupData.group.members);
       } else {
@@ -47,6 +42,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
       }
     } catch (error: unknown) {
       setError("خطأ في تحميل قائمة أعضاء الحلقة");
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -75,28 +71,22 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
       return;
     }
 
-    if (confirmText.trim().toLowerCase() !== "نعم") {
-      setError("يجب كتابة 'نعم' للتأكيد");
+    if (confirmText.trim().toLowerCase() !== "حذف") {
+      setError("يجب كتابة 'حذف' للتأكيد");
       return;
     }
 
     try {
       setRemoving(true);
       setError("");
-      const token = localStorage.getItem("accessToken");
-
-      if (!token) {
-        setError("لم يتم العثور على التوقيع");
-        return;
-      }
 
       const removePromises = selectedMemberIds.map((memberId) =>
-        removeGroupMember(groupId, memberId, token)
+        removeGroupMember(groupId, memberId)
       );
 
       await Promise.all(removePromises);
 
-      await getGroupById(token, groupId);
+      await getGroupById(groupId);
 
       if (onSuccess) {
         onSuccess();
@@ -133,7 +123,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
 
   const isDeleteEnabled =
     selectedMemberIds.length > 0 &&
-    confirmText.trim().toLowerCase() === "نعم" &&
+    confirmText.trim().toLowerCase() === "حذف" &&
     !removing;
 
   return (
@@ -250,12 +240,12 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
           <ConfirmTextInput
             label={
               <>
-                اكتب كلمة &quot;<strong>نعم</strong>&quot; في الصندوق للتأكيد:
+                اكتب كلمة &quot;<strong>حذف</strong>&quot; في الصندوق للتأكيد:
               </>
             }
             value={confirmText}
             onChange={setConfirmText}
-            placeholder="نعم"
+            placeholder="حذف"
             disabled={removing}
           />
         )}

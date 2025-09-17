@@ -1,7 +1,6 @@
 ﻿import React from "react";
 import Link from "next/link";
 import styles from "@/src/styles/EmailConfirmationPage.module.css";
-import { withGuestProtection } from "@/src/components/auth";
 import { FaEnvelope } from "react-icons/fa6";
 import { MdVerifiedUser } from "react-icons/md";
 import Button from "@/src/components/common/Button";
@@ -10,7 +9,6 @@ const EmailConfirmationPage: React.FC = () => {
   return (
     <main>
       <div className={styles.card}>
-
         <div className={styles.noticeContainer}>
           <MdVerifiedUser className={styles.icon} />
           <h1 className={styles.heading}>

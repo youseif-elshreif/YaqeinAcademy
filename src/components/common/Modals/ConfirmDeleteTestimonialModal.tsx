@@ -54,8 +54,7 @@ const ConfirmDeleteTestimonialModal: React.FC<
       await onConfirmDelete(testimonialId);
       setConfirmText("");
       handleClose();
-    } catch (error) {
-      console.error("Error deleting testimonial:", error);
+    } catch {
     } finally {
       setIsLoading(false);
     }

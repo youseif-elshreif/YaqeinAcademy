@@ -3,6 +3,7 @@
 }
 export interface TeacherSummaryCardsProps {
   classes: LessonLike[];
+  money: number;
 }
 export interface StudentListModalProps {
   isOpen: boolean;

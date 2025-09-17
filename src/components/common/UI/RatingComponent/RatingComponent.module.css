@@ -75,7 +75,7 @@
   min-width: 2rem;
   height: 2rem;
   background: var(--primary-color);
-  color: var(--text-light);
+  color: #fff;
   border-radius: 50%;
   font-weight: 600;
   font-size: 0.9rem;

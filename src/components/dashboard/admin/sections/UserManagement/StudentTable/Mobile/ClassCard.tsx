@@ -48,6 +48,11 @@ const ClassCard: React.FC<StudentCardProps> = ({ studentItem }) => {
           </div>
 
           <div className={styles.infoItem}>
+            <span className={styles.infoLabel}>المدفوع:</span>
+            <span className={styles.infoValue}>{studentItem.money}</span>
+        </div>
+
+          <div className={styles.infoItem}>
             <span className={styles.infoLabel}>الرصيد:</span>
             <span className={styles.infoValue}>
               {studentItem.PrivitelessonCredits}

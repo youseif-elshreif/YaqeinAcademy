@@ -7,9 +7,9 @@ import {
   ModalActions,
   WarningPanel,
   ConfirmTextInput,
+  ErrorDisplay,
 } from "@/src/components/common/Modal";
 import { useCoursesContext } from "@/src/contexts/CoursesContext";
-import { useAuth } from "@/src/contexts/AuthContext";
 import { DeleteCourseModalProps } from "@/src/types";
 
 const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
@@ -19,11 +19,11 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
   courseName = "غير محدد",
 }) => {
   const { deleteCourse } = useCoursesContext();
-  const { token } = useAuth();
 
   const [isClosing, setIsClosing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [confirmText, setConfirmText] = useState("");
+  const [deleteError, setDeleteError] = useState<string>("");
 
   const handleClose = () => {
     setIsClosing(true);
@@ -31,23 +31,26 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
       onClose();
       setIsClosing(false);
       setConfirmText("");
+      setDeleteError(""); // Clear error when closing
     }, 300);
   };
 
   const handleDelete = async () => {
-    if (confirmText.trim().toLowerCase() !== "نعم") {
+    if (confirmText.trim().toLowerCase() !== "حذف") {
       return;
     }
 
-    if (!courseId || !token) {
+    if (!courseId) {
       return;
     }
 
     setIsDeleting(true);
+    setDeleteError(""); // Clear previous errors
     try {
-      await deleteCourse(token, courseId);
+      await deleteCourse(courseId);
       handleClose();
-    } catch (error) {
+    } catch {
+      setDeleteError("حدث خطأ أثناء حذف الدورة. يرجى المحاولة مرة أخرى.");
     } finally {
       setIsDeleting(false);
     }
@@ -55,7 +58,7 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
 
   if (!isOpen) return null;
   const isDeleteEnabled =
-    confirmText.trim().toLowerCase() === "نعم" && !isDeleting;
+    confirmText.trim().toLowerCase() === "حذف" && !isDeleting;
 
   return (
     <ModalContainer
@@ -87,14 +90,21 @@ const DeleteCourseModal: React.FC<DeleteCourseModalProps> = ({
         <ConfirmTextInput
           label={
             <>
-              اكتب كلمة <strong>نعم</strong> في الصندوق للتأكيد:
+              اكتب كلمة <strong>حذف</strong> في الصندوق للتأكيد:
             </>
           }
           value={confirmText}
           onChange={setConfirmText}
           disabled={isDeleting}
-          placeholder="نعم"
+          placeholder="حذف"
         />
+
+        {/* Error Display */}
+        {deleteError && (
+          <div style={{ marginTop: "1rem" }}>
+            <ErrorDisplay message={deleteError} />
+          </div>
+        )}
 
         <ModalActions
           alignment="right"

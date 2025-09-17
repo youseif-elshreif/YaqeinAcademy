@@ -7,6 +7,7 @@ import StatCard from "@/src/components/common/UI/StatCard";
 import SearchFilter from "@/src/components/common/UI/SearchFilter";
 import ConfirmDeleteTestimonialModal from "@/src/components/common/Modals/ConfirmDeleteTestimonialModal";
 import TestimonialsSkeleton from "./TestimonialsSkeleton";
+import { ErrorDisplay } from "@/src/components/common/Modal";
 import styles from "@/src/styles/AdminDashboard.module.css";
 import userStyles from "@/src/components/dashboard/admin/styles.module.css";
 
@@ -23,6 +24,7 @@ const TestimonialsManagement: React.FC = () => {
   const [testimonials, setTestimonials] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<string>("");
   const [initialLoading, setInitialLoading] = useState(true);
 
   // Delete confirmation modal state
@@ -36,10 +38,12 @@ const TestimonialsManagement: React.FC = () => {
   // Load testimonials
   const loadTestimonials = async () => {
     try {
+      setLoadError(""); // Clear previous errors
       const response = await getAllTestimonials();
       setTestimonials(response.reviews || []);
     } catch (error) {
-      console.error("Error loading testimonials:", error);
+      setLoadError("حدث خطأ في تحميل آراء الطلاب");
+      throw error;
     }
   };
 
@@ -47,10 +51,12 @@ const TestimonialsManagement: React.FC = () => {
     const loadInitialData = async () => {
       try {
         setInitialLoading(true);
+        setLoadError(""); // Clear previous errors
         const response = await getAllTestimonials();
         setTestimonials(response.reviews || []);
       } catch (error) {
-        console.error("Error loading testimonials:", error);
+        setLoadError("حدث خطأ في تحميل آراء الطلاب");
+        throw error;
       } finally {
         setInitialLoading(false);
       }
@@ -64,8 +70,6 @@ const TestimonialsManagement: React.FC = () => {
     try {
       await approveTestimonial(id);
       await loadTestimonials(); // Refresh data
-    } catch (error) {
-      console.error("Error approving testimonial:", error);
     } finally {
       setActionLoading(null);
     }
@@ -76,8 +80,7 @@ const TestimonialsManagement: React.FC = () => {
     try {
       await rejectTestimonial(id);
       await loadTestimonials(); // Refresh data
-    } catch (error) {
-      console.error("Error rejecting testimonial:", error);
+    } catch {
     } finally {
       setActionLoading(null);
     }
@@ -99,8 +102,6 @@ const TestimonialsManagement: React.FC = () => {
       await loadTestimonials(); // Refresh data
       setIsDeleteModalOpen(false);
       setTestimonialToDelete(null);
-    } catch (error) {
-      console.error("Error deleting testimonial:", error);
     } finally {
       setActionLoading(null);
     }
@@ -151,6 +152,9 @@ const TestimonialsManagement: React.FC = () => {
       <div className={userStyles.headerRow}>
         <h1 className={styles.pageTitle}>إدارة آراء الطلاب</h1>
       </div>
+
+      {/* Error Display */}
+      <ErrorDisplay message={loadError || error} />
 
       {/* Stats Grid */}
       <div className={styles.statsGrid}>

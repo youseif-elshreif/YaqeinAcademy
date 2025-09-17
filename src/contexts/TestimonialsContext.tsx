@@ -80,7 +80,6 @@ export const TestimonialsProvider = ({
       setIsLoading(true);
       setError(null);
       const data = await testimonialSvc.getPublicTestimonials();
-      console.log("Public Testimonials Data:", data);
       return data;
     } catch (error) {
       setError("خطأ في جلب آراء الطلاب");

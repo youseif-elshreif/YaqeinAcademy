@@ -18,11 +18,9 @@ const StudentTable: React.FC<{ searchTerm?: string }> = ({
   if (shouldShowLoading) {
     return (
       <>
-
         <div className={styles.desktopView}>
           <SkeletonTable rows={5} columns={10} title="الطلاب" />
         </div>
-
 
         <div className={styles.mobileView}>
           <div className={styles.tableContainer}>
@@ -90,7 +88,6 @@ const StudentTable: React.FC<{ searchTerm?: string }> = ({
         </div>
       ) : (
         <>
-
           <div className={styles.tableWrapper}>
             <table className={styles.classTable}>
               <thead>
@@ -98,6 +95,7 @@ const StudentTable: React.FC<{ searchTerm?: string }> = ({
                   <th className={styles.firstCell}>الاسم</th>
                   <th>البريد الإلكتروني</th>
                   <th>رقم الهاتف</th>
+                  <th>المدفوع</th>
                   <th>عدد الحلقات المستحقة</th>
                   <th>العمر</th>
                   <th>الدولة</th>
@@ -115,7 +113,6 @@ const StudentTable: React.FC<{ searchTerm?: string }> = ({
               </tbody>
             </table>
           </div>
-
 
           <MobileClassCards Students={filtered} />
         </>

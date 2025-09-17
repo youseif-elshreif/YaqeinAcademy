@@ -55,13 +55,9 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
     if (!isEditMode || !editCourseId) return;
     try {
       setIsLoading(true);
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        setServerError("لا يوجد رمز مصادقة. يرجى تسجيل الدخول مرة أخرى");
-        return;
-      }
+
       try {
-        const courseData = await getCourseByIdAPI(token, editCourseId);
+        const courseData = await getCourseByIdAPI(editCourseId);
         setFormData({
           _id: courseData._id || courseData.id,
           title: courseData.title || "",
@@ -83,7 +79,7 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
     if (isEditMode && editCourseId) {
       fetchCourseData();
     }
-  }, [isEditMode, editCourseId]);
+  }, [isEditMode, editCourseId]); // eslint-disable-line react-hooks/exhaustive-deps
   const validateField = (name: string, value: string): string => {
     switch (name) {
       case "title":
@@ -157,17 +153,12 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
     }
     setIsSubmitting(true);
     try {
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        setServerError("لا يوجد رمز مصادقة. يرجى تسجيل الدخول مرة أخرى");
-        return;
-      }
       if (isEditMode && editCourseId) {
-        await updateCourse(token, editCourseId, {
+        await updateCourse(editCourseId, {
           ...formData,
         });
       } else {
-        await createCourse(token, {
+        await createCourse({
           ...formData,
         });
       }
@@ -182,13 +173,8 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({
       setFieldErrors({});
       setServerError("");
       handleClose();
-    } catch (error: unknown) {
-      const errorObj = error as any;
-      const errorMessage =
-        errorObj?.response?.data?.message ||
-        errorObj?.message ||
-        "حدث خطأ أثناء حفظ الدورة";
-      setServerError(errorMessage);
+    } catch {
+      setServerError("حدث خطأ أثناء حفظ الدورة");
     } finally {
       setIsSubmitting(false);
     }
