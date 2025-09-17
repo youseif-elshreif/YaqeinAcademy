@@ -301,11 +301,31 @@ const AddUserModal = () => {
       setServerError("");
     } catch (error: unknown) {
       const errorObj = error as any;
-      const errorMessage =
-        errorObj?.response?.data?.message ||
-        errorObj?.message ||
-        `حدث خطأ غير متوقع`;
-      setServerError(errorMessage);
+
+      // Handle specific HTTP status codes
+      if (
+        errorObj?.response?.status === 409 ||
+        errorObj?.response?.status === 500
+      ) {
+        // Email already exists
+        setFieldErrors((prev) => ({
+          ...prev,
+          email: "هذا البريد الإلكتروني موجود بالفعل",
+        }));
+        setServerError("");
+      } else if (errorObj?.response?.status === 400) {
+        // Bad request - show server message or generic message
+        const errorMessage =
+          errorObj?.response?.data?.message || "بيانات غير صحيحة";
+        setServerError(errorMessage);
+      } else {
+        // Generic error handling
+        const errorMessage =
+          errorObj?.response?.data?.message ||
+          errorObj?.message ||
+          `حدث خطأ غير متوقع`;
+        setServerError(errorMessage);
+      }
     } finally {
       setIsSubmitting(false);
     }

@@ -148,7 +148,8 @@ const RegisterPage = () => {
         }));
       } else if (error?.response?.status === 400) {
         // Handle bad request errors
-        const errorMessage = error?.response?.data?.message || "بيانات غير صحيحة";
+        const errorMessage =
+          error?.response?.data?.message || "بيانات غير صحيحة";
         setErrors((prev) => ({
           ...prev,
           general: errorMessage,
