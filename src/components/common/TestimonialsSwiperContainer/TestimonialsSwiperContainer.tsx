@@ -9,15 +9,14 @@ const TestimonialsSwiperContainer: React.FC = () => {
   const [testimonials, setTestimonials] = useState<any[]>([]);
   const [localError, setLocalError] = useState<string>("");
 
-  useEffect(() => {}, [testimonials]);
-
   useEffect(() => {
     const loadPublicTestimonials = async () => {
       try {
         setLocalError(""); // Clear previous errors
         const response = await getPublicTestimonials();
         setTestimonials(response.reviews || []);
-      } catch {
+      } catch (error) {
+        console.error("Error loading testimonials:", error);
         // Set local error for this component
         setLocalError("حدث خطأ في تحميل آراء الطلاب");
       }

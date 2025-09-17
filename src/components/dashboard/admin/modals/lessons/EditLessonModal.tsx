@@ -70,7 +70,8 @@ const EditLessonModal: React.FC = () => {
         meetingLink: formData.meetingLink || undefined,
       });
       handleClose();
-    } catch {
+    } catch (error) {
+      console.error("Error updating lesson:", error);
     } finally {
       setIsSubmitting(false);
     }

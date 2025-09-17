@@ -31,7 +31,8 @@ const AddTestimonialModal: React.FC<AddTestimonialModalProps> = ({
     try {
       await onSubmit(data);
       handleClose(); // Close modal on success
-    } catch {
+    } catch (error) {
+      console.error("Error submitting testimonial:", error);
       // Set user-friendly error message
       setSubmitError("حدث خطأ أثناء إرسال رأيك. يرجى المحاولة مرة أخرى.");
     } finally {
