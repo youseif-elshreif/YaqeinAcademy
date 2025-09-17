@@ -54,6 +54,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
         } ${getVariantClass()} ${getSizeClass()} ${
           isClosing ? baseStyles.modalSlideOut : ""
         }`}
+        onClick={(e) => e.stopPropagation()}
       >
         {children}
       </div>
