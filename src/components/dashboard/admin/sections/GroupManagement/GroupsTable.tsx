@@ -10,39 +10,7 @@ import SkeletonCards from "@/src/components/dashboard/admin/components/SkeletonC
 import MeetingLinkActions from "@/src/components/common/MeetingLinkActions";
 import Button from "@/src/components/common/Button";
 import { LessonForModal } from "@/src/types";
-
-interface ApiGroup {
-  _id: string;
-  name: string;
-  description: string;
-  type: "private" | "public";
-  teacherId: {
-    _id: string;
-  };
-  members: Array<{
-    _id: string;
-    name: string;
-    email: string;
-  }>;
-  lessons: Array<{
-    _id: string;
-    scheduledAt: string;
-    meetingLink: string;
-    status: string;
-  }>;
-  meetingLink: string;
-  isActive: boolean;
-  usualDate: {
-    firstDay?: string;
-    firstDayTime?: string;
-    secondDay?: string;
-    secondDayTime?: string;
-    thirdDay?: string;
-    thirdDayTime?: string;
-  };
-  createdAt: string;
-  updatedAt: string;
-}
+import { GroupApiData } from "@/src/types";
 
 const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
   searchTerm = "",
@@ -68,7 +36,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
     fetchGroups();
   }, [getGroups]);
 
-  const formatSchedule = (usualDate: ApiGroup["usualDate"]) => {
+  const formatSchedule = (usualDate: GroupApiData["usualDate"]) => {
     const days = [];
     if (usualDate.firstDay && usualDate.firstDayTime) {
       days.push(`${usualDate.firstDay} ${usualDate.firstDayTime}`);
@@ -79,10 +47,22 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
     if (usualDate.thirdDay && usualDate.thirdDayTime) {
       days.push(`${usualDate.thirdDay} ${usualDate.thirdDayTime}`);
     }
+    if (usualDate.fourthDay && usualDate.fourthDayTime) {
+      days.push(`${usualDate.fourthDay} ${usualDate.fourthDayTime}`);
+    }
+    if (usualDate.fifthDay && usualDate.fifthDayTime) {
+      days.push(`${usualDate.fifthDay} ${usualDate.fifthDayTime}`);
+    }
+    if (usualDate.sixthDay && usualDate.sixthDayTime) {
+      days.push(`${usualDate.sixthDay} ${usualDate.sixthDayTime}`);
+    }
+    if (usualDate.seventhDay && usualDate.seventhDayTime) {
+      days.push(`${usualDate.seventhDay} ${usualDate.seventhDayTime}`);
+    }
     return days.join(" - ");
   };
 
-  const getNextLesson = (lessons: ApiGroup["lessons"]) => {
+  const getNextLesson = (lessons: GroupApiData["lessons"]) => {
     const now = new Date();
     const upcomingLessons = lessons
       .filter(
@@ -97,7 +77,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
     return upcomingLessons.length > 0 ? upcomingLessons[0] : null;
   };
 
-  const getLatestReportableLesson = (group: ApiGroup) => {
+  const getLatestReportableLesson = (group: GroupApiData) => {
     const lessons = group.lessons || [];
     const completed = lessons
       .filter((l) => l.status === "completed")
@@ -170,6 +150,10 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
           g.usualDate?.firstDay,
           g.usualDate?.secondDay,
           g.usualDate?.thirdDay,
+          g.usualDate?.fourthDay,
+          g.usualDate?.fifthDay,
+          g.usualDate?.sixthDay,
+          g.usualDate?.seventhDay,
         ]
           .filter(Boolean)
           .map((d) => String(d));

@@ -24,6 +24,15 @@ const GroupCard = ({ group }: GroupCardProps) => {
     if (usualDate?.thirdDay && usualDate?.thirdDayTime) {
       days.push(`${usualDate.thirdDay} ${usualDate.thirdDayTime}`);
     }
+    if (usualDate?.fourthDay && usualDate?.fourthDayTime) {
+      days.push(`${usualDate.fourthDay} ${usualDate.fourthDayTime}`);
+    }
+    if (usualDate?.fifthDay && usualDate?.fifthDayTime) {
+      days.push(`${usualDate.fifthDay} ${usualDate.fifthDayTime}`);
+    }
+    if (usualDate?.sixthDay && usualDate?.sixthDayTime) {
+      days.push(`${usualDate.sixthDay} ${usualDate.sixthDayTime}`);
+    }
     return days.join(" - ");
   };
 

@@ -120,6 +120,29 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
         times.push(groupData.usualDate.thirdDayTime);
       }
 
+      if (
+        groupData.usualDate?.fourthDay &&
+        groupData.usualDate?.fourthDayTime
+      ) {
+        weekdays.push(groupData.usualDate.fourthDay);
+        times.push(groupData.usualDate.fourthDayTime);
+      }
+
+      if (groupData.usualDate?.fifthDay && groupData.usualDate?.fifthDayTime) {
+        weekdays.push(groupData.usualDate.fifthDay);
+        times.push(groupData.usualDate.fifthDayTime);
+      }
+
+      if (groupData.usualDate?.sixthDay && groupData.usualDate?.sixthDayTime) {
+        weekdays.push(groupData.usualDate.sixthDay);
+        times.push(groupData.usualDate.sixthDayTime);
+      }
+
+      if (groupData.usualDate?.seventhDay && groupData.usualDate?.seventhDayTime) {
+        weekdays.push(groupData.usualDate.seventhDay);
+        times.push(groupData.usualDate.seventhDayTime);
+      }
+
       if (weekdays.length === 0) {
         setError("لا يمكن إضافة دروس جديدة بدون تحديد أيام دروس معتادة");
         return;

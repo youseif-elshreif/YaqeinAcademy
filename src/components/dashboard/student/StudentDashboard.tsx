@@ -62,6 +62,10 @@ function StudentDashboard() {
         groupUsualDate.firstDay,
         groupUsualDate.secondDay,
         groupUsualDate.thirdDay,
+        groupUsualDate.fourthDay,
+        groupUsualDate.fifthDay,
+        groupUsualDate.sixthDay,
+        groupUsualDate.seventhDay,
       ].filter(Boolean)
     : [];
 
@@ -70,6 +74,10 @@ function StudentDashboard() {
         groupUsualDate.firstDayTime,
         groupUsualDate.secondDayTime,
         groupUsualDate.thirdDayTime,
+        groupUsualDate.fourthDayTime,
+        groupUsualDate.fifthDayTime,
+        groupUsualDate.sixthDayTime,
+        groupUsualDate.seventhDayTime,
       ].filter(Boolean)
     : [];
 

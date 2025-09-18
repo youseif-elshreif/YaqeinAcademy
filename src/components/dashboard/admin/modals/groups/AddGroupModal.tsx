@@ -199,15 +199,13 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
     }
   };
 
-  const handleTeacherChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleTeacherChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
-    
+
     // Find the selected teacher and get their meeting link
-    const selectedTeacher = teachers.find(teacher => teacher.id === value);
+    const selectedTeacher = teachers.find((teacher) => teacher.id === value);
     const meetingLink = selectedTeacher?.meetingLink || "";
-    
+
     setFormData((prev) => ({
       ...prev,
       teacherId: value,
@@ -247,7 +245,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
   };
 
   const addTimeSlot = () => {
-    if (formData.timeSlots.length < 3) {
+    if (formData.timeSlots.length < 7) {
       setFormData((prev) => ({
         ...prev,
         timeSlots: [...prev.timeSlots, { day: "", time: "" }],
@@ -326,7 +324,6 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
     setErrorMessage(""); // Clear any previous errors
 
     try {
-
       const usualDate: Record<string, string> = {};
       const weekdays: string[] = [];
       const times: string[] = [];
@@ -334,13 +331,33 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
       formData.timeSlots.forEach((slot, index) => {
         if (slot.day && slot.time) {
           const dayKey =
-            index === 0 ? "firstDay" : index === 1 ? "secondDay" : "thirdDay";
+            index === 0
+              ? "firstDay"
+              : index === 1
+              ? "secondDay"
+              : index === 2
+              ? "thirdDay"
+              : index === 3
+              ? "fourthDay"
+              : index === 4
+              ? "fifthDay"
+              : index === 5
+              ? "sixthDay"
+              : "seventhDay";
           const timeKey =
             index === 0
               ? "firstDayTime"
               : index === 1
               ? "secondDayTime"
-              : "thirdDayTime";
+              : index === 2
+              ? "thirdDayTime"
+              : index === 3
+              ? "fourthDayTime"
+              : index === 4
+              ? "fifthDayTime"
+              : index === 5
+              ? "sixthDayTime"
+              : "seventhDayTime";
           usualDate[dayKey] = slot.day;
           usualDate[timeKey] = slot.time;
 
@@ -556,7 +573,11 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                 onChange={handleInputChange}
                 error={fieldErrors.meetingLink}
                 disabled={isSubmitting}
-                placeholder={formData.teacherId && !formData.meetingLink ? "لم يتم تحديد رابط للمعلم المختار" : "https://zoom.us/j/..."}
+                placeholder={
+                  formData.teacherId && !formData.meetingLink
+                    ? "لم يتم تحديد رابط للمعلم المختار"
+                    : "https://zoom.us/j/..."
+                }
               />
 
               <FormField
@@ -627,7 +648,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                   </span>
                 )}
 
-                {formData.timeSlots.length < 3 && (
+                {formData.timeSlots.length < 7 && (
                   <Button
                     type="button"
                     onClick={addTimeSlot}

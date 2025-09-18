@@ -64,11 +64,19 @@ export interface StudentAllDataComponentProps extends BaseComponentProps {
 export interface StudentGroupData {
   usualDate: {
     firstDay: string;
-    firstDayTime: string;
+    firstDayTime?: string;
     secondDay?: string;
     secondDayTime?: string;
     thirdDay?: string;
     thirdDayTime?: string;
+    fourthDay?: string;
+    fourthDayTime?: string;
+    fifthDay?: string;
+    fifthDayTime?: string;
+    sixthDay?: string;
+    sixthDayTime?: string;
+    seventhDay?: string;
+    seventhDayTime?: string;
   };
   meetingLink: string;
 }

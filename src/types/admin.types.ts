@@ -194,12 +194,20 @@ export interface GroupApiData {
   meetingLink: string;
   isActive: boolean;
   usualDate: {
-    firstDay?: string;
+    firstDay: string;
     firstDayTime?: string;
     secondDay?: string;
     secondDayTime?: string;
     thirdDay?: string;
     thirdDayTime?: string;
+    fourthDay?: string;
+    fourthDayTime?: string;
+    fifthDay?: string;
+    fifthDayTime?: string;
+    sixthDay?: string;
+    sixthDayTime?: string;
+    seventhDay?: string;
+    seventhDayTime?: string;
   };
   createdAt: string;
   updatedAt: string;
