@@ -16,7 +16,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
   searchTerm = "",
   dayFilter = "",
 }) => {
-  const { groups, getGroups } = useGroupsContext();
+  const { groups, getGroups, getGroupById } = useGroupsContext();
   const { openGroupActionsModal, openLessonsModal, openStudentListModal } =
     useAdminModal();
   const [loading, setLoading] = useState(true);
@@ -286,32 +286,43 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                         <td>
                           <div className={styles.linkContainer}>
                             <Button
-                              onClick={() => {
+                              onClick={async () => {
                                 if (!reportableLesson) return;
 
-                                const lessonForModal: LessonForModal = {
-                                  _id: reportableLesson._id,
-                                  scheduledAt: reportableLesson.scheduledAt,
-                                  meetingLink: reportableLesson.meetingLink,
-                                  status: reportableLesson.status,
-                                  groupId: {
-                                    _id: group._id,
-                                    name: group.name,
-                                    meetingLink: group.meetingLink,
-                                    members: group.members,
-                                  },
-                                };
-                                openStudentListModal(lessonForModal);
+                                try {
+                                  // Fetch fresh group data
+                                  const groupData = await getGroupById(
+                                    group._id
+                                  );
+
+                                  const lessonForModal: LessonForModal = {
+                                    _id: groupData.group._id,
+                                    scheduledAt: groupData.group.scheduledAt,
+                                    meetingLink: groupData.group.meetingLink,
+                                    status: groupData.status,
+                                    groupId: {
+                                      _id: groupData.group._id,
+                                      name: groupData.group.name,
+                                      meetingLink: groupData.group.meetingLink,
+                                      members: groupData.group.allMembers,
+                                    },
+                                  };
+
+                                  openStudentListModal(lessonForModal);
+                                } catch (error) {
+                                  console.error(
+                                    "Error fetching group data:",
+                                    error
+                                  );
+                                }
                               }}
                               variant="primary"
                               size="small"
                               icon={<FaListUl />}
                               title="قائمة الطلاب"
-                              disabled={
-                                !reportableLesson || group.members.length === 0
-                              }
+                              disabled={group.members.length === 0}
                             >
-                              عرض الطلاب
+                              عرض التقارير
                             </Button>
                           </div>
                         </td>

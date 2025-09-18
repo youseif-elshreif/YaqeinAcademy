@@ -155,11 +155,7 @@ const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
           <div className={styles.empty}>
             <FiFileText className={styles.emptyIcon} />
             <h3>لا توجد تقارير</h3>
-            <p>
-              {isTeacherView
-                ? "لا توجد تقارير متاحة للمعلم"
-                : "لا توجد تقارير متاحة للطالب"}
-            </p>
+            <p>لا توجد تقارير لعرضها في الوقت الحالي.</p>
           </div>
         ) : (
           <>
@@ -196,4 +192,3 @@ const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
 };
 
 export default UnifiedReportsModal;
-

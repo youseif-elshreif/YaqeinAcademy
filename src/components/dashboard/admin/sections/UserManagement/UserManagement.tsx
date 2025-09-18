@@ -44,7 +44,7 @@ const UserManagement: React.FC = () => {
     const totalExpenses =
       teachers?.reduce((total: number, teacher: any) => {
         const teacherMoney = teacher.money || teacher.userId?.money || 0;
-        const totalLessons = -1 * (teacher.numberOflessonsCridets || 0);
+        const totalLessons = teacher.numberOflessonsCridets || 0;
         const totalTeacher = teacherMoney * totalLessons;
         return total + totalTeacher;
       }, 0) || 0;

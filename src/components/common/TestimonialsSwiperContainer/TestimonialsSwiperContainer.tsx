@@ -37,14 +37,6 @@ const TestimonialsSwiperContainer: React.FC = () => {
     );
   }
 
-  if (testimonials.length === 0) {
-    return (
-      <div style={{ textAlign: "center", padding: "2rem" }}>
-        <p>لا توجد آراء معتمدة حالياً</p>
-      </div>
-    );
-  }
-
   return <TestimonialsSwiper testimonials={testimonials} />;
 };
 

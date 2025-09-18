@@ -38,8 +38,9 @@ const StudentListModal: React.FC<StudentListModalProps> = ({
   }, [isOpen, lesson?.groupId?._id, lesson?.groupId, getGroupById]);
 
   const members = useMemo(() => {
-    const data = groupData?.group || lesson?.groupId;
-    return Array.isArray(data?.members) ? data.members : [];
+    const data = groupData?.group || lesson?.groupId || groupData?.groupId;
+
+    return data?.members.length ? data.members : data?.allMembers;
   }, [groupData, lesson]);
 
   const handleClose = () => {

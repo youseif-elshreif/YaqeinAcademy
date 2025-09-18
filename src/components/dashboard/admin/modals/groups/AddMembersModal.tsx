@@ -53,7 +53,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
     try {
       setLoadingStudents(true);
 
-      const studentsData = await getStudents(); // studentsData is already an array of users with role: "student"
+      const studentsData = await getStudents();
 
       const combinedStudents = studentsData.map((student: User) => ({
         id: student._id,

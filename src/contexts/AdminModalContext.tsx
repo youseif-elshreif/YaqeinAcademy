@@ -339,6 +339,8 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   const openAddCreditsModal = (studentData: {
     userId: string;
     name: string;
+    phone: string;
+    email: string;
     fullData?: any;
   }) => {
     setSelectedStudentForCredits(studentData);
@@ -450,6 +452,8 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
           openAddCreditsModal({
             userId: createdStudentId,
             name: userData.name,
+            phone: userData.phone,
+            email: userData.email,
           });
         }, 500);
       } else if (userType === "teacher" && result) {
@@ -491,7 +495,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     userType: UserType
   ) => {
     try {
-
       let result;
 
       switch (userType) {
@@ -529,7 +532,6 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     meetingLink: string
   ) => {
     try {
-
       const result = await updateTeacherMeetingLink(teacherId, meetingLink); // Refresh teachers data after update
       await getTeachers();
 

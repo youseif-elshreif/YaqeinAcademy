@@ -4,6 +4,8 @@ import styles from "@/src/components/dashboard/admin/styles.module.css";
 import { useAdminModal } from "@/src/contexts/AdminModalContext";
 import MeetingLinkActions from "@/src/components/common/MeetingLinkActions";
 import Button from "@/src/components/common/Button";
+import { LessonForModal } from "@/src/types";
+import { useGroupsContext } from "@/src/contexts/GroupsContext";
 
 interface GroupCardProps {
   group: any; // Group from API
@@ -12,6 +14,7 @@ interface GroupCardProps {
 const GroupCard = ({ group }: GroupCardProps) => {
   const { openGroupActionsModal, openLessonsModal, openStudentListModal } =
     useAdminModal();
+  const { getGroupById } = useGroupsContext();
 
   const formatSchedule = (usualDate: any) => {
     const days = [];
@@ -168,28 +171,36 @@ const GroupCard = ({ group }: GroupCardProps) => {
             <span className={styles.infoLabel}>التقارير:</span>
             <span className={styles.cardLinkContainer}>
               <Button
-                onClick={() => {
+                onClick={async () => {
                   if (!reportableLesson) return;
 
-                  const lessonForModal: any = {
-                    _id: reportableLesson._id,
-                    scheduledAt: reportableLesson.scheduledAt,
-                    meetingLink: reportableLesson.meetingLink,
-                    status: reportableLesson.status,
-                    groupId: {
-                      _id: group._id,
-                      name: group.name,
-                      meetingLink: group.meetingLink,
-                      members: group.members,
-                    },
-                  };
-                  openStudentListModal(lessonForModal);
+                  try {
+                    // Fetch fresh group data
+                    const groupData = await getGroupById(group._id);
+
+                    const lessonForModal: LessonForModal = {
+                      _id: groupData.group._id,
+                      scheduledAt: groupData.group.scheduledAt,
+                      meetingLink: groupData.group.meetingLink,
+                      status: groupData.status,
+                      groupId: {
+                        _id: groupData.group._id,
+                        name: groupData.group.name,
+                        meetingLink: groupData.group.meetingLink,
+                        members: groupData.group.allMembers,
+                      },
+                    };
+
+                    openStudentListModal(lessonForModal);
+                  } catch (error) {
+                    console.error("Error fetching group data:", error);
+                  }
                 }}
                 variant="primary"
                 size="small"
                 icon={<FaListUl />}
-                title="عرض التقارير"
-                disabled={!reportableLesson}
+                title="قائمة الطلاب"
+                disabled={group.members.length === 0}
               >
                 عرض التقارير
               </Button>

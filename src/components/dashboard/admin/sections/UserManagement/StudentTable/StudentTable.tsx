@@ -13,7 +13,7 @@ const StudentTable: React.FC<{ searchTerm?: string }> = ({
 }) => {
   const { students, isLoading, error } = useStudentsContext();
 
-  const shouldShowLoading = isLoading || (students.length === 0 && !error);
+  const shouldShowLoading = isLoading;
 
   if (shouldShowLoading) {
     return (

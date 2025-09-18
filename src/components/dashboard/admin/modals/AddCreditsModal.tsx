@@ -90,19 +90,27 @@ const AddCreditsModal: React.FC = () => {
 
     setIsSubmitting(true);
     setError(null);
-
+    console.log("Submitting student data:", selectedStudentForCredits.userId);
+    console.log(formData);
     try {
       // إضافة الحصص للطالب
       await addCreditsToStudent(
-        selectedStudentForCredits.fullData._id,
+        selectedStudentForCredits?.fullData?._id ||
+          selectedStudentForCredits?.userId,
         formData.privateAmount
       );
 
       if (formData.money !== undefined) {
         await updateMember(selectedStudentForCredits.userId, {
-          name: selectedStudentForCredits.fullData.name,
-          phone: selectedStudentForCredits.fullData.phone,
-          email: selectedStudentForCredits.fullData.email,
+          name:
+            selectedStudentForCredits?.fullData?.name ||
+            selectedStudentForCredits.name,
+          phone:
+            selectedStudentForCredits?.fullData?.phone ||
+            selectedStudentForCredits.phone,
+          email:
+            selectedStudentForCredits?.fullData?.email ||
+            selectedStudentForCredits.email,
           money: formData.money,
         });
       }

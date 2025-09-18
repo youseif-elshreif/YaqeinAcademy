@@ -138,7 +138,10 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
         times.push(groupData.usualDate.sixthDayTime);
       }
 
-      if (groupData.usualDate?.seventhDay && groupData.usualDate?.seventhDayTime) {
+      if (
+        groupData.usualDate?.seventhDay &&
+        groupData.usualDate?.seventhDayTime
+      ) {
         weekdays.push(groupData.usualDate.seventhDay);
         times.push(groupData.usualDate.seventhDayTime);
       }
@@ -237,30 +240,33 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
               </div>
             ) : (
               <div className={styles.lessonsGrid}>
-                {lessons.map((lesson) => (
-                  <LessonCard
-                    key={lesson.id}
-                    lesson={lesson as unknown as UILessonCard}
-                    onEdit={(l) =>
-                      openEditLessonModal({
-                        id: l.id,
-                        day: l.day,
-                        time: l.time,
-                        date: l.date,
-                        meetingLink: l.meetingLink,
-                      })
-                    }
-                    onDelete={(l) =>
-                      openDeleteLessonModal({
-                        id: l.id,
-                        day: l.day,
-                        time: l.time,
-                        date: l.date,
-                        meetingLink: l.meetingLink,
-                      })
-                    }
-                  />
-                ))}
+                {lessons.map(
+                  (lesson) =>
+                    lesson.status == "scheduled" && (
+                      <LessonCard
+                        key={lesson.id}
+                        lesson={lesson as unknown as UILessonCard}
+                        onEdit={(l) =>
+                          openEditLessonModal({
+                            id: l.id,
+                            day: l.day,
+                            time: l.time,
+                            date: l.date,
+                            meetingLink: l.meetingLink,
+                          })
+                        }
+                        onDelete={(l) =>
+                          openDeleteLessonModal({
+                            id: l.id,
+                            day: l.day,
+                            time: l.time,
+                            date: l.date,
+                            meetingLink: l.meetingLink,
+                          })
+                        }
+                      />
+                    )
+                )}
               </div>
             )}
           </div>
