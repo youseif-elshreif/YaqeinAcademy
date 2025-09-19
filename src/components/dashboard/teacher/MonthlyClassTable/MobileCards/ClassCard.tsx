@@ -94,7 +94,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
               {isCompleted ? (
                 <Button
                   onClick={handleViewReports}
-                  variant="primary"
+                  variant="secondary"
                   size="small"
                 >
                   عرض التقارير

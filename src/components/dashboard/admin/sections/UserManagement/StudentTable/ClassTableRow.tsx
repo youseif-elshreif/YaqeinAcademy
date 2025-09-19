@@ -42,17 +42,17 @@ const ClassTableRow = ({ studentitem }: StudentTableRowProps) => {
       </td>
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem.money}
+          {studentitem.money} ج.م
         </span>
       </td>
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem.PrivitelessonCredits}
+          {studentitem.PrivitelessonCredits} حلقة
         </span>
       </td>
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem.age || "-"}
+          {`${studentitem.age} ${studentitem.age < 11 ? ` سنوات` : "سنة"}`}
         </span>
       </td>
       <td className={styles.groupCell}>
@@ -67,7 +67,7 @@ const ClassTableRow = ({ studentitem }: StudentTableRowProps) => {
       </td>
       <td className={styles.groupCell}>
         <span className={`${styles.studentName} ${styles.primaryColor}`}>
-          {studentitem.numOfPartsofQuran || 0}
+          {studentitem.numOfPartsofQuran || 0} جزء
         </span>
       </td>
       <td className={styles.groupCell}>

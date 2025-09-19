@@ -25,7 +25,7 @@ const ClassTableRow = ({ admin }: AdminTableRowProps) => {
         </div>
       </td>
       <td>{admin.email}</td>
-      <td>{admin.role}</td>
+      <td>{admin.phone}</td>
       <td>
         {admin.createdAt
           ? new Date(admin.createdAt).toLocaleDateString("ar-EG")

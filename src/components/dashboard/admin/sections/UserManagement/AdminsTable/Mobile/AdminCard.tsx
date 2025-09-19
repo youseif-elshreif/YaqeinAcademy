@@ -40,8 +40,8 @@ const AdminCard: React.FC<AdminCardProps> = ({ admin }) => {
           </div>
 
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>الدور:</span>
-            <span className={styles.infoValue}>{admin.role}</span>
+            <span className={styles.infoLabel}>رقم الهاتف:</span>
+            <span className={styles.infoValue}>{admin.phone}</span>
           </div>
 
           <div className={styles.infoItem}>

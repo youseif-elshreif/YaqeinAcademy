@@ -199,7 +199,6 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
       if (props.mode === "single") {
         await reportLesson(lessonId, payload);
         await completeLesson(lessonId);
-        handleClose();
       } else {
         props.onSave({
           rate,
@@ -214,8 +213,8 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
           notes,
           attended: true,
         });
-        handleClose();
       }
+      handleClose();
     } finally {
       setIsSubmitting(false);
     }
@@ -362,7 +361,6 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
         className={styles.modalBody}
         onSubmit={handleSubmit}
       >
-
         <div>
           <div className={styles.classInfo}>
             <p>

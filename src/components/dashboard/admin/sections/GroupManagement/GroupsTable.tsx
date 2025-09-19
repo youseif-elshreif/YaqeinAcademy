@@ -198,7 +198,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                     <th>المدرس</th>
                     <th>عدد الأعضاء</th>
                     <th>مواعيد الدروس</th>
-                    <th>الدرس القادم</th>
+                    <th>موعد الحلقات الإعتيادية</th>
                     <th>تاريخ الإنشاء</th>
                     <th>رابط الحلقة</th>
                     <th>التقارير</th>
@@ -310,10 +310,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
 
                                   openStudentListModal(lessonForModal);
                                 } catch (error) {
-                                  console.error(
-                                    "Error fetching group data:",
-                                    error
-                                  );
+                                  throw error;
                                 }
                               }}
                               variant="primary"

@@ -46,8 +46,8 @@ function StudentDashboard() {
     enrollmentDate: user?.createdAt
       ? new Date(user.createdAt).toLocaleDateString("ar-EG")
       : "غير محدد",
-    completedSessions: userStats?.completedLessons || 0,
-    remainingSessions: userStats?.missedLessons || 0,
+    completedSessions: userStats?.attendedLessons || 0,
+    missedLessons: userStats?.missedLessons || 0,
     attendedLessons: userStats?.attendedLessons || 0,
     PrivitelessonCredits: userStats?.PrivitelessonCredits || 0,
   }; // Extract group information from userStats safely
@@ -171,7 +171,7 @@ function StudentDashboard() {
                   justifyContent: "flex-end",
                 }}
               >
-                {userStats?.PrivitelessonCredits && (
+                {userStats?.PrivitelessonCredits > 0 ? (
                   <Button
                     onClick={() => setAddTestimonialOpen(true)}
                     variant="secondary"
@@ -179,7 +179,7 @@ function StudentDashboard() {
                   >
                     شاركنا رأيك
                   </Button>
-                )}
+                ) : null}
                 <Button
                   onClick={() => setMyReportsOpen(true)}
                   variant="primary"
@@ -193,71 +193,85 @@ function StudentDashboard() {
 
           {/* Show schedule section only if student has credits */}
           {(userStats?.PrivitelessonCredits || 0) > 0 ? (
-            <div className={styles.studentHeader}>
-              <div className={styles.studentInfoContainer}>
-                <div className={styles.studentInfo}>
-                  <h2
-                    className={styles.studentName}
-                    style={{ marginBottom: "10px" }}
+            <div className={styles.scheduleSection}>
+              {/* Group Info Card */}
+              <div className={styles.groupInfoCard}>
+                <div className={styles.cardHeader}>
+                  <h3 className={styles.cardTitle}>معلومات الحلقة</h3>
+                </div>
+
+                <div
+                  className={styles.groupNameBadge}
+                  style={{ justifyContent: "space-between" }}
+                >
+                  <div
+                    className={styles.groupNameBadge}
+                    style={{ margin: 0, border: "none" }}
                   >
-                    مواعيد الحلقة الخاصة
-                  </h2>{" "}
-                  {userStats && (
-                    <div className={styles.groupTimes}>
-                      {days.length > 0 ? (
-                        days.map((day, index) => (
-                          <div key={index} className={styles.dateContent}>
-                            <span className={styles.dateText}>{day}</span>
-                            <span className={styles.timeText}>
-                              {times[index] || "�"}
-                            </span>
-                          </div>
-                        ))
+                    {" "}
+                    <span className={styles.badgeLabel}>المجموعة</span>
+                    <span className={styles.badgeValue}>
+                      {groupName || "لا يوجد اسم حلقة"}
+                    </span>
+                  </div>
+                  {/* Meeting Link Card */}
+                  <div
+                    className={styles.groupNameBadge}
+                    style={{ margin: 0, border: "none" }}
+                  >
+                    <div>
+                      <h3 className={styles.badgeLabel}>رابط الحصة</h3>
+                    </div>
+
+                    <div className={styles.meetingContent}>
+                      {userStats && groupMeetingLink ? (
+                        <MeetingLinkActions
+                          meetingLink={groupMeetingLink}
+                          styles={styles}
+                        />
                       ) : (
-                        <div className={styles.dateContent}>
-                          <span className={styles.dateText}>
-                            {groupName || "لا يوجد اسم حلقة"}
+                        <div className={styles.noLinkMessage}>
+                          <p className={styles.noLinkText}>
+                            لا يوجد رابط حصة متاح حالياً
+                          </p>
+                          <span className={styles.noLinkSubtext}>
+                            تواصل مع إدارة الأكاديمية
                           </span>
-                          <span className={styles.timeText}>ـ</span>
                         </div>
                       )}
                     </div>
-                  )}
-                </div>
-              </div>
-              <div>
-                {userStats && groupMeetingLink ? (
-                  <div className={styles.whatDone}>
-                    <span className={styles.linkText}>رابط الحصة</span>
-                    <MeetingLinkActions
-                      meetingLink={groupMeetingLink}
-                      styles={styles}
-                    />
                   </div>
-                ) : (
-                  <p className={styles.studentName}>
-                    لا يوجد رابط حصة أو تحتاج لتفعيل الحساب أو الانضمام
-                  </p>
+                </div>
+
+                {userStats && days.length > 0 && (
+                  <div className={styles.scheduleGrid}>
+                    <div className={styles.scheduleHeader}>
+                      <span>مواعيد الحلقة</span>
+                    </div>
+
+                    <div className={styles.timeSlots}>
+                      {days.map((day, index) => (
+                        <div key={index} className={styles.timeSlot}>
+                          <div className={styles.dayName}>{day}</div>
+                          <div className={styles.timeValue}>
+                            {times[index] || "غير محدد"}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
           ) : (
-            <div className={styles.studentHeader}>
-              <div className={styles.studentInfoContainer}>
-                <div className={styles.studentInfo}>
-                  <h2
-                    className={styles.studentName}
-                    style={{
-                      marginBottom: "10px",
-                      color: "var(--warning-color)",
-                    }}
-                  >
-                    لا توجد لك حصص متاحة حالياً
-                  </h2>
-                  <p className={styles.pageSubtitle}>
-                    تواصل مع الإدارة أو قم بالتسجيل بالدورات
-                  </p>
-                </div>
+            <div className={styles.noCreditsSection}>
+              <div className={styles.noCreditsCard}>
+                <h2 className={styles.noCreditsTitle}>
+                  لا توجد حصص متاحة حالياً
+                </h2>
+                <p className={styles.noCreditsText}>
+                  تواصل مع الإدارة أو قم بالتسجيل في الدورات المتاحة
+                </p>
               </div>
             </div>
           )}

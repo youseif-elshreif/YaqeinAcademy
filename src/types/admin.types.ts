@@ -81,13 +81,7 @@ export interface LessonCardProps {
   onDelete?: (l: UILessonCard) => void;
 }
 export interface AdminCardProps {
-  admin: {
-    _id: string;
-    name: string;
-    email: string;
-    role: string;
-    createdAt: string;
-  };
+  admin: AdminUser;
 }
 export interface MobileAdminCardsProps {
   admins: AdminUser[];
@@ -96,6 +90,7 @@ export interface AdminUser {
   _id: string;
   name: string;
   email: string;
+  phone: number;
   role: string;
   createdAt: string;
   updatedAt?: string;

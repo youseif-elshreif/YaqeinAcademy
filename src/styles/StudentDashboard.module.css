@@ -151,6 +151,244 @@
   color: var(--text-color);
   white-space: nowrap;
 }
+
+/* Group Info Card */
+.groupInfoCard {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.groupInfoCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--secondary-color, #4f46e5)
+  );
+}
+
+.groupInfoCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Meeting Card */
+.meetingCard {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  height: fit-content;
+}
+
+.meetingCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Headers */
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.cardIcon {
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color, #4f46e5)
+  );
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: grayscale(100%) brightness(0) invert(1);
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Group Name Badge */
+.groupNameBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.badgeLabel {
+  font-weight: 500;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.badgeValue {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Schedule Grid */
+.scheduleGrid {
+  margin-top: 1rem;
+}
+
+.scheduleHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.scheduleIcon {
+  font-size: 1.2rem;
+}
+
+.timeSlots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.timeSlot {
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--secondary-color, #4f46e5) 100%
+  );
+  color: white;
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.timeSlot::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.timeSlot:hover::before {
+  opacity: 1;
+}
+
+.timeSlot:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.dayName {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.timeValue {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+/* Meeting Content */
+.meetingContent {
+  text-align: center;
+}
+
+/* No Link Message */
+.noLinkMessage {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.noLinkIcon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.noLinkText {
+  color: #64748b;
+  font-weight: 500;
+  margin: 0 0 0.5rem 0;
+}
+
+.noLinkSubtext {
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+/* No Credits Section */
+.noCreditsSection {
+  margin-bottom: 2rem;
+}
+
+.noCreditsCard {
+  background: linear-gradient(135deg, #fef3cd 0%, #fef7e0 100%);
+  border: 1px solid #f59e0b;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);
+}
+
+.noCreditsIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.noCreditsTitle {
+  color: #92400e;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+}
+
+.noCreditsText {
+  color: #a16207;
+  margin: 0;
+  font-size: 1rem;
+}
 .openLinkBtn {
   background: var(--primary-color);
   color: white;
@@ -206,6 +444,7 @@
     padding: 1.25rem;
     margin-bottom: 1.5rem;
     gap: 0.75rem;
+    flex-direction: column;
   }
   .studentAvatar {
     width: 3.125rem;
@@ -218,6 +457,54 @@
   .tabContent {
     margin-top: 1.5rem;
     border-radius: 8px;
+  }
+
+  /* Modern responsive styles */
+  .scheduleSection {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .groupInfoCard,
+  .meetingCard {
+    padding: 1.25rem;
+  }
+
+  .timeSlots {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .timeSlot {
+    padding: 0.75rem;
+  }
+
+  .cardIcon {
+    width: 35px;
+    height: 35px;
+    font-size: 1.3rem;
+  }
+
+  .cardTitle {
+    font-size: 1rem;
+  }
+
+  .groupNameBadge {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .noCreditsCard {
+    padding: 1.5rem;
+  }
+
+  .noCreditsIcon {
+    font-size: 2.5rem;
+  }
+
+  .noCreditsTitle {
+    font-size: 1.2rem;
   }
 }
 @media (max-width: 480px) {
@@ -244,5 +531,84 @@
   }
   .studentName {
     font-size: 1.2rem;
+  }
+
+  /* Small mobile modern styles */
+  .scheduleSection {
+    gap: 0.75rem;
+  }
+
+  .groupInfoCard,
+  .meetingCard {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .cardHeader {
+    padding-bottom: 0.75rem;
+  }
+
+  .cardIcon {
+    width: 30px;
+    height: 30px;
+    font-size: 1.1rem;
+  }
+
+  .cardTitle {
+    font-size: 0.95rem;
+  }
+
+  .timeSlots {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .timeSlot {
+    padding: 0.75rem;
+  }
+
+  .dayName {
+    font-size: 0.85rem;
+  }
+
+  .timeValue {
+    font-size: 0.75rem;
+  }
+
+  .groupNameBadge {
+    padding: 0.75rem;
+  }
+
+  .badgeValue {
+    padding: 0.3rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .noCreditsCard {
+    padding: 1.25rem;
+  }
+
+  .noCreditsIcon {
+    font-size: 2rem;
+  }
+
+  .noCreditsTitle {
+    font-size: 1.1rem;
+  }
+
+  .noCreditsText {
+    font-size: 0.9rem;
+  }
+
+  .noLinkIcon {
+    font-size: 1.5rem;
+  }
+
+  .noLinkText {
+    font-size: 0.9rem;
+  }
+
+  .noLinkSubtext {
+    font-size: 0.8rem;
   }
 }

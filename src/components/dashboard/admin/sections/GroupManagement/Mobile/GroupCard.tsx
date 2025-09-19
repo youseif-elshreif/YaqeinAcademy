@@ -148,7 +148,7 @@ const GroupCard = ({ group }: GroupCardProps) => {
           </div>
 
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>موعد الحلقة القادمة:</span>
+            <span className={styles.infoLabel}> تاريخ الإنشاء:</span>
             <span className={styles.infoValue}>
               <FiCalendar style={{ marginLeft: "0.5rem" }} />
               {nextLesson
@@ -193,7 +193,7 @@ const GroupCard = ({ group }: GroupCardProps) => {
 
                     openStudentListModal(lessonForModal);
                   } catch (error) {
-                    console.error("Error fetching group data:", error);
+                    throw error;
                   }
                 }}
                 variant="primary"

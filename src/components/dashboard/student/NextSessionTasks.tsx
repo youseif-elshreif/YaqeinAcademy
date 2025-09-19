@@ -119,7 +119,7 @@ const NextSessionTasks = () => {
         </div>
         <div className={styles.tasksContent}>
           <div style={{ textAlign: "center", padding: "2rem" }}>
-            لا توجد حصة قادمة في الوقت الحالي
+            لم يحدد ميعاد الحصة القادمة بعد
           </div>
         </div>
       </div>

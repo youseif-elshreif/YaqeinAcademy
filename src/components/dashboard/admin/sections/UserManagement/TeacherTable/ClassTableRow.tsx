@@ -38,9 +38,9 @@ const ClassTableRow = ({ teacher }: TeacherTableRowProps) => {
           disabled={!meetingLink}
         />
       </td>
-      <td>{userInfo.money}</td>
-      <td>{teacher.numberOflessonsCridets}</td>
-      <td>{userInfo.money * teacher.numberOflessonsCridets}</td>
+      <td>{userInfo.money} ج.م</td>
+      <td>{teacher.numberOflessonsCridets} حلقة</td>
+      <td>{userInfo.money * teacher.numberOflessonsCridets} ج.م</td>
       <td>{new Date(teacher.createdAt).toLocaleDateString("ar-EG")}</td>
       <td>
         <Button

@@ -49,19 +49,21 @@ const ClassCard: React.FC<StudentCardProps> = ({ studentItem }) => {
 
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>المدفوع:</span>
-            <span className={styles.infoValue}>{studentItem.money}</span>
-        </div>
+            <span className={styles.infoValue}>{studentItem.money} ج.م</span>
+          </div>
 
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>الرصيد:</span>
+            <span className={styles.infoLabel}>رصيد الحلقات:</span>
             <span className={styles.infoValue}>
-              {studentItem.PrivitelessonCredits}
+              {studentItem.PrivitelessonCredits} حلقة
             </span>
           </div>
 
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>العمر:</span>
-            <span className={styles.infoValue}>{studentItem.age || "-"}</span>
+            <span className={styles.infoValue}>
+              {`${studentItem.age} ${studentItem.age < 11 ? ` سنوات` : "سنة"}`}
+            </span>
           </div>
 
           <div className={styles.infoItem}>
@@ -74,14 +76,21 @@ const ClassCard: React.FC<StudentCardProps> = ({ studentItem }) => {
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>حفظ القرآن:</span>
             <span className={styles.infoValue}>
-              {studentItem.quranMemorized || "-"}
+              {`${studentItem.quranMemorized} ${
+                studentItem.quranMemorized == 2
+                  ? "جزئين"
+                  : studentItem.quranMemorized > 2 &&
+                    studentItem.quranMemorized < 11
+                  ? "اجزاء"
+                  : "جزء"
+              }`}
             </span>
           </div>
 
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>عدد الأجزاء:</span>
             <span className={styles.infoValue}>
-              {studentItem.numOfPartsofQuran || 0}
+              {studentItem.numOfPartsofQuran || 0} جزء
             </span>
           </div>
 

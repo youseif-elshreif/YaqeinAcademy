@@ -1,6 +1,6 @@
 ﻿import StatCard from "@/src/components/common/UI/StatCard";
 import styles from "./StudentSummaryCards.module.css";
-import { FaCalendarCheck, FaHourglassHalf, FaBook } from "react-icons/fa";
+import { FaCalendarCheck, FaCalendarTimes, FaBook } from "react-icons/fa";
 import { StudentSummaryCardsProps } from "@/src/types";
 
 const StudentSummaryCards = ({ studentData }: StudentSummaryCardsProps) => {
@@ -19,22 +19,15 @@ const StudentSummaryCards = ({ studentData }: StudentSummaryCardsProps) => {
       id: 2,
       title: "عدد الحلقات التي حضرها",
       value: studentData.attendedLessons || 0,
-      icon: FaBook,
+      icon: FaCalendarCheck,
       color: "primary",
     },
     {
       id: 3,
-      title: "الحلقات المكتملة",
-      value: studentData.completedSessions || 0,
-      icon: FaCalendarCheck,
+      title: "الحلقات التي غابها",
+      value: studentData.missedLessons || 0,
+      icon: FaCalendarTimes,
       color: "success",
-    },
-    {
-      id: 4,
-      title: "الحلقات المتبقية",
-      value: studentData.remainingSessions || 0,
-      icon: FaHourglassHalf,
-      color: "warning",
     },
   ];
 

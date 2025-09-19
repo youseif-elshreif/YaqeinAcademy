@@ -49,20 +49,20 @@ const ClassCard = ({ teacher }: TeacherCardProps) => {
 
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>ثمن الحصة:</span>
-            <span className={styles.infoValue}>{userInfo.money}</span>
+            <span className={styles.infoValue}>{userInfo.money} ج.م</span>
           </div>
 
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>عدد الحصص:</span>
+            <span className={styles.infoLabel}>رصيد الحلقات:</span>
             <span className={styles.infoValue}>
-              {teacher.numberOflessonsCridets}
+              {teacher.numberOflessonsCridets} حلقة
             </span>
           </div>
 
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>المستحق:</span>
             <span className={styles.infoValue}>
-              {userInfo.money * teacher.numberOflessonsCridets}
+              {userInfo.money * teacher.numberOflessonsCridets} ج.م
             </span>
           </div>
 

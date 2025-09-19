@@ -13,6 +13,7 @@
   avatar?: string;
   completedSessions?: number;
   remainingSessions?: number;
+  missedLessons?: number;
   attendedLessons?: number;
   PrivitelessonCredits?: number;
 }

@@ -256,7 +256,7 @@ const Navbar = () => {
               <li className={styles.mobileNavItem}>
                 <button
                   onClick={handleLogout}
-                  className={`${styles.mobileNavLink} ${styles.logoutButton}`}
+                  className={`${styles.logoutButton}`}
                 >
                   تسجيل الخروج
                 </button>

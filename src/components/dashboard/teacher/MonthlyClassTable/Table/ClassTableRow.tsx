@@ -81,13 +81,13 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
             <>
               {isCompleted ? (
                 <Button
-                  variant="primary"
+                  variant="secondary"
                   size="small"
                   onClick={handleViewReports}
                 >
                   عرض التقارير
                 </Button>
-              ) : isUpcoming ? (
+              ) : !isUpcoming ? (
                 <span className={styles.lightColor}>
                   ميعاد الحصة لم يأتي بعد
                 </span>

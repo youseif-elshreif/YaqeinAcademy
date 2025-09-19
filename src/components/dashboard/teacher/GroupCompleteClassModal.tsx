@@ -20,7 +20,7 @@ const GroupCompleteClassModal = ({
   lessonId,
   onClose,
 }: GroupCompleteClassModalProps) => {
-  const { reportLesson } = useTeacherDashboard();
+  const { reportLesson, getMyLessons } = useTeacherDashboard();
   const { getLessonById, completeLesson } = useLessonsContext();
 
   const [lessonData, setLessonData] = useState<any>(null);
@@ -120,6 +120,7 @@ const GroupCompleteClassModal = ({
         await reportLesson(lessonId, payload);
       }
       await completeLesson(lessonId);
+      await getMyLessons();
       handleClose();
     } catch (error) {
       throw error;

@@ -90,8 +90,6 @@ const AddCreditsModal: React.FC = () => {
 
     setIsSubmitting(true);
     setError(null);
-    console.log("Submitting student data:", selectedStudentForCredits.userId);
-    console.log(formData);
     try {
       // إضافة الحصص للطالب
       await addCreditsToStudent(

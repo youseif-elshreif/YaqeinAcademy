@@ -28,6 +28,7 @@ export const TeacherDashboardProvider: React.FC<{
     try {
       setIsLoading(true);
       const data = await getTeacherLessons();
+      console.log(data);
       setTeacherLessons(data);
       return data;
     } catch (error) {
@@ -91,8 +92,7 @@ export const TeacherDashboardProvider: React.FC<{
     const loadInitialData = async () => {
       try {
         await getMyLessons();
-      } catch (error) {
-        // تجاهل الأخطاء في التحميل الأولي
+      } catch {
         setIsInitialLoading(false);
       }
     };
