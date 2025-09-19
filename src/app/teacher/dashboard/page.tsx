@@ -23,6 +23,14 @@ const TeacherDashboardContent = () => {
   const [activeTab, setActiveTab] = useState("monthly-classes");
   const [loading, setLoading] = useState(true);
 
+  const [treacherData] = useState({
+    id: user?._id || "",
+    name: user?.name || "",
+    avatar: user?.avatar || "/avatar.png",
+    email: user?.email || "",
+    phone: user?.phone || "",
+  });
+
   useEffect(() => {
     // ترتيب الدروس حسب التاريخ عند تحديث البيانات من context
     if (teacherLessons && teacherLessons.length > 0) {
@@ -35,14 +43,6 @@ const TeacherDashboardContent = () => {
     }
     setLoading(false);
   }, [teacherLessons]);
-
-  const [treacherData] = useState({
-    id: user?._id || "",
-    name: user?.name || "",
-    avatar: user?.avatar || "/avatar.png",
-    email: user?.email || "",
-    phone: user?.phone || "",
-  });
 
   const tabs = [
     {

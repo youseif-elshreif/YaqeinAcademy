@@ -87,7 +87,7 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
                 >
                   عرض التقارير
                 </Button>
-              ) : !isUpcoming ? (
+              ) : isUpcoming ? (
                 <span className={styles.lightColor}>
                   ميعاد الحصة لم يأتي بعد
                 </span>
