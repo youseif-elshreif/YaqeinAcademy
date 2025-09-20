@@ -94,10 +94,11 @@ export const withGuestProtection = <P extends object>(
   Component: React.ComponentType<P>
 ) => {
   const GuestProtectedComponent: React.FC<P> = (props) => {
-    const { isLoading, isAuthenticated, user } = useAuth();
+    const { isLoading, isAuthenticated, user, error } = useAuth();
     const router = useRouter();
-    const [showLoader, setShowLoader] = useState(true);
     const [startTime] = useState(Date.now());
+    const [hasAuthenticationAttempted, setHasAuthenticationAttempted] =
+      useState(false);
 
     useEffect(() => {
       if (!isLoading) {
@@ -105,24 +106,23 @@ export const withGuestProtection = <P extends object>(
           router.push(`/${user?.role}/dashboard`);
           return;
         }
-
-        const elapsedTime = Date.now() - startTime;
-        const minimumDuration = 600;
-
-        if (elapsedTime < minimumDuration) {
-          const remainingTime = minimumDuration - elapsedTime;
-          setTimeout(() => {
-            setShowLoader(false);
-          }, remainingTime);
-        } else {
-          setShowLoader(false);
-        }
       }
-    }, [isLoading, isAuthenticated, router, startTime, user]);
+    }, [
+      isLoading,
+      isAuthenticated,
+      router,
+      startTime,
+      user,
+      error,
+      hasAuthenticationAttempted,
+    ]);
 
-    if (showLoader) {
-      return <LoadingSpinner />;
-    }
+    // تتبع محاولات المصادقة
+    useEffect(() => {
+      if (error) {
+        setHasAuthenticationAttempted(true);
+      }
+    }, [error]);
 
     return <Component {...props} />;
   };
