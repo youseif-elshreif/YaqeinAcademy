@@ -112,6 +112,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           isVerified: userInfo.isVerified,
           createdAt: userInfo.createdAt,
           avatar: "/avatar.png",
+          
           money: userInfo.money || 0,
           numberOflessonsCridets: isTeacher ? userData.teacher?.numberOflessonsCridets || 0 : 0,
         };
