@@ -1,4 +1,5 @@
 ﻿import { BaseModalProps } from "./base.types";
+
 export interface GroupCompleteClassModalProps extends BaseModalProps {
   lessonId: string;
   onSuccess?: () => void;
@@ -14,19 +15,6 @@ export interface CompletionData {
     review: string[];
   };
   notes: string;
-}
-export interface StudentReportsModalProps extends BaseModalProps {
-  student: { id: string; name?: string } | null;
-}
-export interface StudentListModalProps extends BaseModalProps {
-  lesson: any;
-  onOpenStudentReports?: (student: any) => void;
-}
-export interface EditClassLinkModalProps extends BaseModalProps {
-  classData: any;
-  classInfo?: any;
-  onSave: (link: string) => void;
-  onSubmit?: (data: any) => void;
 }
 export interface ClassModalsProps {
   selectedLesson: any;
@@ -47,9 +35,6 @@ export interface ClassModalsProps {
   onCloseAddClassLink: () => void;
   onCloseStudentList: () => void;
   onCloseStudentReports: () => void;
-}
-export interface MonthlyClassTableProps {
-  classes: any[];
 }
 export interface LessonLike {
   id: number;

@@ -31,6 +31,7 @@ function StudentDashboard() {
   const [testimonialError, setTestimonialError] = useState<string>("");
 
   const studentData = {
+    _id: user?._id || "",
     id: user?._id || "",
     name: user?.name || "غير محدد",
     email: user?.email || "",

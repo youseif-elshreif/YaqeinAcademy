@@ -1,5 +1,6 @@
 ﻿import { UserType } from "./auth.types";
 import { BaseComponentProps, BaseModalProps } from "./base.types";
+import { Option } from "./form.types";
 export interface WarningPanelProps extends BaseComponentProps {
   title: string;
   text?: string | React.ReactNode;
@@ -14,10 +15,7 @@ export interface UserTypeSelectorProps extends BaseComponentProps {
   disabled?: boolean;
   title?: string;
 }
-export interface Option {
-  value: string;
-  label: string;
-}
+
 export interface SelectFieldProps extends BaseComponentProps {
   label: string;
   name: string;

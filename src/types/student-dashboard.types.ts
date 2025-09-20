@@ -1,16 +1,8 @@
-﻿export interface User {
+﻿import { User as AuthUser } from "./auth.types";
+
+export interface User extends AuthUser {
   money?: number;
   id: string;
-  email: string;
-  name: string;
-  phone?: string;
-  role?: string;
-  age?: number;
-  quranMemorized?: string;
-  numOfPartsofQuran?: number;
-  isVerified?: boolean;
-  createdAt?: string;
-  avatar?: string;
   completedSessions?: number;
   remainingSessions?: number;
   missedLessons?: number;

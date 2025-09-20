@@ -1,71 +1,18 @@
-﻿export interface LessonLike {
-  status: string;
-}
+﻿import { 
+  StudentAllData, 
+  StudentCompletedClassData
+} from "./student.types";
+import { LessonLike } from "./dashboard.types";
+
 export interface TeacherSummaryCardsProps {
   classes: LessonLike[];
   money: number;
   numberOflessonsCridets: number;
 }
-export interface StudentListModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  lesson: any; // raw lesson with groupId.members
-  onOpenStudentReports?: (student: { id: string; name?: string }) => void;
-}
-export interface StudentReportsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  student: { id: string; name?: string };
-}
-export interface EditClassLinkModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (link: string) => void;
-  classInfo: {
-    id: number;
-    date: string;
-    time: string;
-    studentName?: string;
-    groupName?: string;
-    currentLink?: string;
-  } | null;
-}
 export interface ClassModalsProps {
   onEdit: (lesson: any) => void;
   onDelete: (lesson: any) => void;
   onAddLink: (lesson: any) => void;
-}
-export interface StudentCompletedClassData {
-  _id: string;
-  lessonId: string;
-  studentId: string;
-  rating: number;
-  behavior: number;
-  homework: number;
-  attendance: boolean;
-  notes: string;
-  submissionDate: string;
-  createdAt: string;
-  updatedAt: string;
-  classId?: number;
-  date?: string;
-  time?: string;
-  status?: string;
-  rate?: number | null;
-  completed?: {
-    newMemorization: string[];
-    review: string[];
-  } | null;
-  nextPrep?: {
-    newMemorization: string[];
-    review: string[];
-  } | null;
-}
-export interface StudentAllData {
-  _id: string;
-  name: string;
-  email: string;
-  completedClasses: StudentCompletedClassData[];
 }
 export interface StudentAllDataComponentProps {
   studentData: StudentAllData;
@@ -80,20 +27,6 @@ export interface StudentAllDataComponentViewProps {
   studentData: StudentViewData | null;
   onClose: () => void;
   onViewClassDetails?: (classData: StudentCompletedClassData) => void;
-}
-export interface Student {
-  _id: string;
-  name: string;
-  email: string;
-}
-export interface CompletionData {
-  [studentId: string]: {
-    attendance: boolean;
-    rating: number;
-    behavior: number;
-    homework: number;
-    notes: string;
-  };
 }
 export interface GroupClassCompletionData {
   rate: number;
