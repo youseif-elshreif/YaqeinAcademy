@@ -1,7 +1,4 @@
-﻿import { 
-  StudentAllData, 
-  StudentCompletedClassData
-} from "./student.types";
+﻿import { StudentAllData, StudentCompletedClassData } from "./student.types";
 import { LessonLike } from "./dashboard.types";
 
 export interface TeacherSummaryCardsProps {

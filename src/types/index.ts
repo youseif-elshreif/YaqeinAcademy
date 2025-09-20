@@ -13,7 +13,7 @@ export * from "./course.types";
 export * from "./lesson.types";
 export * from "./group.types";
 
-// Dashboard and Reports - لوحات التحكم والتقارير  
+// Dashboard and Reports - لوحات التحكم والتقارير
 export * from "./report.types";
 
 // Modal and UI Components - النوافذ المنبثقة ومكونات الواجهة
@@ -31,7 +31,7 @@ export type {
   CountrySelectProps,
   ErrorDisplayProps,
   ErrorMessageProps,
-  Option
+  Option,
 } from "./form.types";
 
 // Modal System types - نظام النوافذ المنبثقة
