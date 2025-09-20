@@ -71,7 +71,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
         });
         if (!cancelled) setLessons(mapped);
       } catch {
-        if (!cancelled) setError("خطأ في جلب الدروس");
+        if (!cancelled) setError("خطأ في جلب الحلقات");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -147,7 +147,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
       }
 
       if (weekdays.length === 0) {
-        setError("لا يمكن إضافة دروس جديدة بدون تحديد أيام دروس معتادة");
+        setError("لا يمكن إضافة حلقات جديدة بدون تحديد أيام حلقات معتادة");
         return;
       }
 
@@ -159,7 +159,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
 
       if (schedule.length === 0) {
         setMonthLessonsInfo(
-          "لا يمكن إضافة دروس جديدة بدون تحديد أيام دروس معتادة."
+          "لا يمكن إضافة حلقات جديدة بدون تحديد أيام حلقات معتادة."
         );
         setTimeout(() => {
           setMonthLessonsInfo("");
@@ -172,7 +172,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
       }
       setMonthLessonsInfo(`تم إضافة ${schedule.length} درس جديد.`);
     } catch (error) {
-      setError("خطأ في إضافة الدروس");
+      setError("خطأ في إضافة الحلقات");
       throw error;
     } finally {
       setIsAddingMonthLessons(false);
@@ -183,7 +183,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
     <>
       <ModalContainer isOpen={true} isClosing={isClosing} onClose={handleClose}>
         <ModalHeader
-          title={`إدارة الدروس: ${groupName}`}
+          title={`إدارة الحلقات: ${groupName}`}
           icon={<FaCalendarCheck />}
           onClose={handleClose}
         />
@@ -202,10 +202,10 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
               onClick={handleAddMonthLessons}
               disabled={isAddingMonthLessons || loading || !groupData}
               className={`${styles.actionBtn} ${styles.monthBtn}`}
-              title="إضافة دروس جديدة لهذا الشهر"
+              title="إضافة حلقات جديدة لهذا الشهر"
             >
               <FaCalendarWeek />
-              {isAddingMonthLessons ? "إضافة الدروس..." : "إضافة دروس الشهر"}
+              {isAddingMonthLessons ? "إضافة الحلقات..." : "إضافة حلقات الشهر"}
             </button>
           </div>
 
@@ -226,7 +226,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
             {loading ? (
               <div className={styles.emptyState}>
                 <FaCalendarDay className={styles.emptyIcon} />
-                <h3>جاري تحميل الدروس...</h3>
+                <h3>جاري تحميل الحلقات...</h3>
               </div>
             ) : error ? (
               <div className={styles.emptyState}>
@@ -235,8 +235,8 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
             ) : lessons.length === 0 ? (
               <div className={styles.emptyState}>
                 <FaCalendarDay className={styles.emptyIcon} />
-                <h3>لا توجد دروس</h3>
-                <p>لم يتم إضافة أي دروس للحلقة بعد.</p>
+                <h3>لا توجد حلقات</h3>
+                <p>لم يتم إضافة أي حلقات للحلقة بعد.</p>
               </div>
             ) : (
               <div className={styles.lessonsGrid}>

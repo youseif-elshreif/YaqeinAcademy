@@ -122,7 +122,7 @@ export const StudentsProvider = ({ children }: StudentsProviderProps) => {
         const data = await adminSvc.addCreditsToStudent(userId, privateAmount); // Refresh students list
         return data;
       } catch (error) {
-        setError("خطأ في إضافة حصص للطالب");
+        setError("خطأ في إضافة حلقات للطالب");
         throw error;
       } finally {
         setIsLoading(false);

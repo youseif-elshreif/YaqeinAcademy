@@ -15,9 +15,7 @@ import {
   FaStar,
 } from "react-icons/fa";
 import Button from "@/src/components/common/Button";
-import {
-  StudentAllDataComponentViewProps,
-} from "@/src/types";
+import { StudentAllDataComponentViewProps } from "@/src/types";
 
 const StudentAllDataComponent: React.FC<StudentAllDataComponentViewProps> = ({
   studentData,
@@ -94,7 +92,7 @@ const StudentAllDataComponent: React.FC<StudentAllDataComponentViewProps> = ({
             <h3 className={styles.sectionTitle}>تاريخ الحلقات</h3>
             {studentData.classes.length === 0 ? (
               <div className={styles.emptyState}>
-                <p>لا توجد حصص مسجلة لهذا الطالب</p>
+                <p>لا توجد حلقات مسجلة لهذا الطالب</p>
               </div>
             ) : (
               <div className={styles.classesList}>
@@ -164,7 +162,7 @@ const StudentAllDataComponent: React.FC<StudentAllDataComponentViewProps> = ({
                         {classItem.nextPrep && (
                           <div className={styles.nextPrep}>
                             <h4 className={styles.nextPrepTitle}>
-                              <FaClipboardList /> التحضير للحصة القادمة:
+                              <FaClipboardList /> التحضير للحلقة القادمة:
                             </h4>
                             <div className={styles.nextPrepContent}>
                               <div className={styles.prepSection}>

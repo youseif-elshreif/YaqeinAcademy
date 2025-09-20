@@ -101,7 +101,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
                 </Button>
               ) : isUpcoming ? (
                 <span className={styles.lightColor}>
-                  ميعاد الحصة لم يأتي بعد
+                  ميعاد الحلقة لم يأتي بعد
                 </span>
               ) : (
                 <Button
@@ -109,7 +109,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
                   variant="primary"
                   size="small"
                 >
-                  إتمام الحصة
+                  إتمام الحلقة
                 </Button>
               )}
             </>

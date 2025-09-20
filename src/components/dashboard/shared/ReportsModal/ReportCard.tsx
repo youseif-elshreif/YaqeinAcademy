@@ -38,7 +38,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report }) => {
         </div>
 
         <div className={styles.absentMessage}>
-          <p>لم يحضر الطالب هذه الحصة</p>
+          <p>لم يحضر الطالب هذه الحلقة</p>
         </div>
       </div>
     );
@@ -136,7 +136,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report }) => {
         <div className={styles.memorizationGroup}>
           <h4 className={styles.memorizationTitle}>
             <FiTarget className={styles.memorizationIcon} />
-            المطلوب للحصة القادمة
+            المطلوب للحلقة القادمة
           </h4>
           <div className={styles.chips}>
             {(report.wantedForNextLesson?.new || []).length > 0 ? (
@@ -156,7 +156,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report }) => {
         <div className={styles.memorizationGroup}>
           <h4 className={styles.memorizationTitle}>
             <FiBookOpen className={styles.memorizationIcon} />
-            المطلوب مراجعته للحصة القادمة
+            المطلوب مراجعته للحلقة القادمة
           </h4>
           <div className={styles.chips}>
             {(report.wantedForNextLesson?.old || []).length > 0 ? (

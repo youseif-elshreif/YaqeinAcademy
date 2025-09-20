@@ -38,7 +38,7 @@ export const StudentDashboardProvider: React.FC<{
       setUserLessons(lessons);
       return lessons;
     } catch (error) {
-      setError("خطأ في جلب قائمة الدروس");
+      setError("خطأ في جلب قائمة الحلقات");
       throw error;
     } finally {
       setIsLoading(false);
@@ -69,7 +69,7 @@ export const StudentDashboardProvider: React.FC<{
       setNextLessonData(data);
       return data;
     } catch (error) {
-      setError("خطأ في جلب بيانات الدرس القادم");
+      setError("خطأ في جلب بيانات الحلقة القادم");
       throw error;
     } finally {
       setIsLoading(false);

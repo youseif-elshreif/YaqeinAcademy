@@ -43,7 +43,7 @@ export const Lessons = () => {
         <div className={styles.taskSection}>
           <div className={styles.sectionHeader}>
             <h3 className={styles.sectionTitle}>
-              <FaCalendarAlt /> جاري التحميل...
+              <FaCalendarAlt /> الحلقات المتاحة
             </h3>
             <span className={styles.taskCount}>0 درس</span>
           </div>
@@ -58,16 +58,16 @@ export const Lessons = () => {
         <div className={styles.taskSection}>
           <div className={styles.sectionHeader}>
             <h3 className={styles.sectionTitle}>
-              <FaCalendarAlt /> لا توجد دروس
+              <FaCalendarAlt /> لا توجد حلقات
             </h3>
             <span className={styles.taskCount}>0 درس</span>
           </div>
           <div className={styles.emptyState}>
             <span style={{ color: "var(--warning-color)", fontWeight: "bold" }}>
-              لا توجد دروس متاحة
+              لا توجد حلقات متاحة
             </span>
             <p style={{ marginTop: "0.5rem", color: "var(--text-light)" }}>
-              يرجى التحقق من توفر الدروس
+              يرجى التحقق من توفر الحلقات
             </p>
           </div>
         </div>
@@ -79,18 +79,18 @@ export const Lessons = () => {
       <div className={styles.taskSection}>
         <div className={styles.sectionHeader}>
           <h3 className={styles.sectionTitle}>
-            <FaCalendarAlt /> جاري التحميل...
+            <FaCalendarAlt /> الحلقات المتاحة
           </h3>
           <span className={styles.taskCount}>
-            {displayedLessons.length} درس {availableCredits} درس متاح
+            {displayedLessons.length} حلقة {availableCredits} حلقة متاحة
           </span>
         </div>
         <div className={styles.tasksList}>
           {displayedLessons.length === 0 ? (
             <div className={styles.emptyState}>
-              <span>لا توجد دروس متاحة</span>
+              <span>لا توجد حلقات متاحة</span>
               <p style={{ marginTop: "0.5rem", color: "var(--text-light)" }}>
-                يرجى التحقق من توفر الدروس
+                يرجى التحقق من توفر الحلقات
               </p>
             </div>
           ) : (
@@ -102,11 +102,11 @@ export const Lessons = () => {
                     <h4 className={styles.taskContent}>{dateInfo.dayName}</h4>
                   </div>
                   <div className={styles.taskNotes}>
-                    <span className={styles.notesLabel}>تاريخ الدرس:</span>
+                    <span className={styles.notesLabel}>تاريخ الحلقة:</span>
                     <p className={styles.notesText}>{dateInfo.date}</p>
                   </div>
                   <div className={styles.taskNotes}>
-                    <span className={styles.notesLabel}>وقت الدرس:</span>
+                    <span className={styles.notesLabel}>وقت الحلقة:</span>
                     <p className={styles.notesText}>{dateInfo.time}</p>
                   </div>
                 </div>
@@ -118,4 +118,3 @@ export const Lessons = () => {
     </div>
   );
 };
-

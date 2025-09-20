@@ -58,7 +58,7 @@ const SetTeacherPriceModal: React.FC = () => {
 
   const validateForm = (): boolean => {
     if (formData.money < 0) {
-      setError("سعر الحصة لا يمكن أن يكون سالباً");
+      setError("سعر الحلقة لا يمكن أن يكون سالباً");
       return false;
     }
 
@@ -81,7 +81,7 @@ const SetTeacherPriceModal: React.FC = () => {
     setError(null);
 
     try {
-      // تحديث سعر الحصة للمعلم
+      // تحديث سعر الحلقة للمعلم
       if (selectedTeacherForPrice.userId) {
         await updateMember(selectedTeacherForPrice.userId._id, {
           name: selectedTeacherForPrice.userId.name,
@@ -93,7 +93,7 @@ const SetTeacherPriceModal: React.FC = () => {
 
       closeSetTeacherPriceModal();
     } catch {
-      setError("خطأ في تحديث سعر الحصة للمعلم");
+      setError("خطأ في تحديث سعر الحلقة للمعلم");
     } finally {
       await getTeachers();
       setIsSubmitting(false);
@@ -121,7 +121,7 @@ const SetTeacherPriceModal: React.FC = () => {
   return (
     <ModalContainer isOpen={true} onClose={closeSetTeacherPriceModal}>
       <ModalHeader
-        title="تعديل سعر الحصة للمعلم"
+        title="تعديل سعر الحلقة للمعلم"
         onClose={closeSetTeacherPriceModal}
         isOpen={true}
       />
@@ -137,14 +137,14 @@ const SetTeacherPriceModal: React.FC = () => {
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGrid}>
             <FormField
-              label="سعر الحصة (ج.م)"
+              label="سعر الحلقة (ج.م)"
               name="money"
               type="number"
               value={formData.money || 0}
               onChange={handleInputChange}
               min={0}
               disabled={isSubmitting}
-              placeholder="أدخل سعر الحصة"
+              placeholder="أدخل سعر الحلقة"
             />
           </div>
           <ErrorDisplay message={error || undefined} />

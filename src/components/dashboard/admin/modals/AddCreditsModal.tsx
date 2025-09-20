@@ -54,7 +54,7 @@ const AddCreditsModal: React.FC = () => {
 
   const validateForm = (): boolean => {
     if (formData.privateAmount < 0) {
-      setError("عدد الحصص لا يمكن أن يكون سالبًا");
+      setError("عدد الحلقات لا يمكن أن يكون سالبًا");
       return false;
     }
 
@@ -64,7 +64,7 @@ const AddCreditsModal: React.FC = () => {
     }
 
     if (formData.privateAmount > 31) {
-      setError("عدد الحصص لا يمكن أن يتجاوز 31");
+      setError("عدد الحلقات لا يمكن أن يتجاوز 31");
       return false;
     }
 
@@ -91,7 +91,7 @@ const AddCreditsModal: React.FC = () => {
     setIsSubmitting(true);
     setError(null);
     try {
-      // إضافة الحصص للطالب
+      // إضافة الحلقات للطالب
       await addCreditsToStudent(
         selectedStudentForCredits?.fullData?._id ||
           selectedStudentForCredits?.userId,
@@ -159,7 +159,7 @@ const AddCreditsModal: React.FC = () => {
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGrid}>
             <FormField
-              label="عدد الحصص الخاصة"
+              label="عدد الحلقات الخاصة"
               name="privateAmount"
               type="number"
               value={formData.privateAmount}
@@ -167,7 +167,7 @@ const AddCreditsModal: React.FC = () => {
               min={1}
               max={100}
               disabled={isSubmitting}
-              placeholder="أدخل عدد الحصص"
+              placeholder="أدخل عدد الحلقات"
             />
 
             <FormField

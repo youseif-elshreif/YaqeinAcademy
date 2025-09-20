@@ -89,7 +89,7 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
                 </Button>
               ) : isUpcoming ? (
                 <span className={styles.lightColor}>
-                  ميعاد الحصة لم يأتي بعد
+                  ميعاد الحلقة لم يأتي بعد
                 </span>
               ) : (
                 <Button
@@ -97,7 +97,7 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
                   size="small"
                   onClick={() => openCompleteModal(classItem)}
                 >
-                  إتمام الحصة
+                  إتمام الحلقة
                 </Button>
               )}
             </>

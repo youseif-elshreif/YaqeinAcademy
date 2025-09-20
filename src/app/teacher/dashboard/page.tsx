@@ -32,7 +32,7 @@ const TeacherDashboardContent = () => {
   });
 
   useEffect(() => {
-    // ترتيب الدروس حسب التاريخ عند تحديث البيانات من context
+    // ترتيب الحلقات حسب التاريخ عند تحديث البيانات من context
     if (teacherLessons && teacherLessons.length > 0) {
       const sorted = teacherLessons.slice().sort((a: any, b: any) => {
         const da = new Date(a?.scheduledAt || 0).getTime();
@@ -47,7 +47,7 @@ const TeacherDashboardContent = () => {
   const tabs = [
     {
       id: "monthly-classes",
-      label: "جدول الحصص",
+      label: "جدول الحلقات",
     },
     { id: "edit-profile", label: "تعديل البيانات الشخصية" },
   ];

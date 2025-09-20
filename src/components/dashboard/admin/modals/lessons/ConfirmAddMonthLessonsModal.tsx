@@ -63,7 +63,7 @@ const ConfirmAddMonthLessonsModal: React.FC<
       disabled: isLoading,
     },
     {
-      label: isLoading ? "جاري الإضافة..." : "إضافة الدروس",
+      label: isLoading ? "جاري الإضافة..." : "إضافة الحلقات",
       onClick: handleConfirmAdd,
       variant: "primary" as const,
       disabled: !isAddEnabled,
@@ -80,7 +80,7 @@ const ConfirmAddMonthLessonsModal: React.FC<
       onClose={handleClose}
     >
       <ModalHeader
-        title="تأكيد إضافة دروس الشهر"
+        title="تأكيد إضافة حلقات الشهر"
         icon={<FaCalendarWeek />}
         onClose={handleClose}
         disabled={isLoading}
@@ -89,8 +89,8 @@ const ConfirmAddMonthLessonsModal: React.FC<
 
       <div className={baseStyles.modalBody}>
         <WarningPanel
-          title="هل أنت متأكد من إضافة دروس الشهر؟"
-          text={`سيتم إضافة جميع دروس الشهر الحالي للحلقة "${groupName}" حسب الجدول المعتاد. هذا الإجراء سيقوم بإنشاء دروس جديدة وفقاً لأيام ومواعيد الحلقة المحددة مسبقاً.`}
+          title="هل أنت متأكد من إضافة حلقات الشهر؟"
+          text={`سيتم إضافة جميع حلقات الشهر الحالي للحلقة "${groupName}" حسب الجدول المعتاد. هذا الإجراء سيقوم بإنشاء حلقات جديدة وفقاً لأيام ومواعيد الحلقة المحددة مسبقاً.`}
         />
 
         <ConfirmTextInput

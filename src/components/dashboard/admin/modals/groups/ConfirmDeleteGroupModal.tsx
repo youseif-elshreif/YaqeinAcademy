@@ -93,7 +93,7 @@ const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
           <h4 className={baseStyles.groupName}>&ldquo;{groupName}&rdquo;</h4>
           <p className={baseStyles.groupId}>المعرف: {groupId}</p>
           <p className={baseStyles.warningText}>
-            سيتم حذف كافة الدروس والأعضاء المرتبطين بهذه الحلقة
+            سيتم حذف كافة الحلقات والأعضاء المرتبطين بهذه الحلقة
           </p>
         </div>
 

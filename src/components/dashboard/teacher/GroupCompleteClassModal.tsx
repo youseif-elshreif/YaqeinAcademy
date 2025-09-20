@@ -47,7 +47,7 @@ const GroupCompleteClassModal = ({
         const data = await getLessonById(lessonId);
         setLessonData(data);
       } catch (error) {
-        setLessonError("خطأ في جلب بيانات الدرس");
+        setLessonError("خطأ في جلب بيانات الحلقة");
         throw error;
       } finally {
         setIsLoadingLesson(false);

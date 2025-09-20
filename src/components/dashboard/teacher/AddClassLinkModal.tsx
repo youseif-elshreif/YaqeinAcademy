@@ -90,7 +90,7 @@ const EditClassLinkModal = ({
   return (
     <ModalContainer isOpen={true} variant="add" onClose={handleClose}>
       <ModalHeader
-        title="إضافة رابط الحصة"
+        title="إضافة رابط الحلقة"
         icon={<FaExternalLinkAlt />}
         onClose={handleClose}
         disabled={isLoading}
@@ -98,7 +98,7 @@ const EditClassLinkModal = ({
       />
       <div className={styles.modalBody}>
         <div className={styles.classInfo}>
-          <h3 className={styles.classInfoTitle}>معلومات الحصة:</h3>
+          <h3 className={styles.classInfoTitle}>معلومات الحلقة:</h3>
           <div className={styles.classDetails}>
             <div className={styles.classDetail}>
               <span className={styles.label}>التاريخ:</span>
@@ -121,7 +121,7 @@ const EditClassLinkModal = ({
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
             <FormField
-              label="رابط الحصة"
+              label="رابط الحلقة"
               name="classLink"
               type="url"
               value={link}

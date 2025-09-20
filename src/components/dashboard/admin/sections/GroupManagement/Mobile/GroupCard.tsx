@@ -153,7 +153,7 @@ const GroupCard = ({ group }: GroupCardProps) => {
               <FiCalendar style={{ marginLeft: "0.5rem" }} />
               {nextLesson
                 ? formatDate(nextLesson.scheduledAt)
-                : "لا يوجد حصص قادمة"}
+                : "لا يوجد حلقات قادمة"}
             </span>
           </div>
 

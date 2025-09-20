@@ -197,7 +197,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                     <th>الوصف</th>
                     <th>المدرس</th>
                     <th>عدد الأعضاء</th>
-                    <th>مواعيد الدروس</th>
+                    <th>مواعيد الحلقات</th>
                     <th>موعد الحلقات الإعتيادية</th>
                     <th>تاريخ الإنشاء</th>
                     <th>رابط الحلقة</th>
@@ -255,9 +255,9 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                             variant="primary"
                             size="small"
                             icon={<FiCalendar />}
-                            title="مواعيد الدروس"
+                            title="مواعيد الحلقات"
                           >
-                            مواعيد الدروس
+                            مواعيد الحلقات
                           </Button>
                         </td>
                         <td className={styles.groupCell}>
@@ -274,7 +274,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                             <FiCalendar style={{ marginLeft: "0.5rem" }} />
                             {nextLesson
                               ? formatDate(nextLesson.scheduledAt)
-                              : "لا توجد مواعيد دروس قادمة"}
+                              : "لا توجد مواعيد حلقات قادمة"}
                           </span>
                         </td>
                         <td className={styles.linkContainer}>

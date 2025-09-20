@@ -58,7 +58,7 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
         setLessonsRefreshKey((k) => k + 1);
         return result;
       } catch (error) {
-        setError("خطأ في إضافة الدرس للحلقة");
+        setError("خطأ في إضافة الحلقة للحلقة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -79,7 +79,7 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
         setLessonsRefreshKey((k) => k + 1);
         return result;
       } catch (error) {
-        setError("خطأ في تحديث الدرس");
+        setError("خطأ في تحديث الحلقة");
         throw error;
       } finally {
         setIsLoading(false);
@@ -96,7 +96,7 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
       setLessonsRefreshKey((k) => k + 1);
       return data;
     } catch (error) {
-      setError("خطأ في حذف الدرس");
+      setError("خطأ في حذف الحلقة");
       throw error;
     } finally {
       setIsLoading(false);
@@ -110,7 +110,7 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
       const data = await lessonSvc.getLessonById(lessonId);
       return data;
     } catch (error) {
-      setError("خطأ في جلب بيانات الدرس");
+      setError("خطأ في جلب بيانات الحلقة");
       throw error;
     } finally {
       setIsLoading(false);
@@ -125,7 +125,7 @@ export const LessonsProvider = ({ children }: LessonsProviderProps) => {
       setLessonsRefreshKey((k) => k + 1);
       return data;
     } catch (error) {
-      setError("خطأ في إتمام الدرس");
+      setError("خطأ في إتمام الحلقة");
       throw error;
     } finally {
       setIsLoading(false);

@@ -49,7 +49,7 @@ const LessonManagement: React.FC = () => {
   return (
     <div className={styles.overviewContainer}>
       <div className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>إدارة الدروس</h1>
+        <h1 className={styles.pageTitle}>إدارة الحلقات</h1>
         <Button
           variant="primary"
           icon={<FiPlus />}
@@ -63,14 +63,14 @@ const LessonManagement: React.FC = () => {
         <StatCard
           icon={FiCalendar}
           value={coursesData.length}
-          label="عدد الدروس"
+          label="عدد الحلقات"
         />
       </div>
 
       {isLoading ? (
         <EnhancedLoader
           type="default"
-          text="جاري تحميل الدروس..."
+          text="جاري تحميل الحلقات..."
           size="large"
           color="primary"
         />
@@ -79,7 +79,7 @@ const LessonManagement: React.FC = () => {
       ) : (
         <div>
           <h3 style={{ textAlign: "center", color: "var(--text-light)" }}>
-            لا توجد دروس متاحة
+            لا توجد حلقات متاحة
           </h3>
         </div>
       )}

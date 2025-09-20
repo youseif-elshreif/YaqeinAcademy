@@ -570,7 +570,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
 
   const handleTeacherAccounting = async (teacherId: string) => {
     try {
-      // تصفير رصيد الحصص للمعلم
+      // تصفير رصيد الحلقات للمعلم
       const result = await updateTeacher(teacherId, {
         numberOflessonsCridets: 0,
       });
@@ -596,7 +596,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
 
   const addCreditsToStudent = async (userId: string, privateAmount: number) => {
     try {
-      // إضافة الحصص للطالب
+      // إضافة الحلقات للطالب
       const result = await addCreditsAPI(userId, privateAmount);
 
       await getStudents();

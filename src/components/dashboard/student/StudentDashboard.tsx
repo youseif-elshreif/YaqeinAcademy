@@ -102,7 +102,7 @@ function StudentDashboard() {
     ...((userStats?.PrivitelessonCredits || 0) > 0
       ? [
           { id: "next-session", label: "الجلسة القادمة والمهام" },
-          { id: "lessons", label: "الدروس" },
+          { id: "lessons", label: "الحلقات" },
         ]
       : []),
     { id: "profile", label: "البيانات الشخصية" },
@@ -220,7 +220,7 @@ function StudentDashboard() {
                     style={{ margin: 0, border: "none" }}
                   >
                     <div>
-                      <h3 className={styles.badgeLabel}>رابط الحصة</h3>
+                      <h3 className={styles.badgeLabel}>رابط الحلقة</h3>
                     </div>
 
                     <div className={styles.meetingContent}>
@@ -232,7 +232,7 @@ function StudentDashboard() {
                       ) : (
                         <div className={styles.noLinkMessage}>
                           <p className={styles.noLinkText}>
-                            لا يوجد رابط حصة متاح حالياً
+                            لا يوجد رابط للحلقة متاح حالياً
                           </p>
                           <span className={styles.noLinkSubtext}>
                             تواصل مع إدارة الأكاديمية
@@ -267,7 +267,7 @@ function StudentDashboard() {
             <div className={styles.noCreditsSection}>
               <div className={styles.noCreditsCard}>
                 <h2 className={styles.noCreditsTitle}>
-                  لا توجد حصص متاحة حالياً
+                  لا توجد حلقات متاحة حالياً
                 </h2>
                 <p className={styles.noCreditsText}>
                   تواصل مع الإدارة أو قم بالتسجيل في الدورات المتاحة

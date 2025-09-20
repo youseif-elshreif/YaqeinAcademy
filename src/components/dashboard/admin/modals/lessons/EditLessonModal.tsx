@@ -104,7 +104,7 @@ const EditLessonModal: React.FC = () => {
       onClose={handleClose}
     >
       <ModalHeader
-        title="تعديل الدرس"
+        title="تعديل الحلقة"
         icon={<FaEdit />}
         onClose={handleClose}
         disabled={isSubmitting}

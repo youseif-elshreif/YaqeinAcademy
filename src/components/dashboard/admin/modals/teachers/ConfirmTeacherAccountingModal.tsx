@@ -83,14 +83,14 @@ const ConfirmTeacherAccountingModal: React.FC<
       <div className={baseStyles.modalBody}>
         <WarningPanel
           title="هل أنت متأكد من محاسبة هذا المعلم؟"
-          text="سيتم إعادة تصفير رصيد الحصص الخاص بالمعلم."
+          text="سيتم إعادة تصفير رصيد الحلقات الخاص بالمعلم."
         />
 
         <div className={baseStyles.groupInfo}>
           <h4 className={baseStyles.groupName}>&ldquo;{teacherName}&rdquo;</h4>
           <p className={baseStyles.groupId}>المعرف: {teacherId}</p>
           <p className={baseStyles.warningText}>
-            سيتم تصفير عدد الحصص المستحقة للمعلم وإعادة تعيينها إلى صفر
+            سيتم تصفير عدد الحلقات المستحقة للمعلم وإعادة تعيينها إلى صفر
           </p>
         </div>
 

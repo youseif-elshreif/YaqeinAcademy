@@ -100,7 +100,6 @@ const MonthlyClassTable = ({
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setStatusFilter(e.target.value);
-
   };
 
   const clearFilters = () => {
@@ -123,15 +122,13 @@ const MonthlyClassTable = ({
     return (
       <div className={styles.tableContainer} style={{ paddingTop: "2rem" }}>
         <div className={styles.header}>
-          <h2 className={styles.title}>حصص الشهر الحالي</h2>
+          <h2 className={styles.title}>حلقات الشهر الحالي</h2>
           <p className={styles.subtitle}>إدارة الحلقات والمتابعة مع الطلاب</p>
         </div>
-
 
         <div className={styles.desktopView}>
           <SkeletonTable rows={5} columns={5} className={styles.tableWrapper} />
         </div>
-
 
         <div className={styles.mobileView}>
           <SkeletonCards cards={3} type="lesson" />
@@ -157,10 +154,9 @@ const MonthlyClassTable = ({
       ) : (
         <div className={styles.tableContainer}>
           <div className={styles.header}>
-            <h2 className={styles.title}>حصص الشهر الحالي</h2>
+            <h2 className={styles.title}>حلقات الشهر الحالي</h2>
             <p className={styles.subtitle}>إدارة الحلقات والمتابعة مع الطلاب</p>
           </div>
-
 
           <div className={styles.filtersContainer}>
             <div className={styles.filtersRow}>
@@ -242,7 +238,7 @@ const MonthlyClassTable = ({
                   onChange={handleStatusFilterChange}
                   className={styles.filterSelect}
                 >
-                  <option value="all">جميع الحصص</option>
+                  <option value="all">جميع الحلقات</option>
                   <option value="scheduled">مجدولة</option>
                   <option value="completed">مكتملة</option>
                 </select>
@@ -274,18 +270,15 @@ const MonthlyClassTable = ({
               )}
             </div>
 
-
             <div className={styles.resultsInfo}>
               <FiClock className={styles.infoIcon} />
               <span>
-                عرض {filteredClasses.length} من {classes.length} حصة
+                عرض {filteredClasses.length} من {classes.length} حلقة
               </span>
             </div>
           </div>
 
-
           <ClassTable classes={filteredClasses} />
-
 
           <MobileClassCards classes={filteredClasses} />
         </div>

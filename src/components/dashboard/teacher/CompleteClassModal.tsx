@@ -350,7 +350,7 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
             ? "حضور الطالب"
             : step === 1
             ? "إكمال الحلقة"
-            : "تحديد المطلوب للحصة القادمة"
+            : "تحديد المطلوب للحلقة القادمة"
         }
         onClose={handleClose}
         disabled={isSubmitting}
@@ -439,7 +439,7 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
               ) : (
                 <div className={styles.stepContent}>
                   <h3 className={styles.stepTitle}>
-                    ما المطلوب تحضيره للحصة القادمة؟
+                    ما المطلوب تحضيره للحلقة القادمة؟
                   </h3>
                   {renderDynamicFields(
                     nextNewMemorization,

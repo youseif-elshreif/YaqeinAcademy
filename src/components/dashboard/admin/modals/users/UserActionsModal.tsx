@@ -142,7 +142,7 @@ const UserActionsModal: React.FC = () => {
           )}
           {selectedUserForActions.userType === "teacher" && (
             <ActionButton
-              label="تعديل سعر الحصة"
+              label="تعديل سعر الحلقة"
               icon={<FaDollarSign className={styles.btnIcon} />}
               onClick={handleSetTeacherPrice}
             />

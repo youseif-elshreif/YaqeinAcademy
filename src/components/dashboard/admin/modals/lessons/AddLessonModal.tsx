@@ -69,7 +69,7 @@ const AddLessonModal: React.FC = () => {
       disabled: isSubmitting,
     },
     {
-      label: "إضافة الدرس",
+      label: "إضافة الحلقة",
       onClick: () => {},
       variant: "primary" as const,
       disabled: isSubmitting,

@@ -43,7 +43,7 @@ const NextSessionTasks = () => {
     return (
       <div className={styles.tasksContainer}>
         <div className={styles.header}>
-          <h2 className={styles.title}>المطلوب للحصة القادمة</h2>
+          <h2 className={styles.title}>المطلوب للحلقة القادمة</h2>
         </div>
         <div className={styles.tasksContent}>
           <div className={styles.taskSection}>
@@ -63,7 +63,7 @@ const NextSessionTasks = () => {
               style={{ textAlign: "center", padding: "2rem" }}
             >
               <p style={{ fontSize: "1.1rem", marginBottom: "1rem" }}>
-                عذراً، لا يمكن عرض معلومات الحصة القادمة لأنه لا توجد حلقات
+                عذراً، لا يمكن عرض معلومات الحلقة القادمة لأنه لا توجد حلقات
                 مستحقة في رصيدك
               </p>
               <p style={{ color: "var(--text-light)", marginBottom: "1.5rem" }}>
@@ -99,7 +99,7 @@ const NextSessionTasks = () => {
     return (
       <div className={styles.tasksContainer}>
         <div className={styles.header}>
-          <h2 className={styles.title}>المطلوب للحصة القادمة</h2>
+          <h2 className={styles.title}>المطلوب للحلقة القادمة</h2>
         </div>
         <div className={styles.tasksContent}>
           <div style={{ textAlign: "center", padding: "2rem" }}>
@@ -115,11 +115,11 @@ const NextSessionTasks = () => {
     return (
       <div className={styles.tasksContainer}>
         <div className={styles.header}>
-          <h2 className={styles.title}>المطلوب للحصة القادمة</h2>
+          <h2 className={styles.title}>المطلوب للحلقة القادمة</h2>
         </div>
         <div className={styles.tasksContent}>
           <div style={{ textAlign: "center", padding: "2rem" }}>
-            لم يحدد ميعاد الحصة القادمة بعد
+            لم يحدد ميعاد الحلقة القادمة بعد
           </div>
         </div>
       </div>
@@ -148,14 +148,14 @@ const NextSessionTasks = () => {
   return (
     <div className={styles.tasksContainer}>
       <div className={styles.header}>
-        <h2 className={styles.title}>المطلوب للحصة القادمة</h2>
+        <h2 className={styles.title}>المطلوب للحلقة القادمة</h2>
         <div className={styles.sessionInfo}>
           <div className={styles.sessionDateTime}>
             <span className={styles.sessionDate}>
               <FaCalendarAlt />{" "}
               {nextDate?.dayName
                 ? `${nextDate.dayName} - ${nextDate.date}`
-                : "لا توجد حصص قادمة"}
+                : "لا توجد حلقات قادمة"}
             </span>
             <span className={styles.sessionTime}>
               <FaClock /> {nextDate?.time || "--:--"}
@@ -210,7 +210,7 @@ const NextSessionTasks = () => {
               </h3>
             </div>
             <div className={styles.emptyState}>
-              <p>لا يوجد حفظ جديد مطلوب للحصة القادمة</p>
+              <p>لا يوجد حفظ جديد مطلوب للحلقة القادمة</p>
             </div>
           </div>
         )}
@@ -251,7 +251,7 @@ const NextSessionTasks = () => {
               </h3>
             </div>
             <div className={styles.emptyState}>
-              <p>لا يوجد مراجعة مطلوبة للحصة القادمة</p>
+              <p>لا يوجد مراجعة مطلوبة للحلقة القادمة</p>
             </div>
           </div>
         )}

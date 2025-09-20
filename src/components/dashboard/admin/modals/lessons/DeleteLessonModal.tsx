@@ -71,7 +71,7 @@ const DeleteLessonModal: React.FC = () => {
       disabled: isDeleting,
     },
     {
-      label: "حذف الدرس",
+      label: "حذف الحلقة",
       onClick: handleDelete,
       variant: "danger" as const,
       disabled: !isDeleteEnabled,
@@ -87,7 +87,7 @@ const DeleteLessonModal: React.FC = () => {
       onClose={handleClose}
     >
       <ModalHeader
-        title="حذف الدرس"
+        title="حذف الحلقة"
         icon={<FaTrash />}
         onClose={handleClose}
         isOpen={true}
@@ -95,12 +95,12 @@ const DeleteLessonModal: React.FC = () => {
       />
       <div className={baseStyles.modalBody}>
         <WarningPanel
-          title="هل أنت متأكد من حذف هذا الدرس؟"
+          title="هل أنت متأكد من حذف هذا الحلقة؟"
           text="لا يمكن التراجع عن هذا الإجراء."
         />
 
         <div className={styles.lessonDetails}>
-          <h4 className={styles.detailsTitle}>تفاصيل الدرس:</h4>
+          <h4 className={styles.detailsTitle}>تفاصيل الحلقة:</h4>
           <div className={styles.detailsGrid}>
             <div className={styles.detailItem}>
               <span className={styles.detailLabel}>اليوم:</span>

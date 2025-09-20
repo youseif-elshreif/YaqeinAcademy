@@ -48,7 +48,7 @@ const ClassCard = ({ teacher }: TeacherCardProps) => {
           </div>
 
           <div className={styles.infoItem}>
-            <span className={styles.infoLabel}>ثمن الحصة:</span>
+            <span className={styles.infoLabel}>ثمن الحلقة:</span>
             <span className={styles.infoValue}>{userInfo.money} ج.م</span>
           </div>
 
