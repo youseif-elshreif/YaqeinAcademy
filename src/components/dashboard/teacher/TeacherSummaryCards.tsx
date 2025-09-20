@@ -3,7 +3,11 @@ import styles from "./TeacherSummaryCards.module.css";
 import { FaBook, FaCheck, FaHourglassHalf, FaCoins } from "react-icons/fa";
 import { TeacherSummaryCardsProps } from "@/src/types";
 
-const TeacherSummaryCards = ({ classes, money }: TeacherSummaryCardsProps) => {
+const TeacherSummaryCards = ({
+  classes,
+  money,
+  numberOflessonsCridets,
+}: TeacherSummaryCardsProps) => {
   const summaryCards = [
     {
       id: 1,
@@ -35,10 +39,15 @@ const TeacherSummaryCards = ({ classes, money }: TeacherSummaryCardsProps) => {
     },
     {
       id: 5,
+      title: "إجمالي المكتملة و لم يحاسب عليها",
+      value: numberOflessonsCridets,
+      icon: FaBook,
+      color: "primary",
+    },
+    {
+      id: 6,
       title: "إجمالي الأرباح",
-      value: `${
-        classes.filter((cls) => cls.status === "completed").length * money
-      } ج.م`,
+      value: `${numberOflessonsCridets * money} ج.م`,
       icon: FaCoins,
       color: "success",
     },

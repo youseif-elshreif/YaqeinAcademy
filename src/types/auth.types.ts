@@ -7,6 +7,7 @@ export interface User extends BaseUser {
   isVerified?: boolean;
   avatar?: string;
   money?: number;
+  numberOflessonsCridets?: number;
 }
 export interface RegisterData extends BaseFormData {
   name: string;

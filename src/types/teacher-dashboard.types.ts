@@ -4,6 +4,7 @@
 export interface TeacherSummaryCardsProps {
   classes: LessonLike[];
   money: number;
+  numberOflessonsCridets: number;
 }
 export interface StudentListModalProps {
   isOpen: boolean;

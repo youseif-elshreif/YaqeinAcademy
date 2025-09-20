@@ -42,7 +42,7 @@ const TeacherDashboardContent = () => {
       setClasses(sorted);
     }
     setLoading(false);
-  }, [teacherLessons]);
+  }, [teacherLessons, user]);
 
   const tabs = [
     {
@@ -88,7 +88,11 @@ const TeacherDashboardContent = () => {
           </div>
 
           {/* Summary Cards */}
-          <TeacherSummaryCards classes={classes} money={user?.money || 0} />
+          <TeacherSummaryCards
+            classes={classes}
+            money={user?.money || 0}
+            numberOflessonsCridets={user?.numberOflessonsCridets || 0}
+          />
 
           <DashboardTabs
             tabs={tabs}

@@ -94,30 +94,38 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         }
         const response = await authSvc.getUserProfile();
         const userData = response.data;
+        localStorage.setItem("user", JSON.stringify(userData));
+        
+        // تحديد هيكل البيانات حسب الدور
+        const isTeacher = userData.userRole === 'teacher' || userData.teacher;
+        const userInfo = isTeacher ? userData.user : userData;
+        
         const user: User = {
-          _id: userData._id,
-          email: userData.email,
-          name: userData.name,
-          phone: userData.phone,
-          role: userData.role,
-          age: userData.age,
-          quranMemorized: userData.quranMemorized,
-          numOfPartsofQuran: userData.numOfPartsofQuran,
-          isVerified: userData.isVerified,
-          createdAt: userData.createdAt,
-          avatar: userData.avatar || "/avatar.png",
-          money: userData.money || 0,
+          _id: userInfo._id,
+          email: userInfo.email,
+          name: userInfo.name,
+          phone: userInfo.phone,
+          role: userInfo.role || userData.userRole,
+          age: userInfo.age,
+          quranMemorized: userInfo.quranMemorized,
+          numOfPartsofQuran: userInfo.numOfPartsofQuran,
+          isVerified: userInfo.isVerified,
+          createdAt: userInfo.createdAt,
+          avatar: "/avatar.png",
+          money: userInfo.money || 0,
+          numberOflessonsCridets: isTeacher ? userData.teacher?.numberOflessonsCridets || 0 : 0,
         };
         dispatch({
           type: "LOGIN_SUCCESS",
           payload: { user, token },
         });
         if (shouldRedirect) {
-          if (userData.role === "student") {
+          const userRole = userInfo.role || userData.userRole;
+          if (userRole === "student") {
             router.push("/student/dashboard");
-          } else if (userData.role === "teacher") {
+          } else if (userRole === "teacher") {
             router.push("/teacher/dashboard");
-          } else if (userData.role === "admin") {
+          } else if (userRole === "admin") {
             router.push("/admin/dashboard");
           } else {
             router.push("/");
@@ -155,19 +163,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             dispatch({ type: "SET_LOADING", payload: true });
             const response = await authSvc.getUserProfile();
             const userData = response.data;
+            localStorage.setItem("userData", JSON.stringify(userData));
+            
+            // تحديد هيكل البيانات حسب الدور
+            const isTeacher = userData.userRole === 'teacher' || userData.teacher;
+            const userInfo = isTeacher ? userData.user : userData;
+            
             const user: User = {
-              _id: userData._id,
-              email: userData.email,
-              name: userData.name,
-              phone: userData.phone,
-              role: userData.role,
-              age: userData.age,
-              quranMemorized: userData.quranMemorized,
-              numOfPartsofQuran: userData.numOfPartsofQuran,
-              isVerified: userData.isVerified,
-              createdAt: userData.createdAt,
-              avatar: userData.avatar || "/avatar.png",
-              money: userData.money || 0,
+              _id: userInfo._id,
+              email: userInfo.email,
+              name: userInfo.name,
+              phone: userInfo.phone,
+              role: userInfo.role || userData.userRole,
+              age: userInfo.age,
+              quranMemorized: userInfo.quranMemorized,
+              numOfPartsofQuran: userInfo.numOfPartsofQuran,
+              isVerified: userInfo.isVerified,
+              createdAt: userInfo.createdAt,
+              avatar: userInfo.avatar || "/avatar.png",
+              money: userInfo.money || 0,
+              numberOflessonsCridets: isTeacher ? userData.teacher?.numberOflessonsCridets || 0 : 0,
             };
             dispatch({
               type: "LOGIN_SUCCESS",
