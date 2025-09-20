@@ -3,8 +3,7 @@ import React from "react";
 import styles from "../LessonsModal.module.css";
 import { FaClock, FaCalendarDay, FaEdit, FaTrash } from "react-icons/fa";
 import MeetingLinkActions from "@/src/components/common/MeetingLinkActions";
-import Button from "@/src/components/common/Button";
-import { UILessonCard, LessonCardProps } from "@/src/types/admin.types";
+import { LessonCardProps } from "@/src/types/admin.types";
 
 const LessonCard: React.FC<LessonCardProps> = ({
   lesson,
