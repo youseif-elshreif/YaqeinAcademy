@@ -138,7 +138,7 @@ const RegisterPage = () => {
         country: formData.country,
         quranLevel: formData.quranLevel,
       });
-    } catch (error: any) {
+    } catch (error) {
       // Check for specific error status codes
       if (error?.response?.status === 409) {
         setErrors((prev) => ({

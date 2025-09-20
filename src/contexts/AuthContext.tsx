@@ -133,7 +133,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             router.push("/");
           }
         }
-      } catch (error: any) {
+      } catch (error) {
         if (typeof window !== "undefined") {
           removeAccessToken();
         }
@@ -244,7 +244,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           await getUserData(true);
         }
         router.push("/student/dashboard");
-      } catch (error: any) {
+      } catch (error) {
         const errorMessage =
           error.response?.data?.message ||
           "حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.";
@@ -265,7 +265,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           saveAccessToken(data.accessToken);
         }
         await getUserData(true);
-      } catch (error: any) {
+      } catch (error) {
         const errorMessage =
           error.response?.data?.message ||
           "حدث خطأ أثناء التحقق من البريد الإلكتروني. يرجى المحاولة مرة أخرى.";
@@ -302,7 +302,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           saveAccessToken(data.accessToken);
         }
         await getUserData(true); // Refresh user data after update
-      } catch (error: any) {
+      } catch (error) {
         dispatch({
           type: "UPDATE_USER_FAILURE",
           payload: "حدث خطأ أثناء تحديث البيانات. يرجى المحاولة مرة أخرى.",

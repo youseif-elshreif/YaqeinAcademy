@@ -571,7 +571,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   const handleTeacherAccounting = async (teacherId: string) => {
     try {
       // تصفير رصيد الحلقات للمعلم
-      const result = await updateTeacher(teacherId, {
+      await updateTeacher(teacherId, {
         numberOflessonsCridets: 0,
       });
       // تحديث قائمة المعلمين

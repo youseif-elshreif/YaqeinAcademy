@@ -58,6 +58,7 @@ const EditClassLinkModal = ({
       onClose();
     } catch (error) {
       setError("حدث خطأ في إضافة الرابط");
+      throw error;
     } finally {
       setIsLoading(false);
     }

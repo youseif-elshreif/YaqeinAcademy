@@ -12,12 +12,13 @@ export const Lessons = () => {
         setLoading(true);
         await getUserLessons();
       } catch (error) {
+        throw error;
       } finally {
         setLoading(false);
       }
     };
     fetchLessons();
-  }, []);
+  }, [getUserLessons]);
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return {

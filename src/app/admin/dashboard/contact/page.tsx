@@ -44,7 +44,7 @@ function AdminContactPage() {
   const fetchContactData = useCallback(async () => {
     try {
       const raw = await getContactInfo();
-      const data: any = (raw && (raw as any).data) || raw || {};
+      const data = (raw && (raw as any).data) || raw || {};
       const contactData: ContactInfo = {
         email: data.email ?? "",
         phone: Array.isArray(data.phone) ? data.phone : [],
