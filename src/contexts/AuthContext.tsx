@@ -95,11 +95,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         const response = await authSvc.getUserProfile();
         const userData = response.data;
         localStorage.setItem("user", JSON.stringify(userData));
-        
+
         // تحديد هيكل البيانات حسب الدور
-        const isTeacher = userData.userRole === 'teacher' || userData.teacher;
+        const isTeacher = userData.userRole === "teacher" || userData.teacher;
         const userInfo = isTeacher ? userData.user : userData;
-        
+
         const user: User = {
           _id: userInfo._id,
           email: userInfo.email,
@@ -112,9 +112,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           isVerified: userInfo.isVerified,
           createdAt: userInfo.createdAt,
           avatar: "/avatar.png",
-          
           money: userInfo.money || 0,
-          numberOflessonsCridets: isTeacher ? userData.teacher?.numberOflessonsCridets || 0 : 0,
+          numberOflessonsCridets: isTeacher
+            ? userData.teacher?.numberOflessonsCridets || 0
+            : 0,
         };
         dispatch({
           type: "LOGIN_SUCCESS",
@@ -165,11 +166,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             const response = await authSvc.getUserProfile();
             const userData = response.data;
             localStorage.setItem("userData", JSON.stringify(userData));
-            
+
             // تحديد هيكل البيانات حسب الدور
-            const isTeacher = userData.userRole === 'teacher' || userData.teacher;
+            const isTeacher =
+              userData.userRole === "teacher" || userData.teacher;
             const userInfo = isTeacher ? userData.user : userData;
-            
+
             const user: User = {
               _id: userInfo._id,
               email: userInfo.email,
@@ -183,7 +185,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
               createdAt: userInfo.createdAt,
               avatar: userInfo.avatar || "/avatar.png",
               money: userInfo.money || 0,
-              numberOflessonsCridets: isTeacher ? userData.teacher?.numberOflessonsCridets || 0 : 0,
+              numberOflessonsCridets: isTeacher
+                ? userData.teacher?.numberOflessonsCridets || 0
+                : 0,
             };
             dispatch({
               type: "LOGIN_SUCCESS",

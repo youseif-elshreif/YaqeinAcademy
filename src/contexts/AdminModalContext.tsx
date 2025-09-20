@@ -19,8 +19,12 @@ const AdminModalContext = createContext<AdminModalContextType | undefined>(
 export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   children,
 }) => {
-  const { createTeacher, getTeachers, updateTeacherMeetingLink } =
-    useTeachersContext();
+  const {
+    createTeacher,
+    getTeachers,
+    updateTeacherMeetingLink,
+    updateTeacher,
+  } = useTeachersContext();
   const {
     createStudent,
     getStudents,
@@ -41,6 +45,10 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   const [groupActionsModalOpen, setGroupActionsModalOpen] = useState(false);
   const [confirmDeleteGroupModalOpen, setConfirmDeleteGroupModalOpen] =
     useState(false);
+  const [
+    confirmTeacherAccountingModalOpen,
+    setConfirmTeacherAccountingModalOpen,
+  ] = useState(false);
   const [removeMemberModalOpen, setRemoveMemberModalOpen] = useState(false);
   const [lessonsModalOpen, setLessonsModalOpen] = useState(false);
   const [addLessonModalOpen, setAddLessonModalOpen] = useState(false);
@@ -77,6 +85,12 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     id: string;
     name: string;
   } | null>(null);
+
+  const [selectedTeacherForAccounting, setSelectedTeacherForAccounting] =
+    useState<{
+      id: string;
+      name: string;
+    } | null>(null);
 
   const [selectedGroupForMemberRemoval, setSelectedGroupForMemberRemoval] =
     useState<{
@@ -222,6 +236,19 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
   const closeConfirmDeleteGroupModal = () => {
     setConfirmDeleteGroupModalOpen(false);
     setSelectedGroupForDeletion(null);
+  };
+
+  const openConfirmTeacherAccountingModal = (teacherData: {
+    id: string;
+    name: string;
+  }) => {
+    setSelectedTeacherForAccounting(teacherData);
+    setConfirmTeacherAccountingModalOpen(true);
+  };
+
+  const closeConfirmTeacherAccountingModal = () => {
+    setConfirmTeacherAccountingModalOpen(false);
+    setSelectedTeacherForAccounting(null);
   };
 
   const closeRemoveMemberModal = () => {
@@ -541,6 +568,21 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     }
   };
 
+  const handleTeacherAccounting = async (teacherId: string) => {
+    try {
+      // تصفير رصيد الحصص للمعلم
+      const result = await updateTeacher(teacherId, {
+        numberOflessonsCridets: 0,
+      });
+      // تحديث قائمة المعلمين
+      await getTeachers();
+
+      closeConfirmTeacherAccountingModal();
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const handleDeleteGroup = async () => {
     try {
       closeConfirmDeleteGroupModal();
@@ -585,6 +627,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     addMembersModalOpen,
     groupActionsModalOpen,
     confirmDeleteGroupModalOpen,
+    confirmTeacherAccountingModalOpen,
     removeMemberModalOpen,
     lessonsModalOpen,
     addLessonModalOpen,
@@ -604,6 +647,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     selectedGroupData,
     selectedGroupActionsData,
     selectedGroupForDeletion,
+    selectedTeacherForAccounting,
     selectedGroupForMemberRemoval,
     selectedGroupForEdit,
     selectedGroupForLessons,
@@ -646,6 +690,8 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     closeAddMembersModal,
     closeGroupActionsModal,
     closeConfirmDeleteGroupModal,
+    openConfirmTeacherAccountingModal,
+    closeConfirmTeacherAccountingModal,
     closeRemoveMemberModal,
     closeLessonsModal,
     closeAddLessonModal,
@@ -665,6 +711,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     updateTeacherMeetingLinkOnly,
     saveNewGroup,
     handleDeleteGroup,
+    handleTeacherAccounting,
     addCreditsToStudent,
     openEditTeacherLinkModal,
     closeEditTeacherLinkModal,

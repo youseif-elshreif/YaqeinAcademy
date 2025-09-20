@@ -49,6 +49,7 @@ export interface AdminModalContextType {
   addMembersModalOpen: boolean;
   groupActionsModalOpen: boolean;
   confirmDeleteGroupModalOpen: boolean;
+  confirmTeacherAccountingModalOpen: boolean;
   removeMemberModalOpen: boolean;
   lessonsModalOpen: boolean;
   addLessonModalOpen: boolean;
@@ -73,6 +74,7 @@ export interface AdminModalContextType {
   selectedStudentForCredits: any;
   selectedGroupActionsData: any;
   selectedGroupForDeletion: any;
+  selectedTeacherForAccounting: any;
   selectedGroupForMemberRemoval: any;
   selectedGroupForEdit: any;
   selectedGroupForLessons: any;
@@ -116,6 +118,8 @@ export interface AdminModalContextType {
   closeGroupActionsModal: () => void;
   openConfirmDeleteGroupModal: (groupData: any) => void;
   closeConfirmDeleteGroupModal: () => void;
+  openConfirmTeacherAccountingModal: (teacherData: any) => void;
+  closeConfirmTeacherAccountingModal: () => void;
   openAddMembersModal: (groupData: any) => void;
   closeAddMembersModal: () => void;
   openRemoveMemberModal: (groupData: any) => void;
@@ -133,6 +137,7 @@ export interface AdminModalContextType {
   openStudentReportsModal: (studentData: any) => void;
   closeStudentReportsModal: () => void;
   handleDeleteGroup: (groupId: string) => void;
+  handleTeacherAccounting: (teacherId: string) => Promise<void>;
   saveNewUser: (userData: any, userType?: any) => void;
   updateUser: (userId: string, userData: any, userType?: any) => void;
   updateTeacherMeetingLinkOnly: (

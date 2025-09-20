@@ -87,16 +87,16 @@ const ClassCard = ({ teacher }: TeacherCardProps) => {
       </div>
 
       <div className={styles.infoItem}>
-        <span className={styles.infoLabel}>إعدادات المعلم:</span>
+        <span className={styles.infoLabel}>إجراءات المعلم:</span>
         <span className={styles.cardLinkContainer}>
           <Button
             onClick={handleActionsClick}
             variant="primary"
             size="small"
             icon={<FaCog />}
-            title="إعدادات المعلم"
+            title="إجراءات المعلم"
           >
-            إعدادات
+            إجراءات
           </Button>
         </span>
       </div>

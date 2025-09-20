@@ -54,6 +54,14 @@ export interface ConfirmDeleteGroupModalProps {
   groupName: string;
   onConfirmDelete: (groupId: string) => void;
 }
+
+export interface ConfirmTeacherAccountingModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  teacherId: string;
+  teacherName: string;
+  onConfirmAccounting: (teacherId: string) => Promise<void>;
+}
 export interface LessonsModalProps {
   groupId: string;
   groupName: string;

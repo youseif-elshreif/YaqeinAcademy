@@ -7,6 +7,7 @@ import {
   FaListUl,
   FaLink,
   FaDollarSign,
+  FaCalculator,
 } from "react-icons/fa";
 import {
   ModalContainer,
@@ -24,6 +25,7 @@ const UserActionsModal: React.FC = () => {
     openAddCreditsModal,
     openEditTeacherLinkModal,
     openSetTeacherPriceModal,
+    openConfirmTeacherAccountingModal,
   } = useAdminModal();
 
   if (!userActionsModalOpen || !selectedUserForActions) return null;
@@ -82,6 +84,17 @@ const UserActionsModal: React.FC = () => {
     }, 300);
   };
 
+  const handleTeacherAccounting = () => {
+    closeUserActionsModal();
+
+    setTimeout(() => {
+      openConfirmTeacherAccountingModal({
+        id: selectedUserForActions.id,
+        name: selectedUserForActions.name,
+      });
+    }, 300);
+  };
+
   return (
     <ModalContainer
       isOpen={userActionsModalOpen}
@@ -132,6 +145,13 @@ const UserActionsModal: React.FC = () => {
               label="تعديل سعر الحصة"
               icon={<FaDollarSign className={styles.btnIcon} />}
               onClick={handleSetTeacherPrice}
+            />
+          )}
+          {selectedUserForActions.userType === "teacher" && (
+            <ActionButton
+              label="محاسبة المعلم"
+              icon={<FaCalculator className={styles.btnIcon} />}
+              onClick={handleTeacherAccounting}
             />
           )}
           {selectedUserForActions.userType === "student" && (

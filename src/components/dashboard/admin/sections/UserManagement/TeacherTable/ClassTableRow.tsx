@@ -48,9 +48,9 @@ const ClassTableRow = ({ teacher }: TeacherTableRowProps) => {
           variant="primary"
           size="small"
           icon={<FaCog />}
-          title="إعدادات المعلم"
+          title="إجراءات المعلم"
         >
-          إعدادات
+          إجراءات
         </Button>
       </td>
     </tr>

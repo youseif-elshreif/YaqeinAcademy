@@ -28,7 +28,6 @@ export const TeacherDashboardProvider: React.FC<{
     try {
       setIsLoading(true);
       const data = await getTeacherLessons();
-      console.log(data);
       setTeacherLessons(data);
       return data;
     } catch (error) {

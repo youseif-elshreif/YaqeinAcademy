@@ -11,6 +11,7 @@ import AddGroupModal from "./groups/AddGroupModal";
 import AddMembersModal from "./groups/AddMembersModal";
 import GroupActionsModal from "./groups/GroupActionsModal";
 import ConfirmDeleteGroupModal from "./groups/ConfirmDeleteGroupModal";
+import ConfirmTeacherAccountingModal from "./teachers/ConfirmTeacherAccountingModal";
 import RemoveMemberModal from "./groups/RemoveMemberModal";
 import LessonsModal from "./lessons/LessonsModal";
 import AddLessonModal from "./lessons/AddLessonModal";
@@ -35,6 +36,7 @@ const AdminModalsContainer: React.FC = () => {
     addMembersModalOpen,
     groupActionsModalOpen,
     confirmDeleteGroupModalOpen,
+    confirmTeacherAccountingModalOpen,
     removeMemberModalOpen,
     lessonsModalOpen,
     addLessonModalOpen,
@@ -67,6 +69,9 @@ const AdminModalsContainer: React.FC = () => {
     openAddMembersModal,
     openEditGroupModal,
     handleDeleteGroup,
+    closeConfirmTeacherAccountingModal,
+    handleTeacherAccounting,
+    selectedTeacherForAccounting,
     closeStudentListModal,
     closeStudentReportsModal,
     openStudentReportsModal,
@@ -82,6 +87,7 @@ const AdminModalsContainer: React.FC = () => {
       editGroupModalOpen ||
       addMembersModalOpen ||
       confirmDeleteGroupModalOpen ||
+      confirmTeacherAccountingModalOpen ||
       removeMemberModalOpen ||
       lessonsModalOpen ||
       addLessonModalOpen ||
@@ -108,6 +114,7 @@ const AdminModalsContainer: React.FC = () => {
     editGroupModalOpen,
     addMembersModalOpen,
     confirmDeleteGroupModalOpen,
+    confirmTeacherAccountingModalOpen,
     removeMemberModalOpen,
     lessonsModalOpen,
     addLessonModalOpen,
@@ -208,6 +215,16 @@ const AdminModalsContainer: React.FC = () => {
           groupId={selectedGroupForDeletion.id}
           groupName={selectedGroupForDeletion.name}
           onConfirmDelete={handleDeleteGroupWithRefresh}
+        />
+      )}
+
+      {confirmTeacherAccountingModalOpen && selectedTeacherForAccounting && (
+        <ConfirmTeacherAccountingModal
+          isOpen={confirmTeacherAccountingModalOpen}
+          onClose={closeConfirmTeacherAccountingModal}
+          teacherId={selectedTeacherForAccounting.id}
+          teacherName={selectedTeacherForAccounting.name}
+          onConfirmAccounting={handleTeacherAccounting}
         />
       )}
 
