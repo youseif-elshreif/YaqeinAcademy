@@ -43,3 +43,7 @@ next-env.d.ts
 # inhance file
 
 inhance.md
+
+audit-issues.json
+AUDIT_COMMANDS.md
+AUDIT_REPORT.md

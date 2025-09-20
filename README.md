@@ -1,36 +1,154 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# أكاديمية يقين - YaqeinAcademy
 
-## Getting Started
+منصة تعليمية لتعليم القرآن الكريم والتجويد أونلاين مع معلمين مؤهلين ومعتمدين.
 
-First, run the development server:
+## البدء السريع
 
+### المتطلبات الأساسية
+
+- Node.js 18+ 
+- npm أو yarn
+
+### إعداد المشروع
+
+1. **استنساخ المشروع:**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/youseif-elshreif/YaqeinAcademy.git
+cd YaqeinAcademy
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **تثبيت Dependencies:**
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **إعداد متغيرات البيئة:**
+```bash
+# نسخ ملف البيئة النموذجي
+cp .env.example .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. **تحرير ملف .env.local وإضافة قيم API:**
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:3001
+```
 
-## Learn More
+### تشغيل المشروع
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# وضع التطوير
+npm run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# بناء الإنتاج
+npm run build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# تشغيل الإنتاج
+npm run start
 
-## Deploy on Vercel
+# فحص الكود
+npm run lint
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+افتح [http://localhost:3000](http://localhost:3000) في المتصفح لمشاهدة النتيجة.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## البنية التقنية
+
+### التقنيات المستخدمة
+
+- **Framework:** Next.js 15.5.3 (App Router)
+- **Frontend:** React 19.1.0, TypeScript
+- **Styling:** CSS Modules
+- **HTTP Client:** Axios
+- **Charts:** Recharts
+- **Icons:** React Icons
+- **Sliders:** Swiper
+- **Phone Validation:** libphonenumber-js
+
+### هيكل المشروع
+
+```
+src/
+├── app/                    # App Router pages
+│   ├── page.tsx           # الصفحة الرئيسية
+│   ├── login/             # صفحة تسجيل الدخول
+│   ├── register/          # صفحة التسجيل
+│   ├── courses/           # صفحة الكورسات
+│   ├── student/           # لوحة تحكم الطالب
+│   ├── teacher/           # لوحة تحكم المعلم
+│   └── admin/             # لوحة تحكم الإدارة
+├── components/            # React components
+│   ├── auth/             # مكونات المصادقة
+│   ├── common/           # مكونات مشتركة
+│   └── dashboard/        # مكونات لوحات التحكم
+├── contexts/             # React contexts
+├── types/                # TypeScript type definitions
+├── utils/                # أدوات مساعدة
+└── styles/               # CSS modules
+```
+
+## المتغيرات البيئية
+
+| المتغير | الوصف | مطلوب |
+|---------|--------|--------|
+| `NEXT_PUBLIC_API_URL` | رابط API الخلفي | ✅ |
+
+## الأدوار والصلاحيات
+
+المشروع يدعم 3 أنواع من المستخدمين:
+
+- **الطلاب:** الوصول للكورسات وتتبع التقدم
+- **المعلمين:** إدارة الحلقات والطلاب
+- **الإدارة:** التحكم الكامل في المنصة
+
+## المزايا الرئيسية
+
+### للطلاب
+- ✅ تتبع التقدم في الحفظ
+- ✅ جدولة الحلقات
+- ✅ تقييم الأداء
+- ✅ التواصل مع المعلمين
+
+### للمعلمين  
+- ✅ إدارة المجموعات
+- ✅ تتبع حضور الطلاب
+- ✅ إنشاء التقارير
+- ✅ إدارة روابط الحلقات
+
+### للإدارة
+- ✅ إدارة المستخدمين
+- ✅ إحصائيات شاملة
+- ✅ إدارة الكورسات
+- ✅ إدارة التقييمات
+
+## النشر
+
+### Vercel (مُوصى به)
+```bash
+# ربط المشروع مع Vercel
+npx vercel
+
+# إضافة متغيرات البيئة في Vercel Dashboard
+# NEXT_PUBLIC_API_URL=your-production-api-url
+```
+
+### نشر آخر
+تأكد من إضافة متغيرات البيئة المطلوبة في منصة النشر.
+
+## المساهمة
+
+1. Fork المشروع
+2. أنشئ branch للميزة الجديدة (`git checkout -b feature/AmazingFeature`)
+3. Commit التغييرات (`git commit -m 'Add some AmazingFeature'`)
+4. Push للـ branch (`git push origin feature/AmazingFeature`)
+5. افتح Pull Request
+
+## التراخيص
+
+هذا المشروع مملوك لأكاديمية يقين.
+
+## التواصل
+
+- **الموقع:** [أكاديمية يقين](https://yaqein-academy.com)
+- **البريد الإلكتروني:** info@yaqein-academy.com
+
+---
