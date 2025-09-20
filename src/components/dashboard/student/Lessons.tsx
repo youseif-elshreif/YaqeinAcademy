@@ -37,7 +37,9 @@ export const Lessons = () => {
     };
   };
   const availableCredits = userStats?.PrivitelessonCredits || 0;
-  const displayedLessons = userLessons.slice(0, availableCredits);
+  const displayedLessons = userLessons
+    .filter((lesson) => lesson.status === "scheduled")
+    .slice(0, availableCredits);
   if (loading) {
     return (
       <div className={styles.lessonsContainer}>
@@ -98,19 +100,21 @@ export const Lessons = () => {
             displayedLessons.map((lesson) => {
               const dateInfo = formatDate(lesson.scheduledAt);
               return (
-                <div key={lesson._id} className={styles.taskCard}>
-                  <div className={styles.taskHeader}>
-                    <h4 className={styles.taskContent}>{dateInfo.dayName}</h4>
+                lesson.status == "scheduled" && (
+                  <div key={lesson._id} className={styles.taskCard}>
+                    <div className={styles.taskHeader}>
+                      <h4 className={styles.taskContent}>{dateInfo.dayName}</h4>
+                    </div>
+                    <div className={styles.taskNotes}>
+                      <span className={styles.notesLabel}>تاريخ الحلقة:</span>
+                      <p className={styles.notesText}>{dateInfo.date}</p>
+                    </div>
+                    <div className={styles.taskNotes}>
+                      <span className={styles.notesLabel}>وقت الحلقة:</span>
+                      <p className={styles.notesText}>{dateInfo.time}</p>
+                    </div>
                   </div>
-                  <div className={styles.taskNotes}>
-                    <span className={styles.notesLabel}>تاريخ الحلقة:</span>
-                    <p className={styles.notesText}>{dateInfo.date}</p>
-                  </div>
-                  <div className={styles.taskNotes}>
-                    <span className={styles.notesLabel}>وقت الحلقة:</span>
-                    <p className={styles.notesText}>{dateInfo.time}</p>
-                  </div>
-                </div>
+                )
               );
             })
           )}
