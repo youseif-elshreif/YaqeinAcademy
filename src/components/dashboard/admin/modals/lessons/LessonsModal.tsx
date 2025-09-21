@@ -51,7 +51,6 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
         setLoading(true);
         setError(null);
         const data = await getGroupById(groupId);
-        console.log("data fetched: ", data);
         setGroupData(data?.group || data);
 
         const apiLessons = (data?.group?.lessons || data.lessons) ?? [];

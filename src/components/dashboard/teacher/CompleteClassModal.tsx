@@ -207,7 +207,6 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
         notes,
         rating: 0,
       };
-      console.log(payload);
       if (props.mode === "single") {
         await reportLesson(lessonId, payload);
         await completeLesson(lessonId);

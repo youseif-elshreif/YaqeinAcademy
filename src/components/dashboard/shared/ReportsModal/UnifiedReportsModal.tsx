@@ -152,11 +152,15 @@ const UnifiedReportsModal: React.FC<ExtendedUnifiedReportsModalProps> = ({
             <h3>{error}</h3>
           </div>
         ) : reports.length === 0 ? (
-          <div className={styles.empty}>
-            <FiFileText className={styles.emptyIcon} />
-            <h3>لا توجد تقارير</h3>
-            <p>لا توجد تقارير لعرضها في الوقت الحالي.</p>
-          </div>
+          (() => {
+            return (
+              <div className={styles.empty}>
+                <FiFileText className={styles.emptyIcon} />
+                <h3>لا توجد تقارير</h3>
+                <p>لا توجد تقارير لعرضها في الوقت الحالي.</p>
+              </div>
+            );
+          })()
         ) : (
           <>
             <ReportsFilter

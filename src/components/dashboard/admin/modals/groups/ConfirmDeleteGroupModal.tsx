@@ -40,7 +40,6 @@ const ConfirmDeleteGroupModal: React.FC<ConfirmDeleteGroupModalProps> = ({
 
     setIsLoading(true);
     try {
-      console.log(groupId);
       await onConfirmDelete(groupId);
       setConfirmText("");
       handleClose();

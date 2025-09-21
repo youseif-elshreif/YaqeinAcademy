@@ -291,15 +291,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
 
                                 try {
                                   // Fetch fresh group data
-                                  console.log(
-                                    "Opening student list modal with data:",
-                                    group
-                                  );
                                   const groupData = await getGroupById(
-                                    group._id
-                                  );
-                                  console.log(
-                                    "Opening student list modal with data:",
                                     group._id
                                   );
 
@@ -326,10 +318,6 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                                         groupData.members,
                                     },
                                   };
-                                  console.log(
-                                    "Opening student list modal with data:",
-                                    lessonForModal
-                                  );
 
                                   openStudentListModal(lessonForModal);
                                 } catch (error) {
