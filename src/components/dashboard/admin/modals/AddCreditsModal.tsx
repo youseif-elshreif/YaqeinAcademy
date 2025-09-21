@@ -135,7 +135,7 @@ const AddCreditsModal: React.FC = () => {
       label: isSubmitting ? "جاري المعالجة..." : "إضافة الرصيد",
       onClick: () => {},
       variant: "primary" as const,
-      disabled: isSubmitting || formData.privateAmount <= 0,
+      disabled: isSubmitting,
       type: "submit" as const,
     },
   ];

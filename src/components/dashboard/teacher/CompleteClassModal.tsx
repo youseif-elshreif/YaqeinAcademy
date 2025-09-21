@@ -143,7 +143,12 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
           studentId: student.id,
           attended: false,
           wantedForNextLesson: { new: [], old: [] },
-          newMemorized: { new: [], old: [] },
+          newMemorized: {
+            ratingNew: 0,
+            new: [],
+            ratingOld: 0,
+            old: [],
+          },
           notes: "",
           rating: 0,
         });
@@ -190,7 +195,9 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
           old: nextReview.filter((s) => s.trim() !== ""),
         },
         newMemorized: {
+          ratingNew: 0,
           new: newMemorization.filter((s) => s.trim() !== ""),
+          ratingOld: 0,
           old: review.filter((s) => s.trim() !== ""),
         },
         notes,

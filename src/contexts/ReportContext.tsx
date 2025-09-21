@@ -7,28 +7,12 @@ import {
   useCallback,
 } from "react";
 import * as reportSvc from "@/src/utils/services/report.service";
-import { StudentReport } from "@/src/types";
-
-type ReportContextType = {
-  studentReports: StudentReport[];
-  myReports: StudentReport[];
-  isLoading: boolean;
-  error: string | null;
-
-  getStudentReports: (studentId: string) => Promise<StudentReport[]>;
-
-  getMyReports: () => Promise<StudentReport[]>;
-
-  createLessonReport: (
-    lessonId: string,
-    payload: reportSvc.StudentReportPayload
-  ) => Promise<any>;
-
-  clearReports: () => void;
-
-  refreshStudentReports: (studentId: string) => Promise<void>;
-  refreshMyReports: () => Promise<void>;
-};
+import {
+  StudentReport,
+  ReportContextType,
+  ReportProviderProps,
+  StudentReportPayload,
+} from "@/src/types";
 
 const ReportContext = createContext<ReportContextType | undefined>(undefined);
 
@@ -38,10 +22,6 @@ export const useReportContext = () => {
     throw new Error("useReportContext must be used within ReportProvider");
   }
   return context;
-};
-
-type ReportProviderProps = {
-  children: ReactNode;
 };
 
 export const ReportProvider = ({ children }: ReportProviderProps) => {
@@ -91,7 +71,7 @@ export const ReportProvider = ({ children }: ReportProviderProps) => {
   }, []);
 
   const createLessonReport = useCallback(
-    async (lessonId: string, payload: reportSvc.StudentReportPayload) => {
+    async (lessonId: string, payload: StudentReportPayload) => {
       try {
         setIsLoading(true);
         setError(null);

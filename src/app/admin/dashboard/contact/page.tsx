@@ -6,10 +6,8 @@ import React, {
   type ChangeEvent,
   type FormEvent,
 } from "react";
-import {
-  useContactContext,
-  type ContactInfo,
-} from "@/src/contexts/ContactContext";
+import { useContactContext } from "@/src/contexts/ContactContext";
+import { ContactInfo } from "@/src/types";
 import { withAdminProtection } from "@/src/components/auth/withRoleProtection";
 import styles from "./contact.module.css";
 import { FormField, ErrorDisplay } from "@/src/components/common/Modal";

@@ -9,34 +9,11 @@ import {
 } from "react";
 import * as adminSvc from "@/src/utils/services/admin.service";
 import * as contactSvc from "@/src/utils/services/contact.service";
-
-export type ContactInfo = {
-  email?: string;
-  phone?: string[];
-  address?: string;
-  whatsappNumber?: string[];
-  telegramLink?: string;
-  facebook?: string;
-  linkedin?: string;
-};
-
-type ContactContextType = {
-  contactInfo: ContactInfo | null;
-  isLoading: boolean;
-  error: string | null;
-  getContactInfo: () => Promise<ContactInfo | null>;
-  getPublicContactInfo: () => Promise<ContactInfo | null>;
-  updateContactInfo: (data: {
-    email: string;
-    phone: string[];
-    address: string;
-    whatsappNumber: string[];
-    telegramLink: string;
-    facebook: string;
-    linkedin: string;
-  }) => Promise<ContactInfo>;
-  refreshContactInfo: () => Promise<void>;
-};
+import {
+  ContactInfo,
+  ContactContextType,
+  ContactProviderProps,
+} from "@/src/types";
 
 const ContactContext = createContext<ContactContextType | undefined>(undefined);
 
@@ -46,10 +23,6 @@ export const useContactContext = () => {
     throw new Error("useContactContext must be used within ContactProvider");
   }
   return context;
-};
-
-type ContactProviderProps = {
-  children: ReactNode;
 };
 
 export const ContactProvider = ({ children }: ContactProviderProps) => {

@@ -50,4 +50,4 @@ export { useAdminStatsContext } from "./AdminStatsContext";
 export { useReportContext } from "./ReportContext";
 export { useTestimonialsContext } from "./TestimonialsContext";
 
-export type { ContactInfo } from "./ContactContext";
+export type { ContactInfo } from "@/src/types";

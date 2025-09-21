@@ -16,6 +16,9 @@ export * from "./group.types";
 // Dashboard and Reports - لوحات التحكم والتقارير
 export * from "./report.types";
 
+// Contact and Communication - التواصل والاتصالات
+export * from "./contact.types";
+
 // Modal and UI Components - النوافذ المنبثقة ومكونات الواجهة
 export * from "./modal.types";
 export * from "./testimonial.types";
@@ -129,3 +132,7 @@ export type {
   StudentDashboardContextType,
   UnifiedReportsModalProps,
 } from "./context.types";
+
+// Additional Context types - أنواع السياق الإضافية
+export * from "./teachers-context.types";
+export * from "./students-context.types";

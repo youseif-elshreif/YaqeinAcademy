@@ -1,5 +1,15 @@
 ﻿import { BaseModalProps, BaseComponentProps } from "./base.types";
 
+export interface StudentReportPayload {
+  studentId: string;
+  attended: boolean;
+  wantedForNextLesson?: { new: string[]; old: string[] };
+  newMemorized?: { new: string[]; old: string[] };
+  notes?: string;
+  rating?: number;
+  content?: string;
+}
+
 export interface StudentReport {
   _id: string;
   lessonId?: { _id: string } | string;
@@ -11,11 +21,11 @@ export interface StudentReport {
   notes?: string;
   rating?: number;
   newMemorized?: {
-        ratingNew: number;
-        new: string[];
-        ratingOld: number;
-        old: string[];
-    };
+    ratingNew: number;
+    new: string[];
+    ratingOld: number;
+    old: string[];
+  };
   wantedForNextLesson?: { new: string[]; old: string[] };
   createdAt?: string;
   updatedAt?: string;
@@ -39,11 +49,11 @@ export interface LessonReport {
     review: string[];
   };
   newMemorized?: {
-        ratingNew: number;
-        new: string[];
-        ratingOld: number;
-        old: string[];
-    };
+    ratingNew: number;
+    new: string[];
+    ratingOld: number;
+    old: string[];
+  };
   wantedForNextLesson?: {
     new: string[];
     old: string[];
@@ -85,4 +95,24 @@ export interface UnifiedReportsModalProps extends BaseModalProps {
   reports?: LessonReport[];
   title?: string;
   student?: { id: string; name?: string };
+}
+
+export interface ReportContextType {
+  studentReports: StudentReport[];
+  myReports: StudentReport[];
+  isLoading: boolean;
+  error: string | null;
+  getStudentReports: (studentId: string) => Promise<StudentReport[]>;
+  getMyReports: () => Promise<StudentReport[]>;
+  createLessonReport: (
+    lessonId: string,
+    payload: StudentReportPayload
+  ) => Promise<any>;
+  clearReports: () => void;
+  refreshStudentReports: (studentId: string) => Promise<void>;
+  refreshMyReports: () => Promise<void>;
+}
+
+export interface ReportProviderProps {
+  children: React.ReactNode;
 }

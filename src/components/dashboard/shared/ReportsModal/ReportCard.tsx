@@ -53,12 +53,6 @@ const ReportCard: React.FC<ReportCardProps> = ({ report }) => {
             {created}
           </span>
         </div>
-        {typeof report.rating === "number" && (
-          <div className={styles.ratingBadge}>
-            <FiStar className={styles.ratingIcon} />
-            {report.rating}/5
-          </div>
-        )}
       </div>
 
       <div className={styles.reportStatus}>
@@ -99,12 +93,20 @@ const ReportCard: React.FC<ReportCardProps> = ({ report }) => {
           <div className={styles.chips}>
             {(report.newMemorized?.new || []).length > 0 ? (
               (report.newMemorized?.new || []).map((x, idx) => (
-                <span
-                  className={`${styles.chip} ${styles.chipNew}`}
-                  key={`nn-${idx}`}
-                >
-                  {x}
-                </span>
+                <>
+                  <span
+                    className={`${styles.chip} ${styles.chipNew}`}
+                    key={`nn-${idx}`}
+                  >
+                    {x}
+                  </span>
+                  {typeof report.newMemorized.ratingNew === "number" && (
+                    <div className={styles.ratingBadge}>
+                      <FiStar className={styles.ratingIcon} />
+                      {report.newMemorized.ratingNew}/5
+                    </div>
+                  )}
+                </>
               ))
             ) : (
               <span className={styles.emptyChip}>لا يوجد</span>
@@ -120,12 +122,21 @@ const ReportCard: React.FC<ReportCardProps> = ({ report }) => {
           <div className={styles.chips}>
             {(report.newMemorized?.old || []).length > 0 ? (
               (report.newMemorized?.old || []).map((x, idx) => (
-                <span
-                  className={`${styles.chip} ${styles.chipOld}`}
-                  key={`no-${idx}`}
-                >
-                  {x}
-                </span>
+                <>
+                  {" "}
+                  <span
+                    className={`${styles.chip} ${styles.chipOld}`}
+                    key={`no-${idx}`}
+                  >
+                    {x}
+                  </span>
+                  {typeof report.newMemorized.ratingOld === "number" && (
+                    <div className={styles.ratingBadge}>
+                      <FiStar className={styles.ratingIcon} />
+                      {report.newMemorized.ratingOld}/5
+                    </div>
+                  )}
+                </>
               ))
             ) : (
               <span className={styles.emptyChip}>لا يوجد</span>

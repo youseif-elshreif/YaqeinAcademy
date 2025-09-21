@@ -1,14 +1,5 @@
 ﻿import api from "@/src/utils/api";
-
-export type StudentReportPayload = {
-  studentId: string;
-  attended: boolean;
-  wantedForNextLesson?: { new: string[]; old: string[] };
-  newMemorized?: { new: string[]; old: string[] };
-  notes?: string;
-  rating?: number; 
-  content?: string; 
-};
+import { StudentReportPayload } from "@/src/types";
 
 export const postLessonReport = (
   lessonId: string,
