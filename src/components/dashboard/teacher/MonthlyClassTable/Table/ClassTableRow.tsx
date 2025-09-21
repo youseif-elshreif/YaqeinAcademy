@@ -4,12 +4,12 @@ import { formatDate, getStatusColor, getStatusText } from "../utils";
 import { useModal } from "@/src/contexts/ModalContext";
 import MeetingLinkActions from "@/src/components/common/MeetingLinkActions";
 import Button from "@/src/components/common/Button";
-import { ClassTableRowProps } from "@/src/types";
+import { ClassTableRowProps, GroupInComponent } from "@/src/types";
 
 const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
   const { openCompleteModal, openStudentListModal } = useModal();
 
-  const group = classItem?.groupId || {};
+  const group = (classItem?.groupId as GroupInComponent) || {};
   const memberCount = group.memberCount || 0;
   const scheduledAt: string = classItem?.scheduledAt;
   const meetingLink: string | undefined =

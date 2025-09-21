@@ -7,22 +7,7 @@ import {
   useCallback,
 } from "react";
 import * as reportSvc from "@/src/utils/services/report.service";
-
-export type StudentReport = {
-  _id: string;
-  lessonId?: { _id: string } | string;
-  studentId?: string;
-  attended?: boolean;
-  completeLesson?: boolean;
-  doneHomework?: boolean;
-  content?: string;
-  notes?: string;
-  rating?: number;
-  newMemorized?: { new: string[]; old: string[] };
-  wantedForNextLesson?: { new: string[]; old: string[] };
-  createdAt?: string;
-  updatedAt?: string;
-};
+import { StudentReport } from "@/src/types";
 
 type ReportContextType = {
   studentReports: StudentReport[];

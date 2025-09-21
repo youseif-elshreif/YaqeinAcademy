@@ -1,5 +1,7 @@
 ﻿import { StudentAllData, StudentCompletedClassData } from "./student.types";
 import { LessonLike } from "./dashboard.types";
+import { Lesson } from "./lesson.types";
+import { Student } from "./student.types";
 
 export interface TeacherSummaryCardsProps {
   classes: LessonLike[];
@@ -7,18 +9,19 @@ export interface TeacherSummaryCardsProps {
   numberOflessonsCridets: number;
 }
 export interface ClassModalsProps {
-  onEdit: (lesson: any) => void;
-  onDelete: (lesson: any) => void;
-  onAddLink: (lesson: any) => void;
+  onEdit: (lesson: Lesson) => void;
+  onDelete: (lesson: Lesson) => void;
+  onAddLink: (lesson: Lesson) => void;
 }
 export interface StudentAllDataComponentProps {
   studentData: StudentAllData;
 }
-export interface StudentViewData {
-  studentId: number;
-  studentName: string;
-  nickname: string;
-  classes: StudentCompletedClassData[];
+// Extend Student interface to include additional properties needed for teacher dashboard
+export interface StudentViewData extends Student {
+  studentId?: number; // Alternative field name
+  studentName?: string; // Alternative field name
+  nickname?: string; // Alternative field name
+  classes?: StudentCompletedClassData[]; // Made optional to allow Student objects without classes
 }
 export interface StudentAllDataComponentViewProps {
   studentData: StudentViewData | null;
@@ -46,11 +49,11 @@ export interface GroupCompleteClassModalProps {
   onSuccess: () => void;
 }
 export interface MonthlyClassTableProps {
-  initialClasses: any[];
+  initialClasses: Lesson[];
   loading?: boolean;
 }
 export interface ClassTableProps {
-  classes: any[];
+  classes: Lesson[];
 }
 export interface BaseProps {
   lessonId: string;
@@ -74,13 +77,13 @@ export type CompleteClassModalProps =
       onSave: (data: GroupStudentCompletion) => void;
     });
 export interface ClassTableRowProps {
-  classItem: any; // raw lesson from API
+  classItem: Lesson; // raw lesson from API
 }
 export interface MobileClassCardsProps {
-  classes: any[];
+  classes: Lesson[];
 }
 export interface ClassCardProps {
-  classItem: any; // raw lesson from API
+  classItem: Lesson; // raw lesson from API
 }
 export interface ClassModalsProps {
   completeModalOpen: boolean;
@@ -90,13 +93,13 @@ export interface ClassModalsProps {
     date: string;
     time: string;
   } | null;
-  onSaveClassCompletion: (completionData: any) => void;
+  onSaveClassCompletion: (completionData: GroupClassCompletionData) => void;
   onCloseCompleteModal: () => void;
   groupCompleteModalOpen: boolean;
-  selectedGroupClass: any;
-  onSaveGroupCompletion: (completionData: any[]) => void;
+  selectedGroupClass: Lesson | null;
+  onSaveGroupCompletion: (completionData: GroupClassCompletionData[]) => void;
   onCloseGroupCompleteModal: () => void;
   studentAllDataModalOpen: boolean;
-  studentAllData: any;
+  studentAllData: Student | null;
   onCloseStudentAllData: () => void;
 }

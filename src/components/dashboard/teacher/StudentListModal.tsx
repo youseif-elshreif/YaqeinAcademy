@@ -19,15 +19,20 @@ const StudentListModal: React.FC<StudentListModalProps> = ({
   // جلب بيانات الجروب الحقيقية
   useEffect(() => {
     const fetchGroupData = async () => {
-      if (!isOpen || !lesson?.groupId?._id) return;
+      if (!isOpen || !lesson?.groupId) return;
+
+      // Type guard to check if groupId is an object with _id
+      const groupId = lesson.groupId;
+      if (typeof groupId === "string" || !("_id" in groupId) || !groupId._id)
+        return;
 
       try {
         setLoading(true);
-        const data = await getGroupById(lesson.groupId._id);
+        const data = await getGroupById(groupId._id);
         setGroupData(data);
       } catch (error) {
         // في حالة الخطأ، استخدم البيانات الموجودة
-        setGroupData(lesson.groupId);
+        setGroupData(groupId);
         throw error;
       } finally {
         setLoading(false);
@@ -35,7 +40,7 @@ const StudentListModal: React.FC<StudentListModalProps> = ({
     };
 
     fetchGroupData();
-  }, [isOpen, lesson?.groupId?._id, lesson?.groupId, getGroupById]);
+  }, [isOpen, lesson?.groupId, getGroupById]);
 
   const members = useMemo(() => {
     const data = groupData || lesson?.groupId || groupData?.groupId;
@@ -60,7 +65,9 @@ const StudentListModal: React.FC<StudentListModalProps> = ({
     >
       <ModalHeader
         title={`طلاب الحلقة: ${
-          groupData?.group?.name || lesson?.groupId?.name || "-"
+          groupData?.group?.name ||
+          (typeof lesson?.groupId === "object" && lesson?.groupId?.name) ||
+          "-"
         }`}
         onClose={handleClose}
         variant="default"

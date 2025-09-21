@@ -1,5 +1,5 @@
 ﻿import React, { createContext, useContext, useState, ReactNode } from "react";
-import { ClassData, ModalContextType } from "@/src/types";
+import { ClassData, ModalContextType, StudentInLesson } from "@/src/types";
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
@@ -14,7 +14,6 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
   classes,
   onClassesUpdate,
 }) => {
-
   const [completeModalOpen, setCompleteModalOpen] = useState(false);
   const [studentAllDataModalOpen, setStudentAllDataModalOpen] = useState(false);
 
@@ -59,12 +58,29 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
 
   const openStudentDataModal = (studentId: number) => {
     const student = classes
-      .flatMap((c) => c.students)
-      .find((s) => s.studentId === studentId);
+      .flatMap((c) =>
+        Array.isArray(c.students)
+          ? c.students.filter(
+              (s): s is StudentInLesson =>
+                typeof s === "object" && s !== null && "studentId" in s
+            )
+          : []
+      )
+      .find((s) => s.studentId === studentId.toString());
 
     if (student) {
       const studentClasses = classes
-        .filter((c) => c.students.some((s) => s.studentId === studentId))
+        .filter(
+          (c) =>
+            Array.isArray(c.students) &&
+            c.students.some(
+              (s) =>
+                typeof s === "object" &&
+                s !== null &&
+                "studentId" in s &&
+                s.studentId === studentId.toString()
+            )
+        )
         .map((c) => ({
           classId: c.id,
           date: c.date,
@@ -109,7 +125,10 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
       date: classData.date,
       time: classData.time,
       studentName:
-        classData.students.length === 1
+        classData.students.length === 1 &&
+        typeof classData.students[0] === "object" &&
+        classData.students[0] !== null &&
+        "studentName" in classData.students[0]
           ? classData.students[0].studentName
           : undefined,
       groupName:
@@ -200,7 +219,6 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
 
     const updatedClasses = classes.map((cls) => {
       if (cls.id === selectedGroupClass.id) {
-
         const updatedStudents = cls.students.map((student) => {
           const studentCompletion = completionData.find(
             (completion) => completion.studentId === student.studentId
@@ -240,7 +258,6 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
   };
 
   const contextValue = {
-
     completeModalOpen,
     studentAllDataModalOpen,
 

@@ -28,7 +28,11 @@ export interface ModalContextType {
   openGroupCompleteModal: (classData: any) => void;
   openAddClassLinkModal: (classData: any) => void;
   openStudentListModal: (lesson: any) => void;
-  openStudentReportsModal: (student: { id: string; name?: string }) => void;
+  openStudentReportsModal: (student: {
+    id?: string;
+    _id?: string;
+    name?: string;
+  }) => void;
   closeCompleteModal: () => void;
   closeStudentDataModal: () => void;
   closeGroupCompleteModal: () => void;

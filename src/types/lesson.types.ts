@@ -1,6 +1,36 @@
-﻿export interface Lesson {
+﻿export interface GroupInComponent {
+  _id?: string; // Added _id property
+  memberCount?: number;
+  meetingLink?: string;
+  type?: "private" | "public";
+  name?: string;
+}
+
+export interface StudentInLesson {
+  studentId: string;
+  studentName: string;
+  nickname?: string;
+  rate?: number;
+  completed?: {
+    newMemorization: string[];
+    review: string[];
+  };
+  nextPrep?: {
+    newMemorization: string[];
+    review: string[];
+  };
+  notes?: string;
+}
+
+export interface Lesson {
   _id: string;
-  groupId: string;
+  groupId:
+    | string
+    | GroupInComponent
+    | {
+        _id: string;
+        name?: string;
+      };
   reportId: string[];
   subject: string;
   scheduledAt: string;
@@ -9,6 +39,24 @@
   createdAt: string;
   updatedAt: string;
   __v: number;
+  // Additional properties from usage
+  nextLesson?: {
+    scheduledAt: string;
+    meetingLink: string;
+  };
+  newMemorized?: {
+    new: string[];
+    old: string[];
+  };
+  wantedForNextLesson?: {
+    new: string[];
+    old: string[];
+  };
+  currentLink?: string;
+  date?: string;
+  time?: string;
+  groupName?: string;
+  studentName?: string;
 }
 export interface LessonManagementItem {
   id: string;
@@ -37,7 +85,7 @@ export interface ClassData {
   teacherName?: string;
   classLink?: string;
   meetingLink?: string;
-  students?: any[];
-  groupRate?: number | any;
-  groupNotes?: string | any;
+  students?: string[] | StudentInLesson[]; // Student IDs array or detailed student objects
+  groupRate?: number;
+  groupNotes?: string;
 }

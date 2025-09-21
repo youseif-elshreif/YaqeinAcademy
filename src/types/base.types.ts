@@ -49,6 +49,7 @@ export interface BaseActionButton {
 }
 export interface BaseUser {
   _id: string;
+  id?: string; // Alternative field name for compatibility
   name: string;
   email: string;
   phone?: string;

@@ -4,11 +4,11 @@ import { formatDate, getStatusColor, getStatusText } from "../utils";
 import { useModal } from "@/src/contexts/ModalContext";
 import MeetingLinkActions from "@/src/components/common/MeetingLinkActions";
 import Button from "@/src/components/common/Button";
-import { ClassCardProps } from "@/src/types";
+import { ClassCardProps, GroupInComponent } from "@/src/types";
 
 const ClassCard = ({ classItem }: ClassCardProps) => {
   const { openCompleteModal, openStudentListModal } = useModal();
-  const group = classItem?.groupId || {};
+  const group = (classItem?.groupId as GroupInComponent) || {};
   const memberCount = group.memberCount || 0;
   const meetingLink: string | undefined =
     classItem?.meetingLink || group?.meetingLink;

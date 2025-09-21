@@ -1,6 +1,54 @@
 ﻿import { BaseModalProps, BaseComponentProps } from "./base.types";
+
+export interface StudentReport {
+  _id: string;
+  lessonId?: { _id: string } | string;
+  studentId?: string;
+  attended?: boolean;
+  completeLesson?: boolean;
+  doneHomework?: boolean;
+  content?: string;
+  notes?: string;
+  rating?: number;
+  newMemorized?: { new: string[]; old: string[] };
+  wantedForNextLesson?: { new: string[]; old: string[] };
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface LessonReport {
+  _id?: string;
+  id: string;
+  lessonId: string;
+  studentId: string;
+  studentName?: string;
+  date: string;
+  createdAt?: string;
+  attended: boolean;
+  completed?: {
+    newMemorization: string[];
+    review: string[];
+  };
+  nextPrep?: {
+    newMemorization: string[];
+    review: string[];
+  };
+  newMemorized?: {
+    new: string[];
+    old: string[];
+  };
+  wantedForNextLesson?: {
+    new: string[];
+    old: string[];
+  };
+  notes: string;
+  content?: string; // Alternative field for notes
+  rating: number;
+  status: "completed" | "pending" | "cancelled";
+}
+
 export interface ReportCardProps extends BaseComponentProps {
-  report: any;
+  report: StudentReport; // Updated from LessonReport to match actual usage
   showLessonId?: boolean;
 }
 export interface ReportsFilterProps extends BaseComponentProps {
@@ -15,7 +63,7 @@ export interface ReportsFilterProps extends BaseComponentProps {
   isCurrentMonthActive?: boolean;
 }
 export interface ReportsListProps extends BaseComponentProps {
-  reports: any[];
+  reports: StudentReport[]; // Updated from LessonReport[] to match actual usage
   selectedMonth: string;
   selectedYear: string;
   showLessonId?: boolean;
@@ -27,7 +75,7 @@ export interface ReportsStatsProps extends BaseComponentProps {
   avgRating: number;
 }
 export interface UnifiedReportsModalProps extends BaseModalProps {
-  reports?: any[];
+  reports?: LessonReport[];
   title?: string;
   student?: { id: string; name?: string };
 }

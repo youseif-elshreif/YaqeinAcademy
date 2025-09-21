@@ -1,4 +1,6 @@
 ﻿import { BaseModalProps } from "./base.types";
+import { ClassData } from "./lesson.types";
+import { Student } from "./student.types";
 
 export interface GroupCompleteClassModalProps extends BaseModalProps {
   lessonId: string;
@@ -17,10 +19,10 @@ export interface CompletionData {
   notes: string;
 }
 export interface ClassModalsProps {
-  selectedLesson: any;
-  selectedStudent: any;
-  selectedClass: any;
-  studentAllData?: any;
+  selectedLesson: ClassData | null;
+  selectedStudent: Student | null;
+  selectedClass: ClassData | null;
+  studentAllData?: Student;
   studentAllDataModalOpen?: boolean;
   isCompleteModalOpen: boolean;
   isStudentDataModalOpen: boolean;
@@ -42,8 +44,8 @@ export interface LessonLike {
 }
 
 export interface MobileClassCardsProps {
-  classes: any[];
+  classes: ClassData[];
 }
 export interface ClassTableProps {
-  classes: any[];
+  classes: ClassData[];
 }

@@ -40,7 +40,7 @@ export interface ApiGroup {
   };
   meetingLink: string;
   timeSlots: TimeSlot[];
-  members: any[];
+  members: string[]; // Student IDs array
   createdAt: string;
   updatedAt: string;
 }

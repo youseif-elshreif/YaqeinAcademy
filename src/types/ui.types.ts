@@ -85,7 +85,7 @@ export interface AuthButtonProps extends BaseComponentProps {
 }
 export interface MeetingLinkActionsProps extends BaseComponentProps {
   meetingLink?: string;
-  styles: any;
+  styles: Record<string, string>; // CSS modules styles object
   containerClassName?: string;
   openButtonClassName?: string;
   copyButtonClassName?: string;

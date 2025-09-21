@@ -1,4 +1,6 @@
 // تعريفات مشتركة للواجهات المستخدمة في عدة ملفات
+import { Lesson } from "./lesson.types";
+import { Student } from "./student.types";
 
 // واجهة Student البسيطة المستخدمة في teacher-dashboard
 export interface SimpleStudent {
@@ -29,13 +31,15 @@ export interface StudentReportsModalProps extends CommonModalProps {
 }
 
 export interface StudentListModalProps extends CommonModalProps {
-  lesson: any;
-  onOpenStudentReports?: (student: any) => void;
+  lesson: Lesson;
+  onOpenStudentReports?: (
+    student: Student | { id: string; name: string }
+  ) => void;
 }
 
 export interface EditClassLinkModalProps extends CommonModalProps {
-  classData: any;
-  classInfo?: any;
+  classData: Lesson;
+  classInfo?: Lesson;
   onSave: (link: string) => void;
-  onSubmit?: (data: any) => void;
+  onSubmit?: (link: string) => void; // Updated to match actual usage
 }
