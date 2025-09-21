@@ -51,10 +51,10 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
         setLoading(true);
         setError(null);
         const data = await getGroupById(groupId);
+        console.log("data fetched: ", data);
+        setGroupData(data?.group || data);
 
-        setGroupData(data?.group);
-
-        const apiLessons = data?.group?.lessons ?? [];
+        const apiLessons = (data?.group?.lessons || data.lessons) ?? [];
         const mapped: UILesson[] = apiLessons.map((l) => {
           const d = new Date(l.scheduledAt);
           const day = d.toLocaleDateString("ar-EG", { weekday: "long" });

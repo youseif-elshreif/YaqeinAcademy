@@ -60,7 +60,7 @@ const GroupCompleteClassModal = ({
   }, [lessonId, getLessonById]);
 
   const students: Student[] =
-    lessonData?.groupId?.members?.map((member: any) => ({
+    lessonData?.groupId?.members.map((member: any) => ({
       _id: member._id,
       id: member._id,
       name: member.name,

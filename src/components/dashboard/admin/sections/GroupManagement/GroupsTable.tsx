@@ -246,12 +246,12 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                         </td>
                         <td className={styles.groupCell}>
                           <Button
-                            onClick={() =>
+                            onClick={() => {
                               openLessonsModal({
-                                groupId: group._id,
-                                groupName: group.name,
-                              })
-                            }
+                                groupId: group?._id,
+                                groupName: group?.name,
+                              });
+                            }}
                             variant="primary"
                             size="small"
                             icon={<FiCalendar />}
@@ -291,22 +291,45 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
 
                                 try {
                                   // Fetch fresh group data
+                                  console.log(
+                                    "Opening student list modal with data:",
+                                    group
+                                  );
                                   const groupData = await getGroupById(
+                                    group._id
+                                  );
+                                  console.log(
+                                    "Opening student list modal with data:",
                                     group._id
                                   );
 
                                   const lessonForModal: LessonForModal = {
-                                    _id: groupData.group._id,
-                                    scheduledAt: groupData.group.scheduledAt,
-                                    meetingLink: groupData.group.meetingLink,
+                                    _id: groupData?.group?._id || groupData._id,
+                                    scheduledAt:
+                                      groupData?.group?.scheduledAt ||
+                                      groupData.scheduledAt,
+                                    meetingLink:
+                                      groupData?.group?.meetingLink ||
+                                      groupData.meetingLink,
                                     status: groupData.status,
                                     groupId: {
-                                      _id: groupData.group._id,
-                                      name: groupData.group.name,
-                                      meetingLink: groupData.group.meetingLink,
-                                      members: groupData.group.allMembers,
+                                      _id:
+                                        groupData?.group?._id || groupData._id,
+                                      name:
+                                        groupData?.group?.name ||
+                                        groupData.name,
+                                      meetingLink:
+                                        groupData?.group?.meetingLink ||
+                                        groupData.meetingLink,
+                                      members:
+                                        groupData?.group?.allMembers ||
+                                        groupData.members,
                                     },
                                   };
+                                  console.log(
+                                    "Opening student list modal with data:",
+                                    lessonForModal
+                                  );
 
                                   openStudentListModal(lessonForModal);
                                 } catch (error) {

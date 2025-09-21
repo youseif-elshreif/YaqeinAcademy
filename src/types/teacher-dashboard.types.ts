@@ -64,7 +64,8 @@ export interface BaseProps {
   existingData?: GroupStudentCompletion;
 }
 export interface GroupStudentCompletion {
-  rate: number;
+  ratingNew: number;
+  ratingOld: number;
   completed: { newMemorization: string[]; review: string[] };
   nextPrep: { newMemorization: string[]; review: string[] };
   notes: string;

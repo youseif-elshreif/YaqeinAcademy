@@ -140,7 +140,7 @@ export interface AdminModalContextType {
   closeStudentListModal: () => void;
   openStudentReportsModal: (studentData: any) => void;
   closeStudentReportsModal: () => void;
-  handleDeleteGroup: (groupId: string) => void;
+  handleDeleteGroup: (groupId: string) => Promise<void>;
   handleTeacherAccounting: (teacherId: string) => Promise<void>;
   saveNewUser: (userData: any, userType?: any) => void;
   updateUser: (userId: string, userData: any, userType?: any) => void;

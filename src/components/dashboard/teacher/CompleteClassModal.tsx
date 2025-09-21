@@ -9,6 +9,7 @@ import {
 import { useTeacherDashboard } from "@/src/contexts/TeacherDashboardContext";
 import { useLessonsContext } from "@/src/contexts/LessonsContext";
 import Button from "@/src/components/common/Button";
+import RatingComponent from "@/src/components/common/UI/RatingComponent/RatingComponent";
 import { CompleteClassModalProps } from "@/src/types";
 
 export default function CompleteClassModal(props: CompleteClassModalProps) {
@@ -17,7 +18,8 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
   const { reportLesson } = useTeacherDashboard();
   const { completeLesson } = useLessonsContext();
   const [step, setStep] = useState(1);
-  const [rate, setrate] = useState(3);
+  const [ratingNew, setRatingNew] = useState(3);
+  const [ratingOld, setRatingOld] = useState(3);
   const [isClosing, setIsClosing] = useState(false);
   const [error, setError] = useState({
     new: "",
@@ -37,7 +39,8 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
 
   useEffect(() => {
     if (existingData) {
-      setrate(existingData.rate);
+      setRatingNew(existingData.ratingNew || 3);
+      setRatingOld(existingData.ratingOld || 3);
       setAttended(existingData.attended);
       setNewMemorization(
         existingData.completed.newMemorization.length > 0
@@ -159,7 +162,8 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
       }
     } else {
       props.onSave({
-        rate: 0,
+        ratingNew: 0,
+        ratingOld: 0,
         completed: { newMemorization: [], review: [] },
         nextPrep: { newMemorization: [], review: [] },
         notes: "",
@@ -195,20 +199,22 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
           old: nextReview.filter((s) => s.trim() !== ""),
         },
         newMemorized: {
-          ratingNew: 0,
+          ratingNew: ratingNew,
           new: newMemorization.filter((s) => s.trim() !== ""),
-          ratingOld: 0,
+          ratingOld: ratingOld,
           old: review.filter((s) => s.trim() !== ""),
         },
         notes,
-        rating: rate,
+        rating: 0,
       };
+      console.log(payload);
       if (props.mode === "single") {
         await reportLesson(lessonId, payload);
         await completeLesson(lessonId);
       } else {
         props.onSave({
-          rate,
+          ratingNew,
+          ratingOld,
           completed: {
             newMemorization: payload.newMemorized.new,
             review: payload.newMemorized.old,
@@ -416,21 +422,25 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
               {step === 1 ? (
                 <div className={styles.stepContent}>
                   <div className={styles.section}>
-                    <h4 className={styles.sectionTitle}>تقييم أداء الطالب</h4>
-                    <div className={styles.rateContainer}>
-                      <label className={styles.rateLabel}>التقييم من 5:</label>
-                      <input
-                        type="range"
-                        min="0"
-                        max="5"
-                        value={rate}
-                        onChange={(e) => setrate(Number(e.target.value))}
-                        className={styles.rateSlider}
-                      />
-                      <span className={styles.rateValue}>{rate}</span>
-                    </div>
+                    <h4 className={styles.sectionTitle}>تقييم الحفظ الجديد</h4>
+                    <RatingComponent
+                      value={ratingNew}
+                      onChange={setRatingNew}
+                      label="تقييم الحفظ الجديد من 5:"
+                      size="medium"
+                    />
                   </div>
                   {renderDynamicFields(newMemorization, "new", "الحفظ الجديد")}
+
+                  <div className={styles.section}>
+                    <h4 className={styles.sectionTitle}>تقييم المراجعة</h4>
+                    <RatingComponent
+                      value={ratingOld}
+                      onChange={setRatingOld}
+                      label="تقييم المراجعة من 5:"
+                      size="medium"
+                    />
+                  </div>
                   {renderDynamicFields(review, "review", "المراجعة")}
                   <div className={styles.section}>
                     <h4 className={styles.sectionTitle}>ملاحظات إضافية</h4>

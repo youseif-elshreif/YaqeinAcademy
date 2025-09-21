@@ -36,7 +36,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
 
       const groupData = await getGroupById(groupId);
       if (groupData) {
-        setMembers(groupData.group.members);
+        setMembers(groupData?.group?.members || groupData?.members || []);
       } else {
         setError("لم يتم العثور على الحلقة");
       }

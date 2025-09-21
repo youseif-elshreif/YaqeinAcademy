@@ -33,7 +33,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     updateMember,
   } = useStudentsContext();
   const { createAdmin, getAdmins } = useAdminStatsContext();
-  const { getGroups } = useGroupsContext();
+  const { getGroups, deleteGroup } = useGroupsContext();
 
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
   const [addCourseModalOpen, setAddCourseModalOpen] = useState(false);
@@ -583,11 +583,11 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     }
   };
 
-  const handleDeleteGroup = async () => {
+  const handleDeleteGroup = async (groupId: string) => {
     try {
+      await deleteGroup(groupId);
       closeConfirmDeleteGroupModal();
       closeGroupActionsModal();
-
       await getGroups();
     } catch (error) {
       throw error;

@@ -52,7 +52,7 @@ export interface ConfirmDeleteGroupModalProps {
   onClose: () => void;
   groupId: string;
   groupName: string;
-  onConfirmDelete: (groupId: string) => void;
+  onConfirmDelete: (groupId: string) => Promise<void>;
 }
 
 export interface ConfirmTeacherAccountingModalProps {
