@@ -22,7 +22,12 @@ export interface LessonReport {
   studentId: string;
   attended: boolean;
   wantedForNextLesson: { new: string[]; old: string[] };
-  newMemorized: { new: string[]; old: string[] };
+  newMemorized: {
+    ratingNew: number;
+    new: string[];
+    ratingOld: number;
+    old: string[];
+  };
   notes: string;
   rating: number;
 }

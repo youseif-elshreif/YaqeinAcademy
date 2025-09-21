@@ -44,10 +44,12 @@ export interface Lesson {
     scheduledAt: string;
     meetingLink: string;
   };
-  newMemorized?: {
-    new: string[];
-    old: string[];
-  };
+ newMemorized?: {
+        ratingNew: number;
+        new: string[];
+        ratingOld: number;
+        old: string[];
+    };
   wantedForNextLesson?: {
     new: string[];
     old: string[];

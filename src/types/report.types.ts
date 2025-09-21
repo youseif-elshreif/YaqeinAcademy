@@ -10,7 +10,12 @@ export interface StudentReport {
   content?: string;
   notes?: string;
   rating?: number;
-  newMemorized?: { new: string[]; old: string[] };
+  newMemorized?: {
+        ratingNew: number;
+        new: string[];
+        ratingOld: number;
+        old: string[];
+    };
   wantedForNextLesson?: { new: string[]; old: string[] };
   createdAt?: string;
   updatedAt?: string;
@@ -34,9 +39,11 @@ export interface LessonReport {
     review: string[];
   };
   newMemorized?: {
-    new: string[];
-    old: string[];
-  };
+        ratingNew: number;
+        new: string[];
+        ratingOld: number;
+        old: string[];
+    };
   wantedForNextLesson?: {
     new: string[];
     old: string[];

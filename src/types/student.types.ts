@@ -118,7 +118,9 @@ export interface NextLessonData {
 
 export interface LastReport {
   newMemorized: {
+    ratingNew: number;
     new: string[];
+    ratingOld: number;
     old: string[];
   };
   wantedForNextLesson: {
@@ -149,7 +151,9 @@ export interface NextLessonResponse {
     old: string[];
   };
   newMemorized: {
+    ratingNew: number;
     new: string[];
+    ratingOld: number;
     old: string[];
   };
 }
