@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import Link from "next/link";
 import { useContactContext } from "@/src/contexts/ContactContext";
+import { convertTextNumbersToArabic } from "@/src/utils/formatNumbers";
 
 const Footer = () => {
   const { contactInfo, isLoading, error } = useContactContext();
@@ -104,7 +105,7 @@ const Footer = () => {
                           href={`tel:${p}`}
                           className={styles.contactLink}
                         >
-                          {p}
+                          {convertTextNumbersToArabic(p)}
                           {i < contactInfo.phone!.length - 1 ? " ، " : ""}
                         </a>
                       ))}
@@ -127,7 +128,7 @@ const Footer = () => {
                               target="_blank"
                               className={styles.contactLink}
                             >
-                              {w}
+                              {convertTextNumbersToArabic(w)}
                               {i < contactInfo.whatsappNumber!.length - 1
                                 ? " ، "
                                 : ""}
@@ -202,7 +203,7 @@ const Footer = () => {
 
         <div className={styles.footerBottom}>
           <p className={styles.copyright}>
-            © 2025 أكاديمية يقين. جميع الحقوق محفوظة.
+            © {convertTextNumbersToArabic("2025")} أكاديمية يقين. جميع الحقوق محفوظة.
           </p>
           <div className={styles.bottomLinks}>
             تم اتنفيذ بواسطة

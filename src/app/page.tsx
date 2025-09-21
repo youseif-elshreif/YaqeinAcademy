@@ -14,6 +14,7 @@ import {
 } from "react-icons/fa";
 import Button from "@/src/components/common/Button";
 import TestimonialsSwiperContainer from "@/src/components/common/TestimonialsSwiperContainer";
+import { convertTextNumbersToArabic } from "@/src/utils/formatNumbers";
 
 export const metadata = {
   title: "أكاديمية يقين - تعلم القرآن الكريم والتجويد",
@@ -291,7 +292,7 @@ export default function Home() {
                         <div className={styles.statGlow}></div>
                       </div>
                       <div className={styles.statContent}>
-                        <div className={styles.statNumber}>10,000+</div>
+                        <div className={styles.statNumber}>{convertTextNumbersToArabic("10,000+")} </div>
                         <div className={styles.statLabel}>ساعة عمل</div>
                       </div>
                     </div>
@@ -303,7 +304,7 @@ export default function Home() {
                         <div className={styles.statGlow}></div>
                       </div>
                       <div className={styles.statContent}>
-                        <div className={styles.statNumber}>1,000+</div>
+                        <div className={styles.statNumber}>{convertTextNumbersToArabic("1,000+")}</div>
                         <div className={styles.statLabel}>طالب</div>
                       </div>
                     </div>
@@ -315,7 +316,7 @@ export default function Home() {
                         <div className={styles.statGlow}></div>
                       </div>
                       <div className={styles.statContent}>
-                        <div className={styles.statNumber}>20+</div>
+                        <div className={styles.statNumber}>{convertTextNumbersToArabic("20+")}</div>
                         <div className={styles.statLabel}>معلم - معلمة</div>
                       </div>
                     </div>
@@ -327,7 +328,7 @@ export default function Home() {
                         <div className={styles.statGlow}></div>
                       </div>
                       <div className={styles.statContent}>
-                        <div className={styles.statNumber}>10+</div>
+                        <div className={styles.statNumber}>{convertTextNumbersToArabic("10+")}</div>
                         <div className={styles.statLabel}>دول</div>
                       </div>
                     </div>

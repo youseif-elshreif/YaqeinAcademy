@@ -1,6 +1,7 @@
 ﻿import React from "react";
 import styles from "./StatCard.module.css";
 import { StatCardProps } from "@/src/types";
+import { formatToArabicNumbers } from "@/src/utils/formatNumbers";
 
 const StatCard: React.FC<StatCardProps> = ({
   icon: Icon,
@@ -8,12 +9,6 @@ const StatCard: React.FC<StatCardProps> = ({
   label,
   className = "",
 }) => {
-  const formatValue = (val: string | number): string => {
-    if (typeof val === "number") {
-      return val.toLocaleString("ar-EG");
-    }
-    return val;
-  };
 
   return (
     <div className={`${styles.statCard} ${className}`}>
@@ -21,7 +16,7 @@ const StatCard: React.FC<StatCardProps> = ({
         <Icon />
       </div>
       <div className={styles.statContent}>
-        <div className={styles.statValue}>{formatValue(value)}</div>
+        <div className={styles.statValue}>{formatToArabicNumbers(value)}</div>
         <div className={styles.statLabel}>{label}</div>
       </div>
     </div>
