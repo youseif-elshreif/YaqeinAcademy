@@ -416,6 +416,32 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
             </div>
           )}
 
+          {attended !== null && (
+            <div className={styles.section}>
+              <h4 className={styles.sectionTitle}>حالة الحضور</h4>
+              <div className={styles.attendanceStatus}>
+                <div className={styles.attendanceInfo}>
+                  <span
+                    className={`${styles.statusBadge} ${
+                      attended ? styles.statusPresent : styles.statusAbsent
+                    }`}
+                  >
+                    {attended ? "حاضر" : "غائب"}
+                  </span>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    size="small"
+                    onClick={() => setAttended(null)}
+                    className={styles.editButton}
+                  >
+                    تعديل
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+
           {attended === true && (
             <>
               {step === 1 ? (
