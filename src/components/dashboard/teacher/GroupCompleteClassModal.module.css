@@ -143,6 +143,33 @@
 .studentsSection {
   flex: 1;
 }
+
+.emptyStudentsMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  text-align: center;
+  background: var(--separator-bg);
+  border-radius: 12px;
+  border: 2px dashed var(--border-color);
+  margin: 1rem 0;
+}
+
+.emptyStudentsMessage .emptyIcon {
+  font-size: 3rem;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  opacity: 0.6;
+}
+
+.emptyStudentsMessage p {
+  color: var(--text-light);
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 500;
+}
 .sectionTitle {
   color: var(--primary-color);
   font-size: 1.2rem;

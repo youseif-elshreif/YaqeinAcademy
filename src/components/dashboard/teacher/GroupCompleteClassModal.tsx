@@ -143,10 +143,15 @@ const GroupCompleteClassModal = ({
       disabled: isSubmitting,
     },
     {
-      label: allStudentsCompleted ? "حفظ النتائج" : "إتمام جميع الطلاب",
+      label:
+        students.length === 0
+          ? "لا يوجد طلاب"
+          : allStudentsCompleted
+          ? "حفظ النتائج"
+          : "إتمام جميع الطلاب",
       onClick: handleSubmitAll,
       variant: "primary" as const,
-      disabled: !allStudentsCompleted || isSubmitting,
+      disabled: students.length === 0 || !allStudentsCompleted || isSubmitting,
       loading: isSubmitting,
     },
   ];
@@ -205,36 +210,43 @@ const GroupCompleteClassModal = ({
                     الطلاب ({completedStudents.size}/{students.length})
                   </h4>
 
-                  <div className={styles.studentsList}>
-                    {students.map((student, index) => (
-                      <div
-                        key={student._id}
-                        className={`${styles.studentCard} ${
-                          completedStudents.has(student._id)
-                            ? styles.completed
-                            : ""
-                        }`}
-                        onClick={() => handleStudentClick(index)}
-                      >
-                        <div className={styles.studentInfo}>
-                          <FaUser className={styles.studentIcon} />
-                          <span className={styles.studentName}>
-                            {student.name}
-                          </span>
-                        </div>
-
-                        <div className={styles.statusIndicator}>
-                          {completedStudents.has(student._id) ? (
-                            <FaCheck className={styles.checkIcon} />
-                          ) : (
-                            <span className={styles.pendingText}>
-                              تمت المراجعة
+                  {students.length === 0 ? (
+                    <div className={styles.emptyStudentsMessage}>
+                      <FaUser className={styles.emptyIcon} />
+                      <p>لا يوجد طلاب في هذه الحلقة</p>
+                    </div>
+                  ) : (
+                    <div className={styles.studentsList}>
+                      {students.map((student, index) => (
+                        <div
+                          key={student._id}
+                          className={`${styles.studentCard} ${
+                            completedStudents.has(student._id)
+                              ? styles.completed
+                              : ""
+                          }`}
+                          onClick={() => handleStudentClick(index)}
+                        >
+                          <div className={styles.studentInfo}>
+                            <FaUser className={styles.studentIcon} />
+                            <span className={styles.studentName}>
+                              {student.name}
                             </span>
-                          )}
+                          </div>
+
+                          <div className={styles.statusIndicator}>
+                            {completedStudents.has(student._id) ? (
+                              <FaCheck className={styles.checkIcon} />
+                            ) : (
+                              <span className={styles.pendingText}>
+                                تمت المراجعة
+                              </span>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div className={styles.progressBar}>

@@ -49,11 +49,11 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     const members = Array.isArray(lesson?.groupId?.members)
       ? lesson.groupId.members
       : [];
-    if (members.length > 1) {
-      setGroupCompleteModalOpen(true);
-    } else {
-      setCompleteModalOpen(true);
-    }
+    setGroupCompleteModalOpen(true);
+    // if (members.length > 1) {
+    // } else {
+    //   setCompleteModalOpen(true);
+    // }
   };
 
   const openStudentDataModal = (studentId: number) => {
