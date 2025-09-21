@@ -29,7 +29,8 @@ export interface StudentAllDataComponentViewProps {
   onViewClassDetails?: (classData: StudentCompletedClassData) => void;
 }
 export interface GroupClassCompletionData {
-  rate: number;
+  ratingNew: number;
+  ratingOld: number;
   completed: {
     newMemorization: string[];
     review: string[];

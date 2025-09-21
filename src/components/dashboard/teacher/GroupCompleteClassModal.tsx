@@ -111,11 +111,13 @@ const GroupCompleteClassModal = ({
             old: completion.nextPrep?.review || [],
           },
           newMemorized: {
+            ratingNew: completion.ratingNew ?? 3,
             new: completion.completed?.newMemorization || [],
+            ratingOld: completion.ratingOld ?? 3,
             old: completion.completed?.review || [],
           },
           notes: completion.notes || "",
-          rating: completion.rate ?? 0,
+          rating: 0,
         } as any;
         await reportLesson(lessonId, payload);
       }
