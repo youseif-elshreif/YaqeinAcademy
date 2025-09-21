@@ -324,7 +324,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     setSelectedUserForActions(null);
   };
 
-  const openEditUserModal = (userData: any) => {
+  const openEditUserModal = (userData) => {
     setSelectedUserData(userData);
     setEditUserModalOpen(true);
   };
@@ -334,7 +334,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     setSelectedUserData(null);
   };
 
-  const openEditTeacherLinkModal = (teacherData: any) => {
+  const openEditTeacherLinkModal = (teacherData) => {
     setSelectedTeacherForLink(teacherData);
     setEditTeacherLinkModalOpen(true);
   };
@@ -344,7 +344,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     setSelectedTeacherForLink(null);
   };
 
-  const openSetTeacherPriceModal = (teacherData: any) => {
+  const openSetTeacherPriceModal = (teacherData) => {
     setSelectedTeacherForPrice(teacherData);
     setSetTeacherPriceModalOpen(true);
   };
@@ -377,7 +377,7 @@ export const AdminModalProvider: React.FC<AdminModalProviderProps> = ({
     setSelectedUserType(null);
   };
 
-  const openStudentListModal = (lesson: any) => {
+  const openStudentListModal = (lesson) => {
     setSelectedLessonForStudents(lesson);
     setStudentListModalOpen(true);
   };
