@@ -203,7 +203,8 @@ const Footer = () => {
 
         <div className={styles.footerBottom}>
           <p className={styles.copyright}>
-            © {convertTextNumbersToArabic("2025")} أكاديمية يقين. جميع الحقوق محفوظة.
+            © {convertTextNumbersToArabic("2025")} أكاديمية يقين. جميع الحقوق
+            محفوظة.
           </p>
           <div className={styles.bottomLinks}>
             تم اتنفيذ بواسطة

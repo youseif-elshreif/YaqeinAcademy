@@ -7,16 +7,16 @@ export const formatToArabicNumbers = (value: string | number): string => {
   if (typeof value === "number") {
     return value.toLocaleString("ar-EG");
   }
-  
+
   if (typeof value === "string") {
     // تحويل الأرقام الإنجليزية إلى عربية في النص
     const arabicNumbers = value.replace(/\d/g, (digit) => {
-      const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+      const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
       return arabicDigits[parseInt(digit)];
     });
     return arabicNumbers;
   }
-  
+
   return String(value);
 };
 
@@ -27,7 +27,7 @@ export const formatToArabicNumbers = (value: string | number): string => {
  */
 export const convertTextNumbersToArabic = (text: string): string => {
   return text.replace(/\d/g, (digit) => {
-    const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
     return arabicDigits[parseInt(digit)];
   });
 };

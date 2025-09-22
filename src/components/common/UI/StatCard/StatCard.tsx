@@ -9,7 +9,6 @@ const StatCard: React.FC<StatCardProps> = ({
   label,
   className = "",
 }) => {
-
   return (
     <div className={`${styles.statCard} ${className}`}>
       <div className={styles.statIcon}>
