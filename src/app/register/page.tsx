@@ -29,6 +29,7 @@ const RegisterPage = () => {
     hasQuranMemorization: false,
     numOfPartsofQuran: 0,
     country: "",
+    quranMemorized: "",
     quranLevel: "",
   });
 
@@ -62,7 +63,8 @@ const RegisterPage = () => {
     if (name === "hasQuranMemorization" && !checked) {
       setFormData((prev) => ({
         ...prev,
-        quranLevel: "",
+        quranMemorized: "",
+        numOfPartsofQuran: 0,
       }));
     }
   };
@@ -107,8 +109,15 @@ const RegisterPage = () => {
       newErrors.age = "السن يجب أن يكون بين 5 و 100 سنة";
     }
 
-    if (formData.hasQuranMemorization && !formData.quranLevel.trim()) {
-      newErrors.quranLevel = "يرجى تحديد مستوى الحفظ";
+    if (formData.hasQuranMemorization && !formData.quranMemorized.trim()) {
+      newErrors.quranMemorized = "يرجى تحديد مستوى الحفظ";
+    }
+
+    if (
+      formData.hasQuranMemorization &&
+      (formData.numOfPartsofQuran < 0 || formData.numOfPartsofQuran > 30)
+    ) {
+      newErrors.numOfPartsofQuran = "عدد الأجزاء يجب أن يكون بين 0 و 30";
     }
 
     if (!formData.country) {
@@ -133,10 +142,10 @@ const RegisterPage = () => {
         email: formData.email,
         password: formData.password,
         age: formData.age,
-        quranMemorized: formData.hasQuranMemorization ? "true" : "false",
+        quranMemorized: formData.quranMemorized,
         numOfPartsofQuran: formData.numOfPartsofQuran,
         country: formData.country,
-        quranLevel: formData.quranLevel,
+        quranLevel: formData.quranMemorized,
       });
     } catch (error) {
       // Check for specific error status codes
@@ -286,20 +295,38 @@ const RegisterPage = () => {
         />
 
         {formData.hasQuranMemorization && (
-          <TextareaField
-            id="quranLevel"
-            name="quranLevel"
-            value={formData.quranLevel}
-            onChange={handleInputChange}
-            placeholder="اكتب ما تحفظه بالتفصيل..."
-            label="مستوى الحفظ"
-            required
-            error={errors.quranLevel}
-            disabled={isSubmitting}
-            rows={4}
-            helpText="(اكتب ما تحفظه بالتفصيل حتى لو كان من سور متفرقة – مثال: البقرة من 1 إلى 50، الكهف، جزء عم…)"
-            className={styles.fadeIn}
-          />
+          <>
+            <InputField
+              id="numOfPartsofQuran"
+              name="numOfPartsofQuran"
+              type="number"
+              value={formData.numOfPartsofQuran || ""}
+              onChange={handleInputChange}
+              placeholder="عدد الأجزاء المحفوظة"
+              label="عدد الأجزاء المحفوظة من القرآن"
+              error={errors.numOfPartsofQuran}
+              disabled={isSubmitting}
+              min="0"
+              max="30"
+              helpText="القرآن الكريم مقسم إلى 30 جزء"
+              className={styles.fadeIn}
+            />
+
+            <TextareaField
+              id="quranMemorized"
+              name="quranMemorized"
+              value={formData.quranMemorized || ""}
+              onChange={handleInputChange}
+              placeholder="اكتب ما تحفظه بالتفصيل..."
+              label="مستوى الحفظ"
+              required
+              error={errors.quranMemorized}
+              disabled={isSubmitting}
+              rows={4}
+              helpText="(اكتب ما تحفظه بالتفصيل حتى لو كان من سور متفرقة – مثال: البقرة من 1 إلى 50، الكهف، جزء عم…)"
+              className={styles.fadeIn}
+            />
+          </>
         )}
 
         <AuthButton
