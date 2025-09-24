@@ -2,6 +2,7 @@
 
 import Navbar from "@/src/components/common/Layout/Navbar/Navbar";
 import Footer from "@/src/components/common/Layout/Footer/Footer";
+import FloatingWhatsAppButton from "@/src/components/common/UI/FloatingWhatsAppButton";
 import { AppProviders } from "@/src/contexts/AppProviders";
 
 export default function AppContent({
@@ -14,6 +15,7 @@ export default function AppContent({
       <Navbar />
       {children}
       <Footer />
+      <FloatingWhatsAppButton />
     </AppProviders>
   );
 }
