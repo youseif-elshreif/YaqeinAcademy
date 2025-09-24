@@ -38,6 +38,11 @@ const Footer = () => {
                   دوراتنا
                 </Link>
               </li>
+              <li>
+                <Link href="/policies" className={styles.footerLink}>
+                  السياسات
+                </Link>
+              </li>
             </ul>
           </div>
           <div className={styles.footerSection}>

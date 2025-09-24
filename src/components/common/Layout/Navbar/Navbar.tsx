@@ -18,6 +18,7 @@ const Navbar = () => {
     const baseItems = [
       { label: "الرئيسية", href: "/" },
       { label: "دوراتنا", href: "/courses" },
+      { label: "السياسات", href: "/policies" },
     ];
 
     if (isAuthenticated) {
