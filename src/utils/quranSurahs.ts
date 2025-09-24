@@ -112,7 +112,7 @@ export const quranSurahs = [
   { number: 111, name: "المسد", verses: 5 },
   { number: 112, name: "الإخلاص", verses: 4 },
   { number: 113, name: "الفلق", verses: 5 },
-  { number: 114, name: "الناس", verses: 6 }
+  { number: 114, name: "الناس", verses: 6 },
 ];
 
 export interface SurahRange {

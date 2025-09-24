@@ -11,7 +11,11 @@ import { useLessonsContext } from "@/src/contexts/LessonsContext";
 import Button from "@/src/components/common/Button";
 import RatingComponent from "@/src/components/common/UI/RatingComponent/RatingComponent";
 import { CompleteClassModalProps } from "@/src/types";
-import { quranSurahs, SurahRange, formatSurahRanges } from "@/src/utils/quranSurahs";
+import {
+  quranSurahs,
+  SurahRange,
+  formatSurahRanges,
+} from "@/src/utils/quranSurahs";
 
 export default function CompleteClassModal(props: CompleteClassModalProps) {
   const { lessonId, scheduledAt, student, groupName, onClose, existingData } =
@@ -30,16 +34,16 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
   });
   const [attended, setAttended] = useState<boolean | null>(null);
   const [newMemorization, setNewMemorization] = useState<SurahRange[]>([
-    { surah: "", fromVerse: 1, toVerse: 1 }
+    { surah: "", fromVerse: 1, toVerse: 1 },
   ]);
   const [review, setReview] = useState<SurahRange[]>([
-    { surah: "", fromVerse: 1, toVerse: 1 }
+    { surah: "", fromVerse: 1, toVerse: 1 },
   ]);
   const [nextNewMemorization, setNextNewMemorization] = useState<SurahRange[]>([
-    { surah: "", fromVerse: 1, toVerse: 1 }
+    { surah: "", fromVerse: 1, toVerse: 1 },
   ]);
   const [nextReview, setNextReview] = useState<SurahRange[]>([
-    { surah: "", fromVerse: 1, toVerse: 1 }
+    { surah: "", fromVerse: 1, toVerse: 1 },
   ]);
   const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -96,13 +100,16 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
 
     if (type === "new") setNewMemorization(updateArray(newMemorization));
     if (type === "review") setReview(updateArray(review));
-    if (type === "nextNew") setNextNewMemorization(updateArray(nextNewMemorization));
+    if (type === "nextNew")
+      setNextNewMemorization(updateArray(nextNewMemorization));
     if (type === "nextReview") setNextReview(updateArray(nextReview));
   };
 
   const firstValidation = () => {
     let ok = true;
-    const newErr = newMemorization.some((s) => !s.surah || s.surah.trim() === "");
+    const newErr = newMemorization.some(
+      (s) => !s.surah || s.surah.trim() === ""
+    );
     const revErr = review.some((s) => !s.surah || s.surah.trim() === "");
     setError((p) => ({
       ...p,
@@ -115,8 +122,12 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
 
   const secondValidation = () => {
     let ok = true;
-    const nextNewErr = nextNewMemorization.some((s) => !s.surah || s.surah.trim() === "");
-    const nextRevErr = nextReview.some((s) => !s.surah || s.surah.trim() === "");
+    const nextNewErr = nextNewMemorization.some(
+      (s) => !s.surah || s.surah.trim() === ""
+    );
+    const nextRevErr = nextReview.some(
+      (s) => !s.surah || s.surah.trim() === ""
+    );
     setError((p) => ({
       ...p,
       nextNew: nextNewErr ? "يجب اختيار السورة" : "",
@@ -188,14 +199,22 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
         studentId: student.id,
         attended: true,
         wantedForNextLesson: {
-          new: formatSurahRanges(nextNewMemorization.filter((s) => s.surah && s.surah.trim() !== "")),
-          old: formatSurahRanges(nextReview.filter((s) => s.surah && s.surah.trim() !== "")),
+          new: formatSurahRanges(
+            nextNewMemorization.filter((s) => s.surah && s.surah.trim() !== "")
+          ),
+          old: formatSurahRanges(
+            nextReview.filter((s) => s.surah && s.surah.trim() !== "")
+          ),
         },
         newMemorized: {
           ratingNew: ratingNew,
-          new: formatSurahRanges(newMemorization.filter((s) => s.surah && s.surah.trim() !== "")),
+          new: formatSurahRanges(
+            newMemorization.filter((s) => s.surah && s.surah.trim() !== "")
+          ),
           ratingOld: ratingOld,
-          old: formatSurahRanges(review.filter((s) => s.surah && s.surah.trim() !== "")),
+          old: formatSurahRanges(
+            review.filter((s) => s.surah && s.surah.trim() !== "")
+          ),
         },
         notes,
         rating: 0,
@@ -233,9 +252,9 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
     <div className={styles.section}>
       <h4 className={styles.sectionTitle}>{title}</h4>
       {fields.map((field, index) => {
-        const selectedSurah = quranSurahs.find(s => s.name === field.surah);
+        const selectedSurah = quranSurahs.find((s) => s.name === field.surah);
         const maxVerses = selectedSurah?.verses || 1;
-        
+
         return (
           <div key={`${type}-field-${index}`}>
             <div className={styles.fieldGroup}>
@@ -245,9 +264,13 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
                   <label className={styles.fieldLabel}>السورة</label>
                   <select
                     value={field.surah}
-                    onChange={(e) => updateField(type, index, "surah", e.target.value)}
+                    onChange={(e) =>
+                      updateField(type, index, "surah", e.target.value)
+                    }
                     className={`${styles.selectInput} ${
-                      error[type] && (!field.surah || field.surah.trim() === "") ? styles.inputError : ""
+                      error[type] && (!field.surah || field.surah.trim() === "")
+                        ? styles.inputError
+                        : ""
                     }`}
                   >
                     <option value="">اختر السورة</option>
@@ -267,7 +290,14 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
                     min="1"
                     max={maxVerses}
                     value={field.fromVerse}
-                    onChange={(e) => updateField(type, index, "fromVerse", parseInt(e.target.value) || 1)}
+                    onChange={(e) =>
+                      updateField(
+                        type,
+                        index,
+                        "fromVerse",
+                        parseInt(e.target.value) || 1
+                      )
+                    }
                     className={styles.numberInput}
                   />
                 </div>
@@ -280,7 +310,14 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
                     min={field.fromVerse}
                     max={maxVerses}
                     value={field.toVerse}
-                    onChange={(e) => updateField(type, index, "toVerse", parseInt(e.target.value) || field.fromVerse)}
+                    onChange={(e) =>
+                      updateField(
+                        type,
+                        index,
+                        "toVerse",
+                        parseInt(e.target.value) || field.fromVerse
+                      )
+                    }
                     className={styles.numberInput}
                   />
                 </div>
@@ -298,9 +335,11 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
                 </Button>
               )}
             </div>
-            {error[type] && error[type].length > 0 && (!field.surah || field.surah.trim() === "") && (
-              <span className={styles.errorText}>{error[type]}</span>
-            )}
+            {error[type] &&
+              error[type].length > 0 &&
+              (!field.surah || field.surah.trim() === "") && (
+                <span className={styles.errorText}>{error[type]}</span>
+              )}
           </div>
         );
       })}

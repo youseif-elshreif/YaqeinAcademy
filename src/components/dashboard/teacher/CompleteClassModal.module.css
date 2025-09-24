@@ -479,12 +479,12 @@
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .surahField,
   .verseField {
     flex: 1;
   }
-  
+
   .modalOverlay {
     padding: 0.5rem;
   }
