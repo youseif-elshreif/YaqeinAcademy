@@ -347,6 +347,45 @@
   text-align: center;
 }
 
+/* Free text toggle */
+.freeTextToggle {
+  margin-bottom: 0.75rem;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary-color);
+  cursor: pointer;
+}
+
+.checkboxText {
+  font-weight: 500;
+  user-select: none;
+}
+
+.freeTextContainer {
+  flex: 1;
+}
+
+/* Verse error messages */
+.verseErrorText {
+  display: block;
+  font-size: 0.8rem;
+  color: #e53e3e;
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
 .selectInput:focus,
 .numberInput:focus,
 .textInput:focus {
@@ -485,6 +524,13 @@
     flex: 1;
   }
 
+  .freeTextToggle {
+    margin-bottom: 0.5rem;
+  }
+
+  .checkboxLabel {
+    font-size: 0.85rem;
+  }
   .modalOverlay {
     padding: 0.5rem;
   }
