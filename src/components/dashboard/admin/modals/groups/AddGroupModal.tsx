@@ -549,8 +549,8 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                 value={formData.type}
                 onChange={handleInputChange as any}
                 options={[
-                  { value: "private", label: "خاصة" },
-                  { value: "public", label: "عامة" },
+                  { value: "private", label: "فردية" },
+                  { value: "public", label: "جماعية" },
                 ]}
                 disabled={isSubmitting}
               />

@@ -194,7 +194,7 @@ const LessonsModal: React.FC<LessonsModalProps> = ({ groupId, groupName }) => {
               className={`${styles.actionBtn} ${styles.addBtn}`}
             >
               <FaCalendarPlus />
-              إضافة درس جديد
+              إضافة دورة جديد
             </button>
 
             <button

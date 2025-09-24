@@ -124,7 +124,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
     }
 
     if (groupType === "private" && filledInputs.length > 1) {
-      setErrorMessage("الحلقة الخاصة تقبل طالبًا واحدًا فقط");
+      setErrorMessage("الحلقة الفردية تقبل طالبًا واحدًا فقط");
       return false;
     }
 
@@ -208,7 +208,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
         <div className={styles.groupInfo}>
           <h3 className={styles.groupName}>{groupName}</h3>
           <span className={styles.groupType}>
-            {groupType === "private" ? "حلقة خاصة" : "حلقة عامة"}
+            {groupType === "private" ? "حلقة فردية" : "حلقة جماعية"}
           </span>
         </div>
 
@@ -219,8 +219,8 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
             <div className={styles.instructionsBox}>
               <p className={styles.instructions}>
                 {groupType === "private"
-                  ? "يمكنك إضافة طالب واحد فقط للحلقة الخاصة"
-                  : "يمكنك إضافة عدة طلاب للحلقة العامة"}
+                  ? "يمكنك إضافة طالب واحد فقط للحلقة الفردية"
+                  : "يمكنك إضافة عدة طلاب للحلقة الجماعية"}
               </p>
             </div>
             <div>

@@ -33,7 +33,7 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
             <div className={styles.groupBadge}>
               <FaUsers />
               <span>
-                {group?.type == "private" ? "حلقة خاصة" : "حلقة عامة"}
+                {group?.type == "private" ? "حلقة فردية" : "حلقة جماعية"}
               </span>
             </div>
             <div className={styles.groupNameContainer}>
@@ -87,7 +87,7 @@ const ClassTableRow = ({ classItem }: ClassTableRowProps) => {
                 >
                   عرض التقارير
                 </Button>
-              ) : isUpcoming ? (
+              ) : !isUpcoming ? (
                 <span className={styles.lightColor}>
                   ميعاد الحلقة لم يأتي بعد
                 </span>

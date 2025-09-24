@@ -159,12 +159,12 @@ const AddCreditsModal: React.FC = () => {
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGrid}>
             <FormField
-              label="عدد الحلقات الخاصة"
+              label="عدد الحلقات الفردية"
               name="privateAmount"
               type="number"
               value={formData.privateAmount}
               onChange={handleInputChange}
-              min={1}
+              min={0}
               max={100}
               disabled={isSubmitting}
               placeholder="أدخل عدد الحلقات"

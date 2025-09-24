@@ -11,6 +11,7 @@ import { useLessonsContext } from "@/src/contexts/LessonsContext";
 import Button from "@/src/components/common/Button";
 import RatingComponent from "@/src/components/common/UI/RatingComponent/RatingComponent";
 import { CompleteClassModalProps } from "@/src/types";
+import { quranSurahs, SurahRange, formatSurahRanges } from "@/src/utils/quranSurahs";
 
 export default function CompleteClassModal(props: CompleteClassModalProps) {
   const { lessonId, scheduledAt, student, groupName, onClose, existingData } =
@@ -28,12 +29,18 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
     nextReview: "",
   });
   const [attended, setAttended] = useState<boolean | null>(null);
-  const [newMemorization, setNewMemorization] = useState<string[]>([""]);
-  const [review, setReview] = useState<string[]>([""]);
-  const [nextNewMemorization, setNextNewMemorization] = useState<string[]>([
-    "",
+  const [newMemorization, setNewMemorization] = useState<SurahRange[]>([
+    { surah: "", fromVerse: 1, toVerse: 1 }
   ]);
-  const [nextReview, setNextReview] = useState<string[]>([""]);
+  const [review, setReview] = useState<SurahRange[]>([
+    { surah: "", fromVerse: 1, toVerse: 1 }
+  ]);
+  const [nextNewMemorization, setNextNewMemorization] = useState<SurahRange[]>([
+    { surah: "", fromVerse: 1, toVerse: 1 }
+  ]);
+  const [nextReview, setNextReview] = useState<SurahRange[]>([
+    { surah: "", fromVerse: 1, toVerse: 1 }
+  ]);
   const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -42,36 +49,23 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
       setRatingNew(existingData.ratingNew || 3);
       setRatingOld(existingData.ratingOld || 3);
       setAttended(existingData.attended);
-      setNewMemorization(
-        existingData.completed.newMemorization.length > 0
-          ? existingData.completed.newMemorization
-          : [""]
-      );
-      setReview(
-        existingData.completed.review.length > 0
-          ? existingData.completed.review
-          : [""]
-      );
-      setNextNewMemorization(
-        existingData.nextPrep.newMemorization.length > 0
-          ? existingData.nextPrep.newMemorization
-          : [""]
-      );
-      setNextReview(
-        existingData.nextPrep.review.length > 0
-          ? existingData.nextPrep.review
-          : [""]
-      );
+      // Convert existing string data to SurahRange format if needed
+      // For now, we'll initialize with empty ranges since we're changing the format
+      setNewMemorization([{ surah: "", fromVerse: 1, toVerse: 1 }]);
+      setReview([{ surah: "", fromVerse: 1, toVerse: 1 }]);
+      setNextNewMemorization([{ surah: "", fromVerse: 1, toVerse: 1 }]);
+      setNextReview([{ surah: "", fromVerse: 1, toVerse: 1 }]);
       setNotes(existingData.notes);
     }
   }, [existingData]);
 
   const addField = (type: "new" | "review" | "nextNew" | "nextReview") => {
-    if (type === "new") setNewMemorization([...newMemorization, ""]);
-    if (type === "review") setReview([...review, ""]);
+    const newRange: SurahRange = { surah: "", fromVerse: 1, toVerse: 1 };
+    if (type === "new") setNewMemorization([...newMemorization, newRange]);
+    if (type === "review") setReview([...review, newRange]);
     if (type === "nextNew")
-      setNextNewMemorization([...nextNewMemorization, ""]);
-    if (type === "nextReview") setNextReview([...nextReview, ""]);
+      setNextNewMemorization([...nextNewMemorization, newRange]);
+    if (type === "nextReview") setNextReview([...nextReview, newRange]);
   };
 
   const removeField = (
@@ -91,30 +85,29 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
   const updateField = (
     type: "new" | "review" | "nextNew" | "nextReview",
     index: number,
-    value: string
+    field: keyof SurahRange,
+    value: string | number
   ) => {
-    if (type === "new")
-      setNewMemorization(
-        Object.assign([...newMemorization], { [index]: value })
-      );
-    if (type === "review")
-      setReview(Object.assign([...review], { [index]: value }));
-    if (type === "nextNew")
-      setNextNewMemorization(
-        Object.assign([...nextNewMemorization], { [index]: value })
-      );
-    if (type === "nextReview")
-      setNextReview(Object.assign([...nextReview], { [index]: value }));
+    const updateArray = (arr: SurahRange[]) => {
+      const newArr = [...arr];
+      newArr[index] = { ...newArr[index], [field]: value };
+      return newArr;
+    };
+
+    if (type === "new") setNewMemorization(updateArray(newMemorization));
+    if (type === "review") setReview(updateArray(review));
+    if (type === "nextNew") setNextNewMemorization(updateArray(nextNewMemorization));
+    if (type === "nextReview") setNextReview(updateArray(nextReview));
   };
 
   const firstValidation = () => {
     let ok = true;
-    const newErr = newMemorization.some((s) => s.trim() === "");
-    const revErr = review.some((s) => s.trim() === "");
+    const newErr = newMemorization.some((s) => !s.surah || s.surah.trim() === "");
+    const revErr = review.some((s) => !s.surah || s.surah.trim() === "");
     setError((p) => ({
       ...p,
-      new: newErr ? "هذا الحقل مطلوب" : "",
-      review: revErr ? "هذا الحقل مطلوب" : "",
+      new: newErr ? "يجب اختيار السورة" : "",
+      review: revErr ? "يجب اختيار السورة" : "",
     }));
     ok = !(newErr || revErr) && ok;
     return ok;
@@ -122,12 +115,12 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
 
   const secondValidation = () => {
     let ok = true;
-    const nextNewErr = nextNewMemorization.some((s) => s.trim() === "");
-    const nextRevErr = nextReview.some((s) => s.trim() === "");
+    const nextNewErr = nextNewMemorization.some((s) => !s.surah || s.surah.trim() === "");
+    const nextRevErr = nextReview.some((s) => !s.surah || s.surah.trim() === "");
     setError((p) => ({
       ...p,
-      nextNew: nextNewErr ? "هذا الحقل مطلوب" : "",
-      nextReview: nextRevErr ? "هذا الحقل مطلوب" : "",
+      nextNew: nextNewErr ? "يجب اختيار السورة" : "",
+      nextReview: nextRevErr ? "يجب اختيار السورة" : "",
     }));
     ok = !(nextNewErr || nextRevErr) && ok;
     return ok;
@@ -195,14 +188,14 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
         studentId: student.id,
         attended: true,
         wantedForNextLesson: {
-          new: nextNewMemorization.filter((s) => s.trim() !== ""),
-          old: nextReview.filter((s) => s.trim() !== ""),
+          new: formatSurahRanges(nextNewMemorization.filter((s) => s.surah && s.surah.trim() !== "")),
+          old: formatSurahRanges(nextReview.filter((s) => s.surah && s.surah.trim() !== "")),
         },
         newMemorized: {
           ratingNew: ratingNew,
-          new: newMemorization.filter((s) => s.trim() !== ""),
+          new: formatSurahRanges(newMemorization.filter((s) => s.surah && s.surah.trim() !== "")),
           ratingOld: ratingOld,
-          old: review.filter((s) => s.trim() !== ""),
+          old: formatSurahRanges(review.filter((s) => s.surah && s.surah.trim() !== "")),
         },
         notes,
         rating: 0,
@@ -233,41 +226,84 @@ export default function CompleteClassModal(props: CompleteClassModalProps) {
   };
 
   const renderDynamicFields = (
-    fields: string[],
+    fields: SurahRange[],
     type: "new" | "review" | "nextNew" | "nextReview",
     title: string
   ) => (
     <div className={styles.section}>
       <h4 className={styles.sectionTitle}>{title}</h4>
-      {fields.map((field, index) => (
-        <div key={`${type}-field-${index}`}>
-          <div className={styles.fieldGroup}>
-            <input
-              type="text"
-              value={field}
-              onChange={(e) => updateField(type, index, e.target.value)}
-              className={`${styles.textInput} ${
-                error[type] && field.trim() === "" ? styles.inputError : ""
-              }`}
-              placeholder={`أدخل ${title} ${index + 1}`}
-            />
-            {fields.length > 1 && (
-              <Button
-                type="button"
-                onClick={() => removeField(type, index)}
-                variant="danger"
-                size="small"
-                icon={<FaTimes />}
-              >
-                حذف
-              </Button>
+      {fields.map((field, index) => {
+        const selectedSurah = quranSurahs.find(s => s.name === field.surah);
+        const maxVerses = selectedSurah?.verses || 1;
+        
+        return (
+          <div key={`${type}-field-${index}`}>
+            <div className={styles.fieldGroup}>
+              <div className={styles.surahFieldsContainer}>
+                {/* السورة */}
+                <div className={styles.surahField}>
+                  <label className={styles.fieldLabel}>السورة</label>
+                  <select
+                    value={field.surah}
+                    onChange={(e) => updateField(type, index, "surah", e.target.value)}
+                    className={`${styles.selectInput} ${
+                      error[type] && (!field.surah || field.surah.trim() === "") ? styles.inputError : ""
+                    }`}
+                  >
+                    <option value="">اختر السورة</option>
+                    {quranSurahs.map((surah) => (
+                      <option key={surah.number} value={surah.name}>
+                        {surah.number}. {surah.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* من */}
+                <div className={styles.verseField}>
+                  <label className={styles.fieldLabel}>من</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max={maxVerses}
+                    value={field.fromVerse}
+                    onChange={(e) => updateField(type, index, "fromVerse", parseInt(e.target.value) || 1)}
+                    className={styles.numberInput}
+                  />
+                </div>
+
+                {/* إلى */}
+                <div className={styles.verseField}>
+                  <label className={styles.fieldLabel}>إلى</label>
+                  <input
+                    type="number"
+                    min={field.fromVerse}
+                    max={maxVerses}
+                    value={field.toVerse}
+                    onChange={(e) => updateField(type, index, "toVerse", parseInt(e.target.value) || field.fromVerse)}
+                    className={styles.numberInput}
+                  />
+                </div>
+              </div>
+
+              {fields.length > 1 && (
+                <Button
+                  type="button"
+                  onClick={() => removeField(type, index)}
+                  variant="danger"
+                  size="small"
+                  icon={<FaTimes />}
+                >
+                  حذف
+                </Button>
+              )}
+            </div>
+            {error[type] && error[type].length > 0 && (!field.surah || field.surah.trim() === "") && (
+              <span className={styles.errorText}>{error[type]}</span>
             )}
           </div>
-          {error[type] && error[type].length > 0 && (
-            <span className={styles.errorText}>{error[type]}</span>
-          )}
-        </div>
-      ))}
+        );
+      })}
       <Button
         type="button"
         onClick={() => addField(type)}

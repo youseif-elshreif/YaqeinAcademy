@@ -199,7 +199,7 @@ const GroupsTable: React.FC<{ searchTerm?: string; dayFilter?: string }> = ({
                     <th>عدد الأعضاء</th>
                     <th>مواعيد الحلقات</th>
                     <th>موعد الحلقات الإعتيادية</th>
-                    <th>تاريخ الإنشاء</th>
+                    <th>تاريخ الحلقة القادمة</th>
                     <th>رابط الحلقة</th>
                     <th>التقارير</th>
                     <th>الإجراءات</th>

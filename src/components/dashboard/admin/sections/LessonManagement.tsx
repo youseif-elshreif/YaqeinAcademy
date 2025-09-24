@@ -55,7 +55,7 @@ const LessonManagement: React.FC = () => {
           icon={<FiPlus />}
           onClick={openAddCourseModal}
         >
-          إضافة درس جديد
+          إضافة دورة جديد
         </Button>
       </div>
 
