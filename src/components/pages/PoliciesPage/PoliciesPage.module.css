@@ -378,8 +378,8 @@
 /* Back to top button */
 .backToTop {
   position: fixed;
-  bottom: 100px;
-  left: 30px;
+  bottom: 6rem;
+  right: 2.4rem;
   width: 50px;
   height: 50px;
   border: none;
@@ -397,6 +397,14 @@
 .backToTop:hover {
   background: var(--primary-dark);
   transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .backToTop {
+    bottom: 4.5rem;
+    right: 1rem;
+    font-size: 1.2rem;
+  }
 }
 
 /* Print styles */
