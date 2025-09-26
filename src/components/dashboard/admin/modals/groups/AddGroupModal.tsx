@@ -4,6 +4,7 @@ import { useGroupsContext } from "@/src/contexts/GroupsContext";
 import { useTeachersContext } from "@/src/contexts/TeachersContext";
 import { useLessonsContext } from "@/src/contexts/LessonsContext";
 import { createLessonSchedule } from "@/src/utils/date";
+import { convertTo12HourFormat } from "@/src/utils/timeUtils";
 import baseStyles from "../../../../../styles/BaseModal.module.css";
 import styles from "./AddGroupModal.module.css";
 import {
@@ -358,11 +359,15 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
               : index === 5
               ? "sixthDayTime"
               : "seventhDayTime";
+
+          // تحويل الوقت إلى صيغة 12 ساعة مع ص/م
+          const convertedTime = convertTo12HourFormat(slot.time);
+
           usualDate[dayKey] = slot.day;
-          usualDate[timeKey] = slot.time;
+          usualDate[timeKey] = convertedTime;
 
           weekdays.push(slot.day);
-          times.push(slot.time);
+          times.push(convertedTime);
         }
       });
 
@@ -617,15 +622,17 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({
                       ))}
                     </select>
 
-                    <input
-                      type="time"
-                      value={slot.time}
-                      onChange={(e) =>
-                        handleTimeSlotChange(index, "time", e.target.value)
-                      }
-                      className={baseStyles.textInput}
-                      disabled={isSubmitting}
-                    />
+                    <div className={styles.timeInputContainer}>
+                      <input
+                        type="time"
+                        value={slot.time}
+                        onChange={(e) =>
+                          handleTimeSlotChange(index, "time", e.target.value)
+                        }
+                        className={baseStyles.textInput}
+                        disabled={isSubmitting}
+                      />
+                    </div>
 
                     {index > 0 && (
                       <Button
