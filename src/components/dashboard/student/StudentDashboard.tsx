@@ -19,6 +19,7 @@ import Button from "@/src/components/common/Button";
 import AddTestimonialModal from "@/src/components/common/Modals/AddTestimonialModal";
 import EnhancedLoader from "@/src/components/common/UI/EnhancedLoader";
 import ErrorDisplay from "@/src/components/common/Modal/ErrorDisplay";
+import { convertTextNumbersToArabic } from "@/src/utils/formatNumbers";
 
 function StudentDashboard() {
   const { user } = useAuth();
@@ -255,7 +256,7 @@ function StudentDashboard() {
                         <div key={index} className={styles.timeSlot}>
                           <div className={styles.dayName}>{day}</div>
                           <div className={styles.timeValue}>
-                            {times[index] || "غير محدد"}
+                            {convertTextNumbersToArabic(times[index] || "")}
                           </div>
                         </div>
                       ))}
