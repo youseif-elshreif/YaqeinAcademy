@@ -276,7 +276,7 @@
 }
 @media (max-width: 1024px) {
   .navMenu {
-    gap: 1.5rem;
+    gap: 1rem;
   }
   .navLink {
     padding: 0.4rem 0.8rem;
@@ -298,7 +298,7 @@
     left: -100%;
   }
   .greetingText {
-    display: none; 
+    display: none;
   }
 }
 @media (max-width: 480px) {

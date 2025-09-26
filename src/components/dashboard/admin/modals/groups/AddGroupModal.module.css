@@ -202,3 +202,25 @@
     transform: rotate(360deg);
   }
 }
+
+/* Time input container styles */
+.timeInputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 120px;
+}
+
+.convertedTime {
+  font-size: 0.8rem;
+  color: var(--primary-color);
+  font-weight: 500;
+  text-align: center;
+  background: var(--primary-light);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  min-height: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
